@@ -26,6 +26,7 @@ export interface ResourceItem {
   id: string;
   title: string;
   kind: "file" | "link";
+  category?: string;
   path?: string;
   url?: string;
   createdAt: string;
@@ -86,7 +87,7 @@ declare global {
       }>;
       createNote: (input: { title?: string; courseId?: string; tags?: string[] }) => Promise<NoteDoc>;
       listResources: () => Promise<ResourceItem[]>;
-      pickResources: () => Promise<ResourceItem[]>;
+      pickResources: (category?: string) => Promise<ResourceItem[]>;
       addResourceLink: (input: { url: string; title?: string }) => Promise<ResourceItem[]>;
       removeResource: (id: string) => Promise<ResourceItem[]>;
       openResourceFile: (filePath: string) => Promise<boolean>;

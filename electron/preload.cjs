@@ -25,7 +25,7 @@ contextBridge.exposeInMainWorld("studyNotes", {
   saveNote: (payload) => ipcRenderer.invoke("notes:save", payload),
   createNote: (input) => ipcRenderer.invoke("notes:create", input),
   listResources: () => ipcRenderer.invoke("resources:list"),
-  pickResources: () => ipcRenderer.invoke("resources:pick"),
+  pickResources: (category) => ipcRenderer.invoke("resources:pick", category),
   addResourceLink: (input) => ipcRenderer.invoke("resources:add-link", input),
   removeResource: (id) => ipcRenderer.invoke("resources:remove", id),
   openResourceFile: (filePath) => ipcRenderer.invoke("resources:open-file", filePath),

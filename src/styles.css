@@ -1043,6 +1043,16 @@ input {
   outline: 0;
 }
 
+.category-select {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--text);
+  outline: 0;
+}
+
 .resource-add input,
 .link-add input {
   flex: 1;
@@ -1127,6 +1137,25 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.resource-badge {
+  flex: 0 0 auto;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.resource-badge.软件 {
+  color: #9a3412;
+  background: #ffedd5;
+}
+
+.resource-badge.链接 {
+  color: #166534;
+  background: #dcfce7;
 }
 
 .plan-check {

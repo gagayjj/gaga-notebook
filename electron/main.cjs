@@ -394,6 +394,9 @@ function createWindow() {
               resourcesAdded: linkResources.length > 0,
               planSaved: list.some((item) => item.title === "QA计划"),
               planRemoved: !removed.some((item) => item.title === "QA计划"),
+              libraryButtonExists: !!document.querySelector('button[title="打开资料库与学习计划"]'),
+              backdrops: document.querySelectorAll(".modal-backdrop").length,
+              modalExists: !!document.querySelector(".resource-modal"),
               modalText: document.querySelector(".resource-modal")?.innerText.slice(0, 120) || "",
             };
           })()`);
@@ -635,7 +638,7 @@ ipcMain.handle("notes:save", async (_event, payload) => {
 
 ipcMain.handle("resources:list", async () => (await ensureLibrary()).resources || []);
 
-ipcMain.handle("resources:pick", async () => {
+ipcMain.handle("resources:pick", async (_event, category) => {
   if (!mainWindow) return [];
   const result = await dialog.showOpenDialog(mainWindow, {
     title: "选择学习资料",
@@ -655,6 +658,7 @@ ipcMain.handle("resources:pick", async () => {
       id,
       title: path.basename(sourcePath),
       kind: "file",
+      category: category === "软件" ? "软件" : "资料",
       path: destPath,
       createdAt: now,
     });
@@ -672,6 +676,7 @@ ipcMain.handle("resources:add-link", async (_event, input) => {
     id: `res-${Date.now()}`,
     title: input?.title?.trim() || url,
     kind: "link",
+    category: "链接",
     url,
     createdAt: new Date().toISOString(),
   });

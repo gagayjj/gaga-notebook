@@ -26,6 +26,7 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
   const [plans, setPlans] = useState<PlanItem[]>([]);
   const [linkUrl, setLinkUrl] = useState("");
   const [linkTitle, setLinkTitle] = useState("");
+  const [resourceCategory, setResourceCategory] = useState("资料");
   const [planTitle, setPlanTitle] = useState("");
   const [planDate, setPlanDate] = useState(todayString());
   const [planTime, setPlanTime] = useState("19:00");
@@ -46,7 +47,7 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
   }, [refresh]);
 
   const handlePickFiles = async () => {
-    const next = await window.studyNotes?.pickResources();
+    const next = await window.studyNotes?.pickResources(resourceCategory);
     if (next) setResources(next);
   };
 
@@ -133,9 +134,18 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
         {tab === "resources" && (
           <div className="resource-content">
             <div className="resource-add">
+              <select
+                className="category-select"
+                value={resourceCategory}
+                onChange={(event) => setResourceCategory(event.target.value)}
+                title="添加时选择分类"
+              >
+                <option value="资料">学习资料</option>
+                <option value="软件">软件安装包</option>
+              </select>
               <button type="button" className="btn primary" onClick={handlePickFiles}>
                 <FolderOpen size={15} />
-                添加本地文件
+                添加文件
               </button>
               <div className="link-add">
                 <input value={linkTitle} onChange={(event) => setLinkTitle(event.target.value)} placeholder="资料名称（可选）" />
@@ -163,6 +173,9 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
                       <span>{resource.kind === "file" ? "本地文件" : resource.url}</span>
                     </div>
                   </button>
+                  <span className={`resource-badge ${resource.category || (resource.kind === "link" ? "链接" : "资料")}`}>
+                    {resource.category || (resource.kind === "link" ? "链接" : "资料")}
+                  </span>
                   <button
                     type="button"
                     className="icon-btn"
