@@ -228,6 +228,7 @@ function createWindow() {
     minWidth: 420,
     minHeight: 420,
     title: "学习笔记",
+    icon: path.join(__dirname, "../src/assets/logo.png"),
     titleBarStyle: process.platform === "darwin" ? "hiddenInset" : "default",
     backgroundColor: "#f4f5f7",
     webPreferences: {
@@ -965,6 +966,9 @@ app.whenReady().then(() => {
 
   createWindow();
   scheduleAllReminders();
+  if (process.platform === "darwin") {
+    app.dock.setIcon(path.join(__dirname, "../src/assets/logo.png"));
+  }
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
