@@ -475,6 +475,23 @@ function createWindow() {
               bannerImages,
             };
           })()`);
+          const designerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('button[title="设计自己的背景"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            const cards = document.querySelectorAll(".bg-image-card").length;
+            document.querySelectorAll(".bg-image-card")[1]?.click();
+            await new Promise((resolve) => setTimeout(resolve, 150));
+            document.querySelector(".fill-page-toggle input")?.click();
+            await new Promise((resolve) => setTimeout(resolve, 100));
+            document.querySelector(".bg-designer-footer .btn.primary")?.click();
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            return {
+              cards,
+              fill: document.body.dataset.bgFill,
+              bgImageApplied: getComputedStyle(document.body).backgroundImage.includes("shin"),
+              designerClosed: !document.querySelector(".bg-designer"),
+            };
+          })()`);
           const image = await mainWindow.capturePage();
           const bitmap = image.toBitmap();
           let min = 255;
@@ -499,6 +516,7 @@ function createWindow() {
             libraryTest,
             englishTest,
             themeTest,
+            designerTest,
             errors,
             pixels: {
               width: image.getSize().width,

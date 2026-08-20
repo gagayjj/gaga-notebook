@@ -12,5 +12,11 @@ export const themeImages: Record<string, string> = {
 
 export function currentThemeImage(): string {
   const theme = document.body.dataset.theme || "crayon";
+  try {
+    const config = JSON.parse(localStorage.getItem("background-config") || "null");
+    if (config?.image && themeImages[config.image]) return themeImages[config.image];
+  } catch {
+    // fall through to theme image
+  }
   return themeImages[theme] || themeImages.crayon;
 }

@@ -8,6 +8,8 @@ import { AnnotationModal } from "./components/AnnotationModal";
 import { ResourceLibrary } from "./components/ResourceLibrary";
 import { EnglishLearning } from "./components/EnglishLearning";
 import { ThemePicker } from "./components/ThemePicker";
+import { BackgroundDesigner, loadBackgroundConfig, type BackgroundConfig } from "./components/BackgroundDesigner";
+import { themeImages } from "./themeImages";
 import { StatusBar, type SaveState } from "./components/StatusBar";
 import type { AnnotationImage, InsertRequest, Library, NoteDoc, VideoState } from "./types";
 
@@ -26,6 +28,8 @@ export default function App() {
   const [englishOpen, setEnglishOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("app-theme") || "crayon");
   const [themePickerOpen, setThemePickerOpen] = useState(false);
+  const [bgConfig, setBgConfig] = useState<BackgroundConfig>(loadBackgroundConfig);
+  const [designerOpen, setDesignerOpen] = useState(false);
   const [videoState, setVideoState] = useState<VideoState>({ kind: "none" });
   const [insertRequest, setInsertRequest] = useState<InsertRequest | null>(null);
   const [annotation, setAnnotation] = useState<AnnotationImage | null>(null);
@@ -108,6 +112,20 @@ export default function App() {
     localStorage.setItem("app-theme", theme);
   }, [theme]);
 
+  useEffect(() => {
+    const body = document.body;
+    body.dataset.bgImage = bgConfig.image || "";
+    body.dataset.bgFill = bgConfig.fill ? "1" : "0";
+    body.dataset.decorHidden = bgConfig.decor.join(" ");
+    body.style.setProperty("--pattern-opacity", String(bgConfig.patternOpacity));
+    if (bgConfig.baseColor) body.style.setProperty("--bg", bgConfig.baseColor);
+    else body.style.removeProperty("--bg");
+    const imageUrl = bgConfig.image && themeImages[bgConfig.image] ? themeImages[bgConfig.image] : "";
+    if (imageUrl) body.style.setProperty("--bg-image", `url("${imageUrl}")`);
+    else body.style.removeProperty("--bg-image");
+    localStorage.setItem("background-config", JSON.stringify(bgConfig));
+  }, [bgConfig]);
+
   const handleContentChange = useCallback(
     (content: unknown) => {
       draftRef.current = content;
@@ -189,6 +207,15 @@ export default function App() {
 
   const handleToggleTheme = useCallback(() => {
     setThemePickerOpen((value) => !value);
+  }, []);
+
+  const handleToggleDesigner = useCallback(() => {
+    setDesignerOpen((value) => !value);
+  }, []);
+
+  const handleSaveBackground = useCallback((config: BackgroundConfig) => {
+    setBgConfig(config);
+    setDesignerOpen(false);
   }, []);
 
   const handleOpenVideo = useCallback((path: string) => {
@@ -292,6 +319,7 @@ export default function App() {
         libraryOpen={libraryPanelOpen}
         englishOpen={englishOpen}
         themeOpen={themePickerOpen}
+        designerOpen={designerOpen}
         canInsertTimestamp={videoState.kind === "local"}
         onToggleNarrow={handleToggleNarrow}
         onToggleAlwaysOnTop={handleToggleAlwaysOnTop}
@@ -305,6 +333,7 @@ export default function App() {
         onToggleLibrary={handleToggleLibrary}
         onToggleEnglish={handleToggleEnglish}
         onToggleTheme={handleToggleTheme}
+        onToggleDesigner={handleToggleDesigner}
       />
 
       <div className="body">
@@ -383,6 +412,13 @@ export default function App() {
           currentTheme={theme}
           onSelect={setTheme}
           onClose={() => setThemePickerOpen(false)}
+        />
+      )}
+      {designerOpen && (
+        <BackgroundDesigner
+          config={bgConfig}
+          onSave={handleSaveBackground}
+          onClose={() => setDesignerOpen(false)}
         />
       )}
     </div>

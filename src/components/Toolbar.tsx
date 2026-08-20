@@ -1,4 +1,5 @@
 import {
+  Brush,
   FileDown,
   FolderOpen,
   ImagePlus,
@@ -27,6 +28,7 @@ interface ToolbarProps {
   libraryOpen: boolean;
   englishOpen: boolean;
   themeOpen: boolean;
+  designerOpen: boolean;
   canInsertTimestamp: boolean;
   onToggleNarrow: () => void;
   onToggleAlwaysOnTop: () => void;
@@ -40,6 +42,7 @@ interface ToolbarProps {
   onToggleLibrary: () => void;
   onToggleEnglish: () => void;
   onToggleTheme: () => void;
+  onToggleDesigner: () => void;
 }
 
 export function Toolbar({
@@ -51,6 +54,7 @@ export function Toolbar({
   libraryOpen,
   englishOpen,
   themeOpen,
+  designerOpen,
   canInsertTimestamp,
   onToggleNarrow,
   onToggleAlwaysOnTop,
@@ -64,6 +68,7 @@ export function Toolbar({
   onToggleLibrary,
   onToggleEnglish,
   onToggleTheme,
+  onToggleDesigner,
 }: ToolbarProps) {
   return (
     <header className="toolbar">
@@ -107,6 +112,14 @@ export function Toolbar({
           onClick={onToggleTheme}
         >
           <Palette size={17} />
+        </button>
+        <button
+          type="button"
+          className={`icon-btn ${designerOpen ? "active" : ""}`}
+          title={designerOpen ? "关闭背景设计" : "设计自己的背景"}
+          onClick={onToggleDesigner}
+        >
+          <Brush size={17} />
         </button>
         <span className="toolbar-sep" />
         <button
