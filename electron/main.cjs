@@ -513,14 +513,17 @@ function createWindow() {
             return { modalExists, shapeButtonExists, shapeCount, shapeLabels };
           })()`);
           const inlineMarkerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
-            document.querySelector('button[title="在笔记页直接画箭头和形状"]')?.click();
+            document.querySelector('button[title="在笔记中插入可拖动变形的箭头"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 150));
+            document.querySelector('button[title="在笔记中插入可拖动变形的曲线"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 400));
-            const wrap = document.querySelector(".inline-marker");
-            const canvas = document.querySelector(".inline-marker-canvas");
+            const editorHtml = document.querySelector(".editor-content")?.innerHTML || "";
             return {
-              inlineExists: Boolean(wrap),
-              shapeCount: document.querySelectorAll(".inline-marker-bar button").length,
-              canvasSize: canvas ? { w: canvas.width, h: canvas.height } : null,
+              shapeCount: document.querySelectorAll(".shape-node").length,
+              svgCount: document.querySelectorAll(".shape-node svg").length,
+              hasArrow: editorHtml.includes("data-arrow"),
+              hasCurve: editorHtml.includes("data-curve"),
+              overlayGone: !document.querySelector(".inline-marker"),
             };
           })()`);
           const image = await mainWindow.capturePage();
