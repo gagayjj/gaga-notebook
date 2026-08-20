@@ -1,8 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowRight, Eraser, MousePointer2, PenLine, Redo2, Square, Trash2, Type, Undo2, X } from "lucide-react";
+import { ArrowRight, Eraser, MousePointer2, PenLine, Redo2, Shapes, Square, Trash2, Type, Undo2, X } from "lucide-react";
 import type { AnnotationImage } from "../types";
 
-type Tool = "pointer" | "pen" | "arrow" | "rect" | "text";
+type ShapeTool =
+  | "line"
+  | "doubleArrow"
+  | "roundedRect"
+  | "ellipse"
+  | "star"
+  | "flag"
+  | "textBox"
+  | "callout"
+  | "heart"
+  | "check"
+  | "exclaim";
+
+type Tool = "pointer" | "pen" | "arrow" | "rect" | "text" | ShapeTool;
 type DragMode = "start" | "end" | "move" | null;
 type Point = { x: number; y: number };
 
@@ -16,6 +29,7 @@ type Stroke =
   | (StrokeBase & { tool: "pen"; points: Array<{ x: number; y: number }> })
   | (StrokeBase & { tool: "arrow"; start: Point; end: Point })
   | (StrokeBase & { tool: "rect"; start: Point; end: Point })
+  | (StrokeBase & { tool: ShapeTool; start: Point; end: Point; text?: string })
   | (StrokeBase & { tool: "text"; x: number; y: number; text: string });
 
 interface AnnotationModalProps {
@@ -25,6 +39,20 @@ interface AnnotationModalProps {
 }
 
 const colors = ["#e5484d", "#f5a524", "#30a46c", "#3b82f6", "#8e4ec6", "#111827"];
+
+const shapeTools: Array<{ tool: Tool; label: string }> = [
+  { tool: "line", label: "线条" },
+  { tool: "doubleArrow", label: "双向箭头" },
+  { tool: "roundedRect", label: "圆角矩形" },
+  { tool: "ellipse", label: "圆形" },
+  { tool: "star", label: "星形" },
+  { tool: "flag", label: "旗帜" },
+  { tool: "textBox", label: "文本框" },
+  { tool: "callout", label: "标注" },
+  { tool: "heart", label: "心形" },
+  { tool: "check", label: "对勾" },
+  { tool: "exclaim", label: "感叹" },
+];
 
 function distanceToSegment(point: Point, a: Point, b: Point) {
   const dx = b.x - a.x;
@@ -44,12 +72,146 @@ function hitArrow(stroke: Extract<Stroke, { tool: "arrow" }>, point: Point): "st
   return null;
 }
 
+function shapeBox(stroke: Stroke) {
+  if (stroke.tool === "text") {
+    return { left: stroke.x, top: stroke.y - stroke.size * 5, right: stroke.x + stroke.size * 12, bottom: stroke.y };
+  }
+  if (stroke.tool === "pen") {
+    const xs = stroke.points.map((point) => point.x);
+    const ys = stroke.points.map((point) => point.y);
+    return { left: Math.min(...xs), top: Math.min(...ys), right: Math.max(...xs), bottom: Math.max(...ys) };
+  }
+  return {
+    left: Math.min(stroke.start.x, stroke.end.x),
+    top: Math.min(stroke.start.y, stroke.end.y),
+    right: Math.max(stroke.start.x, stroke.end.x),
+    bottom: Math.max(stroke.start.y, stroke.end.y),
+  };
+}
+
+function roundedRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.arcTo(x + w, y, x + w, y + r, r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+  ctx.lineTo(x + r, y + h);
+  ctx.arcTo(x, y + h, x, y + h - r, r);
+  ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r);
+  ctx.closePath();
+}
+
+function drawShape(ctx: CanvasRenderingContext2D, stroke: Stroke) {
+  const box = shapeBox(stroke);
+  const w = Math.max(10, box.right - box.left);
+  const h = Math.max(10, box.bottom - box.top);
+  const x = box.left;
+  const y = box.top;
+  ctx.strokeStyle = stroke.color;
+  ctx.fillStyle = stroke.color;
+  ctx.lineWidth = stroke.size;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  if (stroke.tool === "line") {
+    ctx.beginPath();
+    ctx.moveTo(stroke.start.x, stroke.start.y);
+    ctx.lineTo(stroke.end.x, stroke.end.y);
+    ctx.stroke();
+  } else if (stroke.tool === "doubleArrow") {
+    ctx.beginPath();
+    ctx.moveTo(stroke.start.x, stroke.start.y);
+    ctx.lineTo(stroke.end.x, stroke.end.y);
+    ctx.stroke();
+    drawArrow(ctx, stroke.end, stroke.start, Math.max(5, stroke.size * 0.7));
+  } else if (stroke.tool === "rect") {
+    ctx.strokeRect(x, y, w, h);
+  } else if (stroke.tool === "roundedRect" || stroke.tool === "textBox" || stroke.tool === "callout") {
+    roundedRectPath(ctx, x, y, w, h, Math.min(18, h * 0.25));
+    ctx.stroke();
+    if (stroke.tool === "textBox" || stroke.tool === "callout") {
+      ctx.font = `${Math.max(14, Math.min(26, h * 0.26))}px sans-serif`;
+      ctx.textBaseline = "middle";
+      ctx.fillText(stroke.text || "文本", x + 10, y + h / 2);
+    }
+    if (stroke.tool === "callout") {
+      ctx.beginPath();
+      ctx.moveTo(stroke.end.x, stroke.end.y);
+      ctx.lineTo(x + w - 18, y + h - 2);
+      ctx.lineTo(x + w - 2, y + h);
+      ctx.closePath();
+      ctx.fill();
+    }
+  } else if (stroke.tool === "ellipse") {
+    ctx.beginPath();
+    ctx.ellipse(x + w / 2, y + h / 2, w / 2, h / 2, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  } else if (stroke.tool === "star") {
+    const cx = x + w / 2;
+    const cy = y + h / 2;
+    const outer = Math.min(w, h) / 2;
+    const inner = outer * 0.45;
+    ctx.beginPath();
+    for (let i = 0; i < 10; i += 1) {
+      const radius = i % 2 === 0 ? outer : inner;
+      const angle = -Math.PI / 2 + (i * Math.PI) / 5;
+      const px = cx + radius * Math.cos(angle);
+      const py = cy + radius * Math.sin(angle);
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fill();
+  } else if (stroke.tool === "flag") {
+    ctx.beginPath();
+    ctx.moveTo(x, y + h);
+    ctx.lineTo(x, y);
+    ctx.lineTo(x + w, y + h * 0.45);
+    ctx.closePath();
+    ctx.fill();
+  } else if (stroke.tool === "heart") {
+    const cx = x + w / 2;
+    const cy = y + h / 2;
+    const s = Math.min(w, h) / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy + s * 0.7);
+    ctx.bezierCurveTo(cx - s * 1.1, cy - s * 0.15, cx - s * 0.4, cy - s * 0.8, cx, cy - s * 0.2);
+    ctx.bezierCurveTo(cx + s * 0.4, cy - s * 0.8, cx + s * 1.1, cy - s * 0.15, cx, cy + s * 0.7);
+    ctx.fill();
+  } else if (stroke.tool === "check") {
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.1, y + h * 0.55);
+    ctx.lineTo(x + w * 0.38, y + h * 0.85);
+    ctx.lineTo(x + w * 0.9, y + h * 0.12);
+    ctx.stroke();
+  } else if (stroke.tool === "exclaim") {
+    const cx = x + w / 2;
+    ctx.fillRect(cx - stroke.size, y + h * 0.15, stroke.size * 2, h * 0.45);
+    ctx.beginPath();
+    ctx.arc(cx, y + h * 0.8, stroke.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function hitShape(stroke: Stroke, point: Point): "start" | "end" | "move" | null {
+  const box = shapeBox(stroke);
+  const pad = Math.max(10, stroke.size * 2.5);
+  if (point.x < box.left - pad || point.x > box.right + pad || point.y < box.top - pad || point.y > box.bottom + pad) {
+    return null;
+  }
+  if (Math.hypot(point.x - box.left, point.y - box.top) <= 13) return "start";
+  if (Math.hypot(point.x - box.right, point.y - box.bottom) <= 13) return "end";
+  return "move";
+}
+
 export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
   const [dataUrl, setDataUrl] = useState(image?.dataUrl || "");
   const [tool, setTool] = useState<Tool>("pen");
+  const [showShapeMenu, setShowShapeMenu] = useState(false);
   const [color, setColor] = useState(colors[0]);
   const [size, setSize] = useState(4);
   const [strokes, setStrokes] = useState<Stroke[]>([]);
@@ -105,6 +267,8 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
       } else if (stroke.tool === "text") {
         ctx.font = `${stroke.size * 5}px sans-serif`;
         ctx.fillText(stroke.text, stroke.x, stroke.y);
+      } else {
+        drawShape(ctx, stroke);
       }
     };
 
@@ -113,11 +277,17 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
 
     if (selectedIndex !== null) {
       const selected = strokes[selectedIndex];
-      if (selected && (selected.tool === "arrow" || selected.tool === "rect")) {
+      if (selected && selected.tool !== "pen") {
+        const box = shapeBox(selected);
         ctx.strokeStyle = "#2563eb";
         ctx.fillStyle = "#ffffff";
         ctx.lineWidth = 2;
-        [selected.start, selected.end].forEach((handle) => {
+        [
+          { x: box.left, y: box.top },
+          { x: box.right, y: box.top },
+          { x: box.left, y: box.bottom },
+          { x: box.right, y: box.bottom },
+        ].forEach((handle) => {
           ctx.beginPath();
           ctx.arc(handle.x, handle.y, 6, 0, Math.PI * 2);
           ctx.fill();
@@ -152,42 +322,39 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
 
   const handlePointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const point = toCanvasPoint(event);
+    const hitAny = (stroke: Stroke) =>
+      stroke.tool === "pen" ? null : stroke.tool === "arrow" ? hitArrow(stroke, point) : hitShape(stroke, point);
     if (tool === "pointer") {
       if (selectedIndex !== null && dragMode === null) {
         const selected = strokes[selectedIndex];
-        if (selected?.tool === "arrow") {
-          const hit = hitArrow(selected, point);
-          if (hit) {
-            setDragMode(hit === "body" ? "move" : hit);
-            dragStartRef.current = point;
-            return;
-          }
+        const hit = selected && hitAny(selected);
+        if (hit) {
+          setDragMode(hit === "body" || hit === "move" ? "move" : hit);
+          dragStartRef.current = point;
+          return;
         }
       }
       for (let i = strokes.length - 1; i >= 0; i -= 1) {
         const stroke = strokes[i];
-        if (stroke.tool === "arrow") {
-          const hit = hitArrow(stroke, point);
-          if (hit) {
-            setSelectedIndex(i);
-            setDragMode(hit === "body" ? "move" : hit);
-            dragStartRef.current = point;
-            return;
-          }
+        const hit = hitAny(stroke);
+        if (hit) {
+          setSelectedIndex(i);
+          setDragMode(hit === "body" || hit === "move" ? "move" : hit);
+          dragStartRef.current = point;
+          return;
         }
       }
       setSelectedIndex(null);
       return;
     }
-    if (tool === "arrow" && selectedIndex !== null) {
+    const isShapeTool = !["pointer", "pen", "arrow", "rect", "text"].includes(tool);
+    if ((tool === "arrow" || isShapeTool) && selectedIndex !== null) {
       const selected = strokes[selectedIndex];
-      if (selected?.tool === "arrow") {
-        const hit = hitArrow(selected, point);
-        if (hit) {
-          setDragMode(hit === "body" ? "move" : hit);
-          dragStartRef.current = point;
-          return;
-        }
+      const hit = selected && hitAny(selected);
+      if (hit) {
+        setDragMode(hit === "body" || hit === "move" ? "move" : hit);
+        dragStartRef.current = point;
+        return;
       }
     }
     if (tool === "text") {
@@ -198,13 +365,14 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
     if (tool === "pen") {
       setDraft({ tool, color, size, points: [point] });
     } else {
-      setDraft({ tool, color, size, start: point, end: point });
+      const text = tool === "textBox" || tool === "callout" ? window.prompt("输入文字", "文本") || "" : undefined;
+      setDraft({ tool, color, size, start: point, end: point, text });
     }
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const point = toCanvasPoint(event);
-    if ((tool === "pointer" || tool === "arrow") && selectedIndex !== null && dragMode) {
+    if (selectedIndex !== null && dragMode) {
       const dragStart = dragStartRef.current;
       if (!dragStart) return;
       if (dragMode === "move") {
@@ -213,7 +381,9 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
         dragStartRef.current = point;
         setStrokes((prev) =>
           prev.map((stroke, index) =>
-            index === selectedIndex && stroke.tool === "arrow"
+            index === selectedIndex && stroke.tool === "text"
+              ? ({ ...stroke, x: stroke.x + dx, y: stroke.y + dy } as Stroke)
+              : index === selectedIndex && stroke.tool !== "pen" && stroke.tool !== "text"
               ? ({
                   ...stroke,
                   start: { x: stroke.start.x + dx, y: stroke.start.y + dy },
@@ -225,7 +395,7 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
       } else {
         setStrokes((prev) =>
           prev.map((stroke, index) =>
-            index === selectedIndex && stroke.tool === "arrow"
+            index === selectedIndex && stroke.tool !== "pen" && stroke.tool !== "text"
               ? ({ ...stroke, [dragMode]: point } as Stroke)
               : stroke,
           ),
@@ -247,7 +417,7 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
     if (draft) {
       const next = [...strokes, draft];
       setStrokes(next);
-      if (draft.tool === "arrow") setSelectedIndex(next.length - 1);
+      if (draft.tool !== "pen") setSelectedIndex(next.length - 1);
       setDraft(null);
     }
   };
@@ -318,6 +488,33 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
             <button type="button" className={`icon-btn ${tool === "text" ? "active" : ""}`} title="文字" onClick={() => setTool("text")}>
               <Type size={16} />
             </button>
+            <div className="shape-menu-wrap">
+              <button
+                type="button"
+                className={`icon-btn ${showShapeMenu ? "active" : ""}`}
+                title="更多形状"
+                onClick={() => setShowShapeMenu((value) => !value)}
+              >
+                <Shapes size={16} />
+              </button>
+              {showShapeMenu && (
+                <div className="shape-menu">
+                  {shapeTools.map((item) => (
+                    <button
+                      type="button"
+                      key={item.tool}
+                      className={tool === item.tool ? "active" : ""}
+                      onClick={() => {
+                        setTool(item.tool);
+                        setShowShapeMenu(false);
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <div className="annotation-options">
             {colors.map((item) => (
