@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Camera, ExternalLink, FileVideo, Globe, PenLine, Play, X } from "lucide-react";
 import type { VideoState } from "../types";
+import { CrayonKid } from "./Doodles";
 
 export interface VideoController {
   getCurrentTime: () => number;
@@ -174,6 +175,7 @@ export function VideoPane({
       <div ref={stageRef} className="video-stage">
         {videoState.kind === "none" && (
           <div className="video-empty" onClick={handlePick}>
+            <CrayonKid size={112} className="empty-mascot" />
             <FileVideo size={34} />
             <p>拖入视频文件，或点击选择本地视频</p>
             <span>B 站等网课：复制地址栏链接，粘贴到上方，或直接把链接拖进来</span>

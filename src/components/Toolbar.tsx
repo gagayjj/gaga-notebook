@@ -10,6 +10,7 @@ import {
   PanelLeftOpen,
   PanelRightClose,
   PanelRightOpen,
+  Palette,
   Pin,
   PinOff,
   Plus,
@@ -25,6 +26,7 @@ interface ToolbarProps {
   videoOpen: boolean;
   libraryOpen: boolean;
   englishOpen: boolean;
+  themeOpen: boolean;
   canInsertTimestamp: boolean;
   onToggleNarrow: () => void;
   onToggleAlwaysOnTop: () => void;
@@ -37,6 +39,7 @@ interface ToolbarProps {
   onToggleVideo: () => void;
   onToggleLibrary: () => void;
   onToggleEnglish: () => void;
+  onToggleTheme: () => void;
 }
 
 export function Toolbar({
@@ -47,6 +50,7 @@ export function Toolbar({
   videoOpen,
   libraryOpen,
   englishOpen,
+  themeOpen,
   canInsertTimestamp,
   onToggleNarrow,
   onToggleAlwaysOnTop,
@@ -59,6 +63,7 @@ export function Toolbar({
   onToggleVideo,
   onToggleLibrary,
   onToggleEnglish,
+  onToggleTheme,
 }: ToolbarProps) {
   return (
     <header className="toolbar">
@@ -94,6 +99,14 @@ export function Toolbar({
           onClick={onToggleEnglish}
         >
           <Languages size={17} />
+        </button>
+        <button
+          type="button"
+          className={`icon-btn ${themeOpen ? "active" : ""}`}
+          title={themeOpen ? "关闭主题选择" : "切换卡通主题"}
+          onClick={onToggleTheme}
+        >
+          <Palette size={17} />
         </button>
         <span className="toolbar-sep" />
         <button

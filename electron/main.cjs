@@ -445,6 +445,17 @@ function createWindow() {
               modalText: document.querySelector(".english-modal")?.innerText.slice(0, 160) || "",
             };
           })()`);
+          const themeTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('button[title="切换卡通主题"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            const cards = document.querySelectorAll(".theme-card").length;
+            document.querySelectorAll(".theme-card")[1]?.click();
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            const dataTheme = document.body.dataset.theme;
+            const bg = getComputedStyle(document.body).backgroundColor;
+            document.querySelector(".theme-picker .icon-btn[title='关闭']")?.click();
+            return { cards, dataTheme, bg };
+          })()`);
           const image = await mainWindow.capturePage();
           const bitmap = image.toBitmap();
           let min = 255;
@@ -468,6 +479,7 @@ function createWindow() {
             saveTest,
             libraryTest,
             englishTest,
+            themeTest,
             errors,
             pixels: {
               width: image.getSize().width,

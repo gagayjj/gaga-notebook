@@ -7,6 +7,7 @@ import { NoteEditor } from "./components/NoteEditor";
 import { AnnotationModal } from "./components/AnnotationModal";
 import { ResourceLibrary } from "./components/ResourceLibrary";
 import { EnglishLearning } from "./components/EnglishLearning";
+import { ThemePicker } from "./components/ThemePicker";
 import { StatusBar, type SaveState } from "./components/StatusBar";
 import type { AnnotationImage, InsertRequest, Library, NoteDoc, VideoState } from "./types";
 
@@ -23,6 +24,8 @@ export default function App() {
   const [videoOpen, setVideoOpen] = useState(false);
   const [libraryPanelOpen, setLibraryPanelOpen] = useState(false);
   const [englishOpen, setEnglishOpen] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem("app-theme") || "crayon");
+  const [themePickerOpen, setThemePickerOpen] = useState(false);
   const [videoState, setVideoState] = useState<VideoState>({ kind: "none" });
   const [insertRequest, setInsertRequest] = useState<InsertRequest | null>(null);
   const [annotation, setAnnotation] = useState<AnnotationImage | null>(null);
@@ -99,6 +102,11 @@ export default function App() {
     const shouldShow = videoOpen && !narrow;
     window.studyNotes?.setVideoVisible(shouldShow, videoState.url);
   }, [narrow, videoOpen, videoState]);
+
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+    localStorage.setItem("app-theme", theme);
+  }, [theme]);
 
   const handleContentChange = useCallback(
     (content: unknown) => {
@@ -177,6 +185,10 @@ export default function App() {
 
   const handleToggleEnglish = useCallback(() => {
     setEnglishOpen((value) => !value);
+  }, []);
+
+  const handleToggleTheme = useCallback(() => {
+    setThemePickerOpen((value) => !value);
   }, []);
 
   const handleOpenVideo = useCallback((path: string) => {
@@ -279,6 +291,7 @@ export default function App() {
         videoOpen={videoOpen}
         libraryOpen={libraryPanelOpen}
         englishOpen={englishOpen}
+        themeOpen={themePickerOpen}
         canInsertTimestamp={videoState.kind === "local"}
         onToggleNarrow={handleToggleNarrow}
         onToggleAlwaysOnTop={handleToggleAlwaysOnTop}
@@ -291,6 +304,7 @@ export default function App() {
         onToggleVideo={handleToggleVideo}
         onToggleLibrary={handleToggleLibrary}
         onToggleEnglish={handleToggleEnglish}
+        onToggleTheme={handleToggleTheme}
       />
 
       <div className="body">
@@ -364,6 +378,13 @@ export default function App() {
       )}
       {libraryPanelOpen && <ResourceLibrary onClose={() => setLibraryPanelOpen(false)} />}
       {englishOpen && <EnglishLearning onClose={() => setEnglishOpen(false)} />}
+      {themePickerOpen && (
+        <ThemePicker
+          currentTheme={theme}
+          onSelect={setTheme}
+          onClose={() => setThemePickerOpen(false)}
+        />
+      )}
     </div>
   );
 }
