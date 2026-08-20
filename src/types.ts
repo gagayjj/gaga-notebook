@@ -66,6 +66,7 @@ export interface StudySentence {
 export interface NoteDoc {
   meta: NoteMeta;
   content: unknown;
+  marker?: string | null;
 }
 
 export type VideoState =
@@ -101,7 +102,7 @@ declare global {
       onVideoStatus: (callback: (status: { state: string; message: string }) => void) => () => void;
       listNotes: () => Promise<Library>;
       readNote: (id: string) => Promise<NoteDoc | null>;
-      saveNote: (payload: { id: string; title?: string; tags?: string[]; content: unknown }) => Promise<{
+      saveNote: (payload: { id: string; title?: string; tags?: string[]; content: unknown; marker?: string | null }) => Promise<{
         ok: boolean;
         updatedAt: string;
       }>;

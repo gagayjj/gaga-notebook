@@ -41,6 +41,7 @@ export default function App() {
   const editorRef = useRef<Editor | null>(null);
   const recorderToggleRef = useRef<(() => void) | null>(null);
   const draftRef = useRef<unknown>(null);
+  const markerRef = useRef<string | null>(null);
   const noteIdRef = useRef<string | null>(null);
   const saveTimerRef = useRef<number | null>(null);
   const flushSaveRef = useRef<() => void>(() => {});
@@ -51,7 +52,7 @@ export default function App() {
     if (!id || !content) return;
     try {
       setSaveState("saving");
-      const result = await window.studyNotes?.saveNote({ id, content });
+      const result = await window.studyNotes?.saveNote({ id, content, marker: markerRef.current });
       if (result?.ok) {
         setSaveState("saved");
         setLibrary((prev) => {
@@ -93,6 +94,7 @@ export default function App() {
           setActiveNoteId(note.meta.id);
           noteIdRef.current = note.meta.id;
           draftRef.current = note.content;
+          markerRef.current = note.marker ?? null;
         }
       }
     });
@@ -150,6 +152,7 @@ export default function App() {
       setActiveNoteId(id);
       noteIdRef.current = id;
       draftRef.current = note.content;
+      markerRef.current = note.marker ?? null;
       setSaveState("idle");
     },
     [],
@@ -176,6 +179,7 @@ export default function App() {
     setActiveNoteId(note.meta.id);
     noteIdRef.current = note.meta.id;
     draftRef.current = note.content;
+    markerRef.current = null;
   }, [library]);
 
   const handleToggleNarrow = useCallback(async () => {
@@ -397,6 +401,12 @@ export default function App() {
               recorderToggleRef={recorderToggleRef}
               lined={lined}
               onLinedChange={setLined}
+              marker={activeNote?.marker ?? null}
+              onMarkerChange={(dataUrl) => {
+                markerRef.current = dataUrl;
+                setActiveNote((prev) => (prev ? { ...prev, marker: dataUrl } : prev));
+                handleContentChange(draftRef.current);
+              }}
             />
           </div>
         </div>

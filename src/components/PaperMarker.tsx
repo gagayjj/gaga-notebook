@@ -291,9 +291,9 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
           <X size={15} />
           取消
         </button>
-        <button type="button" className="primary" title="插入到笔记" onClick={insert}>
+        <button type="button" className="primary" title="完成标记并固定在笔记页" onClick={insert}>
           <Check size={15} />
-          插入笔记
+          完成
         </button>
       </div>
       <canvas ref={canvasRef} className="paper-marker-canvas" />

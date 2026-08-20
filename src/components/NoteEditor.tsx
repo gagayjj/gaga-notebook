@@ -24,6 +24,7 @@ import {
   PenTool,
   Square,
   Timer,
+  Trash2,
   Undo2,
 } from "lucide-react";
 import { AudioBlockNode, TimestampNode } from "../lib/tiptapNodes";
@@ -46,6 +47,8 @@ interface NoteEditorProps {
   recorderToggleRef: MutableRefObject<(() => void) | null>;
   lined: boolean;
   onLinedChange: (value: boolean) => void;
+  marker: string | null;
+  onMarkerChange: (dataUrl: string | null) => void;
 }
 
 const highlightColors = [
@@ -69,9 +72,12 @@ export function NoteEditor({
   recorderToggleRef,
   lined,
   onLinedChange,
+  marker,
+  onMarkerChange,
 }: NoteEditorProps) {
   const [showHighlightMenu, setShowHighlightMenu] = useState(false);
   const [paperMarkerOpen, setPaperMarkerOpen] = useState(false);
+  const [markerDataUrl, setMarkerDataUrl] = useState<string | null>(marker);
   const lastNoteIdRef = useRef<string | null>(null);
 
   const updateOutline = (editor: Editor) => {
@@ -164,6 +170,7 @@ export function NoteEditor({
     if (lastNoteIdRef.current === note.meta.id) return;
     lastNoteIdRef.current = note.meta.id;
     editor.commands.setContent(note.content || { type: "doc", content: [{ type: "paragraph" }] });
+    setMarkerDataUrl(note.marker ?? null);
     updateOutline(editor);
   }, [editor, note, onOutlineChange]);
 
@@ -260,6 +267,11 @@ export function NoteEditor({
         }, false, !canInsertTimestamp, "插入当前视频时间点")}
         {toolbarButton("插入图片", <ImagePlus size={16} />, onRequestImage, false, false, "插入截图或标注图片")}
         {toolbarButton("标记", <PenTool size={16} />, () => setPaperMarkerOpen(true), false, false, "在整页笔记上随意画箭头和曲线标记")}
+        {markerDataUrl &&
+          toolbarButton("清除标记", <Trash2 size={16} />, () => {
+            setMarkerDataUrl(null);
+            onMarkerChange(null);
+          }, false, false, "清除笔记页上的标记")}
         {toolbarButton("横线页面", <Ruler size={16} />, () => onLinedChange(!lined), lined, false, lined ? "关闭横线页面" : "开启横线页面")}
         {toolbarButton(
           isRecording ? "停止录音" : "开始录音",
@@ -278,12 +290,16 @@ export function NoteEditor({
           <PaperMarker
             onClose={() => setPaperMarkerOpen(false)}
             onInsert={(dataUrl) => {
-              editor?.chain().focus().setImage({ src: dataUrl }).run();
+              setMarkerDataUrl(dataUrl);
+              onMarkerChange(dataUrl);
               setPaperMarkerOpen(false);
             }}
           />
         )}
         <div className={`editor-paper ${lined ? "paper-lined" : ""}`}>
+          {markerDataUrl && (
+            <img className="paper-marker-result" src={markerDataUrl} alt="" draggable={false} />
+          )}
           {note ? (
             <EditorContent editor={editor} />
           ) : (

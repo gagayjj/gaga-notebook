@@ -538,17 +538,19 @@ function createWindow() {
                 if (imageData[i] > 0) drewPixels += 1;
               }
             }
-            const canClose = Boolean(document.querySelector('.paper-marker-bar button[title="取消标记"]'));
-            document.querySelector('.paper-marker-bar button[title="取消标记"]')?.click();
+            const canComplete = Boolean(document.querySelector('.paper-marker-bar button[title="完成标记并固定在笔记页"]'));
+            document.querySelector('.paper-marker-bar button[title="完成标记并固定在笔记页"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 250));
             return {
               paperMarkerExists: Boolean(document.querySelector(".paper-marker")),
               canvasSize: rect ? { w: Math.round(rect.width), h: Math.round(rect.height) } : null,
               nativeFired,
               drewPixels,
+              canComplete,
+              resultExists: Boolean(document.querySelector(".paper-marker-result")),
+              editorImages: document.querySelectorAll(".editor-content img").length,
+              closedAfterComplete: !document.querySelector(".paper-marker"),
               toolCount: document.querySelectorAll(".paper-marker-bar button").length,
-              canClose,
-              closedAfterCancel: !document.querySelector(".paper-marker"),
             };
           })()`);
           const image = await mainWindow.capturePage();
@@ -768,7 +770,7 @@ ipcMain.handle("notes:create", async (_event, input) => {
   const course = library.courses.find((item) => item.id === courseId);
   if (course) course.noteIds.push(id);
   await writeAtomic(path.join(dir, "library.json"), JSON.stringify(library, null, 2));
-  const note = { meta, content: { type: "doc", content: [{ type: "paragraph" }] } };
+  const note = { meta, content: { type: "doc", content: [{ type: "paragraph" }] }, marker: null };
   await writeAtomic(path.join(dir, "notes", `${id}.json`), JSON.stringify(note, null, 2));
   return note;
 });
@@ -786,7 +788,7 @@ ipcMain.handle("notes:save", async (_event, payload) => {
     updatedAt: now,
   };
   library.notes[payload.id] = meta;
-  const note = { meta, content: payload.content };
+  const note = { meta, content: payload.content, marker: payload.marker ?? null };
   await writeAtomic(path.join(dir, "library.json"), JSON.stringify(library, null, 2));
   await writeAtomic(path.join(dir, "notes", `${payload.id}.json`), JSON.stringify(note, null, 2));
   return { ok: true, updatedAt: now };
