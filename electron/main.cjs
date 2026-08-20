@@ -442,6 +442,13 @@ function createWindow() {
               dictModeCount: document.querySelectorAll(".dict-mode-switch button").length,
               dictSentenceReady: document.querySelector(".english-modal")?.innerText.includes("语句本是空的") || false,
               decorCount: document.querySelectorAll(".doodle-decor").length,
+              bannerCount: document.querySelectorAll(".doodle-banner").length,
+              bannerSize: (() => {
+                const el = document.querySelector(".english-modal .doodle-banner");
+                if (!el) return null;
+                const rect = el.getBoundingClientRect();
+                return { w: Math.round(rect.width), h: Math.round(rect.height) };
+              })(),
               notesPattern: getComputedStyle(document.querySelector(".notes-pane"), "::before").backgroundImage.includes("data:image/svg+xml"),
               tabCount: document.querySelectorAll(".english-tabs button").length,
               modalText: document.querySelector(".english-modal")?.innerText.slice(0, 160) || "",

@@ -29,6 +29,7 @@ import { AudioBlockNode, TimestampNode } from "../lib/tiptapNodes";
 import { useRecorder } from "../hooks/useRecorder";
 import type { InsertRequest, NoteDoc } from "../types";
 import type { OutlineItem } from "./Sidebar";
+import { DoodleDecor } from "./Doodles";
 
 interface NoteEditorProps {
   note: NoteDoc | null;
@@ -216,6 +217,7 @@ export function NoteEditor({
 
   return (
     <div className="notes-pane">
+      <DoodleDecor className="notes-decor" />
       <div className="editor-toolbar">
         {toolbarButton("撤销", <Undo2 size={16} />, () => editor?.chain().focus().undo().run(), false, !editor?.can().undo())}
         {toolbarButton("重做", <Redo2 size={16} />, () => editor?.chain().focus().redo().run(), false, !editor?.can().redo())}

@@ -83,3 +83,31 @@ export function DoodleDecor({ className }: { className?: string }) {
     </div>
   );
 }
+
+export function DoodleBanner({ className }: { className?: string }) {
+  return (
+    <div className={`doodle-banner ${className || ""}`} aria-hidden="true">
+      <CrayonKid size={92} />
+      <svg className="banner-sun" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="15" fill="#ffcf3f" stroke="#3d2f26" strokeWidth="4" />
+        <path d="M32 6 V16 M32 48 V58 M6 32 H16 M48 32 H58 M13 13 L20 20 M44 44 L51 51 M51 13 L44 20 M20 44 L13 51" stroke="#3d2f26" strokeWidth="4" strokeLinecap="round" />
+      </svg>
+      <svg className="banner-cloud" viewBox="0 0 88 54">
+        <path d="M20 48 Q8 48 8 36 Q8 26 19 25 Q21 12 36 12 Q51 12 55 23 Q68 23 68 36 Q68 48 56 48 Z" fill="#fffdf7" stroke="#3d2f26" strokeWidth="4" strokeLinejoin="round" />
+      </svg>
+      <svg className="banner-star" viewBox="0 0 40 40">
+        <path d="M20 4 L24 15 L36 16 L27 24 L30 36 L20 29 L10 36 L13 24 L4 16 L16 15 Z" fill="#e8463a" stroke="#3d2f26" strokeWidth="3" strokeLinejoin="round" />
+      </svg>
+      <svg className="banner-star banner-star-small" viewBox="0 0 40 40">
+        <path d="M20 4 L24 15 L36 16 L27 24 L30 36 L20 29 L10 36 L13 24 L4 16 L16 15 Z" fill="#3b82f6" stroke="#3d2f26" strokeWidth="3" strokeLinejoin="round" />
+      </svg>
+      <svg className="banner-crayon" viewBox="0 0 44 84">
+        <path d="M12 12 L32 12 L36 28 L34 80 L10 80 L8 28 Z" fill="#ff9ec4" stroke="#3d2f26" strokeWidth="3" strokeLinejoin="round" />
+        <path d="M10 12 L34 12 L36 28 L8 28 Z" fill="#9fe28c" stroke="#3d2f26" strokeWidth="2.5" strokeLinejoin="round" />
+      </svg>
+      <svg className="banner-scribble" viewBox="0 0 90 30">
+        <path d="M6 16 Q16 6 26 16 Q36 26 46 16 Q56 6 66 16 Q76 26 86 14" stroke="#3d2f26" strokeWidth="3" strokeLinecap="round" fill="none" />
+      </svg>
+    </div>
+  );
+}

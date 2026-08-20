@@ -2166,6 +2166,98 @@ body[data-theme="green"] .status-bar {
   opacity: 0.3;
 }
 
+.doodle-decor-mascot {
+  opacity: 0.55;
+}
+
+.doodle-decor-sun {
+  opacity: 0.65;
+}
+
+.doodle-decor-star {
+  opacity: 0.65;
+}
+
+.doodle-decor-crayon {
+  opacity: 0.6;
+}
+
+.doodle-decor-cloud {
+  opacity: 0.5;
+}
+
+.doodle-decor-scribble {
+  opacity: 0.5;
+}
+
+.notes-decor .doodle-decor-mascot {
+  right: 18px;
+  bottom: 14px;
+  width: 150px;
+  height: 150px;
+  opacity: 0.5;
+}
+
+.doodle-banner {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 108px;
+  padding: 8px 20px;
+  border: 3px solid var(--dark);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fff3c4 0%, #ffe1d6 55%, #dceeff 100%);
+  box-shadow: 4px 4px 0 rgba(61, 47, 38, 0.16);
+  overflow: hidden;
+  position: relative;
+}
+
+.modal-banner {
+  margin: 12px 14px 0;
+}
+
+.banner-sun {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+}
+
+.banner-cloud {
+  width: 78px;
+  height: 48px;
+  flex: 0 0 auto;
+}
+
+.banner-star {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+}
+
+.banner-star-small {
+  margin-top: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.banner-crayon {
+  width: 34px;
+  height: 66px;
+  flex: 0 0 auto;
+  transform: rotate(-8deg);
+}
+
+.banner-scribble {
+  width: 86px;
+  height: 30px;
+  flex: 0 0 auto;
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  opacity: 0.55;
+}
+
 .notes-pane,
 .english-modal,
 .resource-modal {
@@ -2180,7 +2272,7 @@ body[data-theme="green"] .status-bar {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.16;
+  opacity: 0.3;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170'%3E%3Cg fill='none' stroke='%233d2f26' stroke-width='2'%3E%3Cpath d='M20 30 l7 -14 7 14 z' fill='%23ffcf3f' stroke-linejoin='round'/%3E%3Ccircle cx='122' cy='42' r='11' fill='%23e8463a'/%3E%3Cpath d='M68 132 q12 -14 24 0 q12 14 24 0' stroke-linecap='round'/%3E%3Cpath d='M28 146 l11 -32 11 32 z' fill='%233b82f6' stroke-linejoin='round'/%3E%3Ccircle cx='152' cy='122' r='8' fill='%239fe28c'/%3E%3Cpath d='M92 26 l6 -10 6 10 z' fill='%23e85d94' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 170px 170px;
 }
