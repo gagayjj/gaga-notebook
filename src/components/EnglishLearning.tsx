@@ -17,8 +17,6 @@ import {
 } from "lucide-react";
 import { recommendedWords, type EnglishWord } from "../data/englishWords";
 import type { StudySentence, StudyWord } from "../types";
-import { DoodleDecor } from "./Doodles";
-import { ThemeBanner } from "./ThemeSticker";
 
 interface EnglishLearningProps {
   onClose: () => void;
@@ -260,7 +258,6 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   return (
     <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
       <div className="english-modal">
-        <DoodleDecor />
         <header className="english-header">
           <div>
             <BookOpenText size={18} />
@@ -329,8 +326,6 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
             </div>
           )}
         </div>
-
-        <ThemeBanner className="modal-banner" />
 
         <div className="english-content">
           {tab === "learn" && planType === "words" && (

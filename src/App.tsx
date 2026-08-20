@@ -117,12 +117,11 @@ export default function App() {
     body.dataset.bgImage = bgConfig.image || "";
     body.dataset.bgFill = bgConfig.fill ? "1" : "0";
     body.dataset.decorHidden = bgConfig.decor.join(" ");
-    body.style.setProperty("--pattern-opacity", String(bgConfig.patternOpacity));
+    body.style.setProperty("--pattern-opacity", "0");
     if (bgConfig.baseColor) body.style.setProperty("--bg", bgConfig.baseColor);
     else body.style.removeProperty("--bg");
-    const imageUrl = bgConfig.image && themeImages[bgConfig.image] ? themeImages[bgConfig.image] : "";
-    if (imageUrl) body.style.setProperty("--bg-image", `url("${imageUrl}")`);
-    else body.style.removeProperty("--bg-image");
+    const imageUrl = themeImages[bgConfig.image || theme] || themeImages.crayon;
+    body.style.setProperty("--bg-image", `url("${imageUrl}")`);
     localStorage.setItem("background-config", JSON.stringify(bgConfig));
   }, [bgConfig]);
 

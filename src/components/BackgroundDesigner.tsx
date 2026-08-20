@@ -17,21 +17,12 @@ interface BackgroundDesignerProps {
   onClose: () => void;
 }
 
-const decorOptions = [
-  { id: "sun", label: "太阳" },
-  { id: "cloud", label: "云朵" },
-  { id: "star", label: "星星" },
-  { id: "crayon", label: "蜡笔" },
-  { id: "mascot", label: "小人" },
-  { id: "scribble", label: "涂鸦线" },
-];
-
 export function defaultBackgroundConfig(): BackgroundConfig {
   return {
-    image: null,
-    fill: false,
+    image: "crayon",
+    fill: true,
     baseColor: "",
-    decor: decorOptions.map((item) => item.id),
+    decor: [],
     patternOpacity: 0.3,
   };
 }
@@ -42,9 +33,9 @@ export function loadBackgroundConfig(): BackgroundConfig {
     if (parsed && typeof parsed === "object") {
       return {
         image: parsed.image || null,
-        fill: Boolean(parsed.fill),
+        fill: parsed.fill !== false,
         baseColor: parsed.baseColor || "",
-        decor: Array.isArray(parsed.decor) ? parsed.decor : decorOptions.map((item) => item.id),
+        decor: Array.isArray(parsed.decor) ? parsed.decor : [],
         patternOpacity: typeof parsed.patternOpacity === "number" ? parsed.patternOpacity : 0.3,
       };
     }
@@ -56,13 +47,6 @@ export function loadBackgroundConfig(): BackgroundConfig {
 
 export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesignerProps) {
   const [draft, setDraft] = useState<BackgroundConfig>(config);
-
-  const toggleDecor = (id: string) => {
-    setDraft((prev) => ({
-      ...prev,
-      decor: prev.decor.includes(id) ? prev.decor.filter((item) => item !== id) : [...prev.decor, id],
-    }));
-  };
 
   return (
     <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
@@ -137,29 +121,6 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
             </div>
           </section>
 
-          <section>
-            <h3>页面装饰图案</h3>
-            <div className="decor-toggle-grid">
-              {decorOptions.map((option) => (
-                <label key={option.id} className={`decor-toggle ${draft.decor.includes(option.id) ? "active" : ""}`}>
-                  <input type="checkbox" checked={draft.decor.includes(option.id)} onChange={() => toggleDecor(option.id)} />
-                  {option.label}
-                </label>
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <h3>图案深浅</h3>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={Math.round(draft.patternOpacity * 100)}
-              onChange={(event) => setDraft((prev) => ({ ...prev, patternOpacity: Number(event.target.value) / 100 }))}
-            />
-            <span className="range-value">{Math.round(draft.patternOpacity * 100)}%</span>
-          </section>
         </div>
 
         <footer className="bg-designer-footer">

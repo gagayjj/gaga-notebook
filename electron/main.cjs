@@ -481,8 +481,6 @@ function createWindow() {
             const cards = document.querySelectorAll(".bg-image-card").length;
             document.querySelectorAll(".bg-image-card")[1]?.click();
             await new Promise((resolve) => setTimeout(resolve, 150));
-            document.querySelector(".fill-page-toggle input")?.click();
-            await new Promise((resolve) => setTimeout(resolve, 100));
             document.querySelector(".bg-designer-footer .btn.primary")?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
             return {
