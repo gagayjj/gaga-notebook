@@ -458,12 +458,22 @@ function createWindow() {
             document.querySelector('button[title="切换卡通主题"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
             const cards = document.querySelectorAll(".theme-card").length;
+            const sticker = document.querySelector(".notes-sticker");
+            const previewImages = document.querySelectorAll(".theme-preview-img").length;
+            const bannerImages = document.querySelectorAll(".theme-banner img").length;
             document.querySelectorAll(".theme-card")[1]?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
             const dataTheme = document.body.dataset.theme;
             const bg = getComputedStyle(document.body).backgroundColor;
             document.querySelector(".theme-picker .icon-btn[title='关闭']")?.click();
-            return { cards, dataTheme, bg };
+            return {
+              cards,
+              dataTheme,
+              bg,
+              stickerLoaded: Boolean(sticker && sticker.naturalWidth > 0),
+              previewImages,
+              bannerImages,
+            };
           })()`);
           const image = await mainWindow.capturePage();
           const bitmap = image.toBitmap();

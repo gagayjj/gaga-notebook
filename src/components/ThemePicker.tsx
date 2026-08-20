@@ -1,5 +1,5 @@
 import { Check, X } from "lucide-react";
-import { CrayonKid, CrayonStripe } from "./Doodles";
+import { CrayonStripe } from "./Doodles";
 import { appThemes, type AppTheme } from "../themes";
 
 interface ThemePickerProps {
@@ -33,7 +33,7 @@ export function ThemePicker({ currentTheme, onSelect, onClose }: ThemePickerProp
               onClick={() => onSelect(theme.id)}
             >
               <div className="theme-preview">
-                <CrayonKid size={92} />
+                <img className="theme-preview-img" src={theme.image} alt={theme.name} draggable={false} />
                 {currentTheme === theme.id && (
                   <span className="theme-check">
                     <Check size={15} />

@@ -17,7 +17,8 @@ import {
 } from "lucide-react";
 import { recommendedWords, type EnglishWord } from "../data/englishWords";
 import type { StudySentence, StudyWord } from "../types";
-import { DoodleBanner, DoodleDecor } from "./Doodles";
+import { DoodleDecor } from "./Doodles";
+import { ThemeBanner } from "./ThemeSticker";
 
 interface EnglishLearningProps {
   onClose: () => void;
@@ -329,7 +330,7 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
           )}
         </div>
 
-        <DoodleBanner className="modal-banner" />
+        <ThemeBanner className="modal-banner" />
 
         <div className="english-content">
           {tab === "learn" && planType === "words" && (

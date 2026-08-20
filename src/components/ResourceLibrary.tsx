@@ -12,7 +12,8 @@ import {
   X,
 } from "lucide-react";
 import type { PlanItem, ResourceItem } from "../types";
-import { DoodleBanner, DoodleDecor } from "./Doodles";
+import { DoodleDecor } from "./Doodles";
+import { ThemeBanner } from "./ThemeSticker";
 
 interface ResourceLibraryProps {
   onClose: () => void;
@@ -158,7 +159,7 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
           </button>
         </header>
 
-        <DoodleBanner className="modal-banner" />
+        <ThemeBanner className="modal-banner" />
 
         {tab === "resources" && (
           <div className="resource-content">
