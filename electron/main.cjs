@@ -519,12 +519,19 @@ function createWindow() {
             await new Promise((resolve) => setTimeout(resolve, 400));
             const editorHtml = document.querySelector(".editor-content")?.innerHTML || "";
             const deleteCount = document.querySelectorAll(".shape-delete").length;
+            const svgRect = (() => {
+              const svg = document.querySelector(".shape-node svg");
+              if (!svg) return null;
+              const rect = svg.getBoundingClientRect();
+              return { w: Math.round(rect.width), h: Math.round(rect.height) };
+            })();
             document.querySelector(".shape-delete")?.click();
             await new Promise((resolve) => setTimeout(resolve, 200));
             return {
               shapeCount: document.querySelectorAll(".shape-node").length,
               svgCount: document.querySelectorAll(".shape-node svg").length,
               deleteCount,
+              svgRect,
               afterDelete: document.querySelectorAll(".shape-node").length,
               hasArrow: editorHtml.includes("data-arrow"),
               hasCurve: editorHtml.includes("data-curve"),
