@@ -41,6 +41,12 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
   const [selected, setSelected] = useState(-1);
   const [dragMode, setDragMode] = useState<"start" | "control" | "end" | "move" | null>(null);
   const dragStartRef = useRef<{ pointer: Point; stroke: Stroke } | null>(null);
+  const draftRef = useRef<Stroke | null>(null);
+  const handlersRef = useRef<{ down: (event: PointerEvent) => void; move: (event: PointerEvent) => void; up: () => void }>({
+    down: () => {},
+    move: () => {},
+    up: () => {},
+  });
 
   const resizeCanvas = useCallback(() => {
     const wrap = wrapRef.current;
@@ -119,6 +125,10 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
   }, [strokes, draft, selected]);
 
   useEffect(() => {
+    draw();
+  }, [draw]);
+
+  useEffect(() => {
     resizeCanvas();
     const observer = new ResizeObserver(resizeCanvas);
     if (wrapRef.current) observer.observe(wrapRef.current);
@@ -166,11 +176,12 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
     }
     setSelected(-1);
     if (tool === "pen") {
-      setDraft({ tool, color, size, start: point, end: point, points: [point] });
+      draftRef.current = { tool, color, size, start: point, end: point, points: [point] };
     } else {
       const control = tool === "curve" ? { x: point.x + 40, y: point.y - 40 } : undefined;
-      setDraft({ tool, color, size, start: point, end: point, control });
+      draftRef.current = { tool, color, size, start: point, end: point, control };
     }
+    setDraft(draftRef.current);
   };
 
   const pointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
@@ -196,26 +207,54 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
       );
       return;
     }
-    if (!draft) return;
-    if (draft.tool === "pen") {
-      setDraft({ ...draft, end: point, points: [...(draft.points || []), point] });
-    } else if (draft.tool === "curve") {
-      setDraft({ ...draft, end: point, control: { x: (draft.start.x + point.x) / 2, y: draft.start.y - 40 } });
+    if (!draftRef.current) return;
+    if (draftRef.current.tool === "pen") {
+      draftRef.current = { ...draftRef.current, end: point, points: [...(draftRef.current.points || []), point] };
+    } else if (draftRef.current.tool === "curve") {
+      draftRef.current = {
+        ...draftRef.current,
+        end: point,
+        control: { x: (draftRef.current.start.x + point.x) / 2, y: draftRef.current.start.y - 40 },
+      };
     } else {
-      setDraft({ ...draft, end: point });
+      draftRef.current = { ...draftRef.current, end: point };
     }
+    setDraft(draftRef.current);
   };
 
   const pointerUp = () => {
-    if (draft) {
-      const next = [...strokes, draft];
+    if (draftRef.current) {
+      const next = [...strokes, draftRef.current];
       setStrokes(next);
       setSelected(next.length - 1);
+      draftRef.current = null;
       setDraft(null);
     }
     setDragMode(null);
     dragStartRef.current = null;
   };
+
+  handlersRef.current = {
+    down: pointerDown as unknown as (event: PointerEvent) => void,
+    move: pointerMove as unknown as (event: PointerEvent) => void,
+    up: pointerUp,
+  };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const down = (event: PointerEvent) => handlersRef.current.down(event);
+    const move = (event: PointerEvent) => handlersRef.current.move(event);
+    const up = () => handlersRef.current.up();
+    canvas.addEventListener("pointerdown", down);
+    canvas.addEventListener("pointermove", move);
+    canvas.addEventListener("pointerup", up);
+    return () => {
+      canvas.removeEventListener("pointerdown", down);
+      canvas.removeEventListener("pointermove", move);
+      canvas.removeEventListener("pointerup", up);
+    };
+  }, []);
 
   const insert = () => {
     const canvas = canvasRef.current;
@@ -257,7 +296,7 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
           插入笔记
         </button>
       </div>
-      <canvas ref={canvasRef} className="paper-marker-canvas" onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerUp} />
+      <canvas ref={canvasRef} className="paper-marker-canvas" />
     </div>
   );
 }

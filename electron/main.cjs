@@ -517,12 +517,35 @@ function createWindow() {
             await new Promise((resolve) => setTimeout(resolve, 400));
             const canvas = document.querySelector(".paper-marker-canvas");
             const rect = canvas?.getBoundingClientRect();
+            let drewPixels = 0;
+            let nativeFired = false;
+            if (canvas && rect) {
+              const fire = (type, x, y) =>
+                canvas.dispatchEvent(
+                  new PointerEvent(type, { bubbles: true, clientX: rect.left + x, clientY: rect.top + y, pointerId: 1 }),
+                );
+              canvas.addEventListener("pointerdown", () => {
+                nativeFired = true;
+              });
+              fire("pointerdown", 120, 120);
+              await new Promise((resolve) => setTimeout(resolve, 100));
+              fire("pointermove", 360, 360);
+              await new Promise((resolve) => setTimeout(resolve, 80));
+              fire("pointerup", 360, 360);
+              await new Promise((resolve) => setTimeout(resolve, 250));
+              const imageData = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height).data;
+              for (let i = 3; i < imageData.length; i += 4) {
+                if (imageData[i] > 0) drewPixels += 1;
+              }
+            }
             const canClose = Boolean(document.querySelector('.paper-marker-bar button[title="取消标记"]'));
             document.querySelector('.paper-marker-bar button[title="取消标记"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 250));
             return {
               paperMarkerExists: Boolean(document.querySelector(".paper-marker")),
               canvasSize: rect ? { w: Math.round(rect.width), h: Math.round(rect.height) } : null,
+              nativeFired,
+              drewPixels,
               toolCount: document.querySelectorAll(".paper-marker-bar button").length,
               canClose,
               closedAfterCancel: !document.querySelector(".paper-marker"),

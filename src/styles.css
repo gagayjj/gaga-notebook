@@ -798,7 +798,7 @@ input {
 .paper-marker {
   position: absolute;
   inset: 0;
-  z-index: 40;
+  z-index: 60;
   display: flex;
   flex-direction: column;
   background: transparent;
