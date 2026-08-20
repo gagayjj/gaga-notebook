@@ -14,6 +14,11 @@ contextBridge.exposeInMainWorld("studyNotes", {
   setAlwaysOnTop: (flag) => ipcRenderer.invoke("window:always-on-top", flag),
   setNarrowMode: (flag) => ipcRenderer.invoke("window:narrow", flag),
   openExternal: (url) => ipcRenderer.invoke("shell:open-external", url),
+  onVideoStatus: (callback) => {
+    const listener = (_event, status) => callback(status);
+    ipcRenderer.on("video:status", listener);
+    return () => ipcRenderer.removeListener("video:status", listener);
+  },
   listNotes: () => ipcRenderer.invoke("notes:list"),
   readNote: (id) => ipcRenderer.invoke("notes:read", id),
   saveNote: (payload) => ipcRenderer.invoke("notes:save", payload),

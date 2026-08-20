@@ -6,6 +6,7 @@ const fsp = require("fs/promises");
 let mainWindow = null;
 let videoView = null;
 let narrowState = null;
+let lastVideoFailInfo = null;
 
 const userDataArg = process.argv.find((arg) => arg.startsWith("--user-data-dir="));
 if (userDataArg) {
@@ -295,6 +296,32 @@ function createWindow() {
             document.querySelector('button[title="收起笔记库"]')?.click();
             return result;
           })()`);
+          const urlTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('button[title="打开视频模块"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            const input = document.querySelector(".url-box input");
+            const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+            setter.call(input, "https://www.bilibili.com/");
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            document.querySelector(".url-box button")?.click();
+            await new Promise((resolve) => setTimeout(resolve, 6000));
+            return { videoPaneText: document.querySelector(".video-pane")?.innerText.slice(0, 200) || "" };
+          })()`);
+          const urlInfo = {
+            bounds: videoView?.getBounds(),
+            url: videoView?.webContents.getURL(),
+            title: videoView?.webContents.getTitle(),
+            loading: videoView?.webContents.isLoading(),
+            lastVideoFailInfo,
+          };
+          if (videoView) {
+            try {
+              const viewImage = await videoView.webContents.capturePage();
+              fs.writeFileSync("/tmp/bilibili-embed.png", viewImage.toPNG());
+            } catch (error) {
+              console.error("capture BrowserView failed", error);
+            }
+          }
           const saveTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const note = await window.studyNotes.createNote({ title: "QA 测试笔记" });
             note.content.content.push({ type: "paragraph", content: [{ type: "text", text: "保存成功" }] });
@@ -324,6 +351,8 @@ function createWindow() {
             dom,
             narrowDom,
             panelDom,
+            urlTest,
+            urlInfo,
             saveTest,
             errors,
             pixels: {
@@ -355,6 +384,24 @@ function removeVideoView() {
     videoView.destroy();
     videoView = null;
   }
+}
+
+function sendVideoStatus(state, message) {
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send("video:status", { state, message });
+  }
+}
+
+function attachVideoViewStatus(view) {
+  view.webContents.on("did-start-loading", () => {
+    sendVideoStatus("loading", "正在加载网页...");
+  });
+  view.webContents.on("did-finish-load", () => {
+    sendVideoStatus("loaded", "网页已加载，可点击播放");
+  });
+  view.webContents.on("did-fail-load", (_event, _code, description) => {
+    sendVideoStatus("failed", description || "网页加载失败");
+  });
 }
 
 ipcMain.handle("window:always-on-top", (_event, flag) => {
@@ -403,6 +450,7 @@ ipcMain.handle("video:open-url", (_event, url) => {
     mainWindow.addBrowserView(videoView);
   }
   videoView.webContents.loadURL(url);
+  attachVideoViewStatus(videoView);
   return true;
 });
 
@@ -419,6 +467,7 @@ ipcMain.handle("video:set-visible", (_event, visible, url) => {
     }
     if (url && videoView.webContents.getURL() !== url) {
       videoView.webContents.loadURL(url);
+      attachVideoViewStatus(videoView);
     }
     mainWindow.addBrowserView(videoView);
   } else if (videoView) {

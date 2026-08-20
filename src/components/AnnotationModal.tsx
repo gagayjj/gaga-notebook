@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowRight, Circle, Eraser, MousePointer2, PenLine, Redo2, Square, Type, Undo2, X } from "lucide-react";
+import { ArrowRight, Eraser, MousePointer2, PenLine, Redo2, Square, Trash2, Type, Undo2, X } from "lucide-react";
 import type { AnnotationImage } from "../types";
 
 type Tool = "pointer" | "pen" | "arrow" | "rect" | "text";
+type DragMode = "start" | "end" | "move" | null;
+type Point = { x: number; y: number };
 
 interface StrokeBase {
   tool: Tool;
@@ -12,7 +14,8 @@ interface StrokeBase {
 
 type Stroke =
   | (StrokeBase & { tool: "pen"; points: Array<{ x: number; y: number }> })
-  | (StrokeBase & { tool: "arrow" | "rect"; start: { x: number; y: number }; end: { x: number; y: number } })
+  | (StrokeBase & { tool: "arrow"; start: Point; end: Point })
+  | (StrokeBase & { tool: "rect"; start: Point; end: Point })
   | (StrokeBase & { tool: "text"; x: number; y: number; text: string });
 
 interface AnnotationModalProps {
@@ -22,6 +25,24 @@ interface AnnotationModalProps {
 }
 
 const colors = ["#e5484d", "#f5a524", "#30a46c", "#3b82f6", "#8e4ec6", "#111827"];
+
+function distanceToSegment(point: Point, a: Point, b: Point) {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  if (dx === 0 && dy === 0) return Math.hypot(point.x - a.x, point.y - a.y);
+  const t = Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / (dx * dx + dy * dy)));
+  const px = a.x + t * dx;
+  const py = a.y + t * dy;
+  return Math.hypot(point.x - px, point.y - py);
+}
+
+function hitArrow(stroke: Extract<Stroke, { tool: "arrow" }>, point: Point): "start" | "end" | "body" | null {
+  const threshold = Math.max(10, stroke.size * 2.5);
+  if (Math.hypot(point.x - stroke.start.x, point.y - stroke.start.y) <= threshold + 7) return "start";
+  if (Math.hypot(point.x - stroke.end.x, point.y - stroke.end.y) <= threshold + 7) return "end";
+  if (distanceToSegment(point, stroke.start, stroke.end) <= threshold) return "body";
+  return null;
+}
 
 export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -33,6 +54,9 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
   const [size, setSize] = useState(4);
   const [strokes, setStrokes] = useState<Stroke[]>([]);
   const [draft, setDraft] = useState<Stroke | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [dragMode, setDragMode] = useState<DragMode>(null);
+  const dragStartRef = useRef<Point | null>(null);
 
   useEffect(() => {
     if (image?.dataUrl) setDataUrl(image.dataUrl);
@@ -86,7 +110,22 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
 
     strokes.forEach(drawStroke);
     if (draft) drawStroke(draft);
-  }, [bgImage, strokes, draft]);
+
+    if (selectedIndex !== null) {
+      const selected = strokes[selectedIndex];
+      if (selected && (selected.tool === "arrow" || selected.tool === "rect")) {
+        ctx.strokeStyle = "#2563eb";
+        ctx.fillStyle = "#ffffff";
+        ctx.lineWidth = 2;
+        [selected.start, selected.end].forEach((handle) => {
+          ctx.beginPath();
+          ctx.arc(handle.x, handle.y, 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        });
+      }
+    }
+  }, [bgImage, strokes, draft, selectedIndex]);
 
   useEffect(() => {
     draw();
@@ -113,7 +152,33 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
 
   const handlePointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const point = toCanvasPoint(event);
-    if (tool === "pointer") return;
+    if (tool === "pointer") {
+      if (selectedIndex !== null && dragMode === null) {
+        const selected = strokes[selectedIndex];
+        if (selected?.tool === "arrow") {
+          const hit = hitArrow(selected, point);
+          if (hit) {
+            setDragMode(hit === "body" ? "move" : hit);
+            dragStartRef.current = point;
+            return;
+          }
+        }
+      }
+      for (let i = strokes.length - 1; i >= 0; i -= 1) {
+        const stroke = strokes[i];
+        if (stroke.tool === "arrow") {
+          const hit = hitArrow(stroke, point);
+          if (hit) {
+            setSelectedIndex(i);
+            setDragMode(hit === "body" ? "move" : hit);
+            dragStartRef.current = point;
+            return;
+          }
+        }
+      }
+      setSelectedIndex(null);
+      return;
+    }
     if (tool === "text") {
       const text = window.prompt("输入标注文字", "重点");
       if (text) setStrokes((prev) => [...prev, { tool, color, size, x: point.x, y: point.y, text }]);
@@ -127,8 +192,37 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!draft) return;
     const point = toCanvasPoint(event);
+    if (tool === "pointer" && selectedIndex !== null && dragMode) {
+      const dragStart = dragStartRef.current;
+      if (!dragStart) return;
+      if (dragMode === "move") {
+        const dx = point.x - dragStart.x;
+        const dy = point.y - dragStart.y;
+        dragStartRef.current = point;
+        setStrokes((prev) =>
+          prev.map((stroke, index) =>
+            index === selectedIndex && stroke.tool === "arrow"
+              ? ({
+                  ...stroke,
+                  start: { x: stroke.start.x + dx, y: stroke.start.y + dy },
+                  end: { x: stroke.end.x + dx, y: stroke.end.y + dy },
+                } as Stroke)
+              : stroke,
+          ),
+        );
+      } else {
+        setStrokes((prev) =>
+          prev.map((stroke, index) =>
+            index === selectedIndex && stroke.tool === "arrow"
+              ? ({ ...stroke, [dragMode]: point } as Stroke)
+              : stroke,
+          ),
+        );
+      }
+      return;
+    }
+    if (!draft) return;
     if (draft.tool === "pen") {
       setDraft({ ...draft, points: [...draft.points, point] } as Stroke);
     } else {
@@ -137,14 +231,41 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
   };
 
   const handlePointerUp = () => {
+    setDragMode(null);
+    dragStartRef.current = null;
     if (draft) {
       setStrokes((prev) => [...prev, draft]);
       setDraft(null);
     }
   };
 
-  const undo = () => setStrokes((prev) => prev.slice(0, -1));
-  const clear = () => setStrokes([]);
+  const undo = () => {
+    const next = strokes.slice(0, -1);
+    setStrokes(next);
+    if (selectedIndex !== null && selectedIndex >= next.length) setSelectedIndex(null);
+  };
+
+  const clear = () => {
+    setStrokes([]);
+    setSelectedIndex(null);
+  };
+
+  const deleteSelected = () => {
+    if (selectedIndex === null) return;
+    setStrokes((prev) => prev.filter((_, index) => index !== selectedIndex));
+    setSelectedIndex(null);
+  };
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.key === "Delete" || event.key === "Backspace") && selectedIndex !== null) {
+        event.preventDefault();
+        deleteSelected();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  });
 
   const exportImage = () => {
     const canvas = canvasRef.current;
@@ -207,6 +328,15 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
           <div className="annotation-actions">
             <button type="button" className="icon-btn" title="撤销" onClick={undo}>
               <Undo2 size={16} />
+            </button>
+            <button
+              type="button"
+              className="icon-btn"
+              title="删除选中的箭头"
+              disabled={selectedIndex === null}
+              onClick={deleteSelected}
+            >
+              <Trash2 size={16} />
             </button>
             <button type="button" className="icon-btn" title="清空标注" onClick={clear}>
               <Eraser size={16} />

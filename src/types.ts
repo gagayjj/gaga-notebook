@@ -54,6 +54,7 @@ declare global {
       setAlwaysOnTop: (flag: boolean) => Promise<boolean>;
       setNarrowMode: (flag: boolean) => Promise<boolean>;
       openExternal: (url: string) => Promise<boolean>;
+      onVideoStatus: (callback: (status: { state: string; message: string }) => void) => () => void;
       listNotes: () => Promise<Library>;
       readNote: (id: string) => Promise<NoteDoc | null>;
       saveNote: (payload: { id: string; title?: string; tags?: string[]; content: unknown }) => Promise<{

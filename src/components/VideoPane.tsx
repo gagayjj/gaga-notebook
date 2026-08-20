@@ -29,9 +29,11 @@ export function VideoPane({
   onController,
 }: VideoPaneProps) {
   const paneRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [urlInput, setUrlInput] = useState("");
   const [dragOver, setDragOver] = useState(false);
+  const [status, setStatus] = useState<{ state: string; message: string } | null>(null);
 
   const captureFrame = useCallback((): string | null => {
     const video = videoRef.current;
@@ -46,7 +48,7 @@ export function VideoPane({
   }, []);
 
   const sendBounds = useCallback(() => {
-    const el = paneRef.current;
+    const el = stageRef.current;
     const api = window.studyNotes;
     if (!el || !api) return;
     const rect = el.getBoundingClientRect();
@@ -68,6 +70,10 @@ export function VideoPane({
       captureFrame,
     });
   }, [captureFrame, onController]);
+
+  useEffect(() => {
+    return window.studyNotes?.onVideoStatus?.((nextStatus) => setStatus(nextStatus));
+  }, []);
 
   const handlePick = async () => {
     const path = await window.studyNotes?.openVideoDialog();
@@ -129,9 +135,21 @@ export function VideoPane({
           <FileVideo size={15} />
           打开本地视频
         </button>
+        {videoState.kind === "url" && (
+          <>
+            <span className={`video-status ${status?.state || ""}`}>{status?.message || "正在打开..."}</span>
+            <button type="button" className="text-btn" onClick={() => onOpenExternal(videoState.url)}>
+              <ExternalLink size={15} />
+              外部打开
+            </button>
+            <button type="button" className="icon-btn" title="关闭网页" onClick={onCloseUrl}>
+              <X size={15} />
+            </button>
+          </>
+        )}
       </div>
 
-      <div className="video-stage">
+      <div ref={stageRef} className="video-stage">
         {videoState.kind === "none" && (
           <div className="video-empty" onClick={handlePick}>
             <FileVideo size={34} />
@@ -154,13 +172,6 @@ export function VideoPane({
           <div className="url-embed">
             <div className="url-embed-mask">
               <span>网页视频已嵌入</span>
-              <button type="button" className="text-btn" onClick={() => onOpenExternal(videoState.url)}>
-                <ExternalLink size={15} />
-                外部打开
-              </button>
-              <button type="button" className="icon-btn" title="关闭网页" onClick={onCloseUrl}>
-                <X size={15} />
-              </button>
             </div>
           </div>
         )}
