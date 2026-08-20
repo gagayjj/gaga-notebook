@@ -116,7 +116,10 @@ export default function App() {
     const body = document.body;
     body.dataset.bgImage = bgConfig.image || "";
     body.dataset.bgFill = "1";
+    body.dataset.bgMotion = bgConfig.motion;
     body.dataset.decorHidden = bgConfig.decor.join(" ");
+    body.style.setProperty("--bg-x", String(bgConfig.offsetX));
+    body.style.setProperty("--bg-y", String(bgConfig.offsetY));
     body.style.setProperty("--pattern-opacity", "0");
     if (bgConfig.baseColor) body.style.setProperty("--bg", bgConfig.baseColor);
     else body.style.removeProperty("--bg");

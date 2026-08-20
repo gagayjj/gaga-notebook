@@ -9,6 +9,9 @@ export interface BackgroundConfig {
   baseColor: string;
   decor: string[];
   patternOpacity: number;
+  motion: "none" | "slide" | "drag";
+  offsetX: number;
+  offsetY: number;
 }
 
 interface BackgroundDesignerProps {
@@ -24,6 +27,9 @@ export function defaultBackgroundConfig(): BackgroundConfig {
     baseColor: "",
     decor: [],
     patternOpacity: 0.3,
+    motion: "slide",
+    offsetX: 50,
+    offsetY: 50,
   };
 }
 
@@ -37,6 +43,9 @@ export function loadBackgroundConfig(): BackgroundConfig {
         baseColor: parsed.baseColor || "",
         decor: Array.isArray(parsed.decor) ? parsed.decor : [],
         patternOpacity: typeof parsed.patternOpacity === "number" ? parsed.patternOpacity : 0.3,
+        motion: parsed.motion || "slide",
+        offsetX: typeof parsed.offsetX === "number" ? parsed.offsetX : 50,
+        offsetY: typeof parsed.offsetY === "number" ? parsed.offsetY : 50,
       };
     }
   } catch {
@@ -111,6 +120,51 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
             </div>
           </section>
 
+          <section>
+            <h3>背景动效</h3>
+            <div className="motion-picker">
+              {[
+                { id: "none", label: "静态" },
+                { id: "slide", label: "缓慢滑动" },
+                { id: "drag", label: "可拖动位置" },
+              ].map((option) => (
+                <button
+                  type="button"
+                  key={option.id}
+                  className={draft.motion === option.id ? "active" : ""}
+                  onClick={() => setDraft((prev) => ({ ...prev, motion: option.id as BackgroundConfig["motion"] }))}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+            {draft.motion === "drag" && (
+              <div className="offset-controls">
+                <label>
+                  左右
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={draft.offsetX}
+                    onChange={(event) => setDraft((prev) => ({ ...prev, offsetX: Number(event.target.value) }))}
+                  />
+                  {draft.offsetX}%
+                </label>
+                <label>
+                  上下
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={draft.offsetY}
+                    onChange={(event) => setDraft((prev) => ({ ...prev, offsetY: Number(event.target.value) }))}
+                  />
+                  {draft.offsetY}%
+                </label>
+              </div>
+            )}
+          </section>
         </div>
 
         <footer className="bg-designer-footer">

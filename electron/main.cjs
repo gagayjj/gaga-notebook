@@ -480,12 +480,19 @@ function createWindow() {
             document.querySelector('button[title="设计自己的背景"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
             const cards = document.querySelectorAll(".bg-image-card").length;
+            const motionButtons = document.querySelectorAll(".motion-picker button").length;
             document.querySelectorAll(".bg-image-card")[1]?.click();
             await new Promise((resolve) => setTimeout(resolve, 150));
+            document.querySelectorAll(".motion-picker button")[2]?.click();
+            await new Promise((resolve) => setTimeout(resolve, 100));
+            const offsetControls = document.querySelectorAll(".offset-controls label").length;
             document.querySelector(".bg-designer-footer .btn.primary")?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
             return {
               cards,
+              motionButtons,
+              offsetControls,
+              motion: document.body.dataset.bgMotion,
               fill: document.body.dataset.bgFill,
               bgImageApplied: getComputedStyle(document.body).backgroundImage.includes("shin"),
               designerClosed: !document.querySelector(".bg-designer"),

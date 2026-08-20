@@ -1715,6 +1715,23 @@ body::before {
   filter: contrast(1.22) saturate(1.35) brightness(0.82);
 }
 
+body[data-bg-motion="slide"]::before {
+  animation: bg-pan 18s ease-in-out infinite alternate;
+}
+
+body[data-bg-motion="drag"]::before {
+  background-position: var(--bg-x, 50%) var(--bg-y, 50%);
+}
+
+@keyframes bg-pan {
+  from {
+    transform: translateX(-2%) translateY(-2%) scale(1.06);
+  }
+  to {
+    transform: translateX(2%) translateY(2%) scale(1.12);
+  }
+}
+
 .toolbar-title strong,
 h1,
 h2,
@@ -2237,6 +2254,45 @@ body[data-bg-fill="1"] .video-pane {
   border-radius: 8px;
   padding: 2px;
   background: var(--panel);
+}
+
+.motion-picker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.motion-picker button {
+  height: 34px;
+  padding: 0 13px;
+  border: 2.5px solid var(--dark);
+  border-radius: 9px;
+  background: var(--panel);
+  box-shadow: 0 3px 0 rgba(61, 47, 38, 0.18);
+  font-weight: 600;
+}
+
+.motion-picker button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.offset-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.offset-controls label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.offset-controls input {
+  width: 220px;
 }
 
 .bg-designer-footer {
