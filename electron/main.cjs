@@ -428,6 +428,10 @@ function createWindow() {
             await new Promise((resolve) => setTimeout(resolve, 400));
             document.querySelector(".plan-switch button:nth-child(2)")?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
+            document.querySelectorAll(".english-tabs button")[3]?.click();
+            await new Promise((resolve) => setTimeout(resolve, 200));
+            document.querySelectorAll(".dict-mode-switch button")[1]?.click();
+            await new Promise((resolve) => setTimeout(resolve, 200));
             const voices = window.speechSynthesis?.getVoices?.() || [];
             return {
               ttsAvailable: Boolean(window.speechSynthesis),
@@ -435,6 +439,8 @@ function createWindow() {
               wordAdded: listedWords.some((item) => item.word === "QAword"),
               sentenceAdded: listedSentences.some((item) => item.english === "Practice makes progress."),
               planSwitchCount: document.querySelectorAll(".plan-switch button").length,
+              dictModeCount: document.querySelectorAll(".dict-mode-switch button").length,
+              dictSentenceReady: document.querySelector(".english-modal")?.innerText.includes("语句本是空的") || false,
               tabCount: document.querySelectorAll(".english-tabs button").length,
               modalText: document.querySelector(".english-modal")?.innerText.slice(0, 160) || "",
             };

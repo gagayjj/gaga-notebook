@@ -26,6 +26,13 @@ interface DailyWord extends StudyWord {
   source: "custom" | "recommended";
 }
 
+interface QuizEntry {
+  id: string;
+  prompt: string;
+  hint: string;
+  answer: string;
+}
+
 function dayKey() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -57,7 +64,9 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     sentenceMeaning: "",
   });
 
-  const [quizWords, setQuizWords] = useState<DailyWord[]>([]);
+  const [dictMode, setDictMode] = useState<"words" | "sentences">("words");
+  const [quizEntries, setQuizEntries] = useState<QuizEntry[]>([]);
+  const [quizSource, setQuizSource] = useState<QuizEntry[]>([]);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizAnswer, setQuizAnswer] = useState("");
   const [quizChecked, setQuizChecked] = useState(false);
@@ -184,8 +193,10 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     if (next) setCustomSentences(next);
   };
 
-  const startQuiz = (words: DailyWord[]) => {
-    setQuizWords(words);
+  const startQuiz = (entries: QuizEntry[], mode: "words" | "sentences") => {
+    setQuizEntries(entries);
+    setQuizSource(entries);
+    setDictMode(mode);
     setQuizIndex(0);
     setQuizAnswer("");
     setQuizChecked(false);
@@ -197,9 +208,9 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   };
 
   const checkAnswer = () => {
-    const current = quizWords[quizIndex];
+    const current = quizEntries[quizIndex];
     if (!current || quizChecked) return;
-    const correct = normalizeAnswer(quizAnswer) === normalizeAnswer(current.word);
+    const correct = normalizeAnswer(quizAnswer) === normalizeAnswer(current.answer);
     setQuizChecked(true);
     setQuizCorrect(correct);
     if (correct) {
@@ -210,7 +221,7 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   };
 
   const nextQuiz = () => {
-    if (quizIndex >= quizWords.length - 1) {
+    if (quizIndex >= quizEntries.length - 1) {
       setQuizDone(true);
       return;
     }
@@ -220,7 +231,29 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     setQuizCorrect(false);
   };
 
-  const currentQuizWord = quizWords[quizIndex];
+  const startWordQuiz = (words: DailyWord[]) =>
+    startQuiz(
+      words.map((item) => ({
+        id: item.id,
+        prompt: item.meaning,
+        hint: item.sentence,
+        answer: item.word,
+      })),
+      "words",
+    );
+
+  const startSentenceQuiz = (sentences: StudySentence[]) =>
+    startQuiz(
+      sentences.map((item) => ({
+        id: item.id,
+        prompt: item.chinese || item.english,
+        hint: item.english,
+        answer: item.english,
+      })),
+      "sentences",
+    );
+
+  const currentQuizEntry = quizEntries[quizIndex];
 
   return (
     <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
@@ -261,7 +294,14 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
             <Quote size={15} />
             语句本
           </button>
-          <button type="button" className={tab === "dictation" ? "active" : ""} onClick={() => setTab("dictation")}>
+          <button
+            type="button"
+            className={tab === "dictation" ? "active" : ""}
+            onClick={() => {
+              setTab("dictation");
+              setDictMode(planType);
+            }}
+          >
             <PenLine size={15} />
             默写
           </button>
@@ -338,7 +378,7 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
               </div>
 
               <div className="english-audio-actions">
-                <button type="button" className="btn primary" onClick={() => startQuiz(dailyWords)}>
+                <button type="button" className="btn primary" onClick={() => startWordQuiz(dailyWords)}>
                   <ListChecks size={16} />
                   开始默写这 {dailyWords.length} 个词
                 </button>
@@ -521,23 +561,56 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
 
           {tab === "dictation" && (
             <>
-              {quizWords.length === 0 ? (
-                <div className="dictation-empty">
-                  <PenLine size={30} />
-                  <p>默写会使用今天的每日单词</p>
-                  <button type="button" className="btn primary" onClick={() => startQuiz(dailyWords)}>
-                    开始默写 {dailyWords.length} 个词
-                  </button>
-                </div>
+              <div className="dict-mode-switch">
+                <button type="button" className={dictMode === "words" ? "active" : ""} onClick={() => setDictMode("words")}>
+                  单词默写
+                </button>
+                <button type="button" className={dictMode === "sentences" ? "active" : ""} onClick={() => setDictMode("sentences")}>
+                  语句默写
+                </button>
+              </div>
+              {quizEntries.length === 0 ? (
+                dictMode === "words" ? (
+                  <div className="dictation-empty">
+                    <PenLine size={30} />
+                    <p>默写会使用今天的每日单词</p>
+                    <button type="button" className="btn primary" onClick={() => startWordQuiz(dailyWords)}>
+                      开始默写 {dailyWords.length} 个词
+                    </button>
+                  </div>
+                ) : customSentences.length === 0 ? (
+                  <div className="dictation-empty">
+                    <Quote size={30} />
+                    <p>语句本是空的，先添加想默写的英语</p>
+                    <button type="button" className="btn primary" onClick={() => setTab("sentencebook")}>
+                      去语句本添加
+                    </button>
+                  </div>
+                ) : (
+                  <div className="dictation-empty">
+                    <Quote size={30} />
+                    <p>根据中文和发音，默写英文语句</p>
+                    <div className="english-audio-actions">
+                      {todaySentence && (
+                        <button type="button" className="btn primary" onClick={() => startSentenceQuiz([todaySentence])}>
+                          默写今日语句
+                        </button>
+                      )}
+                      <button type="button" className="btn" onClick={() => startSentenceQuiz(customSentences)}>
+                        默写全部语句
+                      </button>
+                    </div>
+                  </div>
+                )
               ) : quizDone ? (
                 <div className="dictation-result">
                   <h3>默写完成</h3>
                   <p className="result-score">
-                    正确 {correctCount} / {quizWords.length}
+                    正确 {correctCount} / {quizEntries.length}
                   </p>
                   <p className="muted">答错 {wrongIds.length} 个，可以只重默写错的</p>
                   <div className="english-audio-actions">
-                    <button type="button" className="btn primary" onClick={() => startQuiz(dailyWords)}>
+                    <button type="button" className="btn primary" onClick={() => startQuiz(quizSource, dictMode)}>
                       <RotateCcw size={15} />
                       重新默写全部
                     </button>
@@ -545,21 +618,25 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                       type="button"
                       className="btn"
                       disabled={wrongIds.length === 0}
-                      onClick={() => startQuiz(dailyWords.filter((item) => wrongIds.includes(item.id)))}
+                      onClick={() => startQuiz(quizSource.filter((item) => wrongIds.includes(item.id)), dictMode)}
                     >
                       只默写错的
                     </button>
                   </div>
                 </div>
               ) : (
-                currentQuizWord && (
+                currentQuizEntry && (
                   <div className="dictation-card">
                     <div className="dictation-progress">
-                      第 {quizIndex + 1} / {quizWords.length} 个
+                      第 {quizIndex + 1} / {quizEntries.length} 个
                     </div>
-                    <p className="dictation-meaning">{currentQuizWord.meaning}</p>
-                    <p className="dictation-hint">{currentQuizWord.sentence}</p>
-                    <button type="button" className="btn ghost" onClick={() => speak(currentQuizWord.word)}>
+                    <p className="dictation-meaning">{currentQuizEntry.prompt}</p>
+                    {dictMode === "words" ? (
+                      <p className="dictation-hint">{currentQuizEntry.hint}</p>
+                    ) : (
+                      <p className="dictation-hint">根据中文和发音，默写整句英语</p>
+                    )}
+                    <button type="button" className="btn ghost" onClick={() => speak(currentQuizEntry.answer)}>
                       <Volume2 size={15} />
                       听发音
                     </button>
@@ -573,7 +650,7 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                           else checkAnswer();
                         }
                       }}
-                      placeholder="拼写出这个单词"
+                      placeholder={dictMode === "words" ? "拼写出这个单词" : "输入整句英语"}
                       disabled={quizChecked}
                     />
                     {quizChecked && (
@@ -582,7 +659,7 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                           <>拼写正确，继续加油</>
                         ) : (
                           <>
-                            正确答案：<strong>{currentQuizWord.word}</strong>
+                            正确答案：<strong>{currentQuizEntry.answer}</strong>
                           </>
                         )}
                       </div>
@@ -590,7 +667,7 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                     <div className="english-audio-actions">
                       {quizChecked ? (
                         <button type="button" className="btn primary" onClick={nextQuiz}>
-                          {quizIndex >= quizWords.length - 1 ? "查看结果" : "下一个"}
+                          {quizIndex >= quizEntries.length - 1 ? "查看结果" : "下一个"}
                         </button>
                       ) : (
                         <button type="button" className="btn primary" onClick={checkAnswer}>

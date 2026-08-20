@@ -1584,6 +1584,31 @@ input {
   gap: 4px;
 }
 
+.dict-mode-switch {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-2);
+}
+
+.dict-mode-switch button {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.dict-mode-switch button.active {
+  background: var(--panel);
+  color: var(--accent);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+}
+
 .dictation-empty,
 .dictation-result {
   min-height: 260px;
