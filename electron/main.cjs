@@ -247,6 +247,7 @@ function createWindow() {
                 editor: rect(".editor-content")
               },
               editorHtml: document.querySelector(".editor-content")?.innerHTML.slice(0, 200) || "",
+              paperLined: document.querySelector(".editor-paper")?.classList.contains("paper-lined") || false,
               bodyColor: getComputedStyle(document.body).backgroundColor,
               narrow: document.querySelector(".app")?.classList.contains("narrow")
             };

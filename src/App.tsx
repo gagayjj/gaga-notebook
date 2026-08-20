@@ -23,6 +23,7 @@ export default function App() {
   const [insertRequest, setInsertRequest] = useState<InsertRequest | null>(null);
   const [annotation, setAnnotation] = useState<AnnotationImage | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [lined, setLined] = useState(true);
   const [videoWidth, setVideoWidth] = useState(40);
 
   const videoControllerRef = useRef<VideoController | null>(null);
@@ -309,6 +310,8 @@ export default function App() {
                 editorRef.current = editor;
               }}
               recorderToggleRef={recorderToggleRef}
+              lined={lined}
+              onLinedChange={setLined}
             />
           </div>
           <div className={`splitter ${videoOpen && !narrow ? "" : "hidden"}`} onMouseDown={handleSplitterDown} />

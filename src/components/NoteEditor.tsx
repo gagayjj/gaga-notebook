@@ -20,6 +20,7 @@ import {
   Mic,
   Quote,
   Redo2,
+  Ruler,
   Square,
   Timer,
   Undo2,
@@ -41,6 +42,8 @@ interface NoteEditorProps {
   onRequestImage: () => void;
   onEditorReady: (editor: Editor | null) => void;
   recorderToggleRef: MutableRefObject<(() => void) | null>;
+  lined: boolean;
+  onLinedChange: (value: boolean) => void;
 }
 
 const highlightColors = [
@@ -62,6 +65,8 @@ export function NoteEditor({
   onRequestImage,
   onEditorReady,
   recorderToggleRef,
+  lined,
+  onLinedChange,
 }: NoteEditorProps) {
   const [showHighlightMenu, setShowHighlightMenu] = useState(false);
   const lastNoteIdRef = useRef<string | null>(null);
@@ -251,6 +256,7 @@ export function NoteEditor({
           editor?.chain().focus().insertTimestamp(Math.floor(getVideoTime())).run();
         }, false, !canInsertTimestamp, "插入当前视频时间点")}
         {toolbarButton("插入图片", <ImagePlus size={16} />, onRequestImage, false, false, "插入截图或标注图片")}
+        {toolbarButton("横线页面", <Ruler size={16} />, () => onLinedChange(!lined), lined, false, lined ? "关闭横线页面" : "开启横线页面")}
         {toolbarButton(
           isRecording ? "停止录音" : "开始录音",
           isRecording ? <Square size={15} /> : <Mic size={16} />,
@@ -264,7 +270,7 @@ export function NoteEditor({
       {error && <div className="editor-error">{error}</div>}
 
       <div className="editor-scroll">
-        <div className="editor-paper">
+        <div className={`editor-paper ${lined ? "paper-lined" : ""}`}>
           {note ? (
             <EditorContent editor={editor} />
           ) : (
