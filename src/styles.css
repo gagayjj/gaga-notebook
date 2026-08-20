@@ -796,8 +796,29 @@ input {
 }
 
 .shape-node {
+  position: relative;
   margin: 10px 0;
   user-select: none;
+}
+
+.shape-delete {
+  position: absolute;
+  top: -12px;
+  right: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--dark);
+  background: var(--danger);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.shape-delete:hover {
+  background: #b91c1c;
 }
 
 .shape-node svg {

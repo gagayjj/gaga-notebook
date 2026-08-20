@@ -116,6 +116,9 @@ function ArrowView(props: any) {
 
   return (
     <NodeViewWrapper className="shape-node" contentEditable={false}>
+      <button type="button" className="shape-delete" title="删除此箭头" onClick={() => props.deleteNode()}>
+        ×
+      </button>
       <svg
         ref={svgRef}
         viewBox={`0 0 ${ARROW_VIEW_BOX.width} ${ARROW_VIEW_BOX.height}`}
@@ -189,6 +192,9 @@ function CurveView(props: any) {
 
   return (
     <NodeViewWrapper className="shape-node" contentEditable={false}>
+      <button type="button" className="shape-delete" title="删除此曲线" onClick={() => props.deleteNode()}>
+        ×
+      </button>
       <svg
         ref={svgRef}
         viewBox={`0 0 ${ARROW_VIEW_BOX.width} ${ARROW_VIEW_BOX.height}`}

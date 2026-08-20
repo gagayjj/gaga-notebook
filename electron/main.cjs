@@ -518,9 +518,14 @@ function createWindow() {
             document.querySelector('button[title="在笔记中插入可拖动变形的曲线"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 400));
             const editorHtml = document.querySelector(".editor-content")?.innerHTML || "";
+            const deleteCount = document.querySelectorAll(".shape-delete").length;
+            document.querySelector(".shape-delete")?.click();
+            await new Promise((resolve) => setTimeout(resolve, 200));
             return {
               shapeCount: document.querySelectorAll(".shape-node").length,
               svgCount: document.querySelectorAll(".shape-node svg").length,
+              deleteCount,
+              afterDelete: document.querySelectorAll(".shape-node").length,
               hasArrow: editorHtml.includes("data-arrow"),
               hasCurve: editorHtml.includes("data-curve"),
               overlayGone: !document.querySelector(".inline-marker"),
