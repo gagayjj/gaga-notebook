@@ -13,6 +13,7 @@ import {
   PanelRightClose,
   PanelRightOpen,
   Palette,
+  PenLine,
   Pin,
   PinOff,
   Plus,
@@ -35,6 +36,7 @@ interface ToolbarProps {
   onToggleAlwaysOnTop: () => void;
   onInsertTimestamp: () => void;
   onInsertImage: () => void;
+  onOpenMarker: () => void;
   onToggleRecording: () => void;
   onExport: () => void;
   onNewNote: () => void;
@@ -61,6 +63,7 @@ export function Toolbar({
   onToggleAlwaysOnTop,
   onInsertTimestamp,
   onInsertImage,
+  onOpenMarker,
   onToggleRecording,
   onExport,
   onNewNote,
@@ -167,6 +170,15 @@ export function Toolbar({
           onClick={onInsertImage}
         >
           <ImagePlus size={17} />
+        </button>
+        <button
+          type="button"
+          className="icon-btn"
+          title="打开标记画板"
+          data-hint="打开标记画板，画箭头、线条和形状"
+          onClick={onOpenMarker}
+        >
+          <PenLine size={17} />
         </button>
         <button
           type="button"

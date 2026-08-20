@@ -332,6 +332,7 @@ export default function App() {
         onToggleAlwaysOnTop={handleToggleAlwaysOnTop}
         onInsertTimestamp={handleInsertTimestamp}
         onInsertImage={handleRequestImage}
+        onOpenMarker={handleRequestImage}
         onToggleRecording={() => recorderToggleRef.current?.()}
         onExport={handleExport}
         onNewNote={handleNewNote}

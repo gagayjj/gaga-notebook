@@ -500,6 +500,18 @@ function createWindow() {
               designerClosed: !document.querySelector(".bg-designer"),
             };
           })()`);
+          const markerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('button[title="插入图片或截图标注"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            const modalExists = Boolean(document.querySelector(".annotation-modal"));
+            const shapeButtonExists = Boolean(document.querySelector(".shape-menu-wrap button"));
+            document.querySelector(".shape-menu-wrap button")?.click();
+            await new Promise((resolve) => setTimeout(resolve, 200));
+            const shapeCount = document.querySelectorAll(".shape-menu button").length;
+            const shapeLabels = Array.from(document.querySelectorAll(".shape-menu button")).map((item) => item.textContent).join(",");
+            document.querySelector(".annotation-footer .btn.ghost")?.click();
+            return { modalExists, shapeButtonExists, shapeCount, shapeLabels };
+          })()`);
           const image = await mainWindow.capturePage();
           const bitmap = image.toBitmap();
           let min = 255;
@@ -525,6 +537,7 @@ function createWindow() {
             englishTest,
             themeTest,
             designerTest,
+            markerTest,
             errors,
             pixels: {
               width: image.getSize().width,
