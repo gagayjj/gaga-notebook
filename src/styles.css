@@ -2106,6 +2106,102 @@ body[data-theme="green"] .status-bar {
   border: 2px solid var(--dark);
 }
 
+.doodle-decor {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.doodle-decor-mascot {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  opacity: 0.3;
+}
+
+.doodle-decor-sun {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 54px;
+  height: 54px;
+  opacity: 0.42;
+}
+
+.doodle-decor-star {
+  position: absolute;
+  right: 26%;
+  top: 14px;
+  width: 30px;
+  height: 30px;
+  opacity: 0.45;
+}
+
+.doodle-decor-crayon {
+  position: absolute;
+  left: 11%;
+  bottom: 16px;
+  width: 42px;
+  height: 80px;
+  opacity: 0.4;
+}
+
+.doodle-decor-cloud {
+  position: absolute;
+  right: 9%;
+  bottom: 16%;
+  width: 62px;
+  height: 40px;
+  opacity: 0.32;
+}
+
+.doodle-decor-scribble {
+  position: absolute;
+  left: 18%;
+  top: 30%;
+  width: 72px;
+  height: 26px;
+  opacity: 0.3;
+}
+
+.notes-pane,
+.english-modal,
+.resource-modal {
+  position: relative;
+}
+
+.notes-pane::before,
+.english-content::before,
+.resource-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170'%3E%3Cg fill='none' stroke='%233d2f26' stroke-width='2'%3E%3Cpath d='M20 30 l7 -14 7 14 z' fill='%23ffcf3f' stroke-linejoin='round'/%3E%3Ccircle cx='122' cy='42' r='11' fill='%23e8463a'/%3E%3Cpath d='M68 132 q12 -14 24 0 q12 14 24 0' stroke-linecap='round'/%3E%3Cpath d='M28 146 l11 -32 11 32 z' fill='%233b82f6' stroke-linejoin='round'/%3E%3Ccircle cx='152' cy='122' r='8' fill='%239fe28c'/%3E%3Cpath d='M92 26 l6 -10 6 10 z' fill='%23e85d94' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 170px 170px;
+}
+
+.editor-toolbar,
+.editor-scroll,
+.english-header,
+.english-tabs,
+.english-content,
+.resource-header,
+.resource-content {
+  position: relative;
+  z-index: 1;
+}
+
+.english-content > *,
+.resource-content > * {
+  position: relative;
+  z-index: 1;
+}
+
 .plan-check {
   display: inline-flex;
   align-items: center;

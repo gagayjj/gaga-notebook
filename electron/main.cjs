@@ -441,6 +441,8 @@ function createWindow() {
               planSwitchCount: document.querySelectorAll(".plan-switch button").length,
               dictModeCount: document.querySelectorAll(".dict-mode-switch button").length,
               dictSentenceReady: document.querySelector(".english-modal")?.innerText.includes("语句本是空的") || false,
+              decorCount: document.querySelectorAll(".doodle-decor").length,
+              notesPattern: getComputedStyle(document.querySelector(".notes-pane"), "::before").backgroundImage.includes("data:image/svg+xml"),
               tabCount: document.querySelectorAll(".english-tabs button").length,
               modalText: document.querySelector(".english-modal")?.innerText.slice(0, 160) || "",
             };

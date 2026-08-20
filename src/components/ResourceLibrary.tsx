@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import type { PlanItem, ResourceItem } from "../types";
+import { DoodleDecor } from "./Doodles";
 
 interface ResourceLibraryProps {
   onClose: () => void;
@@ -131,6 +132,7 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
   return (
     <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
       <div className="resource-modal">
+        <DoodleDecor />
         <header className="resource-header">
           <div className="resource-tabs">
             <button
