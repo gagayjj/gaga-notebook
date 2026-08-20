@@ -2,6 +2,7 @@ const STORE = {
   notes: "gaga-notes",
   words: "gaga-words",
   plans: "gaga-plans",
+  markers: "gaga-markers",
 };
 
 const lessons = [
@@ -29,8 +30,23 @@ function write(key, value) {
 let notes = read(STORE.notes, []);
 let words = read(STORE.words, []);
 let plans = read(STORE.plans, []);
+let markers = read(STORE.markers, []);
 let activeNoteId = null;
 let dictTarget = null;
+
+const marker = {
+  canvas: null,
+  ctx: null,
+  bg: null,
+  strokes: [],
+  draft: null,
+  selected: -1,
+  dragMode: null,
+  dragStart: null,
+  tool: "arrow",
+  color: "#e91e63",
+  size: 5,
+};
 
 function renderTabs() {
   document.querySelectorAll(".tabbar button").forEach((button) => {
@@ -210,6 +226,258 @@ function renderMine() {
   `;
 }
 
+function renderMarkerList() {
+  $("marker-count").textContent = `${markers.length} 张`;
+  const list = $("marker-list");
+  list.innerHTML = "";
+  markers.forEach((item) => {
+    const row = document.createElement("div");
+    row.className = "list-item";
+    row.innerHTML = `<img class="marker-thumb" src="${item.dataUrl}" alt="标记" /><div><strong>标记图片</strong><span>${item.createdAt || ""}</span></div>`;
+    const del = document.createElement("button");
+    del.textContent = "删除";
+    del.onclick = () => {
+      markers = markers.filter((entry) => entry.id !== item.id);
+      write(STORE.markers, markers);
+      renderMarkerList();
+    };
+    row.prepend(del);
+    list.append(row);
+  });
+}
+
+function distanceToSegment(p, a, b) {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  if (dx === 0 && dy === 0) return Math.hypot(p.x - a.x, p.y - a.y);
+  const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / (dx * dx + dy * dy)));
+  return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+}
+
+function hitMarkerStroke(stroke, point) {
+  if (stroke.tool !== "arrow") return null;
+  const threshold = Math.max(12, stroke.size * 2.5);
+  if (Math.hypot(point.x - stroke.start.x, point.y - stroke.start.y) <= threshold + 8) return "start";
+  if (Math.hypot(point.x - stroke.end.x, point.y - stroke.end.y) <= threshold + 8) return "end";
+  if (distanceToSegment(point, stroke.start, stroke.end) <= threshold) return "move";
+  return null;
+}
+
+function drawMarkerArrow(ctx, start, end, size) {
+  const angle = Math.atan2(end.y - start.y, end.x - start.x);
+  const head = Math.max(14, size * 3);
+  ctx.beginPath();
+  ctx.moveTo(start.x, start.y);
+  ctx.lineTo(end.x, end.y);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(end.x, end.y);
+  ctx.lineTo(end.x - head * Math.cos(angle - Math.PI / 7), end.y - head * Math.sin(angle - Math.PI / 7));
+  ctx.lineTo(end.x - head * Math.cos(angle + Math.PI / 7), end.y - head * Math.sin(angle + Math.PI / 7));
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawMarker() {
+  const { ctx, canvas, bg, strokes, draft, selected } = marker;
+  if (!ctx) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (bg) ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+  const paint = (stroke) => {
+    ctx.strokeStyle = stroke.color;
+    ctx.fillStyle = stroke.color;
+    ctx.lineWidth = stroke.size;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    if (stroke.tool === "pen") {
+      if (stroke.points.length < 2) return;
+      ctx.beginPath();
+      ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+      stroke.points.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
+      ctx.stroke();
+    } else if (stroke.tool === "arrow") {
+      drawMarkerArrow(ctx, stroke.start, stroke.end, stroke.size);
+    } else if (stroke.tool === "text") {
+      ctx.font = `${stroke.size * 6}px sans-serif`;
+      ctx.fillText(stroke.text, stroke.x, stroke.y);
+    }
+  };
+  strokes.forEach(paint);
+  if (draft) paint(draft);
+  const selectedStroke = strokes[selected];
+  if (selectedStroke && selectedStroke.tool === "arrow") {
+    ctx.strokeStyle = "#2563eb";
+    ctx.fillStyle = "#fff";
+    ctx.lineWidth = 3;
+    [selectedStroke.start, selectedStroke.end].forEach((point) => {
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    });
+  }
+}
+
+function openMarkerEditor(dataUrl) {
+  marker.strokes = [];
+  marker.draft = null;
+  marker.selected = -1;
+  marker.dragMode = null;
+  marker.bg = null;
+  const canvas = $("marker-canvas");
+  marker.canvas = canvas;
+  marker.ctx = canvas.getContext("2d");
+  canvas.width = 800;
+  canvas.height = 600;
+  if (dataUrl) {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, 800 / img.width, 800 / img.height);
+      canvas.width = Math.max(200, Math.round(img.width * scale));
+      canvas.height = Math.max(200, Math.round(img.height * scale));
+      marker.bg = img;
+      drawMarker();
+    };
+    img.src = dataUrl;
+  } else {
+    drawMarker();
+  }
+  $("marker-editor").hidden = false;
+  setMarkerTool("arrow");
+}
+
+function markerPoint(event) {
+  const rect = marker.canvas.getBoundingClientRect();
+  return {
+    x: ((event.clientX - rect.left) / rect.width) * marker.canvas.width,
+    y: ((event.clientY - rect.top) / rect.height) * marker.canvas.height,
+  };
+}
+
+function setMarkerTool(tool) {
+  marker.tool = tool;
+  document.querySelectorAll("#mt-arrow, #mt-pen, #mt-text").forEach((button) => {
+    button.classList.toggle("active", button.id === `mt-${tool}`);
+  });
+}
+
+function bindMarkerEditor() {
+  $("new-canvas").addEventListener("click", () => openMarkerEditor(null));
+  $("pick-image").addEventListener("click", () => $("marker-file").click());
+  $("marker-file").addEventListener("change", (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => openMarkerEditor(reader.result);
+    reader.readAsDataURL(file);
+    event.target.value = "";
+  });
+  $("mt-arrow").addEventListener("click", () => setMarkerTool("arrow"));
+  $("mt-pen").addEventListener("click", () => setMarkerTool("pen"));
+  $("mt-text").addEventListener("click", () => {
+    setMarkerTool("text");
+    const text = prompt("输入标注文字", "重点");
+    if (text) marker.pendingText = text;
+  });
+  document.querySelectorAll(".color-row i").forEach((item) => {
+    item.addEventListener("click", () => {
+      marker.color = item.dataset.color;
+      document.querySelectorAll(".color-row i").forEach((i) => (i.style.borderColor = i === item ? "#fff" : "#fff"));
+    });
+  });
+  $("mt-size").addEventListener("click", () => {
+    marker.size = [4, 7, 11][([4, 7, 11].indexOf(marker.size) + 1) % 3] || 4;
+    $("mt-size").textContent = `${marker.size}px`;
+  });
+  $("mt-undo").addEventListener("click", () => {
+    marker.strokes.pop();
+    marker.selected = -1;
+    drawMarker();
+  });
+  $("mt-delete").addEventListener("click", () => {
+    if (marker.selected >= 0) {
+      marker.strokes.splice(marker.selected, 1);
+      marker.selected = -1;
+      drawMarker();
+    }
+  });
+  $("mt-close").addEventListener("click", closeMarkerEditor);
+  $("mt-cancel").addEventListener("click", closeMarkerEditor);
+  $("mt-save").addEventListener("click", () => {
+    if (!marker.canvas) return;
+    const dataUrl = marker.canvas.toDataURL("image/png");
+    markers.unshift({ id: `marker-${Date.now()}`, dataUrl, createdAt: new Date().toLocaleString("zh-CN", { hour12: false }) });
+    write(STORE.markers, markers);
+    renderMarkerList();
+    closeMarkerEditor();
+  });
+  const canvas = $("marker-canvas");
+  canvas.addEventListener("pointerdown", (event) => {
+    const point = markerPoint(event);
+    canvas.setPointerCapture(event.pointerId);
+    if (marker.tool === "arrow" && marker.selected >= 0) {
+      const stroke = marker.strokes[marker.selected];
+      const hit = stroke && hitMarkerStroke(stroke, point);
+      if (hit) {
+        marker.dragMode = hit;
+        marker.dragStart = point;
+        return;
+      }
+    }
+    if (marker.tool === "text") {
+      const text = marker.pendingText || "重点";
+      marker.pendingText = null;
+      marker.strokes.push({ tool: "text", color: marker.color, size: marker.size, x: point.x, y: point.y, text });
+      drawMarker();
+      return;
+    }
+    if (marker.tool === "pen") {
+      marker.draft = { tool: "pen", color: marker.color, size: marker.size, points: [point] };
+    } else {
+      marker.draft = { tool: "arrow", color: marker.color, size: marker.size, start: point, end: point };
+    }
+  });
+  canvas.addEventListener("pointermove", (event) => {
+    const point = markerPoint(event);
+    if (marker.dragMode && marker.selected >= 0) {
+      const stroke = marker.strokes[marker.selected];
+      if (stroke && stroke.tool === "arrow") {
+        if (marker.dragMode === "start") stroke.start = point;
+        else if (marker.dragMode === "end") stroke.end = point;
+        else {
+          const dx = point.x - marker.dragStart.x;
+          const dy = point.y - marker.dragStart.y;
+          stroke.start = { x: stroke.start.x + dx, y: stroke.start.y + dy };
+          stroke.end = { x: stroke.end.x + dx, y: stroke.end.y + dy };
+          marker.dragStart = point;
+        }
+        drawMarker();
+      }
+      return;
+    }
+    if (!marker.draft) return;
+    if (marker.draft.tool === "pen") marker.draft.points.push(point);
+    else marker.draft.end = point;
+    drawMarker();
+  });
+  canvas.addEventListener("pointerup", () => {
+    if (marker.draft) {
+      marker.strokes.push(marker.draft);
+      if (marker.draft.tool === "arrow") marker.selected = marker.strokes.length - 1;
+      marker.draft = null;
+      drawMarker();
+    }
+    marker.dragMode = null;
+    marker.dragStart = null;
+  });
+}
+
+function closeMarkerEditor() {
+  $("marker-editor").hidden = true;
+  marker.draft = null;
+  marker.dragMode = null;
+}
+
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
 }
@@ -248,10 +516,12 @@ function bindEvents() {
     notes = [];
     words = [];
     plans = [];
+    markers = [];
     renderNotes();
     renderWords();
     renderPlans();
     renderMine();
+    renderMarkerList();
   });
 }
 
@@ -263,7 +533,9 @@ function init() {
   renderEnglish();
   renderPlans();
   renderMine();
+  renderMarkerList();
   bindEvents();
+  bindMarkerEditor();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});
   if (Notification && Notification.permission === "default") Notification.requestPermission();
   plans.forEach(schedulePlan);

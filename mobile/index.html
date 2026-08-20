@@ -111,14 +111,57 @@
             <button id="clear-data" class="btn danger">清空本机数据</button>
           </div>
         </section>
+
+        <section id="tab-marker" class="page">
+          <div class="page-head">
+            <h2>标记</h2>
+            <span id="marker-count"></span>
+          </div>
+          <div class="card">
+            <div class="row">
+              <button id="new-canvas" class="btn primary">新建画板</button>
+              <button id="pick-image" class="btn">选择图片</button>
+              <input type="file" id="marker-file" accept="image/*" hidden />
+            </div>
+            <p class="muted">画完箭头可以选中，拖两端随意伸缩，拖中间移动，还能继续加</p>
+          </div>
+          <div id="marker-list" class="list"></div>
+        </section>
       </main>
 
       <nav class="tabbar">
         <button data-tab="notes" class="active">笔记</button>
         <button data-tab="english">英语</button>
         <button data-tab="plans">计划</button>
+        <button data-tab="marker">标记</button>
         <button data-tab="mine">我的</button>
       </nav>
+    </div>
+
+    <div id="marker-editor" class="modal" hidden>
+      <div class="marker-toolbar">
+        <button id="mt-arrow" class="active">箭头</button>
+        <button id="mt-pen">画笔</button>
+        <button id="mt-text">文字</button>
+        <span class="color-row">
+          <i data-color="#e91e63" style="background:#e91e63"></i>
+          <i data-color="#3b82f6" style="background:#3b82f6"></i>
+          <i data-color="#3d9b50" style="background:#3d9b50"></i>
+          <i data-color="#f59e0b" style="background:#f59e0b"></i>
+          <i data-color="#111111" style="background:#111111"></i>
+        </span>
+        <button id="mt-size">粗细</button>
+        <button id="mt-undo">撤销</button>
+        <button id="mt-delete">删除</button>
+        <button id="mt-close">×</button>
+      </div>
+      <div class="marker-canvas-wrap">
+        <canvas id="marker-canvas"></canvas>
+      </div>
+      <div class="marker-footer">
+        <button id="mt-cancel" class="btn">取消</button>
+        <button id="mt-save" class="btn primary">保存标记</button>
+      </div>
     </div>
     <script src="./app.js"></script>
   </body>
