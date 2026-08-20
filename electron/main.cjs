@@ -384,14 +384,21 @@ function createWindow() {
           })()`);
           const libraryTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const linkResources = await window.studyNotes.addResourceLink({ url: "https://example.com/resource", title: "QA资料" });
+            const noteResources = await window.studyNotes.addResourceNote({ title: "QA直接资料", content: "hello" });
+            const noteId = noteResources[noteResources.length - 1].id;
+            const noteContent = await window.studyNotes.readResourceNote(noteId);
+            const updatedNotes = await window.studyNotes.saveResourceNote(noteId, { title: "QA直接资料2", content: "updated" });
             const savedPlan = await window.studyNotes.savePlan({ title: "QA计划", date: "2026-12-31", time: "23:59", remind: true });
             const list = await window.studyNotes.listPlans();
             const removed = await window.studyNotes.removePlan(savedPlan.plan.id);
             await window.studyNotes.removeResource(linkResources[linkResources.length - 1].id);
+            await window.studyNotes.removeResource(noteId);
             document.querySelector('button[title="打开资料库与学习计划"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 400));
             return {
               resourcesAdded: linkResources.length > 0,
+              noteAdded: noteContent === "hello",
+              noteUpdated: updatedNotes.some((item) => item.id === noteId && item.title === "QA直接资料2"),
               planSaved: list.some((item) => item.title === "QA计划"),
               planRemoved: !removed.some((item) => item.title === "QA计划"),
               libraryButtonExists: !!document.querySelector('button[title="打开资料库与学习计划"]'),
@@ -684,6 +691,51 @@ ipcMain.handle("resources:add-link", async (_event, input) => {
   return library.resources;
 });
 
+ipcMain.handle("resources:add-note", async (_event, input) => {
+  const dataDir = getDataDir();
+  const resourcesDir = path.join(dataDir, "resources");
+  fs.mkdirSync(resourcesDir, { recursive: true });
+  const library = await ensureLibrary();
+  const id = `res-${Date.now()}`;
+  const contentPath = path.join(resourcesDir, `${id}.txt`);
+  await fsp.writeFile(contentPath, String(input?.content || ""), "utf8");
+  library.resources.push({
+    id,
+    title: String(input?.title || "").trim() || "直接资料",
+    kind: "note",
+    category: "资料",
+    contentPath,
+    createdAt: new Date().toISOString(),
+  });
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.resources;
+});
+
+ipcMain.handle("resources:read-note", async (_event, id) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const resource = (library.resources || []).find((item) => item.id === id && item.kind === "note");
+  if (!resource?.contentPath) return "";
+  try {
+    return await fsp.readFile(resource.contentPath, "utf8");
+  } catch (error) {
+    console.error("读取直接资料失败", error);
+    return "";
+  }
+});
+
+ipcMain.handle("resources:save-note", async (_event, id, input) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const resource = (library.resources || []).find((item) => item.id === id && item.kind === "note");
+  if (resource?.contentPath) {
+    await fsp.writeFile(resource.contentPath, String(input?.content || ""), "utf8");
+    resource.title = String(input?.title || "").trim() || resource.title;
+    await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  }
+  return library.resources;
+});
+
 ipcMain.handle("resources:remove", async (_event, id) => {
   const dataDir = getDataDir();
   const library = await ensureLibrary();
@@ -694,6 +746,13 @@ ipcMain.handle("resources:remove", async (_event, id) => {
       await fsp.unlink(target.path);
     } catch (error) {
       console.error("删除资料文件失败", error);
+    }
+  }
+  if (target?.kind === "note" && target.contentPath && target.contentPath.startsWith(path.join(dataDir, "resources"))) {
+    try {
+      await fsp.unlink(target.contentPath);
+    } catch (error) {
+      console.error("删除直接资料失败", error);
     }
   }
   await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));

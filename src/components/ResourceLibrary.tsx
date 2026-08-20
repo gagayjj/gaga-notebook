@@ -6,6 +6,7 @@ import {
   FileText,
   FolderOpen,
   Link as LinkIcon,
+  NotebookPen,
   Plus,
   Trash2,
   X,
@@ -32,6 +33,7 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
   const [planTime, setPlanTime] = useState("19:00");
   const [planRemind, setPlanRemind] = useState(true);
   const [message, setMessage] = useState("");
+  const [noteEditor, setNoteEditor] = useState<{ id?: string; title: string; content: string } | null>(null);
 
   const refresh = useCallback(async () => {
     const [nextResources, nextPlans] = await Promise.all([
@@ -68,11 +70,34 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
   };
 
   const handleOpenResource = (resource: ResourceItem) => {
-    if (resource.kind === "file" && resource.path) {
+    if (resource.kind === "note") {
+      window.studyNotes?.readResourceNote(resource.id).then((content) => {
+        setNoteEditor({ id: resource.id, title: resource.title, content });
+      });
+    } else if (resource.kind === "file" && resource.path) {
       window.studyNotes?.openResourceFile(resource.path);
     } else if (resource.kind === "link" && resource.url) {
       window.studyNotes?.openExternal(resource.url);
     }
+  };
+
+  const handleSaveNote = async () => {
+    if (!noteEditor || !noteEditor.title.trim()) return;
+    if (noteEditor.id) {
+      const next = await window.studyNotes?.saveResourceNote(noteEditor.id, {
+        title: noteEditor.title.trim(),
+        content: noteEditor.content,
+      });
+      if (next) setResources(next);
+    } else {
+      const next = await window.studyNotes?.addResourceNote({
+        title: noteEditor.title.trim(),
+        content: noteEditor.content,
+      });
+      if (next) setResources(next);
+    }
+    setNoteEditor(null);
+    setMessage("已保存到资料库");
   };
 
   const handleSavePlan = async () => {
@@ -147,6 +172,10 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
                 <FolderOpen size={15} />
                 添加文件
               </button>
+              <button type="button" className="btn" onClick={() => setNoteEditor({ title: "", content: "" })}>
+                <NotebookPen size={15} />
+                直接添加
+              </button>
               <div className="link-add">
                 <input value={linkTitle} onChange={(event) => setLinkTitle(event.target.value)} placeholder="资料名称（可选）" />
                 <input
@@ -167,14 +196,14 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
               {resources.map((resource) => (
                 <div className="resource-row" key={resource.id}>
                   <button type="button" className="resource-main" onClick={() => handleOpenResource(resource)}>
-                    {resource.kind === "file" ? <FileText size={16} /> : <LinkIcon size={16} />}
+                    {resource.kind === "file" ? <FileText size={16} /> : resource.kind === "link" ? <LinkIcon size={16} /> : <NotebookPen size={16} />}
                     <div>
                       <strong>{resource.title}</strong>
-                      <span>{resource.kind === "file" ? "本地文件" : resource.url}</span>
+                      <span>{resource.kind === "file" ? "本地文件" : resource.kind === "link" ? resource.url : "软件内资料"}</span>
                     </div>
                   </button>
-                  <span className={`resource-badge ${resource.category || (resource.kind === "link" ? "链接" : "资料")}`}>
-                    {resource.category || (resource.kind === "link" ? "链接" : "资料")}
+                  <span className={`resource-badge ${resource.category || (resource.kind === "link" ? "链接" : resource.kind === "note" ? "笔记" : "资料")}`}>
+                    {resource.category || (resource.kind === "link" ? "链接" : resource.kind === "note" ? "笔记" : "资料")}
                   </span>
                   <button
                     type="button"
@@ -226,6 +255,35 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
                   </button>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {noteEditor && (
+          <div className="note-editor-panel">
+            <div className="note-editor-head">
+              <strong>{noteEditor.id ? "编辑资料" : "直接在软件内添加资料"}</strong>
+              <button type="button" className="icon-btn" title="关闭" onClick={() => setNoteEditor(null)}>
+                <X size={16} />
+              </button>
+            </div>
+            <input
+              value={noteEditor.title}
+              onChange={(event) => setNoteEditor((prev) => (prev ? { ...prev, title: event.target.value } : prev))}
+              placeholder="资料名称"
+            />
+            <textarea
+              value={noteEditor.content}
+              onChange={(event) => setNoteEditor((prev) => (prev ? { ...prev, content: event.target.value } : prev))}
+              placeholder="在这里直接写资料内容，也可以粘贴文字"
+            />
+            <div className="note-editor-actions">
+              <button type="button" className="btn ghost" onClick={() => setNoteEditor(null)}>
+                取消
+              </button>
+              <button type="button" className="btn primary" onClick={handleSaveNote}>
+                保存到资料库
+              </button>
             </div>
           </div>
         )}

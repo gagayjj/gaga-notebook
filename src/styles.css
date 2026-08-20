@@ -952,6 +952,7 @@ input {
 }
 
 .resource-modal {
+  position: relative;
   width: min(900px, 92vw);
   height: min(660px, 88vh);
   display: flex;
@@ -1156,6 +1157,61 @@ input {
 .resource-badge.链接 {
   color: #166534;
   background: #dcfce7;
+}
+
+.resource-badge.笔记 {
+  color: #6d28d9;
+  background: #ede9fe;
+}
+
+.note-editor-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  background: var(--panel);
+}
+
+.note-editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.note-editor-head strong {
+  font-size: 15px;
+}
+
+.note-editor-panel input,
+.note-editor-panel textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  background: var(--panel);
+  outline: 0;
+  font: inherit;
+}
+
+.note-editor-panel input {
+  height: 38px;
+}
+
+.note-editor-panel textarea {
+  flex: 1;
+  min-height: 180px;
+  resize: none;
+  line-height: 1.7;
+}
+
+.note-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 .plan-check {

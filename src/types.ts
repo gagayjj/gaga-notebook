@@ -25,9 +25,10 @@ export interface Library {
 export interface ResourceItem {
   id: string;
   title: string;
-  kind: "file" | "link";
+  kind: "file" | "link" | "note";
   category?: string;
   path?: string;
+  contentPath?: string;
   url?: string;
   createdAt: string;
 }
@@ -89,6 +90,9 @@ declare global {
       listResources: () => Promise<ResourceItem[]>;
       pickResources: (category?: string) => Promise<ResourceItem[]>;
       addResourceLink: (input: { url: string; title?: string }) => Promise<ResourceItem[]>;
+      addResourceNote: (input: { title: string; content: string }) => Promise<ResourceItem[]>;
+      readResourceNote: (id: string) => Promise<string>;
+      saveResourceNote: (id: string, input: { title: string; content: string }) => Promise<ResourceItem[]>;
       removeResource: (id: string) => Promise<ResourceItem[]>;
       openResourceFile: (filePath: string) => Promise<boolean>;
       listPlans: () => Promise<PlanItem[]>;
