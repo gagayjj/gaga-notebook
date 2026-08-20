@@ -6,6 +6,7 @@ import { VideoPane, type VideoController } from "./components/VideoPane";
 import { NoteEditor } from "./components/NoteEditor";
 import { AnnotationModal } from "./components/AnnotationModal";
 import { ResourceLibrary } from "./components/ResourceLibrary";
+import { EnglishLearning } from "./components/EnglishLearning";
 import { StatusBar, type SaveState } from "./components/StatusBar";
 import type { AnnotationImage, InsertRequest, Library, NoteDoc, VideoState } from "./types";
 
@@ -21,6 +22,7 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
   const [libraryPanelOpen, setLibraryPanelOpen] = useState(false);
+  const [englishOpen, setEnglishOpen] = useState(false);
   const [videoState, setVideoState] = useState<VideoState>({ kind: "none" });
   const [insertRequest, setInsertRequest] = useState<InsertRequest | null>(null);
   const [annotation, setAnnotation] = useState<AnnotationImage | null>(null);
@@ -173,6 +175,10 @@ export default function App() {
     setLibraryPanelOpen((value) => !value);
   }, []);
 
+  const handleToggleEnglish = useCallback(() => {
+    setEnglishOpen((value) => !value);
+  }, []);
+
   const handleOpenVideo = useCallback((path: string) => {
     window.studyNotes?.closeUrl();
     const title = path.split(/[\\/]/).pop() || path;
@@ -272,6 +278,7 @@ export default function App() {
         sidebarOpen={sidebarOpen}
         videoOpen={videoOpen}
         libraryOpen={libraryPanelOpen}
+        englishOpen={englishOpen}
         canInsertTimestamp={videoState.kind === "local"}
         onToggleNarrow={handleToggleNarrow}
         onToggleAlwaysOnTop={handleToggleAlwaysOnTop}
@@ -283,6 +290,7 @@ export default function App() {
         onToggleSidebar={handleToggleSidebar}
         onToggleVideo={handleToggleVideo}
         onToggleLibrary={handleToggleLibrary}
+        onToggleEnglish={handleToggleEnglish}
       />
 
       <div className="body">
@@ -355,6 +363,7 @@ export default function App() {
         <AnnotationModal image={annotation} onClose={() => setAnnotation(null)} onInsert={handleInsertAnnotation} />
       )}
       {libraryPanelOpen && <ResourceLibrary onClose={() => setLibraryPanelOpen(false)} />}
+      {englishOpen && <EnglishLearning onClose={() => setEnglishOpen(false)} />}
     </div>
   );
 }

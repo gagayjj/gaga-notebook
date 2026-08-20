@@ -407,6 +407,16 @@ function createWindow() {
               modalText: document.querySelector(".resource-modal")?.innerText.slice(0, 120) || "",
             };
           })()`);
+          const englishTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('button[title="打开每日英语"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 400));
+            const voices = window.speechSynthesis?.getVoices?.() || [];
+            return {
+              ttsAvailable: Boolean(window.speechSynthesis),
+              voiceCount: voices.length,
+              modalText: document.querySelector(".english-modal")?.innerText.slice(0, 160) || "",
+            };
+          })()`);
           const image = await mainWindow.capturePage();
           const bitmap = image.toBitmap();
           let min = 255;
@@ -429,6 +439,7 @@ function createWindow() {
             urlInfo,
             saveTest,
             libraryTest,
+            englishTest,
             errors,
             pixels: {
               width: image.getSize().width,

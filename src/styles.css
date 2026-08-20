@@ -1214,6 +1214,160 @@ input {
   gap: 8px;
 }
 
+.english-modal {
+  width: min(820px, 92vw);
+  height: min(680px, 88vh);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+}
+
+.english-header {
+  height: 58px;
+  flex: 0 0 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-2);
+}
+
+.english-header > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+}
+
+.english-header > div:first-child > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.english-header strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.english-header span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.english-header-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.english-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lesson-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  background: linear-gradient(180deg, #fbfcff 0%, #f7f9ff 100%);
+}
+
+.lesson-word-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lesson-word-row h2 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.lesson-phonetic {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.lesson-meaning {
+  margin: 10px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.lesson-sentence {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #e8ebf2;
+}
+
+.lesson-sentence p {
+  margin: 0 0 6px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.lesson-sentence span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.english-audio-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.custom-read {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  background: var(--panel-2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.custom-read-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.custom-read-head span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.custom-read textarea {
+  width: 100%;
+  height: 110px;
+  resize: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: inherit;
+  line-height: 1.6;
+  outline: 0;
+}
+
+.custom-read > div:last-child {
+  display: flex;
+  gap: 8px;
+}
+
 .plan-check {
   display: inline-flex;
   align-items: center;

@@ -2,6 +2,7 @@ import {
   FileDown,
   FolderOpen,
   ImagePlus,
+  Languages,
   Mic,
   MonitorPlay,
   MonitorX,
@@ -23,6 +24,7 @@ interface ToolbarProps {
   sidebarOpen: boolean;
   videoOpen: boolean;
   libraryOpen: boolean;
+  englishOpen: boolean;
   canInsertTimestamp: boolean;
   onToggleNarrow: () => void;
   onToggleAlwaysOnTop: () => void;
@@ -34,6 +36,7 @@ interface ToolbarProps {
   onToggleSidebar: () => void;
   onToggleVideo: () => void;
   onToggleLibrary: () => void;
+  onToggleEnglish: () => void;
 }
 
 export function Toolbar({
@@ -43,6 +46,7 @@ export function Toolbar({
   sidebarOpen,
   videoOpen,
   libraryOpen,
+  englishOpen,
   canInsertTimestamp,
   onToggleNarrow,
   onToggleAlwaysOnTop,
@@ -54,6 +58,7 @@ export function Toolbar({
   onToggleSidebar,
   onToggleVideo,
   onToggleLibrary,
+  onToggleEnglish,
 }: ToolbarProps) {
   return (
     <header className="toolbar">
@@ -81,6 +86,14 @@ export function Toolbar({
           onClick={onToggleLibrary}
         >
           <FolderOpen size={17} />
+        </button>
+        <button
+          type="button"
+          className={`icon-btn ${englishOpen ? "active" : ""}`}
+          title={englishOpen ? "关闭每日英语" : "打开每日英语"}
+          onClick={onToggleEnglish}
+        >
+          <Languages size={17} />
         </button>
         <span className="toolbar-sep" />
         <button
