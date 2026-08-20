@@ -166,7 +166,7 @@ async function ensureLibrary() {
 }
 
 async function writeAtomic(filePath, data) {
-  const tmp = `${filePath}.tmp`;
+  const tmp = `${filePath}.${process.pid}.${Date.now()}.tmp`;
   await fsp.writeFile(tmp, data, "utf8");
   await fsp.rename(tmp, filePath);
 }

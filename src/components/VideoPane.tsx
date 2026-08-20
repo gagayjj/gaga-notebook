@@ -77,10 +77,19 @@ export function VideoPane({
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
     setDragOver(false);
-    const file = Array.from(event.dataTransfer.files).find((item) => item.type.startsWith("video/"));
-    if (!file) return;
-    const path = window.studyNotes?.getPathForFile(file);
-    if (path) onOpenVideo(path);
+    const files = Array.from(event.dataTransfer.files);
+    const file = files.find((item) => item.type.startsWith("video/"));
+    if (file) {
+      const path = window.studyNotes?.getPathForFile(file);
+      if (path) onOpenVideo(path);
+      return;
+    }
+
+    const rawUri = event.dataTransfer.getData("text/uri-list") || event.dataTransfer.getData("text/plain");
+    const url = rawUri.split("\n")[0].trim();
+    if (/^https?:\/\//i.test(url)) {
+      onOpenUrl(url);
+    }
   };
 
   const handleOpenUrl = () => {
@@ -127,7 +136,7 @@ export function VideoPane({
           <div className="video-empty" onClick={handlePick}>
             <FileVideo size={34} />
             <p>拖入视频文件，或点击选择本地视频</p>
-            <span>也可以在上方粘贴网课链接</span>
+            <span>B 站等网课：复制地址栏链接，粘贴到上方，或直接把链接拖进来</span>
           </div>
         )}
 
