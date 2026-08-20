@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer, webUtils } = require("electron");
 
 contextBridge.exposeInMainWorld("studyNotes", {
   openVideoDialog: () => ipcRenderer.invoke("video:open"),
+  captureVideoFrame: () => ipcRenderer.invoke("video:capture-frame"),
   getPathForFile: (file) => webUtils.getPathForFile(file),
   localVideoUrl: (filePath) => {
     const encoded = encodeURIComponent(filePath);
@@ -23,4 +24,12 @@ contextBridge.exposeInMainWorld("studyNotes", {
   readNote: (id) => ipcRenderer.invoke("notes:read", id),
   saveNote: (payload) => ipcRenderer.invoke("notes:save", payload),
   createNote: (input) => ipcRenderer.invoke("notes:create", input),
+  listResources: () => ipcRenderer.invoke("resources:list"),
+  pickResources: () => ipcRenderer.invoke("resources:pick"),
+  addResourceLink: (input) => ipcRenderer.invoke("resources:add-link", input),
+  removeResource: (id) => ipcRenderer.invoke("resources:remove", id),
+  openResourceFile: (filePath) => ipcRenderer.invoke("resources:open-file", filePath),
+  listPlans: () => ipcRenderer.invoke("plans:list"),
+  savePlan: (payload) => ipcRenderer.invoke("plans:save", payload),
+  removePlan: (id) => ipcRenderer.invoke("plans:remove", id),
 });

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, BrowserView, ipcMain, dialog, shell, protocol, net } = require("electron");
+const { app, BrowserWindow, BrowserView, ipcMain, dialog, shell, protocol, net, Notification } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const fsp = require("fs/promises");
@@ -43,6 +43,8 @@ function defaultLibrary() {
         updatedAt: now,
       },
     },
+    resources: [],
+    plans: [],
   };
 }
 
@@ -157,7 +159,10 @@ async function ensureLibrary() {
   const libPath = path.join(dir, "library.json");
   if (fs.existsSync(libPath)) {
     try {
-      return JSON.parse(await fsp.readFile(libPath, "utf8"));
+      const library = JSON.parse(await fsp.readFile(libPath, "utf8"));
+      if (!library.resources) library.resources = [];
+      if (!library.plans) library.plans = [];
+      return library;
     } catch (error) {
       console.error("读取 library.json 失败，将重建", error);
     }
@@ -173,6 +178,43 @@ async function writeAtomic(filePath, data) {
   const tmp = `${filePath}.${process.pid}.${Date.now()}.tmp`;
   await fsp.writeFile(tmp, data, "utf8");
   await fsp.rename(tmp, filePath);
+}
+
+const reminderTimers = new Map();
+
+function schedulePlanReminder(plan) {
+  const oldTimer = reminderTimers.get(plan.id);
+  if (oldTimer) {
+    clearTimeout(oldTimer);
+    reminderTimers.delete(plan.id);
+  }
+  if (!plan.remind || !plan.date || !plan.time) return;
+  const when = new Date(`${plan.date}T${plan.time}:00`);
+  if (Number.isNaN(when.getTime()) || when <= new Date()) return;
+  const MAX_TIMEOUT = 2147483647;
+  const scheduleNext = () => {
+    const delay = when.getTime() - Date.now();
+    if (delay <= 0) {
+      reminderTimers.delete(plan.id);
+      return;
+    }
+    const timer = setTimeout(() => {
+      if (when.getTime() - Date.now() > MAX_TIMEOUT) {
+        scheduleNext();
+      } else if (Notification.isSupported()) {
+        new Notification({ title: "学习计划提醒", body: `${plan.title} 到时间了` }).show();
+        reminderTimers.delete(plan.id);
+      }
+    }, Math.min(delay, MAX_TIMEOUT));
+    reminderTimers.set(plan.id, timer);
+  };
+  scheduleNext();
+}
+
+function scheduleAllReminders() {
+  ensureLibrary()
+    .then((library) => (library.plans || []).forEach(schedulePlanReminder))
+    .catch((error) => console.error("schedule reminders failed", error));
 }
 
 function createWindow() {
@@ -311,6 +353,7 @@ function createWindow() {
             return {
               videoPaneText: document.querySelector(".video-pane")?.innerText.slice(0, 200) || "",
               statusText: document.querySelector(".video-status")?.textContent || "",
+              framePrefix: (await window.studyNotes.captureVideoFrame())?.slice(0, 30) || "",
             };
           })()`);
           const urlInfo = {
@@ -339,6 +382,21 @@ function createWindow() {
               persisted: JSON.stringify(read?.content || "").includes("保存成功"),
             };
           })()`);
+          const libraryTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            const linkResources = await window.studyNotes.addResourceLink({ url: "https://example.com/resource", title: "QA资料" });
+            const savedPlan = await window.studyNotes.savePlan({ title: "QA计划", date: "2026-12-31", time: "23:59", remind: true });
+            const list = await window.studyNotes.listPlans();
+            const removed = await window.studyNotes.removePlan(savedPlan.plan.id);
+            await window.studyNotes.removeResource(linkResources[linkResources.length - 1].id);
+            document.querySelector('button[title="打开资料库与学习计划"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 400));
+            return {
+              resourcesAdded: linkResources.length > 0,
+              planSaved: list.some((item) => item.title === "QA计划"),
+              planRemoved: !removed.some((item) => item.title === "QA计划"),
+              modalText: document.querySelector(".resource-modal")?.innerText.slice(0, 120) || "",
+            };
+          })()`);
           const image = await mainWindow.capturePage();
           const bitmap = image.toBitmap();
           let min = 255;
@@ -360,6 +418,7 @@ function createWindow() {
             urlTest,
             urlInfo,
             saveTest,
+            libraryTest,
             errors,
             pixels: {
               width: image.getSize().width,
@@ -444,6 +503,17 @@ ipcMain.handle("video:open", async () => {
   });
   if (!result.canceled && result.filePaths[0]) return result.filePaths[0];
   return null;
+});
+
+ipcMain.handle("video:capture-frame", async () => {
+  if (!videoView) return null;
+  try {
+    const image = await videoView.webContents.capturePage();
+    return image.toDataURL();
+  } catch (error) {
+    console.error("capture video frame failed", error);
+    return null;
+  }
 });
 
 ipcMain.handle("video:open-url", (_event, url) => {
@@ -563,6 +633,110 @@ ipcMain.handle("notes:save", async (_event, payload) => {
   return { ok: true, updatedAt: now };
 });
 
+ipcMain.handle("resources:list", async () => (await ensureLibrary()).resources || []);
+
+ipcMain.handle("resources:pick", async () => {
+  if (!mainWindow) return [];
+  const result = await dialog.showOpenDialog(mainWindow, {
+    title: "选择学习资料",
+    properties: ["openFile", "multiSelections"],
+  });
+  if (result.canceled) return (await ensureLibrary()).resources || [];
+  const dataDir = getDataDir();
+  const resourcesDir = path.join(dataDir, "resources");
+  fs.mkdirSync(resourcesDir, { recursive: true });
+  const library = await ensureLibrary();
+  const now = new Date().toISOString();
+  for (const sourcePath of result.filePaths) {
+    const id = `res-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    const destPath = path.join(resourcesDir, `${id}-${path.basename(sourcePath)}`);
+    await fsp.copyFile(sourcePath, destPath);
+    library.resources.push({
+      id,
+      title: path.basename(sourcePath),
+      kind: "file",
+      path: destPath,
+      createdAt: now,
+    });
+  }
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.resources;
+});
+
+ipcMain.handle("resources:add-link", async (_event, input) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const url = String(input?.url || "").trim();
+  if (!/^https?:\/\//i.test(url)) return library.resources || [];
+  library.resources.push({
+    id: `res-${Date.now()}`,
+    title: input?.title?.trim() || url,
+    kind: "link",
+    url,
+    createdAt: new Date().toISOString(),
+  });
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.resources;
+});
+
+ipcMain.handle("resources:remove", async (_event, id) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const target = (library.resources || []).find((item) => item.id === id);
+  library.resources = (library.resources || []).filter((item) => item.id !== id);
+  if (target?.kind === "file" && target.path && target.path.startsWith(path.join(dataDir, "resources"))) {
+    try {
+      await fsp.unlink(target.path);
+    } catch (error) {
+      console.error("删除资料文件失败", error);
+    }
+  }
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.resources;
+});
+
+ipcMain.handle("resources:open-file", (_event, filePath) => {
+  if (filePath) shell.openPath(String(filePath));
+  return true;
+});
+
+ipcMain.handle("plans:list", async () => (await ensureLibrary()).plans || []);
+
+ipcMain.handle("plans:save", async (_event, payload) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const now = new Date().toISOString();
+  const existing = (library.plans || []).find((plan) => plan.id === payload.id);
+  const plan = {
+    id: existing?.id || `plan-${Date.now()}`,
+    title: String(payload.title || "学习任务").trim() || "学习任务",
+    date: payload.date || "",
+    time: payload.time || "",
+    done: Boolean(payload.done),
+    remind: Boolean(payload.remind),
+    createdAt: existing?.createdAt || now,
+    updatedAt: now,
+  };
+  if (existing) Object.assign(existing, plan);
+  else library.plans.push(plan);
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  schedulePlanReminder(plan);
+  return { plans: library.plans, plan };
+});
+
+ipcMain.handle("plans:remove", async (_event, id) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  library.plans = (library.plans || []).filter((plan) => plan.id !== id);
+  const timer = reminderTimers.get(id);
+  if (timer) {
+    clearTimeout(timer);
+    reminderTimers.delete(id);
+  }
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.plans;
+});
+
 protocol.registerSchemesAsPrivileged([
   {
     scheme: "localvideo",
@@ -578,6 +752,7 @@ app.whenReady().then(() => {
   });
 
   createWindow();
+  scheduleAllReminders();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

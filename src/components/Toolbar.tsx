@@ -1,5 +1,6 @@
 import {
   FileDown,
+  FolderOpen,
   ImagePlus,
   Mic,
   MonitorPlay,
@@ -21,6 +22,7 @@ interface ToolbarProps {
   isRecording: boolean;
   sidebarOpen: boolean;
   videoOpen: boolean;
+  libraryOpen: boolean;
   canInsertTimestamp: boolean;
   onToggleNarrow: () => void;
   onToggleAlwaysOnTop: () => void;
@@ -31,6 +33,7 @@ interface ToolbarProps {
   onNewNote: () => void;
   onToggleSidebar: () => void;
   onToggleVideo: () => void;
+  onToggleLibrary: () => void;
 }
 
 export function Toolbar({
@@ -39,6 +42,7 @@ export function Toolbar({
   isRecording,
   sidebarOpen,
   videoOpen,
+  libraryOpen,
   canInsertTimestamp,
   onToggleNarrow,
   onToggleAlwaysOnTop,
@@ -49,6 +53,7 @@ export function Toolbar({
   onNewNote,
   onToggleSidebar,
   onToggleVideo,
+  onToggleLibrary,
 }: ToolbarProps) {
   return (
     <header className="toolbar">
@@ -68,6 +73,14 @@ export function Toolbar({
           onClick={onToggleSidebar}
         >
           {sidebarOpen ? <PanelLeftClose size={17} /> : <PanelLeftOpen size={17} />}
+        </button>
+        <button
+          type="button"
+          className={`icon-btn ${libraryOpen ? "active" : ""}`}
+          title={libraryOpen ? "关闭资料库" : "打开资料库与学习计划"}
+          onClick={onToggleLibrary}
+        >
+          <FolderOpen size={17} />
         </button>
         <span className="toolbar-sep" />
         <button

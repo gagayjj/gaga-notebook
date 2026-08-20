@@ -18,6 +18,28 @@ export interface Library {
   version: number;
   courses: Course[];
   notes: Record<string, NoteMeta>;
+  resources: ResourceItem[];
+  plans: PlanItem[];
+}
+
+export interface ResourceItem {
+  id: string;
+  title: string;
+  kind: "file" | "link";
+  path?: string;
+  url?: string;
+  createdAt: string;
+}
+
+export interface PlanItem {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  done: boolean;
+  remind: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface NoteDoc {
@@ -45,6 +67,7 @@ declare global {
   interface Window {
     studyNotes?: {
       openVideoDialog: () => Promise<string | null>;
+      captureVideoFrame: () => Promise<string | null>;
       getPathForFile: (file: File) => string;
       localVideoUrl: (filePath: string) => string;
       openUrl: (url: string) => Promise<boolean>;
@@ -62,6 +85,14 @@ declare global {
         updatedAt: string;
       }>;
       createNote: (input: { title?: string; courseId?: string; tags?: string[] }) => Promise<NoteDoc>;
+      listResources: () => Promise<ResourceItem[]>;
+      pickResources: () => Promise<ResourceItem[]>;
+      addResourceLink: (input: { url: string; title?: string }) => Promise<ResourceItem[]>;
+      removeResource: (id: string) => Promise<ResourceItem[]>;
+      openResourceFile: (filePath: string) => Promise<boolean>;
+      listPlans: () => Promise<PlanItem[]>;
+      savePlan: (payload: Partial<PlanItem>) => Promise<{ plans: PlanItem[]; plan: PlanItem }>;
+      removePlan: (id: string) => Promise<PlanItem[]>;
     };
   }
 }

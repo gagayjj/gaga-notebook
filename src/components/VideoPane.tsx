@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Camera, ExternalLink, FileVideo, Globe, Play, X } from "lucide-react";
+import { Camera, ExternalLink, FileVideo, Globe, PenLine, Play, X } from "lucide-react";
 import type { VideoState } from "../types";
 
 export interface VideoController {
@@ -113,6 +113,16 @@ export function VideoPane({
     setUrlInput("");
   };
 
+  const handleMark = async () => {
+    let frame: string | null = null;
+    if (videoState.kind === "local") {
+      frame = captureFrame();
+    } else if (videoState.kind === "url") {
+      frame = (await window.studyNotes?.captureVideoFrame()) || null;
+    }
+    if (frame) onSnapshot(frame);
+  };
+
   const videoUrl = videoState.kind === "local" ? window.studyNotes?.localVideoUrl(videoState.source) : "";
 
   return (
@@ -142,6 +152,10 @@ export function VideoPane({
         <button type="button" className="text-btn" onClick={handlePick}>
           <FileVideo size={15} />
           打开本地视频
+        </button>
+        <button type="button" className="text-btn" onClick={handleMark}>
+          <PenLine size={15} />
+          标记
         </button>
         {videoState.kind === "url" && (
           <>

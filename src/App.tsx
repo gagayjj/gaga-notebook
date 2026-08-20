@@ -5,6 +5,7 @@ import { Sidebar, type OutlineItem } from "./components/Sidebar";
 import { VideoPane, type VideoController } from "./components/VideoPane";
 import { NoteEditor } from "./components/NoteEditor";
 import { AnnotationModal } from "./components/AnnotationModal";
+import { ResourceLibrary } from "./components/ResourceLibrary";
 import { StatusBar, type SaveState } from "./components/StatusBar";
 import type { AnnotationImage, InsertRequest, Library, NoteDoc, VideoState } from "./types";
 
@@ -19,6 +20,7 @@ export default function App() {
   const [alwaysOnTop, setAlwaysOnTop] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [libraryPanelOpen, setLibraryPanelOpen] = useState(false);
   const [videoState, setVideoState] = useState<VideoState>({ kind: "none" });
   const [insertRequest, setInsertRequest] = useState<InsertRequest | null>(null);
   const [annotation, setAnnotation] = useState<AnnotationImage | null>(null);
@@ -167,6 +169,10 @@ export default function App() {
     setVideoOpen((value) => !value);
   }, []);
 
+  const handleToggleLibrary = useCallback(() => {
+    setLibraryPanelOpen((value) => !value);
+  }, []);
+
   const handleOpenVideo = useCallback((path: string) => {
     window.studyNotes?.closeUrl();
     const title = path.split(/[\\/]/).pop() || path;
@@ -265,6 +271,7 @@ export default function App() {
         isRecording={isRecording}
         sidebarOpen={sidebarOpen}
         videoOpen={videoOpen}
+        libraryOpen={libraryPanelOpen}
         canInsertTimestamp={videoState.kind === "local"}
         onToggleNarrow={handleToggleNarrow}
         onToggleAlwaysOnTop={handleToggleAlwaysOnTop}
@@ -275,6 +282,7 @@ export default function App() {
         onNewNote={handleNewNote}
         onToggleSidebar={handleToggleSidebar}
         onToggleVideo={handleToggleVideo}
+        onToggleLibrary={handleToggleLibrary}
       />
 
       <div className="body">
@@ -346,6 +354,7 @@ export default function App() {
       {annotation !== null && (
         <AnnotationModal image={annotation} onClose={() => setAnnotation(null)} onInsert={handleInsertAnnotation} />
       )}
+      {libraryPanelOpen && <ResourceLibrary onClose={() => setLibraryPanelOpen(false)} />}
     </div>
   );
 }

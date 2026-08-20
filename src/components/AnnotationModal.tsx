@@ -179,6 +179,17 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
       setSelectedIndex(null);
       return;
     }
+    if (tool === "arrow" && selectedIndex !== null) {
+      const selected = strokes[selectedIndex];
+      if (selected?.tool === "arrow") {
+        const hit = hitArrow(selected, point);
+        if (hit) {
+          setDragMode(hit === "body" ? "move" : hit);
+          dragStartRef.current = point;
+          return;
+        }
+      }
+    }
     if (tool === "text") {
       const text = window.prompt("输入标注文字", "重点");
       if (text) setStrokes((prev) => [...prev, { tool, color, size, x: point.x, y: point.y, text }]);
@@ -193,7 +204,7 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
 
   const handlePointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const point = toCanvasPoint(event);
-    if (tool === "pointer" && selectedIndex !== null && dragMode) {
+    if ((tool === "pointer" || tool === "arrow") && selectedIndex !== null && dragMode) {
       const dragStart = dragStartRef.current;
       if (!dragStart) return;
       if (dragMode === "move") {
@@ -234,7 +245,9 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
     setDragMode(null);
     dragStartRef.current = null;
     if (draft) {
-      setStrokes((prev) => [...prev, draft]);
+      const next = [...strokes, draft];
+      setStrokes(next);
+      if (draft.tool === "arrow") setSelectedIndex(next.length - 1);
       setDraft(null);
     }
   };
