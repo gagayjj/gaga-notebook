@@ -59,7 +59,7 @@ function defaultNote(library) {
           content: [
             {
               type: "text",
-              text: "这是一个可运行的初步骨架。左边看视频，右边记笔记，所有内容都会自动保存到电脑本地。",
+              text: "默认只显示笔记本页面，专注记笔记。所有内容都会自动保存到电脑本地。",
             },
           ],
         },
@@ -79,7 +79,7 @@ function defaultNote(library) {
                   content: [
                     {
                       type: "text",
-                      text: "把本地视频拖进左侧，或在地址栏粘贴网课链接",
+                      text: "点顶部工具栏的视频按钮，再拖入本地视频或粘贴网课链接",
                     },
                   ],
                 },
@@ -173,8 +173,8 @@ async function writeAtomic(filePath, data) {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 800,
+    width: 1000,
+    height: 760,
     minWidth: 420,
     minHeight: 420,
     title: "学习笔记",
@@ -274,6 +274,26 @@ function createWindow() {
             document.querySelector('button[title="退出窄条模式"]')?.click();
             return result;
           })()`);
+          const panelDom = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('button[title="打开视频模块"]')?.click();
+            document.querySelector('button[title="打开笔记库"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 700));
+            const rect = (sel) => {
+              const el = document.querySelector(sel);
+              if (!el) return null;
+              const r = el.getBoundingClientRect();
+              return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) };
+            };
+            const result = {
+              sidebar: rect(".sidebar"),
+              video: rect(".video-pane"),
+              notes: rect(".notes-pane"),
+              editor: rect(".editor-paper"),
+            };
+            document.querySelector('button[title="关闭视频模块"]')?.click();
+            document.querySelector('button[title="收起笔记库"]')?.click();
+            return result;
+          })()`);
           const saveTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const note = await window.studyNotes.createNote({ title: "QA 测试笔记" });
             note.content.content.push({ type: "paragraph", content: [{ type: "text", text: "保存成功" }] });
@@ -302,6 +322,7 @@ function createWindow() {
           const report = {
             dom,
             narrowDom,
+            panelDom,
             saveTest,
             errors,
             pixels: {
@@ -381,6 +402,27 @@ ipcMain.handle("video:open-url", (_event, url) => {
     mainWindow.addBrowserView(videoView);
   }
   videoView.webContents.loadURL(url);
+  return true;
+});
+
+ipcMain.handle("video:set-visible", (_event, visible, url) => {
+  if (!mainWindow) return false;
+  if (visible) {
+    if (!videoView) {
+      videoView = new BrowserView({
+        webPreferences: {
+          contextIsolation: true,
+          nodeIntegration: false,
+        },
+      });
+    }
+    if (url && videoView.webContents.getURL() !== url) {
+      videoView.webContents.loadURL(url);
+    }
+    mainWindow.addBrowserView(videoView);
+  } else if (videoView) {
+    mainWindow.removeBrowserView(videoView);
+  }
   return true;
 });
 

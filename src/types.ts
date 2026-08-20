@@ -48,6 +48,7 @@ declare global {
       getPathForFile: (file: File) => string;
       localVideoUrl: (filePath: string) => string;
       openUrl: (url: string) => Promise<boolean>;
+      setVideoVisible: (visible: boolean, url?: string) => Promise<boolean>;
       closeUrl: () => void;
       setVideoBounds: (bounds: { x: number; y: number; width: number; height: number }) => void;
       setAlwaysOnTop: (flag: boolean) => Promise<boolean>;

@@ -17,11 +17,13 @@ export default function App() {
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [narrow, setNarrow] = useState(false);
   const [alwaysOnTop, setAlwaysOnTop] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
   const [videoState, setVideoState] = useState<VideoState>({ kind: "none" });
   const [insertRequest, setInsertRequest] = useState<InsertRequest | null>(null);
   const [annotation, setAnnotation] = useState<AnnotationImage | null>(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [videoWidth, setVideoWidth] = useState(52);
+  const [videoWidth, setVideoWidth] = useState(40);
 
   const videoControllerRef = useRef<VideoController | null>(null);
   const editorRef = useRef<Editor | null>(null);
@@ -87,6 +89,12 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (videoState.kind !== "url") return;
+    const shouldShow = videoOpen && !narrow;
+    window.studyNotes?.setVideoVisible(shouldShow, videoState.url);
+  }, [narrow, videoOpen, videoState]);
+
   const handleContentChange = useCallback(
     (content: unknown) => {
       draftRef.current = content;
@@ -149,6 +157,14 @@ export default function App() {
     const result = await window.studyNotes?.setAlwaysOnTop(!alwaysOnTop);
     setAlwaysOnTop(Boolean(result));
   }, [alwaysOnTop]);
+
+  const handleToggleSidebar = useCallback(() => {
+    setSidebarOpen((value) => !value);
+  }, []);
+
+  const handleToggleVideo = useCallback(() => {
+    setVideoOpen((value) => !value);
+  }, []);
 
   const handleOpenVideo = useCallback((path: string) => {
     window.studyNotes?.closeUrl();
@@ -246,6 +262,8 @@ export default function App() {
         narrow={narrow}
         alwaysOnTop={alwaysOnTop}
         isRecording={isRecording}
+        sidebarOpen={sidebarOpen}
+        videoOpen={videoOpen}
         canInsertTimestamp={videoState.kind === "local"}
         onToggleNarrow={handleToggleNarrow}
         onToggleAlwaysOnTop={handleToggleAlwaysOnTop}
@@ -254,10 +272,12 @@ export default function App() {
         onToggleRecording={() => recorderToggleRef.current?.()}
         onExport={handleExport}
         onNewNote={handleNewNote}
+        onToggleSidebar={handleToggleSidebar}
+        onToggleVideo={handleToggleVideo}
       />
 
       <div className="body">
-        {!narrow && (
+        {!narrow && sidebarOpen && (
           <Sidebar
             library={library}
             activeNoteId={activeNoteId}
@@ -271,25 +291,10 @@ export default function App() {
         )}
 
         <div className="main-area">
-          {!narrow && (
-            <>
-              <div className="video-column" style={{ width: `${videoWidth}%` }}>
-                <VideoPane
-                  videoState={videoState}
-                  onOpenVideo={handleOpenVideo}
-                  onOpenUrl={handleOpenUrl}
-                  onCloseUrl={handleCloseUrl}
-                  onOpenExternal={handleOpenExternal}
-                  onSnapshot={handleSnapshot}
-                  onController={(controller) => {
-                    videoControllerRef.current = controller;
-                  }}
-                />
-              </div>
-              <div className="splitter" onMouseDown={handleSplitterDown} />
-            </>
-          )}
-          <div className="notes-column" style={narrow ? { width: "100%" } : { width: `${100 - videoWidth}%` }}>
+          <div
+            className="notes-column"
+            style={{ width: videoOpen && !narrow ? `${100 - videoWidth}%` : "100%" }}
+          >
             <NoteEditor
               note={activeNote}
               getVideoTime={() => videoControllerRef.current?.getCurrentTime() || 0}
@@ -304,6 +309,24 @@ export default function App() {
                 editorRef.current = editor;
               }}
               recorderToggleRef={recorderToggleRef}
+            />
+          </div>
+          <div className={`splitter ${videoOpen && !narrow ? "" : "hidden"}`} onMouseDown={handleSplitterDown} />
+          <div
+            className={`video-column ${videoOpen && !narrow ? "" : "hidden"}`}
+            style={{ width: `${videoWidth}%` }}
+          >
+            <VideoPane
+              videoState={videoState}
+              active={videoOpen && !narrow}
+              onOpenVideo={handleOpenVideo}
+              onOpenUrl={handleOpenUrl}
+              onCloseUrl={handleCloseUrl}
+              onOpenExternal={handleOpenExternal}
+              onSnapshot={handleSnapshot}
+              onController={(controller) => {
+                videoControllerRef.current = controller;
+              }}
             />
           </div>
         </div>

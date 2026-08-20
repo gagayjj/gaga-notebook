@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld("studyNotes", {
     return `localvideo://local/${encoded}`;
   },
   openUrl: (url) => ipcRenderer.invoke("video:open-url", url),
+  setVideoVisible: (visible, url) => ipcRenderer.invoke("video:set-visible", visible, url),
   closeUrl: () => ipcRenderer.send("video:close-url"),
   setVideoBounds: (bounds) => ipcRenderer.send("video:bounds", bounds),
   setAlwaysOnTop: (flag) => ipcRenderer.invoke("window:always-on-top", flag),

@@ -2,6 +2,10 @@ import {
   FileDown,
   ImagePlus,
   Mic,
+  MonitorPlay,
+  MonitorX,
+  PanelLeftClose,
+  PanelLeftOpen,
   PanelRightClose,
   PanelRightOpen,
   Pin,
@@ -15,6 +19,8 @@ interface ToolbarProps {
   narrow: boolean;
   alwaysOnTop: boolean;
   isRecording: boolean;
+  sidebarOpen: boolean;
+  videoOpen: boolean;
   canInsertTimestamp: boolean;
   onToggleNarrow: () => void;
   onToggleAlwaysOnTop: () => void;
@@ -23,12 +29,16 @@ interface ToolbarProps {
   onToggleRecording: () => void;
   onExport: () => void;
   onNewNote: () => void;
+  onToggleSidebar: () => void;
+  onToggleVideo: () => void;
 }
 
 export function Toolbar({
   narrow,
   alwaysOnTop,
   isRecording,
+  sidebarOpen,
+  videoOpen,
   canInsertTimestamp,
   onToggleNarrow,
   onToggleAlwaysOnTop,
@@ -37,17 +47,27 @@ export function Toolbar({
   onToggleRecording,
   onExport,
   onNewNote,
+  onToggleSidebar,
+  onToggleVideo,
 }: ToolbarProps) {
   return (
     <header className="toolbar">
       <div className="toolbar-title">
         <strong>学习笔记</strong>
-        <span>{narrow ? "窄条模式" : "边看边记"}</span>
+        <span>{narrow ? "窄条模式" : "专注笔记"}</span>
       </div>
 
       <div className="toolbar-actions">
         <button type="button" className="icon-btn primary" title="新建笔记" onClick={onNewNote}>
           <Plus size={17} />
+        </button>
+        <button
+          type="button"
+          className={`icon-btn ${sidebarOpen ? "active" : ""}`}
+          title={sidebarOpen ? "收起笔记库" : "打开笔记库"}
+          onClick={onToggleSidebar}
+        >
+          {sidebarOpen ? <PanelLeftClose size={17} /> : <PanelLeftOpen size={17} />}
         </button>
         <span className="toolbar-sep" />
         <button
@@ -83,6 +103,15 @@ export function Toolbar({
         >
           {alwaysOnTop ? <PinOff size={17} /> : <Pin size={17} />}
         </button>
+        <button
+          type="button"
+          className={`icon-btn ${videoOpen ? "active" : ""}`}
+          title={videoOpen ? "关闭视频模块" : "打开视频模块"}
+          onClick={onToggleVideo}
+        >
+          {videoOpen ? <MonitorX size={17} /> : <MonitorPlay size={17} />}
+        </button>
+        <span className="toolbar-sep" />
         <button
           type="button"
           className={`icon-btn ${narrow ? "active" : ""}`}

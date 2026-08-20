@@ -9,6 +9,7 @@ export interface VideoController {
 
 interface VideoPaneProps {
   videoState: VideoState;
+  active: boolean;
   onOpenVideo: (path: string) => void;
   onOpenUrl: (url: string) => void;
   onCloseUrl: () => void;
@@ -19,6 +20,7 @@ interface VideoPaneProps {
 
 export function VideoPane({
   videoState,
+  active,
   onOpenVideo,
   onOpenUrl,
   onCloseUrl,
@@ -53,12 +55,12 @@ export function VideoPane({
 
   useEffect(() => {
     const el = paneRef.current;
-    if (!el || videoState.kind !== "url") return;
+    if (!el || videoState.kind !== "url" || !active) return;
     sendBounds();
     const observer = new ResizeObserver(sendBounds);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [sendBounds, videoState.kind]);
+  }, [active, sendBounds, videoState.kind]);
 
   useEffect(() => {
     onController({
