@@ -217,6 +217,11 @@ export default function App() {
     setDesignerOpen(false);
   }, []);
 
+  const handleSelectTheme = useCallback((themeId: string) => {
+    setTheme(themeId);
+    setBgConfig((prev) => ({ ...prev, image: themeId }));
+  }, []);
+
   const handleOpenVideo = useCallback((path: string) => {
     window.studyNotes?.closeUrl();
     const title = path.split(/[\\/]/).pop() || path;
@@ -409,7 +414,7 @@ export default function App() {
       {themePickerOpen && (
         <ThemePicker
           currentTheme={theme}
-          onSelect={setTheme}
+          onSelect={handleSelectTheme}
           onClose={() => setThemePickerOpen(false)}
         />
       )}

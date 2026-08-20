@@ -19,7 +19,7 @@ interface BackgroundDesignerProps {
 
 export function defaultBackgroundConfig(): BackgroundConfig {
   return {
-    image: "crayon",
+    image: null,
     fill: true,
     baseColor: "",
     decor: [],

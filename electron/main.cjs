@@ -470,6 +470,7 @@ function createWindow() {
               cards,
               dataTheme,
               bg,
+              bgImage: getComputedStyle(document.body).backgroundImage,
               stickerLoaded: Boolean(sticker && sticker.naturalWidth > 0),
               previewImages,
               bannerImages,
