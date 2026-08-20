@@ -30,9 +30,10 @@
             <input id="note-title" placeholder="笔记标题" />
             <textarea id="note-content" placeholder="开始记笔记..."></textarea>
             <div class="row">
-              <button id="save-note" class="btn primary">保存笔记</button>
-              <button id="new-note" class="btn">新建</button>
+              <button id="save-note" class="btn primary" title="保存当前笔记到本机">保存笔记</button>
+              <button id="new-note" class="btn" title="清空编辑区，开始写新笔记">新建</button>
             </div>
+            <small class="hint">笔记会自动保存在手机浏览器里</small>
           </div>
           <div id="notes-list" class="list"></div>
         </section>
@@ -54,9 +55,10 @@
             <p id="lesson-sentence"></p>
             <p id="lesson-sentence-cn" class="muted"></p>
             <div class="row">
-              <button id="speak-sentence" class="btn">读例句</button>
-              <button id="slow-speak" class="btn">慢速</button>
+              <button id="speak-sentence" class="btn" title="朗读英文例句">读例句</button>
+              <button id="slow-speak" class="btn" title="慢速朗读例句，方便跟读">慢速</button>
             </div>
+            <small class="hint">点「听」读单词，慢速适合跟读</small>
           </div>
 
           <div class="card">
@@ -64,10 +66,11 @@
               <strong>我的生词</strong>
             </div>
             <div class="inline-form">
-              <input id="word-input" placeholder="单词" />
-              <input id="meaning-input" placeholder="释义" />
-              <button id="add-word" class="btn primary">加入</button>
+              <input id="word-input" placeholder="单词" title="输入要记的英文单词" />
+              <input id="meaning-input" placeholder="释义" title="输入中文释义" />
+              <button id="add-word" class="btn primary" title="把生词加入自己的单词本">加入</button>
             </div>
+            <small class="hint">生词会自动加入默写题库</small>
             <div id="word-list" class="list"></div>
           </div>
 
@@ -78,26 +81,28 @@
             </div>
             <p id="dict-prompt" class="muted">点开始，根据释义默写单词</p>
             <div class="row">
-              <button id="start-dict" class="btn primary">开始默写</button>
-              <button id="hear-answer" class="btn">听发音</button>
+              <button id="start-dict" class="btn primary" title="从单词本和今日单词里随机出题">开始默写</button>
+              <button id="hear-answer" class="btn" title="听当前默写单词的发音">听发音</button>
             </div>
             <input id="dict-input" placeholder="拼写出单词" hidden />
-            <button id="check-dict" class="btn" hidden>检查</button>
+            <button id="check-dict" class="btn" title="检查拼写是否正确" hidden>检查</button>
+            <small class="hint">根据释义默写单词，也可以先听发音</small>
           </div>
         </section>
 
         <section id="tab-plans" class="page">
           <div class="page-head">
             <h2>学习计划</h2>
-            <button id="enable-notify" class="mini-btn">开提醒</button>
+            <button id="enable-notify" class="mini-btn" title="允许浏览器发送学习计划提醒">开提醒</button>
           </div>
           <div class="card">
-            <input id="plan-title" placeholder="今天要学什么" />
+            <input id="plan-title" placeholder="今天要学什么" title="填写计划内容" />
             <div class="inline-form">
               <input type="date" id="plan-date" />
               <input type="time" id="plan-time" />
-              <button id="add-plan" class="btn primary">添加</button>
+              <button id="add-plan" class="btn primary" title="添加一条学习计划">添加</button>
             </div>
+            <small class="hint">允许通知后，到点会在页面打开时提醒</small>
           </div>
           <div id="plan-list" class="list"></div>
         </section>
@@ -108,7 +113,8 @@
             <h2>GAGA的笔记本</h2>
             <p class="muted">手机网页版 · 数据存在本机浏览器</p>
             <div id="mine-stats" class="stats"></div>
-            <button id="clear-data" class="btn danger">清空本机数据</button>
+            <button id="clear-data" class="btn danger" title="删除手机版保存的笔记、单词、计划和标记">清空本机数据</button>
+            <small class="hint">数据只存在本机浏览器，不上传云端</small>
           </div>
         </section>
 
@@ -119,11 +125,11 @@
           </div>
           <div class="card">
             <div class="row">
-              <button id="new-canvas" class="btn primary">新建画板</button>
-              <button id="pick-image" class="btn">选择图片</button>
+              <button id="new-canvas" class="btn primary" title="新建空白画板，画箭头标记">新建画板</button>
+              <button id="pick-image" class="btn" title="从相册选择图片做标记">选择图片</button>
               <input type="file" id="marker-file" accept="image/*" hidden />
             </div>
-            <p class="muted">画完箭头可以选中，拖两端随意伸缩，拖中间移动，还能继续加</p>
+            <small class="hint">画完箭头后选中，拖两端伸缩、拖中间移动，可连续添加</small>
           </div>
           <div id="marker-list" class="list"></div>
         </section>

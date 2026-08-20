@@ -91,6 +91,18 @@ input {
   white-space: nowrap;
 }
 
+.toolbar-hint {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 8px;
+}
+
 .toolbar-actions {
   display: flex;
   align-items: center;
