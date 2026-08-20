@@ -1709,7 +1709,7 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background-image: var(--bg-image);
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-attachment: fixed;
   filter: contrast(1.22) saturate(1.35) brightness(0.82);
@@ -1725,10 +1725,10 @@ body[data-bg-motion="drag"]::before {
 
 @keyframes bg-pan {
   from {
-    transform: translateX(-2%) translateY(-2%) scale(1.06);
+    transform: translateX(-1%) translateY(-1%) scale(1.02);
   }
   to {
-    transform: translateX(2%) translateY(2%) scale(1.12);
+    transform: translateX(1%) translateY(1%) scale(1.02);
   }
 }
 
@@ -2129,7 +2129,7 @@ body[data-theme="green"] .status-bar {
 
 body[data-bg-fill="1"] {
   background-image: var(--bg-image);
-  background-size: cover;
+  background-size: contain;
   background-attachment: fixed;
   background-position: center;
 }

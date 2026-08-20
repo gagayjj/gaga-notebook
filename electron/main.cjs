@@ -471,6 +471,7 @@ function createWindow() {
               dataTheme,
               bg,
               bgImage: getComputedStyle(document.body).backgroundImage,
+              bgSize: getComputedStyle(document.body).backgroundSize,
               stickerLoaded: Boolean(sticker && sticker.naturalWidth > 0),
               previewImages,
               bannerImages,
