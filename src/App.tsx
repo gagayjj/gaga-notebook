@@ -115,7 +115,7 @@ export default function App() {
   useEffect(() => {
     const body = document.body;
     body.dataset.bgImage = bgConfig.image || "";
-    body.dataset.bgFill = bgConfig.fill ? "1" : "0";
+    body.dataset.bgFill = "1";
     body.dataset.decorHidden = bgConfig.decor.join(" ");
     body.style.setProperty("--pattern-opacity", "0");
     if (bgConfig.baseColor) body.style.setProperty("--bg", bgConfig.baseColor);

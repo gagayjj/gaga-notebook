@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Brush, Check, Image as ImageIcon, RotateCcw, X } from "lucide-react";
+import { Brush, Check, RotateCcw, X } from "lucide-react";
 import { themeImages } from "../themeImages";
 import { appThemes } from "../themes";
 
@@ -33,7 +33,7 @@ export function loadBackgroundConfig(): BackgroundConfig {
     if (parsed && typeof parsed === "object") {
       return {
         image: parsed.image || null,
-        fill: parsed.fill !== false,
+        fill: true,
         baseColor: parsed.baseColor || "",
         decor: Array.isArray(parsed.decor) ? parsed.decor : [],
         patternOpacity: typeof parsed.patternOpacity === "number" ? parsed.patternOpacity : 0.3,
@@ -85,16 +85,6 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
                 </button>
               ))}
             </div>
-            <label className="fill-page-toggle">
-              <input
-                type="checkbox"
-                checked={draft.fill}
-                disabled={!draft.image}
-                onChange={(event) => setDraft((prev) => ({ ...prev, fill: event.target.checked }))}
-              />
-              <ImageIcon size={14} />
-              图片铺满整页
-            </label>
           </section>
 
           <section>
