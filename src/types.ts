@@ -20,6 +20,7 @@ export interface Library {
   notes: Record<string, NoteMeta>;
   resources: ResourceItem[];
   plans: PlanItem[];
+  customWords?: StudyWord[];
 }
 
 export interface ResourceItem {
@@ -42,6 +43,16 @@ export interface PlanItem {
   remind: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface StudyWord {
+  id: string;
+  word: string;
+  phonetic: string;
+  meaning: string;
+  sentence: string;
+  sentenceMeaning: string;
+  createdAt?: string;
 }
 
 export interface NoteDoc {
@@ -98,6 +109,9 @@ declare global {
       listPlans: () => Promise<PlanItem[]>;
       savePlan: (payload: Partial<PlanItem>) => Promise<{ plans: PlanItem[]; plan: PlanItem }>;
       removePlan: (id: string) => Promise<PlanItem[]>;
+      listWords: () => Promise<StudyWord[]>;
+      addWord: (input: Omit<StudyWord, "id">) => Promise<StudyWord[]>;
+      removeWord: (id: string) => Promise<StudyWord[]>;
     };
   }
 }

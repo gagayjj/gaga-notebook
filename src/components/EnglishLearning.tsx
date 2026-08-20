@@ -1,35 +1,67 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { BookOpenText, CheckCircle2, Circle, FastForward, Gauge, Pause, Play, Volume2, X } from "lucide-react";
-import { dailyEnglishLessons } from "../data/dailyEnglish";
+import { useEffect, useMemo, useState } from "react";
+import {
+  BookMarked,
+  BookOpenText,
+  CheckCircle2,
+  Circle,
+  Gauge,
+  ListChecks,
+  Pause,
+  PenLine,
+  Plus,
+  RotateCcw,
+  Trash2,
+  Volume2,
+  X,
+} from "lucide-react";
+import { recommendedWords, type EnglishWord } from "../data/englishWords";
+import type { StudyWord } from "../types";
 
 interface EnglishLearningProps {
   onClose: () => void;
+}
+
+interface DailyWord extends StudyWord {
+  source: "custom" | "recommended";
 }
 
 function dayKey() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function normalizeAnswer(value: string) {
+  return value.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
 export function EnglishLearning({ onClose }: EnglishLearningProps) {
-  const lesson = useMemo(() => {
-    const index = Math.floor(Date.now() / 86400000) % dailyEnglishLessons.length;
-    return dailyEnglishLessons[index];
-  }, []);
-  const [speaking, setSpeaking] = useState(false);
+  const [tab, setTab] = useState<"learn" | "wordbook" | "dictation">("learn");
+  const [goal, setGoal] = useState(() => Number(localStorage.getItem("english-daily-goal") || 5));
+  const [customWords, setCustomWords] = useState<StudyWord[]>([]);
+  const [learned, setLearned] = useState(false);
   const [slow, setSlow] = useState(false);
   const [customText, setCustomText] = useState("");
-  const [learned, setLearned] = useState(false);
-  const speakingRef = useRef(false);
+
+  const [wordForm, setWordForm] = useState({
+    word: "",
+    phonetic: "",
+    meaning: "",
+    sentence: "",
+    sentenceMeaning: "",
+  });
+
+  const [quizWords, setQuizWords] = useState<DailyWord[]>([]);
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [quizAnswer, setQuizAnswer] = useState("");
+  const [quizChecked, setQuizChecked] = useState(false);
+  const [quizCorrect, setQuizCorrect] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [wrongIds, setWrongIds] = useState<string[]>([]);
+  const [quizDone, setQuizDone] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
 
   useEffect(() => {
-    const key = `english-learned-${dayKey()}`;
-    setLearned(localStorage.getItem(key) === "1");
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      window.speechSynthesis?.cancel();
-    };
+    window.studyNotes?.listWords().then(setCustomWords);
+    setLearned(localStorage.getItem(`english-learned-${dayKey()}`) === "1");
   }, []);
 
   useEffect(() => {
@@ -38,16 +70,27 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     synthesis.getVoices();
     const loadVoices = () => synthesis.getVoices();
     synthesis.addEventListener("voiceschanged", loadVoices);
-    return () => synthesis.removeEventListener("voiceschanged", loadVoices);
+    return () => {
+      synthesis.removeEventListener("voiceschanged", loadVoices);
+      synthesis.cancel();
+    };
   }, []);
 
-  const pickEnglishVoice = () => {
-    const voices = window.speechSynthesis?.getVoices() || [];
-    return (
-      voices.find((voice) => voice.lang?.toLowerCase().startsWith("en") && voice.localService) ||
-      voices.find((voice) => voice.lang?.toLowerCase().startsWith("en")) ||
-      null
-    );
+  const dailyWords = useMemo<DailyWord[]>(() => {
+    const custom = customWords.slice(0, goal).map((word) => ({ ...word, source: "custom" as const }));
+    const remaining = Math.max(0, goal - custom.length);
+    const dayOffset = Math.floor(Date.now() / 86400000);
+    const recommended: DailyWord[] = [];
+    for (let i = 0; i < remaining; i += 1) {
+      const source = recommendedWords[(dayOffset * goal + i) % recommendedWords.length] as EnglishWord;
+      recommended.push({ ...source, source: "recommended" });
+    }
+    return [...custom, ...recommended];
+  }, [customWords, goal]);
+
+  const changeGoal = (value: number) => {
+    setGoal(value);
+    localStorage.setItem("english-daily-goal", String(value));
   };
 
   const speak = (text: string, useSlow = slow) => {
@@ -57,24 +100,19 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
     utterance.rate = useSlow ? 0.65 : 1;
-    const voice = pickEnglishVoice();
+    const voice =
+      synthesis.getVoices().find((item) => item.lang?.toLowerCase().startsWith("en") && item.localService) ||
+      synthesis.getVoices().find((item) => item.lang?.toLowerCase().startsWith("en")) ||
+      null;
     if (voice) utterance.voice = voice;
-    utterance.onend = () => {
-      speakingRef.current = false;
-      setSpeaking(false);
-    };
-    utterance.onerror = () => {
-      speakingRef.current = false;
-      setSpeaking(false);
-    };
-    speakingRef.current = true;
+    utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
     setSpeaking(true);
     synthesis.speak(utterance);
   };
 
   const stopSpeaking = () => {
     window.speechSynthesis?.cancel();
-    speakingRef.current = false;
     setSpeaking(false);
   };
 
@@ -83,6 +121,64 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     setLearned(next);
     localStorage.setItem(`english-learned-${dayKey()}`, next ? "1" : "0");
   };
+
+  const addCustomWord = async () => {
+    if (!wordForm.word.trim()) return;
+    const next = await window.studyNotes?.addWord({
+      word: wordForm.word.trim(),
+      phonetic: wordForm.phonetic.trim(),
+      meaning: wordForm.meaning.trim(),
+      sentence: wordForm.sentence.trim(),
+      sentenceMeaning: wordForm.sentenceMeaning.trim(),
+    });
+    if (next) {
+      setCustomWords(next);
+      setWordForm({ word: "", phonetic: "", meaning: "", sentence: "", sentenceMeaning: "" });
+    }
+  };
+
+  const removeCustomWord = async (id: string) => {
+    const next = await window.studyNotes?.removeWord(id);
+    if (next) setCustomWords(next);
+  };
+
+  const startQuiz = (words: DailyWord[]) => {
+    setQuizWords(words);
+    setQuizIndex(0);
+    setQuizAnswer("");
+    setQuizChecked(false);
+    setQuizCorrect(false);
+    setCorrectCount(0);
+    setWrongIds([]);
+    setQuizDone(false);
+    setTab("dictation");
+  };
+
+  const checkAnswer = () => {
+    const current = quizWords[quizIndex];
+    if (!current || quizChecked) return;
+    const correct = normalizeAnswer(quizAnswer) === normalizeAnswer(current.word);
+    setQuizChecked(true);
+    setQuizCorrect(correct);
+    if (correct) {
+      setCorrectCount((value) => value + 1);
+    } else {
+      setWrongIds((value) => [...value, current.id]);
+    }
+  };
+
+  const nextQuiz = () => {
+    if (quizIndex >= quizWords.length - 1) {
+      setQuizDone(true);
+      return;
+    }
+    setQuizIndex((value) => value + 1);
+    setQuizAnswer("");
+    setQuizChecked(false);
+    setQuizCorrect(false);
+  };
+
+  const currentQuizWord = quizWords[quizIndex];
 
   return (
     <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
@@ -110,67 +206,239 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
           </div>
         </header>
 
-        <div className="english-content">
-          <section className="lesson-card">
-            <div className="lesson-word-row">
-              <div>
-                <h2>{lesson.word}</h2>
-                <span className="lesson-phonetic">{lesson.phonetic}</span>
-              </div>
-              <button
-                type="button"
-                className={`icon-btn ${learned ? "active" : ""}`}
-                title={learned ? "今天已学会" : "标记今天已学会"}
-                onClick={toggleLearned}
-              >
-                {learned ? <CheckCircle2 size={20} /> : <Circle size={20} />}
-              </button>
-            </div>
-            <p className="lesson-meaning">{lesson.meaning}</p>
-            <div className="lesson-sentence">
-              <p>{lesson.sentence}</p>
-              <span>{lesson.sentenceMeaning}</span>
-            </div>
-          </section>
-
-          <div className="english-audio-actions">
-            {speaking ? (
-              <button type="button" className="btn primary" onClick={stopSpeaking}>
-                <Pause size={16} />
-                停止
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="btn primary"
-                onClick={() => speak(`${lesson.word}. ${lesson.sentence}`)}
-              >
-                <Volume2 size={16} />
-                朗读整课
-              </button>
-            )}
-            <button type="button" className="btn" onClick={() => speak(lesson.word)}>
-              读单词
-            </button>
-            <button type="button" className="btn" onClick={() => speak(lesson.sentence)}>
-              读例句
-            </button>
-            <button type="button" className="btn" onClick={() => speak(`${lesson.word}. ${lesson.sentence}`, true)}>
-              <FastForward size={15} />
-              慢速整课
-            </button>
+        <div className="english-tabs">
+          <button type="button" className={tab === "learn" ? "active" : ""} onClick={() => setTab("learn")}>
+            <BookOpenText size={15} />
+            今日学习
+          </button>
+          <button type="button" className={tab === "wordbook" ? "active" : ""} onClick={() => setTab("wordbook")}>
+            <BookMarked size={15} />
+            我的单词本
+          </button>
+          <button type="button" className={tab === "dictation" ? "active" : ""} onClick={() => setTab("dictation")}>
+            <PenLine size={15} />
+            默写
+          </button>
+          <div className="goal-picker">
+            <span>每日学习</span>
+            <select value={goal} onChange={(event) => changeGoal(Number(event.target.value))}>
+              {[3, 5, 10, 15, 20].map((value) => (
+                <option key={value} value={value}>
+                  {value} 个词
+                </option>
+              ))}
+            </select>
           </div>
+        </div>
+
+        <div className="english-content">
+          {tab === "learn" && (
+            <>
+              <div className="lesson-card">
+                <div className="lesson-word-row">
+                  <div>
+                    <h2>今日学习 {dailyWords.length} 个词</h2>
+                    <span className="lesson-phonetic">
+                      自己的生词优先，不足的部分由系统推荐补齐
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className={`icon-btn ${learned ? "active" : ""}`}
+                    title={learned ? "今天已学会" : "标记今天已学会"}
+                    onClick={toggleLearned}
+                  >
+                    {learned ? <CheckCircle2 size={20} /> : <Circle size={20} />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="daily-word-list">
+                {dailyWords.map((item, index) => (
+                  <div className="daily-word-card" key={`${item.id}-${index}`}>
+                    <div className="daily-word-head">
+                      <div>
+                        <h3>{item.word}</h3>
+                        <span>{item.phonetic}</span>
+                        <em>{item.source === "custom" ? "我的生词" : "系统推荐"}</em>
+                      </div>
+                      <div>
+                        <button type="button" className="btn ghost small" onClick={() => speak(item.word)}>
+                          <Volume2 size={14} />
+                          单词
+                        </button>
+                        <button type="button" className="btn ghost small" onClick={() => speak(item.sentence)}>
+                          例句
+                        </button>
+                      </div>
+                    </div>
+                    <p className="daily-word-meaning">{item.meaning}</p>
+                    <div className="lesson-sentence">
+                      <p>{item.sentence}</p>
+                      <span>{item.sentenceMeaning}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="english-audio-actions">
+                <button type="button" className="btn primary" onClick={() => startQuiz(dailyWords)}>
+                  <ListChecks size={16} />
+                  开始默写这 {dailyWords.length} 个词
+                </button>
+                {speaking ? (
+                  <button type="button" className="btn" onClick={stopSpeaking}>
+                    <Pause size={15} />
+                    停止朗读
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => speak(dailyWords.map((item) => item.word).join(". "))}
+                  >
+                    朗读全部单词
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+
+          {tab === "wordbook" && (
+            <>
+              <section className="custom-read word-form">
+                <div className="custom-read-head">
+                  <strong>添加自己的生词</strong>
+                  <span>填得越全，学习和默写效果越好</span>
+                </div>
+                <div className="word-form-grid">
+                  <input value={wordForm.word} onChange={(event) => setWordForm({ ...wordForm, word: event.target.value })} placeholder="单词（必填）" />
+                  <input value={wordForm.phonetic} onChange={(event) => setWordForm({ ...wordForm, phonetic: event.target.value })} placeholder="音标，如 /wɜːrd/" />
+                  <input value={wordForm.meaning} onChange={(event) => setWordForm({ ...wordForm, meaning: event.target.value })} placeholder="中文释义" />
+                  <input value={wordForm.sentence} onChange={(event) => setWordForm({ ...wordForm, sentence: event.target.value })} placeholder="例句（英文）" />
+                  <input value={wordForm.sentenceMeaning} onChange={(event) => setWordForm({ ...wordForm, sentenceMeaning: event.target.value })} placeholder="例句翻译" />
+                </div>
+                <div>
+                  <button type="button" className="btn primary" onClick={addCustomWord}>
+                    <Plus size={15} />
+                    加入单词本
+                  </button>
+                </div>
+              </section>
+
+              <div className="resource-list wordbook-list">
+                {customWords.length === 0 && <p className="muted">单词本是空的，先添加几个生词</p>}
+                {customWords.map((item) => (
+                  <div className="wordbook-row" key={item.id}>
+                    <div>
+                      <strong>{item.word}</strong>
+                      <span>{item.phonetic} · {item.meaning}</span>
+                    </div>
+                    <div>
+                      <button type="button" className="icon-btn" title="朗读" onClick={() => speak(item.word)}>
+                        <Volume2 size={15} />
+                      </button>
+                      <button type="button" className="icon-btn" title="删除" onClick={() => removeCustomWord(item.id)}>
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {tab === "dictation" && (
+            <>
+              {quizWords.length === 0 ? (
+                <div className="dictation-empty">
+                  <PenLine size={30} />
+                  <p>默写会使用今天的每日单词</p>
+                  <button type="button" className="btn primary" onClick={() => startQuiz(dailyWords)}>
+                    开始默写 {dailyWords.length} 个词
+                  </button>
+                </div>
+              ) : quizDone ? (
+                <div className="dictation-result">
+                  <h3>默写完成</h3>
+                  <p className="result-score">
+                    正确 {correctCount} / {quizWords.length}
+                  </p>
+                  <p className="muted">答错 {wrongIds.length} 个，可以只重默写错的</p>
+                  <div className="english-audio-actions">
+                    <button type="button" className="btn primary" onClick={() => startQuiz(dailyWords)}>
+                      <RotateCcw size={15} />
+                      重新默写全部
+                    </button>
+                    <button
+                      type="button"
+                      className="btn"
+                      disabled={wrongIds.length === 0}
+                      onClick={() => startQuiz(dailyWords.filter((item) => wrongIds.includes(item.id)))}
+                    >
+                      只默写错的
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                currentQuizWord && (
+                  <div className="dictation-card">
+                    <div className="dictation-progress">
+                      第 {quizIndex + 1} / {quizWords.length} 个
+                    </div>
+                    <p className="dictation-meaning">{currentQuizWord.meaning}</p>
+                    <p className="dictation-hint">{currentQuizWord.sentence}</p>
+                    <button type="button" className="btn ghost" onClick={() => speak(currentQuizWord.word)}>
+                      <Volume2 size={15} />
+                      听发音
+                    </button>
+                    <input
+                      className="dictation-input"
+                      value={quizAnswer}
+                      onChange={(event) => setQuizAnswer(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                          if (quizChecked) nextQuiz();
+                          else checkAnswer();
+                        }
+                      }}
+                      placeholder="拼写出这个单词"
+                      disabled={quizChecked}
+                    />
+                    {quizChecked && (
+                      <div className={`dictation-feedback ${quizCorrect ? "correct" : "wrong"}`}>
+                        {quizCorrect ? (
+                          <>拼写正确，继续加油</>
+                        ) : (
+                          <>
+                            正确答案：<strong>{currentQuizWord.word}</strong>
+                          </>
+                        )}
+                      </div>
+                    )}
+                    <div className="english-audio-actions">
+                      {quizChecked ? (
+                        <button type="button" className="btn primary" onClick={nextQuiz}>
+                          {quizIndex >= quizWords.length - 1 ? "查看结果" : "下一个"}
+                        </button>
+                      ) : (
+                        <button type="button" className="btn primary" onClick={checkAnswer}>
+                          检查答案
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )
+              )}
+            </>
+          )}
 
           <section className="custom-read">
             <div className="custom-read-head">
               <strong>朗读自己的英语文本</strong>
               <span>可以粘贴课文、生词或句子</span>
             </div>
-            <textarea
-              value={customText}
-              onChange={(event) => setCustomText(event.target.value)}
-              placeholder="Paste English text here..."
-            />
+            <textarea value={customText} onChange={(event) => setCustomText(event.target.value)} placeholder="Paste English text here..." />
             <div>
               <button type="button" className="btn primary" onClick={() => speak(customText)} disabled={!customText.trim()}>
                 <Volume2 size={15} />

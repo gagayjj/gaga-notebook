@@ -45,6 +45,7 @@ function defaultLibrary() {
     },
     resources: [],
     plans: [],
+    customWords: [],
   };
 }
 
@@ -162,6 +163,7 @@ async function ensureLibrary() {
       const library = JSON.parse(await fsp.readFile(libPath, "utf8"));
       if (!library.resources) library.resources = [];
       if (!library.plans) library.plans = [];
+      if (!library.customWords) library.customWords = [];
       return library;
     } catch (error) {
       console.error("读取 library.json 失败，将重建", error);
@@ -408,12 +410,23 @@ function createWindow() {
             };
           })()`);
           const englishTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            const addedWords = await window.studyNotes.addWord({
+              word: "QAword",
+              phonetic: "/qa/",
+              meaning: "测试",
+              sentence: "This is a QA sentence.",
+              sentenceMeaning: "这是测试句。",
+            });
+            const listedWords = await window.studyNotes.listWords();
+            await window.studyNotes.removeWord(addedWords[addedWords.length - 1].id);
             document.querySelector('button[title="打开每日英语"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 400));
             const voices = window.speechSynthesis?.getVoices?.() || [];
             return {
               ttsAvailable: Boolean(window.speechSynthesis),
               voiceCount: voices.length,
+              wordAdded: listedWords.some((item) => item.word === "QAword"),
+              tabCount: document.querySelectorAll(".english-tabs button").length,
               modalText: document.querySelector(".english-modal")?.innerText.slice(0, 160) || "",
             };
           })()`);
@@ -810,6 +823,34 @@ ipcMain.handle("plans:remove", async (_event, id) => {
   }
   await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
   return library.plans;
+});
+
+ipcMain.handle("words:list", async () => (await ensureLibrary()).customWords || []);
+
+ipcMain.handle("words:add", async (_event, input) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const word = String(input?.word || "").trim();
+  if (!word) return library.customWords || [];
+  library.customWords.push({
+    id: `word-${Date.now()}`,
+    word,
+    phonetic: String(input?.phonetic || "").trim(),
+    meaning: String(input?.meaning || "").trim(),
+    sentence: String(input?.sentence || "").trim(),
+    sentenceMeaning: String(input?.sentenceMeaning || "").trim(),
+    createdAt: new Date().toISOString(),
+  });
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.customWords;
+});
+
+ipcMain.handle("words:remove", async (_event, id) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  library.customWords = (library.customWords || []).filter((word) => word.id !== id);
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.customWords;
 });
 
 protocol.registerSchemesAsPrivileged([

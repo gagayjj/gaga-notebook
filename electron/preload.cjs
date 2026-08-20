@@ -35,4 +35,7 @@ contextBridge.exposeInMainWorld("studyNotes", {
   listPlans: () => ipcRenderer.invoke("plans:list"),
   savePlan: (payload) => ipcRenderer.invoke("plans:save", payload),
   removePlan: (id) => ipcRenderer.invoke("plans:remove", id),
+  listWords: () => ipcRenderer.invoke("words:list"),
+  addWord: (input) => ipcRenderer.invoke("words:add", input),
+  removeWord: (id) => ipcRenderer.invoke("words:remove", id),
 });
