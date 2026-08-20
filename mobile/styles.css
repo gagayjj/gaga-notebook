@@ -338,6 +338,33 @@ textarea {
   background: var(--yellow);
 }
 
+.shape-palette {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 10px;
+  background: #f7f6f3;
+  border-bottom: 2px solid #262626;
+}
+
+.shape-palette[hidden] {
+  display: none;
+}
+
+.shape-palette button {
+  flex: 0 0 auto;
+  border: 2px solid #262626;
+  border-radius: 9px;
+  background: #fff;
+  padding: 7px 10px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.shape-palette button.active {
+  background: var(--yellow);
+}
+
 .color-row {
   display: flex;
   gap: 4px;

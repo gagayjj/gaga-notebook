@@ -255,12 +255,14 @@ function distanceToSegment(p, a, b) {
 }
 
 function hitMarkerStroke(stroke, point) {
-  if (stroke.tool !== "arrow") return null;
-  const threshold = Math.max(12, stroke.size * 2.5);
-  if (Math.hypot(point.x - stroke.start.x, point.y - stroke.start.y) <= threshold + 8) return "start";
-  if (Math.hypot(point.x - stroke.end.x, point.y - stroke.end.y) <= threshold + 8) return "end";
-  if (distanceToSegment(point, stroke.start, stroke.end) <= threshold) return "move";
-  return null;
+  if (stroke.tool === "arrow") {
+    const threshold = Math.max(12, stroke.size * 2.5);
+    if (Math.hypot(point.x - stroke.start.x, point.y - stroke.start.y) <= threshold + 8) return "start";
+    if (Math.hypot(point.x - stroke.end.x, point.y - stroke.end.y) <= threshold + 8) return "end";
+    if (distanceToSegment(point, stroke.start, stroke.end) <= threshold) return "move";
+    return null;
+  }
+  return hitMarkerShape(stroke, point);
 }
 
 function drawMarkerArrow(ctx, start, end, size) {
@@ -276,6 +278,135 @@ function drawMarkerArrow(ctx, start, end, size) {
   ctx.lineTo(end.x - head * Math.cos(angle + Math.PI / 7), end.y - head * Math.sin(angle + Math.PI / 7));
   ctx.closePath();
   ctx.fill();
+}
+
+function shapeBox(stroke) {
+  if (stroke.tool === "text") {
+    return { left: stroke.x, top: stroke.y - stroke.size * 6, right: stroke.x + stroke.size * 12, bottom: stroke.y };
+  }
+  return {
+    left: Math.min(stroke.start.x, stroke.end.x),
+    top: Math.min(stroke.start.y, stroke.end.y),
+    right: Math.max(stroke.start.x, stroke.end.x),
+    bottom: Math.max(stroke.start.y, stroke.end.y),
+  };
+}
+
+function roundedRectPath(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.arcTo(x + w, y, x + w, y + r, r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+  ctx.lineTo(x + r, y + h);
+  ctx.arcTo(x, y + h, x, y + h - r, r);
+  ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r);
+  ctx.closePath();
+}
+
+function drawMarkerShape(ctx, stroke) {
+  const box = shapeBox(stroke);
+  const w = Math.max(10, box.right - box.left);
+  const h = Math.max(10, box.bottom - box.top);
+  const x = box.left;
+  const y = box.top;
+  ctx.strokeStyle = stroke.color;
+  ctx.fillStyle = stroke.color;
+  ctx.lineWidth = stroke.size;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  if (stroke.tool === "line") {
+    ctx.beginPath();
+    ctx.moveTo(stroke.start.x, stroke.start.y);
+    ctx.lineTo(stroke.end.x, stroke.end.y);
+    ctx.stroke();
+  } else if (stroke.tool === "doubleArrow") {
+    ctx.beginPath();
+    ctx.moveTo(stroke.start.x, stroke.start.y);
+    ctx.lineTo(stroke.end.x, stroke.end.y);
+    ctx.stroke();
+    drawMarkerArrow(ctx, stroke.end, stroke.start, stroke.size * 0.7);
+  } else if (stroke.tool === "rect") {
+    ctx.strokeRect(x, y, w, h);
+  } else if (stroke.tool === "roundedRect" || stroke.tool === "textBox" || stroke.tool === "callout") {
+    roundedRectPath(ctx, x, y, w, h, Math.min(18, h * 0.25));
+    ctx.stroke();
+    if (stroke.tool === "textBox" || stroke.tool === "callout") {
+      ctx.font = `${Math.max(14, Math.min(28, h * 0.28))}px sans-serif`;
+      ctx.textBaseline = "middle";
+      ctx.fillText(stroke.text || "文本", x + 10, y + h / 2);
+    }
+    if (stroke.tool === "callout") {
+      ctx.beginPath();
+      ctx.moveTo(stroke.end.x, stroke.end.y);
+      ctx.lineTo(x + w - 20, y + h - 2);
+      ctx.lineTo(x + w - 2, y + h);
+      ctx.closePath();
+      ctx.fill();
+    }
+  } else if (stroke.tool === "ellipse") {
+    ctx.beginPath();
+    ctx.ellipse(x + w / 2, y + h / 2, w / 2, h / 2, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  } else if (stroke.tool === "star") {
+    const cx = x + w / 2;
+    const cy = y + h / 2;
+    const outer = Math.min(w, h) / 2;
+    const inner = outer * 0.45;
+    ctx.beginPath();
+    for (let i = 0; i < 10; i += 1) {
+      const radius = i % 2 === 0 ? outer : inner;
+      const angle = -Math.PI / 2 + (i * Math.PI) / 5;
+      const px = cx + radius * Math.cos(angle);
+      const py = cy + radius * Math.sin(angle);
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fill();
+  } else if (stroke.tool === "flag") {
+    ctx.beginPath();
+    ctx.moveTo(x, y + h);
+    ctx.lineTo(x, y);
+    ctx.lineTo(x + w, y + h * 0.45);
+    ctx.closePath();
+    ctx.fill();
+  } else if (stroke.tool === "heart") {
+    const cx = x + w / 2;
+    const cy = y + h / 2;
+    const s = Math.min(w, h) / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy + s * 0.7);
+    ctx.bezierCurveTo(cx - s * 1.1, cy - s * 0.15, cx - s * 0.4, cy - s * 0.8, cx, cy - s * 0.2);
+    ctx.bezierCurveTo(cx + s * 0.4, cy - s * 0.8, cx + s * 1.1, cy - s * 0.15, cx, cy + s * 0.7);
+    ctx.fill();
+  } else if (stroke.tool === "check") {
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.1, y + h * 0.55);
+    ctx.lineTo(x + w * 0.38, y + h * 0.85);
+    ctx.lineTo(x + w * 0.9, y + h * 0.12);
+    ctx.stroke();
+  } else if (stroke.tool === "exclaim") {
+    const cx = x + w / 2;
+    ctx.fillRect(cx - stroke.size, y + h * 0.15, stroke.size * 2, h * 0.45);
+    ctx.beginPath();
+    ctx.arc(cx, y + h * 0.8, stroke.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function hitMarkerShape(stroke, point) {
+  const box = shapeBox(stroke);
+  const pad = Math.max(12, stroke.size * 2.5);
+  if (point.x >= box.left - pad && point.x <= box.right + pad && point.y >= box.top - pad && point.y <= box.bottom + pad) {
+    const nearCorner = (px, py) => Math.hypot(point.x - px, point.y - py) <= 14;
+    if (nearCorner(box.left, box.top)) return "start";
+    if (nearCorner(box.right, box.bottom)) return "end";
+    return "move";
+  }
+  return null;
 }
 
 function drawMarker() {
@@ -300,16 +431,24 @@ function drawMarker() {
     } else if (stroke.tool === "text") {
       ctx.font = `${stroke.size * 6}px sans-serif`;
       ctx.fillText(stroke.text, stroke.x, stroke.y);
+    } else {
+      drawMarkerShape(ctx, stroke);
     }
   };
   strokes.forEach(paint);
   if (draft) paint(draft);
   const selectedStroke = strokes[selected];
-  if (selectedStroke && selectedStroke.tool === "arrow") {
+  if (selectedStroke && selectedStroke.tool !== "pen") {
+    const box = shapeBox(selectedStroke);
     ctx.strokeStyle = "#2563eb";
     ctx.fillStyle = "#fff";
     ctx.lineWidth = 3;
-    [selectedStroke.start, selectedStroke.end].forEach((point) => {
+    [
+      { x: box.left, y: box.top },
+      { x: box.right, y: box.top },
+      { x: box.left, y: box.bottom },
+      { x: box.right, y: box.bottom },
+    ].forEach((point) => {
       ctx.beginPath();
       ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
       ctx.fill();
@@ -359,6 +498,9 @@ function setMarkerTool(tool) {
   document.querySelectorAll("#mt-arrow, #mt-pen, #mt-text").forEach((button) => {
     button.classList.toggle("active", button.id === `mt-${tool}`);
   });
+  document.querySelectorAll("#shape-palette button").forEach((button) => {
+    button.classList.toggle("active", button.dataset.shape === tool);
+  });
 }
 
 function bindMarkerEditor() {
@@ -378,6 +520,15 @@ function bindMarkerEditor() {
     setMarkerTool("text");
     const text = prompt("输入标注文字", "重点");
     if (text) marker.pendingText = text;
+  });
+  $("mt-shapes").addEventListener("click", () => {
+    $("shape-palette").hidden = !$("shape-palette").hidden;
+  });
+  document.querySelectorAll("#shape-palette button").forEach((button) => {
+    button.addEventListener("click", () => {
+      setMarkerTool(button.dataset.shape);
+      $("shape-palette").hidden = true;
+    });
   });
   document.querySelectorAll(".color-row i").forEach((item) => {
     item.addEventListener("click", () => {
@@ -415,7 +566,8 @@ function bindMarkerEditor() {
   canvas.addEventListener("pointerdown", (event) => {
     const point = markerPoint(event);
     canvas.setPointerCapture(event.pointerId);
-    if (marker.tool === "arrow" && marker.selected >= 0) {
+    const isShape = marker.tool !== "pen" && marker.tool !== "text";
+    if ((marker.tool === "arrow" || isShape) && marker.selected >= 0) {
       const stroke = marker.strokes[marker.selected];
       const hit = stroke && hitMarkerStroke(stroke, point);
       if (hit) {
@@ -434,14 +586,30 @@ function bindMarkerEditor() {
     if (marker.tool === "pen") {
       marker.draft = { tool: "pen", color: marker.color, size: marker.size, points: [point] };
     } else {
-      marker.draft = { tool: "arrow", color: marker.color, size: marker.size, start: point, end: point };
+      const text = marker.tool === "textBox" || marker.tool === "callout" ? marker.pendingText || prompt("输入文字", "文本") : "";
+      marker.pendingText = null;
+      marker.draft = {
+        tool: marker.tool,
+        color: marker.color,
+        size: marker.size,
+        start: point,
+        end: point,
+        text,
+      };
     }
   });
   canvas.addEventListener("pointermove", (event) => {
     const point = markerPoint(event);
     if (marker.dragMode && marker.selected >= 0) {
       const stroke = marker.strokes[marker.selected];
-      if (stroke && stroke.tool === "arrow") {
+      if (stroke && stroke.tool !== "pen") {
+        if (stroke.tool === "text") {
+          stroke.x += point.x - marker.dragStart.x;
+          stroke.y += point.y - marker.dragStart.y;
+          marker.dragStart = point;
+          drawMarker();
+          return;
+        }
         if (marker.dragMode === "start") stroke.start = point;
         else if (marker.dragMode === "end") stroke.end = point;
         else {
@@ -463,7 +631,7 @@ function bindMarkerEditor() {
   canvas.addEventListener("pointerup", () => {
     if (marker.draft) {
       marker.strokes.push(marker.draft);
-      if (marker.draft.tool === "arrow") marker.selected = marker.strokes.length - 1;
+      if (marker.draft.tool !== "pen") marker.selected = marker.strokes.length - 1;
       marker.draft = null;
       drawMarker();
     }
