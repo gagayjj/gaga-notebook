@@ -293,6 +293,24 @@ export default function App() {
 
         <div className="main-area">
           <div
+            className={`video-column ${videoOpen && !narrow ? "" : "hidden"}`}
+            style={{ width: `${videoWidth}%` }}
+          >
+            <VideoPane
+              videoState={videoState}
+              active={videoOpen && !narrow}
+              onOpenVideo={handleOpenVideo}
+              onOpenUrl={handleOpenUrl}
+              onCloseUrl={handleCloseUrl}
+              onOpenExternal={handleOpenExternal}
+              onSnapshot={handleSnapshot}
+              onController={(controller) => {
+                videoControllerRef.current = controller;
+              }}
+            />
+          </div>
+          <div className={`splitter ${videoOpen && !narrow ? "" : "hidden"}`} onMouseDown={handleSplitterDown} />
+          <div
             className="notes-column"
             style={{ width: videoOpen && !narrow ? `${100 - videoWidth}%` : "100%" }}
           >
@@ -312,24 +330,6 @@ export default function App() {
               recorderToggleRef={recorderToggleRef}
               lined={lined}
               onLinedChange={setLined}
-            />
-          </div>
-          <div className={`splitter ${videoOpen && !narrow ? "" : "hidden"}`} onMouseDown={handleSplitterDown} />
-          <div
-            className={`video-column ${videoOpen && !narrow ? "" : "hidden"}`}
-            style={{ width: `${videoWidth}%` }}
-          >
-            <VideoPane
-              videoState={videoState}
-              active={videoOpen && !narrow}
-              onOpenVideo={handleOpenVideo}
-              onOpenUrl={handleOpenUrl}
-              onCloseUrl={handleCloseUrl}
-              onOpenExternal={handleOpenExternal}
-              onSnapshot={handleSnapshot}
-              onController={(controller) => {
-                videoControllerRef.current = controller;
-              }}
             />
           </div>
         </div>

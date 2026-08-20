@@ -75,6 +75,14 @@ export function VideoPane({
     return window.studyNotes?.onVideoStatus?.((nextStatus) => setStatus(nextStatus));
   }, []);
 
+  useEffect(() => {
+    if (!status || status.state !== "loading") return;
+    const timer = window.setTimeout(() => {
+      setStatus({ state: "slow", message: "加载较慢，可点外部打开" });
+    }, 10000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
+
   const handlePick = async () => {
     const path = await window.studyNotes?.openVideoDialog();
     if (path) onOpenVideo(path);

@@ -3,6 +3,9 @@ const path = require("path");
 const fs = require("fs");
 const fsp = require("fs/promises");
 
+const BROWSER_UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+
 let mainWindow = null;
 let videoView = null;
 let narrowState = null;
@@ -305,7 +308,10 @@ function createWindow() {
             input.dispatchEvent(new Event("input", { bubbles: true }));
             document.querySelector(".url-box button")?.click();
             await new Promise((resolve) => setTimeout(resolve, 6000));
-            return { videoPaneText: document.querySelector(".video-pane")?.innerText.slice(0, 200) || "" };
+            return {
+              videoPaneText: document.querySelector(".video-pane")?.innerText.slice(0, 200) || "",
+              statusText: document.querySelector(".video-status")?.textContent || "",
+            };
           })()`);
           const urlInfo = {
             bounds: videoView?.getBounds(),
@@ -399,6 +405,9 @@ function attachVideoViewStatus(view) {
   view.webContents.on("did-finish-load", () => {
     sendVideoStatus("loaded", "网页已加载，可点击播放");
   });
+  view.webContents.on("did-stop-loading", () => {
+    sendVideoStatus("loaded", "网页已加载，可点击播放");
+  });
   view.webContents.on("did-fail-load", (_event, _code, description) => {
     sendVideoStatus("failed", description || "网页加载失败");
   });
@@ -447,6 +456,8 @@ ipcMain.handle("video:open-url", (_event, url) => {
         nodeIntegration: false,
       },
     });
+    videoView.setBackgroundColor("#0d0f14");
+    videoView.webContents.setUserAgent(BROWSER_UA);
     mainWindow.addBrowserView(videoView);
   }
   videoView.webContents.loadURL(url);
@@ -464,6 +475,8 @@ ipcMain.handle("video:set-visible", (_event, visible, url) => {
           nodeIntegration: false,
         },
       });
+      videoView.setBackgroundColor("#0d0f14");
+      videoView.webContents.setUserAgent(BROWSER_UA);
     }
     if (url && videoView.webContents.getURL() !== url) {
       videoView.webContents.loadURL(url);
