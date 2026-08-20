@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#262626" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <title>GAGA的笔记本</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <img src="./icons/icon-192.png" alt="logo" />
+        <div>
+          <strong>GAGA的笔记本</strong>
+          <span>边学边记</span>
+        </div>
+      </header>
+
+      <main>
+        <section id="tab-notes" class="page active">
+          <div class="page-head">
+            <h2>我的笔记</h2>
+            <span id="notes-count"></span>
+          </div>
+          <div class="card note-editor">
+            <input id="note-title" placeholder="笔记标题" />
+            <textarea id="note-content" placeholder="开始记笔记..."></textarea>
+            <div class="row">
+              <button id="save-note" class="btn primary">保存笔记</button>
+              <button id="new-note" class="btn">新建</button>
+            </div>
+          </div>
+          <div id="notes-list" class="list"></div>
+        </section>
+
+        <section id="tab-english" class="page">
+          <div class="page-head">
+            <h2>每日英语</h2>
+            <span id="english-date"></span>
+          </div>
+          <div class="card lesson-card">
+            <div class="lesson-word-row">
+              <div>
+                <h3 id="lesson-word"></h3>
+                <span id="lesson-phonetic"></span>
+              </div>
+              <button id="speak-word" class="round-btn">听</button>
+            </div>
+            <p id="lesson-meaning"></p>
+            <p id="lesson-sentence"></p>
+            <p id="lesson-sentence-cn" class="muted"></p>
+            <div class="row">
+              <button id="speak-sentence" class="btn">读例句</button>
+              <button id="slow-speak" class="btn">慢速</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <strong>我的生词</strong>
+            </div>
+            <div class="inline-form">
+              <input id="word-input" placeholder="单词" />
+              <input id="meaning-input" placeholder="释义" />
+              <button id="add-word" class="btn primary">加入</button>
+            </div>
+            <div id="word-list" class="list"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <strong>默写</strong>
+              <span id="dict-result"></span>
+            </div>
+            <p id="dict-prompt" class="muted">点开始，根据释义默写单词</p>
+            <div class="row">
+              <button id="start-dict" class="btn primary">开始默写</button>
+              <button id="hear-answer" class="btn">听发音</button>
+            </div>
+            <input id="dict-input" placeholder="拼写出单词" hidden />
+            <button id="check-dict" class="btn" hidden>检查</button>
+          </div>
+        </section>
+
+        <section id="tab-plans" class="page">
+          <div class="page-head">
+            <h2>学习计划</h2>
+            <button id="enable-notify" class="mini-btn">开提醒</button>
+          </div>
+          <div class="card">
+            <input id="plan-title" placeholder="今天要学什么" />
+            <div class="inline-form">
+              <input type="date" id="plan-date" />
+              <input type="time" id="plan-time" />
+              <button id="add-plan" class="btn primary">添加</button>
+            </div>
+          </div>
+          <div id="plan-list" class="list"></div>
+        </section>
+
+        <section id="tab-mine" class="page">
+          <div class="card mine-card">
+            <img src="./icons/icon-192.png" alt="GAGA" />
+            <h2>GAGA的笔记本</h2>
+            <p class="muted">手机网页版 · 数据存在本机浏览器</p>
+            <div id="mine-stats" class="stats"></div>
+            <button id="clear-data" class="btn danger">清空本机数据</button>
+          </div>
+        </section>
+      </main>
+
+      <nav class="tabbar">
+        <button data-tab="notes" class="active">笔记</button>
+        <button data-tab="english">英语</button>
+        <button data-tab="plans">计划</button>
+        <button data-tab="mine">我的</button>
+      </nav>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>
