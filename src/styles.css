@@ -1702,6 +1702,19 @@ body {
   background-color: var(--bg);
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: contrast(1.22) saturate(1.35) brightness(0.82);
+}
+
 .toolbar-title strong,
 h1,
 h2,
@@ -2109,7 +2122,7 @@ body[data-bg-fill="1"] .sidebar,
 body[data-bg-fill="1"] .status-bar,
 body[data-bg-fill="1"] .notes-pane,
 body[data-bg-fill="1"] .editor-toolbar {
-  background-color: rgba(255, 248, 231, 0.82);
+  background-color: rgba(255, 248, 231, 0.72);
 }
 
 body[data-bg-fill="1"] .editor-paper,
@@ -2117,7 +2130,7 @@ body[data-bg-fill="1"] .annotation-modal,
 body[data-bg-fill="1"] .resource-modal,
 body[data-bg-fill="1"] .english-modal,
 body[data-bg-fill="1"] .bg-designer {
-  background-color: rgba(255, 253, 247, 0.9);
+  background-color: rgba(255, 253, 247, 0.84);
 }
 
 body[data-bg-fill="1"] .video-pane {
