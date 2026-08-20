@@ -1418,6 +1418,36 @@ input {
   color: var(--text);
 }
 
+.plan-switch {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-2);
+}
+
+.plan-switch button {
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.plan-switch button.active {
+  background: var(--panel);
+  color: var(--accent);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+}
+
+.english-tabs .goal-picker {
+  margin-left: auto;
+}
+
 .btn.small {
   height: 28px;
   padding: 0 9px;
@@ -1435,6 +1465,12 @@ input {
   border-radius: 10px;
   padding: 16px 18px;
   background: var(--panel);
+}
+
+.sentence-today h3 {
+  font-size: 22px;
+  line-height: 1.55;
+  white-space: normal;
 }
 
 .daily-word-head {
@@ -1496,6 +1532,17 @@ input {
   font: inherit;
 }
 
+.word-form-grid .sentence-form-english {
+  height: 88px;
+  resize: none;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  outline: 0;
+  font: inherit;
+  line-height: 1.6;
+}
+
 .wordbook-row {
   display: flex;
   align-items: center;
@@ -1521,6 +1568,15 @@ input {
 .wordbook-row span {
   color: var(--muted);
   font-size: 13px;
+}
+
+.wordbook-row.sentence-row {
+  align-items: flex-start;
+}
+
+.sentence-row strong {
+  white-space: normal;
+  line-height: 1.5;
 }
 
 .wordbook-row > div:last-child {

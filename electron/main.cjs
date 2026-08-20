@@ -46,6 +46,7 @@ function defaultLibrary() {
     resources: [],
     plans: [],
     customWords: [],
+    customSentences: [],
   };
 }
 
@@ -164,6 +165,7 @@ async function ensureLibrary() {
       if (!library.resources) library.resources = [];
       if (!library.plans) library.plans = [];
       if (!library.customWords) library.customWords = [];
+      if (!library.customSentences) library.customSentences = [];
       return library;
     } catch (error) {
       console.error("读取 library.json 失败，将重建", error);
@@ -177,7 +179,7 @@ async function ensureLibrary() {
 }
 
 async function writeAtomic(filePath, data) {
-  const tmp = `${filePath}.${process.pid}.${Date.now()}.tmp`;
+  const tmp = `${filePath}.${process.pid}.${Date.now()}.${Math.random().toString(36).slice(2, 8)}.tmp`;
   await fsp.writeFile(tmp, data, "utf8");
   await fsp.rename(tmp, filePath);
 }
@@ -419,13 +421,20 @@ function createWindow() {
             });
             const listedWords = await window.studyNotes.listWords();
             await window.studyNotes.removeWord(addedWords[addedWords.length - 1].id);
+            const addedSentences = await window.studyNotes.addSentence({ english: "Practice makes progress.", chinese: "练习带来进步。" });
+            const listedSentences = await window.studyNotes.listSentences();
+            await window.studyNotes.removeSentence(addedSentences[addedSentences.length - 1].id);
             document.querySelector('button[title="打开每日英语"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 400));
+            document.querySelector(".plan-switch button:nth-child(2)")?.click();
+            await new Promise((resolve) => setTimeout(resolve, 300));
             const voices = window.speechSynthesis?.getVoices?.() || [];
             return {
               ttsAvailable: Boolean(window.speechSynthesis),
               voiceCount: voices.length,
               wordAdded: listedWords.some((item) => item.word === "QAword"),
+              sentenceAdded: listedSentences.some((item) => item.english === "Practice makes progress."),
+              planSwitchCount: document.querySelectorAll(".plan-switch button").length,
               tabCount: document.querySelectorAll(".english-tabs button").length,
               modalText: document.querySelector(".english-modal")?.innerText.slice(0, 160) || "",
             };
@@ -851,6 +860,31 @@ ipcMain.handle("words:remove", async (_event, id) => {
   library.customWords = (library.customWords || []).filter((word) => word.id !== id);
   await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
   return library.customWords;
+});
+
+ipcMain.handle("sentences:list", async () => (await ensureLibrary()).customSentences || []);
+
+ipcMain.handle("sentences:add", async (_event, input) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const english = String(input?.english || "").trim();
+  if (!english) return library.customSentences || [];
+  library.customSentences.push({
+    id: `sentence-${Date.now()}`,
+    english,
+    chinese: String(input?.chinese || "").trim(),
+    createdAt: new Date().toISOString(),
+  });
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.customSentences;
+});
+
+ipcMain.handle("sentences:remove", async (_event, id) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  library.customSentences = (library.customSentences || []).filter((sentence) => sentence.id !== id);
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.customSentences;
 });
 
 protocol.registerSchemesAsPrivileged([

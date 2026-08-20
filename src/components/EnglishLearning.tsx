@@ -9,13 +9,14 @@ import {
   Pause,
   PenLine,
   Plus,
+  Quote,
   RotateCcw,
   Trash2,
   Volume2,
   X,
 } from "lucide-react";
 import { recommendedWords, type EnglishWord } from "../data/englishWords";
-import type { StudyWord } from "../types";
+import type { StudySentence, StudyWord } from "../types";
 
 interface EnglishLearningProps {
   onClose: () => void;
@@ -34,12 +35,19 @@ function normalizeAnswer(value: string) {
 }
 
 export function EnglishLearning({ onClose }: EnglishLearningProps) {
-  const [tab, setTab] = useState<"learn" | "wordbook" | "dictation">("learn");
+  const [tab, setTab] = useState<"learn" | "wordbook" | "sentencebook" | "dictation">("learn");
+  const [planType, setPlanType] = useState<"words" | "sentences">(
+    () => (localStorage.getItem("english-plan-type") as "words" | "sentences") || "words",
+  );
   const [goal, setGoal] = useState(() => Number(localStorage.getItem("english-daily-goal") || 5));
   const [customWords, setCustomWords] = useState<StudyWord[]>([]);
+  const [customSentences, setCustomSentences] = useState<StudySentence[]>([]);
   const [learned, setLearned] = useState(false);
+  const [sentenceLearned, setSentenceLearned] = useState(false);
   const [slow, setSlow] = useState(false);
   const [customText, setCustomText] = useState("");
+  const [sentenceForm, setSentenceForm] = useState({ english: "", chinese: "" });
+  const [todaySentenceIndex, setTodaySentenceIndex] = useState(() => Math.floor(Date.now() / 86400000));
 
   const [wordForm, setWordForm] = useState({
     word: "",
@@ -60,8 +68,15 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   const [speaking, setSpeaking] = useState(false);
 
   useEffect(() => {
-    window.studyNotes?.listWords().then(setCustomWords);
+    Promise.all([
+      window.studyNotes?.listWords() || Promise.resolve([]),
+      window.studyNotes?.listSentences() || Promise.resolve([]),
+    ]).then(([words, sentences]) => {
+      setCustomWords(words);
+      setCustomSentences(sentences);
+    });
     setLearned(localStorage.getItem(`english-learned-${dayKey()}`) === "1");
+    setSentenceLearned(localStorage.getItem(`english-sentence-learned-${dayKey()}`) === "1");
   }, []);
 
   useEffect(() => {
@@ -87,6 +102,16 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     }
     return [...custom, ...recommended];
   }, [customWords, goal]);
+
+  const todaySentence = useMemo(() => {
+    if (customSentences.length === 0) return null;
+    return customSentences[Math.abs(todaySentenceIndex) % customSentences.length];
+  }, [customSentences, todaySentenceIndex]);
+
+  const changePlanType = (type: "words" | "sentences") => {
+    setPlanType(type);
+    localStorage.setItem("english-plan-type", type);
+  };
 
   const changeGoal = (value: number) => {
     setGoal(value);
@@ -140,6 +165,23 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   const removeCustomWord = async (id: string) => {
     const next = await window.studyNotes?.removeWord(id);
     if (next) setCustomWords(next);
+  };
+
+  const addCustomSentence = async () => {
+    if (!sentenceForm.english.trim()) return;
+    const next = await window.studyNotes?.addSentence({
+      english: sentenceForm.english.trim(),
+      chinese: sentenceForm.chinese.trim(),
+    });
+    if (next) {
+      setCustomSentences(next);
+      setSentenceForm({ english: "", chinese: "" });
+    }
+  };
+
+  const removeCustomSentence = async (id: string) => {
+    const next = await window.studyNotes?.removeSentence(id);
+    if (next) setCustomSentences(next);
   };
 
   const startQuiz = (words: DailyWord[]) => {
@@ -215,24 +257,38 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
             <BookMarked size={15} />
             我的单词本
           </button>
+          <button type="button" className={tab === "sentencebook" ? "active" : ""} onClick={() => setTab("sentencebook")}>
+            <Quote size={15} />
+            语句本
+          </button>
           <button type="button" className={tab === "dictation" ? "active" : ""} onClick={() => setTab("dictation")}>
             <PenLine size={15} />
             默写
           </button>
-          <div className="goal-picker">
-            <span>每日学习</span>
-            <select value={goal} onChange={(event) => changeGoal(Number(event.target.value))}>
-              {[3, 5, 10, 15, 20].map((value) => (
-                <option key={value} value={value}>
-                  {value} 个词
-                </option>
-              ))}
-            </select>
+          <div className="plan-switch">
+            <button type="button" className={planType === "words" ? "active" : ""} onClick={() => changePlanType("words")}>
+              单词计划
+            </button>
+            <button type="button" className={planType === "sentences" ? "active" : ""} onClick={() => changePlanType("sentences")}>
+              语句计划
+            </button>
           </div>
+          {planType === "words" && (
+            <div className="goal-picker">
+              <span>每日学习</span>
+              <select value={goal} onChange={(event) => changeGoal(Number(event.target.value))}>
+                {[3, 5, 10, 15, 20].map((value) => (
+                  <option key={value} value={value}>
+                    {value} 个词
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
 
         <div className="english-content">
-          {tab === "learn" && (
+          {tab === "learn" && planType === "words" && (
             <>
               <div className="lesson-card">
                 <div className="lesson-word-row">
@@ -304,6 +360,70 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
             </>
           )}
 
+          {tab === "learn" && planType === "sentences" && (
+            <>
+              <div className="lesson-card">
+                <div className="lesson-word-row">
+                  <div>
+                    <h2>今日语句</h2>
+                    <span className="lesson-phonetic">每天学习自己录入的一段英语</span>
+                  </div>
+                  <button
+                    type="button"
+                    className={`icon-btn ${sentenceLearned ? "active" : ""}`}
+                    title={sentenceLearned ? "今天已学会" : "标记今天已学会"}
+                    onClick={() => {
+                      const next = !sentenceLearned;
+                      setSentenceLearned(next);
+                      localStorage.setItem(`english-sentence-learned-${dayKey()}`, next ? "1" : "0");
+                    }}
+                  >
+                    {sentenceLearned ? <CheckCircle2 size={20} /> : <Circle size={20} />}
+                  </button>
+                </div>
+              </div>
+
+              {todaySentence ? (
+                <div className="daily-word-card sentence-today">
+                  <div className="daily-word-head">
+                    <div>
+                      <h3>{todaySentence.english}</h3>
+                      <span>来自我的语句本</span>
+                    </div>
+                    <div>
+                      <button type="button" className="btn ghost small" onClick={() => speak(todaySentence.english)}>
+                        <Volume2 size={14} />
+                        朗读
+                      </button>
+                      <button type="button" className="btn ghost small" onClick={() => speak(todaySentence.english, true)}>
+                        慢速
+                      </button>
+                    </div>
+                  </div>
+                  <div className="lesson-sentence">
+                    <p>{todaySentence.chinese}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="dictation-empty">
+                  <Quote size={30} />
+                  <p>语句本还是空的，先添加一段想学的英语</p>
+                  <button type="button" className="btn primary" onClick={() => setTab("sentencebook")}>
+                    去语句本添加
+                  </button>
+                </div>
+              )}
+
+              {customSentences.length > 1 && (
+                <div className="english-audio-actions">
+                  <button type="button" className="btn" onClick={() => setTodaySentenceIndex((value) => value + 1)}>
+                    换一段学习
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
           {tab === "wordbook" && (
             <>
               <section className="custom-read word-form">
@@ -339,6 +459,57 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                         <Volume2 size={15} />
                       </button>
                       <button type="button" className="icon-btn" title="删除" onClick={() => removeCustomWord(item.id)}>
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {tab === "sentencebook" && (
+            <>
+              <section className="custom-read word-form">
+                <div className="custom-read-head">
+                  <strong>添加自己的英语语句</strong>
+                  <span>每天学习一段，只使用自己录入的内容</span>
+                </div>
+                <div className="word-form-grid">
+                  <textarea
+                    className="sentence-form-english"
+                    value={sentenceForm.english}
+                    onChange={(event) => setSentenceForm({ ...sentenceForm, english: event.target.value })}
+                    placeholder="英语语句或段落（必填）"
+                  />
+                  <textarea
+                    className="sentence-form-english"
+                    value={sentenceForm.chinese}
+                    onChange={(event) => setSentenceForm({ ...sentenceForm, chinese: event.target.value })}
+                    placeholder="中文翻译"
+                  />
+                </div>
+                <div>
+                  <button type="button" className="btn primary" onClick={addCustomSentence}>
+                    <Plus size={15} />
+                    加入语句本
+                  </button>
+                </div>
+              </section>
+
+              <div className="resource-list wordbook-list">
+                {customSentences.length === 0 && <p className="muted">语句本是空的，先添加一段英语</p>}
+                {customSentences.map((item) => (
+                  <div className="wordbook-row sentence-row" key={item.id}>
+                    <div>
+                      <strong>{item.english}</strong>
+                      <span>{item.chinese}</span>
+                    </div>
+                    <div>
+                      <button type="button" className="icon-btn" title="朗读" onClick={() => speak(item.english)}>
+                        <Volume2 size={15} />
+                      </button>
+                      <button type="button" className="icon-btn" title="删除" onClick={() => removeCustomSentence(item.id)}>
                         <Trash2 size={15} />
                       </button>
                     </div>

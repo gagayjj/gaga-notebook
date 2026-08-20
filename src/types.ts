@@ -21,6 +21,7 @@ export interface Library {
   resources: ResourceItem[];
   plans: PlanItem[];
   customWords?: StudyWord[];
+  customSentences?: StudySentence[];
 }
 
 export interface ResourceItem {
@@ -52,6 +53,13 @@ export interface StudyWord {
   meaning: string;
   sentence: string;
   sentenceMeaning: string;
+  createdAt?: string;
+}
+
+export interface StudySentence {
+  id: string;
+  english: string;
+  chinese: string;
   createdAt?: string;
 }
 
@@ -112,6 +120,9 @@ declare global {
       listWords: () => Promise<StudyWord[]>;
       addWord: (input: Omit<StudyWord, "id">) => Promise<StudyWord[]>;
       removeWord: (id: string) => Promise<StudyWord[]>;
+      listSentences: () => Promise<StudySentence[]>;
+      addSentence: (input: Omit<StudySentence, "id">) => Promise<StudySentence[]>;
+      removeSentence: (id: string) => Promise<StudySentence[]>;
     };
   }
 }

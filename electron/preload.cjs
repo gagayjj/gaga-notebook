@@ -38,4 +38,7 @@ contextBridge.exposeInMainWorld("studyNotes", {
   listWords: () => ipcRenderer.invoke("words:list"),
   addWord: (input) => ipcRenderer.invoke("words:add", input),
   removeWord: (id) => ipcRenderer.invoke("words:remove", id),
+  listSentences: () => ipcRenderer.invoke("sentences:list"),
+  addSentence: (input) => ipcRenderer.invoke("sentences:add", input),
+  removeSentence: (id) => ipcRenderer.invoke("sentences:remove", id),
 });
