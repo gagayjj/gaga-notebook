@@ -21,6 +21,7 @@ import {
   Quote,
   Redo2,
   Ruler,
+  Shapes,
   Square,
   Timer,
   Undo2,
@@ -29,6 +30,7 @@ import { AudioBlockNode, TimestampNode } from "../lib/tiptapNodes";
 import { useRecorder } from "../hooks/useRecorder";
 import type { InsertRequest, NoteDoc } from "../types";
 import type { OutlineItem } from "./Sidebar";
+import { InlineMarker } from "./InlineMarker";
 
 interface NoteEditorProps {
   note: NoteDoc | null;
@@ -69,6 +71,7 @@ export function NoteEditor({
   onLinedChange,
 }: NoteEditorProps) {
   const [showHighlightMenu, setShowHighlightMenu] = useState(false);
+  const [markerOpen, setMarkerOpen] = useState(false);
   const lastNoteIdRef = useRef<string | null>(null);
 
   const updateOutline = (editor: Editor) => {
@@ -257,6 +260,7 @@ export function NoteEditor({
         }, false, !canInsertTimestamp, "插入当前视频时间点")}
         {toolbarButton("插入图片", <ImagePlus size={16} />, onRequestImage, false, false, "插入截图或标注图片")}
         {toolbarButton("横线页面", <Ruler size={16} />, () => onLinedChange(!lined), lined, false, lined ? "关闭横线页面" : "开启横线页面")}
+        {toolbarButton("形状标记", <Shapes size={16} />, () => setMarkerOpen(true), false, false, "在笔记页直接画箭头和形状")}
         {toolbarButton(
           isRecording ? "停止录音" : "开始录音",
           isRecording ? <Square size={15} /> : <Mic size={16} />,
@@ -270,6 +274,15 @@ export function NoteEditor({
       {error && <div className="editor-error">{error}</div>}
 
       <div className="editor-scroll">
+        {markerOpen && (
+          <InlineMarker
+            onClose={() => setMarkerOpen(false)}
+            onInsert={(dataUrl) => {
+              editor?.chain().focus().setImage({ src: dataUrl }).run();
+              setMarkerOpen(false);
+            }}
+          />
+        )}
         <div className={`editor-paper ${lined ? "paper-lined" : ""}`}>
           {note ? (
             <EditorContent editor={editor} />

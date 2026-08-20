@@ -512,6 +512,17 @@ function createWindow() {
             document.querySelector(".annotation-footer .btn.ghost")?.click();
             return { modalExists, shapeButtonExists, shapeCount, shapeLabels };
           })()`);
+          const inlineMarkerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('button[title="在笔记页直接画箭头和形状"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 400));
+            const wrap = document.querySelector(".inline-marker");
+            const canvas = document.querySelector(".inline-marker-canvas");
+            return {
+              inlineExists: Boolean(wrap),
+              shapeCount: document.querySelectorAll(".inline-marker-bar button").length,
+              canvasSize: canvas ? { w: canvas.width, h: canvas.height } : null,
+            };
+          })()`);
           const image = await mainWindow.capturePage();
           const bitmap = image.toBitmap();
           let min = 255;
@@ -538,6 +549,7 @@ function createWindow() {
             themeTest,
             designerTest,
             markerTest,
+            inlineMarkerTest,
             errors,
             pixels: {
               width: image.getSize().width,

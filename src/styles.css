@@ -640,6 +640,90 @@ input {
   font-size: 13px;
 }
 
+.inline-marker {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 253, 247, 0.98);
+}
+
+.inline-marker-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border-bottom: 3px solid var(--dark);
+  background: var(--panel-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.inline-marker-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.inline-marker-bar button {
+  flex: 0 0 auto;
+  height: 30px;
+  padding: 0 9px;
+  border: 2.5px solid var(--dark);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 2px 0 rgba(61, 47, 38, 0.2);
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.inline-marker-bar button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.inline-marker-bar button.primary {
+  background: var(--yellow);
+}
+
+.inline-marker-bar button:disabled {
+  opacity: 0.4;
+}
+
+.inline-marker-colors {
+  display: flex;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.inline-marker-colors i {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--dark);
+  cursor: pointer;
+}
+
+.inline-marker-colors i.active {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.inline-marker-spacer {
+  flex: 1;
+  min-width: 8px;
+}
+
+.inline-marker-canvas {
+  flex: 1;
+  min-height: 0;
+  touch-action: none;
+  background: #fff;
+}
+
 .editor-scroll {
   flex: 1 1 auto;
   overflow: auto;
