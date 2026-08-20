@@ -513,29 +513,19 @@ function createWindow() {
             return { modalExists, shapeButtonExists, shapeCount, shapeLabels };
           })()`);
           const inlineMarkerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
-            document.querySelector('button[title="在笔记中插入可拖动变形的箭头"]')?.click();
-            await new Promise((resolve) => setTimeout(resolve, 150));
-            document.querySelector('button[title="在笔记中插入可拖动变形的曲线"]')?.click();
+            document.querySelector('button[title="在整页笔记上随意画箭头和曲线标记"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 400));
-            const editorHtml = document.querySelector(".editor-content")?.innerHTML || "";
-            const deleteCount = document.querySelectorAll(".shape-delete").length;
-            const svgRect = (() => {
-              const svg = document.querySelector(".shape-node svg");
-              if (!svg) return null;
-              const rect = svg.getBoundingClientRect();
-              return { w: Math.round(rect.width), h: Math.round(rect.height) };
-            })();
-            document.querySelector(".shape-delete")?.click();
-            await new Promise((resolve) => setTimeout(resolve, 200));
+            const canvas = document.querySelector(".paper-marker-canvas");
+            const rect = canvas?.getBoundingClientRect();
+            const canClose = Boolean(document.querySelector('.paper-marker-bar button[title="取消标记"]'));
+            document.querySelector('.paper-marker-bar button[title="取消标记"]')?.click();
+            await new Promise((resolve) => setTimeout(resolve, 250));
             return {
-              shapeCount: document.querySelectorAll(".shape-node").length,
-              svgCount: document.querySelectorAll(".shape-node svg").length,
-              deleteCount,
-              svgRect,
-              afterDelete: document.querySelectorAll(".shape-node").length,
-              hasArrow: editorHtml.includes("data-arrow"),
-              hasCurve: editorHtml.includes("data-curve"),
-              overlayGone: !document.querySelector(".inline-marker"),
+              paperMarkerExists: Boolean(document.querySelector(".paper-marker")),
+              canvasSize: rect ? { w: Math.round(rect.width), h: Math.round(rect.height) } : null,
+              toolCount: document.querySelectorAll(".paper-marker-bar button").length,
+              canClose,
+              closedAfterCancel: !document.querySelector(".paper-marker"),
             };
           })()`);
           const image = await mainWindow.capturePage();

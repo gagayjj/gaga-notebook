@@ -9,7 +9,6 @@ import Placeholder from "@tiptap/extension-placeholder";
 import {
   Bold,
   Code2,
-  ArrowUpRight,
   Heading1,
   Heading2,
   Heading3,
@@ -22,13 +21,13 @@ import {
   Quote,
   Redo2,
   Ruler,
+  PenTool,
   Square,
-  Spline,
   Timer,
   Undo2,
 } from "lucide-react";
 import { AudioBlockNode, TimestampNode } from "../lib/tiptapNodes";
-import { ArrowNode, CurveNode } from "../lib/tiptapShapes";
+import { PaperMarker } from "./PaperMarker";
 import { useRecorder } from "../hooks/useRecorder";
 import type { InsertRequest, NoteDoc } from "../types";
 import type { OutlineItem } from "./Sidebar";
@@ -72,6 +71,7 @@ export function NoteEditor({
   onLinedChange,
 }: NoteEditorProps) {
   const [showHighlightMenu, setShowHighlightMenu] = useState(false);
+  const [paperMarkerOpen, setPaperMarkerOpen] = useState(false);
   const lastNoteIdRef = useRef<string | null>(null);
 
   const updateOutline = (editor: Editor) => {
@@ -103,8 +103,6 @@ export function NoteEditor({
         },
       }),
       AudioBlockNode,
-      ArrowNode,
-      CurveNode,
     ],
     content: note?.content || { type: "doc", content: [{ type: "paragraph" }] },
     editorProps: {
@@ -261,35 +259,7 @@ export function NoteEditor({
           editor?.chain().focus().insertTimestamp(Math.floor(getVideoTime())).run();
         }, false, !canInsertTimestamp, "插入当前视频时间点")}
         {toolbarButton("插入图片", <ImagePlus size={16} />, onRequestImage, false, false, "插入截图或标注图片")}
-        {toolbarButton(
-          "插入箭头",
-          <ArrowUpRight size={16} />,
-          () =>
-            editor
-              ?.chain()
-              .focus()
-              .insertContent({ type: "arrow", attrs: { startX: 20, startY: 70, endX: 180, endY: 30, color: "#e5484d" } })
-              .run(),
-          false,
-          false,
-          "在笔记中插入可拖动变形的箭头",
-        )}
-        {toolbarButton(
-          "插入曲线",
-          <Spline size={16} />,
-          () =>
-            editor
-              ?.chain()
-              .focus()
-              .insertContent({
-                type: "curve",
-                attrs: { startX: 20, startY: 70, controlX: 100, controlY: 20, endX: 180, endY: 60, color: "#3b82f6" },
-              })
-              .run(),
-          false,
-          false,
-          "在笔记中插入可拖动变形的曲线",
-        )}
+        {toolbarButton("标记", <PenTool size={16} />, () => setPaperMarkerOpen(true), false, false, "在整页笔记上随意画箭头和曲线标记")}
         {toolbarButton("横线页面", <Ruler size={16} />, () => onLinedChange(!lined), lined, false, lined ? "关闭横线页面" : "开启横线页面")}
         {toolbarButton(
           isRecording ? "停止录音" : "开始录音",
@@ -304,6 +274,15 @@ export function NoteEditor({
       {error && <div className="editor-error">{error}</div>}
 
       <div className="editor-scroll">
+        {paperMarkerOpen && (
+          <PaperMarker
+            onClose={() => setPaperMarkerOpen(false)}
+            onInsert={(dataUrl) => {
+              editor?.chain().focus().setImage({ src: dataUrl }).run();
+              setPaperMarkerOpen(false);
+            }}
+          />
+        )}
         <div className={`editor-paper ${lined ? "paper-lined" : ""}`}>
           {note ? (
             <EditorContent editor={editor} />
