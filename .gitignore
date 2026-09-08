@@ -7,3 +7,4 @@ release/
 *.tsbuildinfo
 study-notes-preview.png
 .DS_Store
+release-pkg/
