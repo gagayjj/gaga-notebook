@@ -1,10 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, Eraser, Trash2, Undo2, X } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  Circle,
+  Eraser,
+  Minus,
+  MousePointer2,
+  PenLine,
+  Spline,
+  Square,
+  Star,
+  Trash2,
+  Undo2,
+  X,
+} from "lucide-react";
 
-type Tool = "arrow" | "curve" | "line" | "rect" | "ellipse" | "star" | "pen";
+type Tool = "select" | "arrow" | "curve" | "line" | "rect" | "ellipse" | "star" | "pen";
+type StrokeTool = Exclude<Tool, "select">;
 type Point = { x: number; y: number };
 type Stroke = {
-  tool: Tool;
+  tool: StrokeTool;
   color: string;
   size: number;
   start: Point;
@@ -15,17 +30,18 @@ type Stroke = {
 
 interface PaperMarkerProps {
   onClose: () => void;
-  onInsert: (dataUrl: string) => void;
+  onInsert: (dataUrl: string, width: number, height: number) => void;
 }
 
-const tools: Array<{ tool: Tool; label: string }> = [
-  { tool: "arrow", label: "箭头" },
-  { tool: "curve", label: "曲线" },
-  { tool: "line", label: "线条" },
-  { tool: "rect", label: "矩形" },
-  { tool: "ellipse", label: "圆形" },
-  { tool: "star", label: "星形" },
-  { tool: "pen", label: "画笔" },
+const tools: Array<{ tool: Tool; label: string; Icon: typeof MousePointer2 }> = [
+  { tool: "select", label: "选择", Icon: MousePointer2 },
+  { tool: "arrow", label: "箭头", Icon: ArrowRight },
+  { tool: "curve", label: "曲线", Icon: Spline },
+  { tool: "line", label: "线条", Icon: Minus },
+  { tool: "rect", label: "矩形", Icon: Square },
+  { tool: "ellipse", label: "圆形", Icon: Circle },
+  { tool: "star", label: "星形", Icon: Star },
+  { tool: "pen", label: "画笔", Icon: PenLine },
 ];
 
 const colors = ["#e5484d", "#f5a524", "#30a46c", "#3b82f6", "#8e4ec6", "#111827"];
@@ -37,11 +53,11 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
   const [color, setColor] = useState(colors[0]);
   const [size, setSize] = useState(4);
   const [strokes, setStrokes] = useState<Stroke[]>([]);
-  const [draft, setDraft] = useState<Stroke | null>(null);
   const [selected, setSelected] = useState(-1);
   const [dragMode, setDragMode] = useState<"start" | "control" | "end" | "move" | null>(null);
   const dragStartRef = useRef<{ pointer: Point; stroke: Stroke } | null>(null);
   const draftRef = useRef<Stroke | null>(null);
+  const drawFrameRef = useRef<number | null>(null);
   const handlersRef = useRef<{ down: (event: PointerEvent) => void; move: (event: PointerEvent) => void; up: () => void }>({
     down: () => {},
     move: () => {},
@@ -52,8 +68,8 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
     const wrap = wrapRef.current;
     const canvas = canvasRef.current;
     if (!wrap || !canvas) return;
-    canvas.width = wrap.clientWidth;
-    canvas.height = wrap.clientHeight;
+    canvas.width = Math.max(1, wrap.clientWidth);
+    canvas.height = Math.max(1, wrap.clientHeight);
     draw();
   }, []);
 
@@ -103,7 +119,7 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
       }
     };
     strokes.forEach(paint);
-    if (draft) paint(draft);
+    if (draftRef.current) paint(draftRef.current);
     if (selected >= 0 && strokes[selected]) {
       const stroke = strokes[selected];
       const handles: Array<{ point: Point; type: "start" | "control" | "end" | "move" }> = [];
@@ -122,10 +138,18 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
         ctx.stroke();
       });
     }
-  }, [strokes, draft, selected]);
+  }, [strokes, selected]);
 
   useEffect(() => {
     draw();
+  }, [draw]);
+
+  const scheduleDraw = useCallback(() => {
+    if (drawFrameRef.current !== null) return;
+    drawFrameRef.current = requestAnimationFrame(() => {
+      drawFrameRef.current = null;
+      draw();
+    });
   }, [draw]);
 
   useEffect(() => {
@@ -137,7 +161,10 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
 
   const toPoint = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    return {
+      x: ((event.clientX - rect.left) / rect.width) * event.currentTarget.width,
+      y: ((event.clientY - rect.top) / rect.height) * event.currentTarget.height,
+    };
   };
 
   const hit = (stroke: Stroke, point: Point) => {
@@ -157,22 +184,26 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
 
   const pointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const point = toPoint(event);
-    if (selected >= 0) {
-      const mode = hit(strokes[selected], point);
-      if (mode) {
-        setDragMode(mode);
-        dragStartRef.current = { pointer: point, stroke: strokes[selected] };
-        return;
+    if (tool === "select") {
+      if (selected >= 0) {
+        const mode = hit(strokes[selected], point);
+        if (mode) {
+          setDragMode(mode);
+          dragStartRef.current = { pointer: point, stroke: strokes[selected] };
+          return;
+        }
       }
-    }
-    for (let i = strokes.length - 1; i >= 0; i -= 1) {
-      const mode = hit(strokes[i], point);
-      if (mode) {
-        setSelected(i);
-        setDragMode(mode);
-        dragStartRef.current = { pointer: point, stroke: strokes[i] };
-        return;
+      for (let i = strokes.length - 1; i >= 0; i -= 1) {
+        const mode = hit(strokes[i], point);
+        if (mode) {
+          setSelected(i);
+          setDragMode(mode);
+          dragStartRef.current = { pointer: point, stroke: strokes[i] };
+          return;
+        }
       }
+      setSelected(-1);
+      return;
     }
     setSelected(-1);
     if (tool === "pen") {
@@ -181,7 +212,7 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
       const control = tool === "curve" ? { x: point.x + 40, y: point.y - 40 } : undefined;
       draftRef.current = { tool, color, size, start: point, end: point, control };
     }
-    setDraft(draftRef.current);
+    scheduleDraw();
   };
 
   const pointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
@@ -219,16 +250,15 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
     } else {
       draftRef.current = { ...draftRef.current, end: point };
     }
-    setDraft(draftRef.current);
+    scheduleDraw();
   };
 
   const pointerUp = () => {
     if (draftRef.current) {
       const next = [...strokes, draftRef.current];
       setStrokes(next);
-      setSelected(next.length - 1);
+      setSelected(-1);
       draftRef.current = null;
-      setDraft(null);
     }
     setDragMode(null);
     dragStartRef.current = null;
@@ -258,25 +288,34 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
 
   const insert = () => {
     const canvas = canvasRef.current;
-    if (canvas) onInsert(canvas.toDataURL("image/png"));
+    if (canvas) onInsert(canvas.toDataURL("image/png"), canvas.width, canvas.height);
   };
 
   return (
     <div ref={wrapRef} className="paper-marker">
       <div className="paper-marker-bar">
-        {tools.map((item) => (
-          <button type="button" key={item.tool} className={tool === item.tool ? "active" : ""} onClick={() => setTool(item.tool)}>
-            {item.label}
-          </button>
-        ))}
+        <div className="paper-marker-tools">
+          {tools.map((item) => (
+            <button
+              type="button"
+              key={item.tool}
+              className={tool === item.tool ? "active" : ""}
+              title={item.label}
+              onClick={() => setTool(item.tool)}
+            >
+              <item.Icon size={16} />
+            </button>
+          ))}
+        </div>
         <span className="paper-marker-colors">
           {colors.map((item) => (
             <i key={item} style={{ backgroundColor: item }} className={item === color ? "active" : ""} onClick={() => setColor(item)} />
           ))}
         </span>
-        <button type="button" onClick={() => setSize(size >= 12 ? 3 : size + 2)}>
+        <button type="button" className="paper-marker-size" title="笔迹粗细" onClick={() => setSize(size >= 12 ? 3 : size + 2)}>
           {size}px
         </button>
+        <span className="paper-marker-spacer" />
         <button type="button" title="撤销" onClick={() => setStrokes((prev) => prev.slice(0, -1))}>
           <Undo2 size={15} />
         </button>
@@ -286,7 +325,6 @@ export function PaperMarker({ onClose, onInsert }: PaperMarkerProps) {
         <button type="button" title="清空" onClick={() => setStrokes([])}>
           <Eraser size={15} />
         </button>
-        <span className="paper-marker-spacer" />
         <button type="button" title="取消标记" onClick={onClose}>
           <X size={15} />
           取消

@@ -11,9 +11,19 @@ import { ThemePicker } from "./components/ThemePicker";
 import { BackgroundDesigner, loadBackgroundConfig, type BackgroundConfig } from "./components/BackgroundDesigner";
 import { themeImages } from "./themeImages";
 import { StatusBar, type SaveState } from "./components/StatusBar";
-import type { AnnotationImage, InsertRequest, Library, NoteDoc, VideoState } from "./types";
+import { MobileNav, MobileTopBar, type MobileTab } from "./components/MobileShell";
+import { MobileSettings } from "./components/MobileSettings";
+import type { AnnotationImage, AnnotationInsert, FloatingImage, InsertRequest, Library, NoteDoc, NoteMarker, VideoState } from "./types";
+
+function normalizeMarkers(note: NoteDoc | null): NoteMarker[] {
+  if (!note) return [];
+  const raw = Array.isArray(note.markers) ? note.markers : note.marker ? [note.marker] : [];
+  return raw.map((item) => (typeof item === "string" ? { dataUrl: item, width: 0, height: 0 } : item));
+}
 
 export default function App() {
+  const isMobile = window.studyNotes?.platform !== "desktop";
+  const [mobileTab, setMobileTab] = useState<MobileTab>("notes");
   const [library, setLibrary] = useState<Library | null>(null);
   const [activeNote, setActiveNote] = useState<NoteDoc | null>(null);
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
@@ -33,6 +43,7 @@ export default function App() {
   const [videoState, setVideoState] = useState<VideoState>({ kind: "none" });
   const [insertRequest, setInsertRequest] = useState<InsertRequest | null>(null);
   const [annotation, setAnnotation] = useState<AnnotationImage | null>(null);
+  const [floatingImages, setFloatingImages] = useState<FloatingImage[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const [lined, setLined] = useState(true);
   const [videoWidth, setVideoWidth] = useState(40);
@@ -41,7 +52,9 @@ export default function App() {
   const editorRef = useRef<Editor | null>(null);
   const recorderToggleRef = useRef<(() => void) | null>(null);
   const draftRef = useRef<unknown>(null);
-  const markerRef = useRef<string | null>(null);
+  const markerRef = useRef<NoteMarker[]>([]);
+  const floatingImagesRef = useRef<FloatingImage[]>([]);
+  const noteTitleRef = useRef<string>("");
   const noteIdRef = useRef<string | null>(null);
   const saveTimerRef = useRef<number | null>(null);
   const flushSaveRef = useRef<() => void>(() => {});
@@ -52,9 +65,30 @@ export default function App() {
     if (!id || !content) return;
     try {
       setSaveState("saving");
-      const result = await window.studyNotes?.saveNote({ id, content, marker: markerRef.current });
+      const result = await window.studyNotes?.saveNote({
+        id,
+        title: noteTitleRef.current,
+        content,
+        markers: markerRef.current,
+        floatingImages: floatingImagesRef.current,
+      });
       if (result?.ok) {
         setSaveState("saved");
+        const syncConfig = await window.studyNotes?.syncGetConfig();
+        const githubReady =
+          syncConfig?.provider === "github" &&
+          syncConfig.username &&
+          (syncConfig.token || syncConfig.password) &&
+          syncConfig.repo;
+        const giteeReady =
+          syncConfig?.provider === "gitee" &&
+          syncConfig.username &&
+          (syncConfig.token || syncConfig.password) &&
+          syncConfig.repo;
+        const webdavReady = syncConfig?.url && syncConfig?.username && syncConfig?.password;
+        if (giteeReady || githubReady || webdavReady) {
+          await window.studyNotes?.syncPushNotes();
+        }
         setLibrary((prev) => {
           if (!prev || !prev.notes[id]) return prev;
           return {
@@ -94,7 +128,33 @@ export default function App() {
           setActiveNoteId(note.meta.id);
           noteIdRef.current = note.meta.id;
           draftRef.current = note.content;
-          markerRef.current = note.marker ?? null;
+          markerRef.current = normalizeMarkers(note);
+          floatingImagesRef.current = note.floatingImages || [];
+          setFloatingImages(note.floatingImages || []);
+          noteTitleRef.current = note.meta.title;
+        }
+      }
+      if (isMobile) {
+        const syncResult = await window.studyNotes?.syncPull();
+        if (!cancelled && syncResult?.ok) {
+          const nextData = await window.studyNotes?.listNotes();
+          if (nextData) {
+            setLibrary(nextData);
+            const firstId = nextData.courses.flatMap((course) => course.noteIds).find((id) => nextData.notes[id]);
+            if (firstId) {
+              const note = await window.studyNotes?.readNote(firstId);
+              if (!cancelled && note) {
+                setActiveNote(note);
+                setActiveNoteId(note.meta.id);
+                noteIdRef.current = note.meta.id;
+                draftRef.current = note.content;
+                markerRef.current = normalizeMarkers(note);
+                floatingImagesRef.current = note.floatingImages || [];
+                setFloatingImages(note.floatingImages || []);
+                noteTitleRef.current = note.meta.title;
+              }
+            }
+          }
         }
       }
     });
@@ -102,6 +162,21 @@ export default function App() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const handleVisible = () => {
+      if (document.hidden) return;
+      window.studyNotes?.syncPull().then(async (result) => {
+        if (result?.ok) {
+          const nextData = await window.studyNotes?.listNotes();
+          if (nextData) setLibrary(nextData);
+        }
+      });
+    };
+    document.addEventListener("visibilitychange", handleVisible);
+    return () => document.removeEventListener("visibilitychange", handleVisible);
+  }, [isMobile]);
 
   useEffect(() => {
     if (videoState.kind !== "url") return;
@@ -125,7 +200,7 @@ export default function App() {
     body.style.setProperty("--pattern-opacity", "0");
     if (bgConfig.baseColor) body.style.setProperty("--bg", bgConfig.baseColor);
     else body.style.removeProperty("--bg");
-    const imageUrl = themeImages[bgConfig.image || theme] || themeImages.crayon;
+    const imageUrl = bgConfig.customImage || themeImages[bgConfig.image || theme] || themeImages.crayon;
     body.style.setProperty("--bg-image", `url("${imageUrl}")`);
     localStorage.setItem("background-config", JSON.stringify(bgConfig));
   }, [bgConfig]);
@@ -138,7 +213,7 @@ export default function App() {
       saveTimerRef.current = window.setTimeout(() => {
         saveTimerRef.current = null;
         performSave();
-      }, 800);
+      }, 250);
     },
     [performSave],
   );
@@ -152,7 +227,10 @@ export default function App() {
       setActiveNoteId(id);
       noteIdRef.current = id;
       draftRef.current = note.content;
-      markerRef.current = note.marker ?? null;
+      markerRef.current = normalizeMarkers(note);
+      floatingImagesRef.current = note.floatingImages || [];
+      setFloatingImages(note.floatingImages || []);
+      noteTitleRef.current = note.meta.title;
       setSaveState("idle");
     },
     [],
@@ -179,8 +257,153 @@ export default function App() {
     setActiveNoteId(note.meta.id);
     noteIdRef.current = note.meta.id;
     draftRef.current = note.content;
-    markerRef.current = null;
+    markerRef.current = [];
+    floatingImagesRef.current = [];
+    setFloatingImages([]);
+    noteTitleRef.current = note.meta.title;
   }, [library]);
+
+  const handleRemoveCourse = useCallback(
+    async (courseId: string) => {
+      const course = library?.courses.find((item) => item.id === courseId);
+      if (!course) return;
+      if (!window.confirm(`确定删除分类「${course.name}」以及里面的全部笔记吗？`)) return;
+      const data = await window.studyNotes?.removeCourse(courseId);
+      if (!data) return;
+      setLibrary(data);
+      if (activeNoteId && !data.notes[activeNoteId]) {
+        const firstNoteId = data.courses[0]?.noteIds.find((id) => data.notes[id]);
+        if (firstNoteId) {
+          const note = await window.studyNotes?.readNote(firstNoteId);
+          if (note) {
+            setActiveNote(note);
+            setActiveNoteId(note.meta.id);
+            noteIdRef.current = note.meta.id;
+            draftRef.current = note.content;
+            markerRef.current = normalizeMarkers(note);
+            floatingImagesRef.current = note.floatingImages || [];
+            setFloatingImages(note.floatingImages || []);
+            noteTitleRef.current = note.meta.title;
+          }
+        } else {
+          setActiveNote(null);
+          setActiveNoteId(null);
+          noteIdRef.current = null;
+          draftRef.current = null;
+          markerRef.current = [];
+          floatingImagesRef.current = [];
+          setFloatingImages([]);
+          noteTitleRef.current = "";
+        }
+        setSaveState("idle");
+      }
+    },
+    [activeNoteId, library],
+  );
+
+  const handleTitleChange = useCallback((title: string) => {
+    noteTitleRef.current = title;
+    setActiveNote((prev) => (prev ? { ...prev, meta: { ...prev.meta, title } } : prev));
+    setLibrary((prev) => {
+      if (!prev || !noteIdRef.current) return prev;
+      const note = prev.notes[noteIdRef.current];
+      if (!note) return prev;
+      return {
+        ...prev,
+        notes: { ...prev.notes, [noteIdRef.current]: { ...note, title } },
+      };
+    });
+    handleContentChange(draftRef.current);
+  }, [handleContentChange]);
+
+  const handleRenameNote = useCallback(
+    async (id: string, title: string) => {
+      const note = await window.studyNotes?.readNote(id);
+      if (!note) return;
+      await window.studyNotes?.saveNote({
+        id,
+        title,
+        content: note.content,
+        markers: normalizeMarkers(note),
+        floatingImages: note.floatingImages,
+      });
+      setLibrary((prev) => {
+        if (!prev || !prev.notes[id]) return prev;
+        return {
+          ...prev,
+          notes: { ...prev.notes, [id]: { ...prev.notes[id], title } },
+        };
+      });
+      if (id === activeNoteId) {
+        setActiveNote((prev) => (prev ? { ...prev, meta: { ...prev.meta, title } } : prev));
+        noteTitleRef.current = title;
+      }
+    },
+    [activeNoteId],
+  );
+
+  const handleRenameCourse = useCallback(async (courseId: string, name: string) => {
+    const data = await window.studyNotes?.renameCourse(courseId, name);
+    if (data) setLibrary(data);
+  }, []);
+
+  const handleNewCourse = useCallback(async (name: string) => {
+    const data = await window.studyNotes?.createCourse(name.trim());
+    if (data) setLibrary(data);
+  }, []);
+
+  const handleMoveNote = useCallback(
+    async (noteId: string, courseId: string) => {
+      const data = await window.studyNotes?.moveNote(noteId, courseId);
+      if (data) {
+        setLibrary(data);
+        if (noteId === activeNoteId) {
+          setActiveNote((prev) =>
+            prev ? { ...prev, meta: { ...prev.meta, courseId } } : prev,
+          );
+        }
+      }
+    },
+    [activeNoteId],
+  );
+
+  const handleRemoveNote = useCallback(
+    async (id: string) => {
+      const note = library?.notes[id];
+      if (!note) return;
+      if (!window.confirm(`确定删除笔记「${note.title}」吗？`)) return;
+      const data = await window.studyNotes?.removeNote(id);
+      if (!data) return;
+      setLibrary(data);
+      if (id === activeNoteId) {
+        const firstNoteId = data.courses.flatMap((course) => course.noteIds).find((noteId) => data.notes[noteId]);
+        if (firstNoteId) {
+          const nextNote = await window.studyNotes?.readNote(firstNoteId);
+          if (nextNote) {
+            setActiveNote(nextNote);
+            setActiveNoteId(nextNote.meta.id);
+            noteIdRef.current = nextNote.meta.id;
+            draftRef.current = nextNote.content;
+            markerRef.current = normalizeMarkers(nextNote);
+            floatingImagesRef.current = nextNote.floatingImages || [];
+            setFloatingImages(nextNote.floatingImages || []);
+            noteTitleRef.current = nextNote.meta.title;
+          }
+        } else {
+          setActiveNote(null);
+          setActiveNoteId(null);
+          noteIdRef.current = null;
+          draftRef.current = null;
+          markerRef.current = [];
+          floatingImagesRef.current = [];
+          setFloatingImages([]);
+          noteTitleRef.current = "";
+        }
+        setSaveState("idle");
+      }
+    },
+    [activeNoteId, library],
+  );
 
   const handleToggleNarrow = useCallback(async () => {
     const next = !narrow;
@@ -200,8 +423,15 @@ export default function App() {
   }, []);
 
   const handleToggleVideo = useCallback(() => {
+    if (narrow) {
+      setNarrow(false);
+      setAlwaysOnTop(false);
+      window.studyNotes?.setNarrowMode(false);
+      setVideoOpen(true);
+      return;
+    }
     setVideoOpen((value) => !value);
-  }, []);
+  }, [narrow]);
 
   const handleToggleLibrary = useCallback(() => {
     setLibraryPanelOpen((value) => !value);
@@ -217,6 +447,23 @@ export default function App() {
 
   const handleToggleDesigner = useCallback(() => {
     setDesignerOpen((value) => !value);
+  }, []);
+
+  const handleMobileTabChange = useCallback((tab: MobileTab) => {
+    setSidebarOpen(false);
+    setMobileTab(tab);
+    if (tab === "notes" || tab === "mine") {
+      setEnglishOpen(false);
+      setLibraryPanelOpen(false);
+    }
+    if (tab === "english") {
+      setEnglishOpen(true);
+      setLibraryPanelOpen(false);
+    }
+    if (tab === "plans" || tab === "resources") {
+      setLibraryPanelOpen(true);
+      setEnglishOpen(false);
+    }
   }, []);
 
   const handleSaveBackground = useCallback((config: BackgroundConfig) => {
@@ -262,10 +509,25 @@ export default function App() {
     }
   }, []);
 
-  const handleInsertAnnotation = useCallback((dataUrl: string) => {
-    setInsertRequest({ id: Date.now(), kind: "image", dataUrl });
+  const handleInsertAnnotation = useCallback((result: AnnotationInsert) => {
+    const next: FloatingImage = {
+      id: `img-${Date.now()}`,
+      src: result.image,
+      marks: result.marks,
+      x: 80,
+      y: 80,
+      width: 360,
+      height: 220,
+      markX: 80,
+      markY: 80,
+      markWidth: 360,
+      markHeight: 220,
+    };
+    floatingImagesRef.current = [...floatingImagesRef.current, next];
+    setFloatingImages(floatingImagesRef.current);
     setAnnotation(null);
-  }, []);
+    handleContentChange(draftRef.current);
+  }, [handleContentChange]);
 
   const handleInsertTimestamp = useCallback(() => {
     const seconds = Math.floor(videoControllerRef.current?.getCurrentTime() || 0);
@@ -320,73 +582,88 @@ export default function App() {
         : "";
 
   return (
-    <div className={`app ${narrow ? "narrow" : ""}`}>
-      <Toolbar
-        narrow={narrow}
-        alwaysOnTop={alwaysOnTop}
-        isRecording={isRecording}
-        sidebarOpen={sidebarOpen}
-        videoOpen={videoOpen}
-        libraryOpen={libraryPanelOpen}
-        englishOpen={englishOpen}
-        themeOpen={themePickerOpen}
-        designerOpen={designerOpen}
-        canInsertTimestamp={videoState.kind === "local"}
-        onToggleNarrow={handleToggleNarrow}
-        onToggleAlwaysOnTop={handleToggleAlwaysOnTop}
-        onInsertTimestamp={handleInsertTimestamp}
-        onInsertImage={handleRequestImage}
-        onOpenMarker={handleRequestImage}
-        onToggleRecording={() => recorderToggleRef.current?.()}
-        onExport={handleExport}
-        onNewNote={handleNewNote}
-        onToggleSidebar={handleToggleSidebar}
-        onToggleVideo={handleToggleVideo}
-        onToggleLibrary={handleToggleLibrary}
-        onToggleEnglish={handleToggleEnglish}
-        onToggleTheme={handleToggleTheme}
-        onToggleDesigner={handleToggleDesigner}
-      />
+    <div className={`app ${narrow ? "narrow" : ""} ${isMobile ? "mobile" : ""}`}>
+      {isMobile ? (
+        <MobileTopBar onToggleSidebar={handleToggleSidebar} onNewNote={handleNewNote} />
+      ) : (
+        <Toolbar
+          narrow={narrow}
+          alwaysOnTop={alwaysOnTop}
+          isRecording={isRecording}
+          sidebarOpen={sidebarOpen}
+          videoOpen={videoOpen}
+          libraryOpen={libraryPanelOpen}
+          englishOpen={englishOpen}
+          themeOpen={themePickerOpen}
+          designerOpen={designerOpen}
+          canInsertTimestamp={videoState.kind === "local"}
+          onToggleNarrow={handleToggleNarrow}
+          onToggleAlwaysOnTop={handleToggleAlwaysOnTop}
+          onInsertTimestamp={handleInsertTimestamp}
+          onInsertImage={handleRequestImage}
+          onOpenMarker={handleRequestImage}
+          onToggleRecording={() => recorderToggleRef.current?.()}
+          onExport={handleExport}
+          onNewNote={handleNewNote}
+          onToggleSidebar={handleToggleSidebar}
+          onToggleVideo={handleToggleVideo}
+          onToggleLibrary={handleToggleLibrary}
+          onToggleEnglish={handleToggleEnglish}
+          onToggleTheme={handleToggleTheme}
+          onToggleDesigner={handleToggleDesigner}
+        />
+      )}
 
       <div className="body">
-        {!narrow && sidebarOpen && (
+        {sidebarOpen && (
           <Sidebar
             library={library}
             activeNoteId={activeNoteId}
             query={query}
-            outline={outline}
             onQueryChange={setQuery}
             onSelectNote={handleSelectNote}
             onNewNote={handleNewNote}
-            onJumpToOutline={handleJumpToOutline}
+            onRemoveCourse={handleRemoveCourse}
+            onRenameCourse={handleRenameCourse}
+            onNewCourse={handleNewCourse}
+            onRenameNote={handleRenameNote}
+            onMoveNote={handleMoveNote}
+            onRemoveNote={handleRemoveNote}
+            onClose={isMobile ? () => setSidebarOpen(false) : undefined}
           />
         )}
 
         <div className="main-area">
-          <div
-            className={`video-column ${videoOpen && !narrow ? "" : "hidden"}`}
-            style={{ width: `${videoWidth}%` }}
-          >
-            <VideoPane
-              videoState={videoState}
-              active={videoOpen && !narrow}
-              onOpenVideo={handleOpenVideo}
-              onOpenUrl={handleOpenUrl}
-              onCloseUrl={handleCloseUrl}
-              onOpenExternal={handleOpenExternal}
-              onSnapshot={handleSnapshot}
-              onController={(controller) => {
-                videoControllerRef.current = controller;
-              }}
-            />
-          </div>
-          <div className={`splitter ${videoOpen && !narrow ? "" : "hidden"}`} onMouseDown={handleSplitterDown} />
+          {!isMobile && (
+            <div
+              className={`video-column ${videoOpen && !narrow ? "" : "hidden"}`}
+              style={{ width: `${videoWidth}%` }}
+            >
+              <VideoPane
+                videoState={videoState}
+                active={videoOpen && !narrow}
+                onOpenVideo={handleOpenVideo}
+                onOpenUrl={handleOpenUrl}
+                onCloseUrl={handleCloseUrl}
+                onOpenExternal={handleOpenExternal}
+                onSnapshot={handleSnapshot}
+                onController={(controller) => {
+                  videoControllerRef.current = controller;
+                }}
+              />
+            </div>
+          )}
+          {!isMobile && (
+            <div className={`splitter ${videoOpen && !narrow ? "" : "hidden"}`} onMouseDown={handleSplitterDown} />
+          )}
           <div
             className="notes-column"
             style={{ width: videoOpen && !narrow ? `${100 - videoWidth}%` : "100%" }}
           >
             <NoteEditor
               note={activeNote}
+              title={activeNote?.meta.title || ""}
+              onTitleChange={handleTitleChange}
               getVideoTime={() => videoControllerRef.current?.getCurrentTime() || 0}
               canInsertTimestamp={videoState.kind === "local"}
               insertRequest={insertRequest}
@@ -401,10 +678,16 @@ export default function App() {
               recorderToggleRef={recorderToggleRef}
               lined={lined}
               onLinedChange={setLined}
-              marker={activeNote?.marker ?? null}
-              onMarkerChange={(dataUrl) => {
-                markerRef.current = dataUrl;
-                setActiveNote((prev) => (prev ? { ...prev, marker: dataUrl } : prev));
+              markers={normalizeMarkers(activeNote)}
+              onMarkersChange={(markers) => {
+                markerRef.current = markers;
+                setActiveNote((prev) => (prev ? { ...prev, markers } : prev));
+                handleContentChange(draftRef.current);
+              }}
+              floatingImages={floatingImages}
+              onFloatingImagesChange={(images) => {
+                floatingImagesRef.current = images;
+                setFloatingImages(images);
                 handleContentChange(draftRef.current);
               }}
             />
@@ -412,19 +695,37 @@ export default function App() {
         </div>
       </div>
 
-      <StatusBar
-        saveState={saveState}
-        isRecording={isRecording}
-        videoLabel={videoLabel}
-        noteTitle={activeNote?.meta.title || ""}
-        onRetrySave={flushSave}
-      />
+      {!isMobile && (
+        <StatusBar
+          saveState={saveState}
+          isRecording={isRecording}
+          videoLabel={videoLabel}
+          noteTitle={activeNote?.meta.title || ""}
+          onRetrySave={flushSave}
+        />
+      )}
 
       {annotation !== null && (
         <AnnotationModal image={annotation} onClose={() => setAnnotation(null)} onInsert={handleInsertAnnotation} />
       )}
-      {libraryPanelOpen && <ResourceLibrary onClose={() => setLibraryPanelOpen(false)} />}
-      {englishOpen && <EnglishLearning onClose={() => setEnglishOpen(false)} />}
+      {libraryPanelOpen && (
+        <ResourceLibrary
+          key={isMobile ? mobileTab : "desktop"}
+          initialTab={isMobile && mobileTab === "plans" ? "plans" : "resources"}
+          onClose={() => {
+            setLibraryPanelOpen(false);
+            if (isMobile) setMobileTab("notes");
+          }}
+        />
+      )}
+      {englishOpen && (
+        <EnglishLearning
+          onClose={() => {
+            setEnglishOpen(false);
+            if (isMobile) setMobileTab("notes");
+          }}
+        />
+      )}
       {themePickerOpen && (
         <ThemePicker
           currentTheme={theme}
@@ -436,9 +737,18 @@ export default function App() {
         <BackgroundDesigner
           config={bgConfig}
           onSave={handleSaveBackground}
+          onPreview={setBgConfig}
           onClose={() => setDesignerOpen(false)}
         />
       )}
+      {isMobile && mobileTab === "mine" && (
+        <MobileSettings
+          onClose={() => setMobileTab("notes")}
+          onOpenTheme={handleToggleTheme}
+          onOpenDesigner={handleToggleDesigner}
+        />
+      )}
+      {isMobile && <MobileNav activeTab={mobileTab} onChange={handleMobileTabChange} />}
     </div>
   );
 }

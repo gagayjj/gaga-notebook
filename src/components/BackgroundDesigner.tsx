@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Brush, Check, RotateCcw, X } from "lucide-react";
 import { themeImages } from "../themeImages";
 import { appThemes } from "../themes";
 
 export interface BackgroundConfig {
   image: string | null;
+  customImage?: string | null;
   fill: boolean;
   baseColor: string;
   decor: string[];
@@ -17,12 +18,14 @@ export interface BackgroundConfig {
 interface BackgroundDesignerProps {
   config: BackgroundConfig;
   onSave: (config: BackgroundConfig) => void;
+  onPreview: (config: BackgroundConfig) => void;
   onClose: () => void;
 }
 
 export function defaultBackgroundConfig(): BackgroundConfig {
   return {
     image: null,
+    customImage: null,
     fill: true,
     baseColor: "",
     decor: [],
@@ -39,6 +42,7 @@ export function loadBackgroundConfig(): BackgroundConfig {
     if (parsed && typeof parsed === "object") {
       return {
         image: parsed.image || null,
+        customImage: parsed.customImage || null,
         fill: true,
         baseColor: parsed.baseColor || "",
         decor: Array.isArray(parsed.decor) ? parsed.decor : [],
@@ -54,8 +58,25 @@ export function loadBackgroundConfig(): BackgroundConfig {
   return defaultBackgroundConfig();
 }
 
-export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesignerProps) {
+export function BackgroundDesigner({ config, onSave, onPreview, onClose }: BackgroundDesignerProps) {
   const [draft, setDraft] = useState<BackgroundConfig>(config);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const updateDraft = (next: BackgroundConfig) => {
+    setDraft(next);
+    onPreview(next);
+  };
+
+  const acceptFile = (file: File | undefined | null) => {
+    if (!file || !file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        updateDraft({ ...draft, image: "custom", customImage: reader.result });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
@@ -77,7 +98,7 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
               <button
                 type="button"
                 className={`bg-image-card ${draft.image === null ? "active" : ""}`}
-                onClick={() => setDraft((prev) => ({ ...prev, image: null, fill: false }))}
+                onClick={() => updateDraft({ ...draft, image: null, customImage: null, fill: false })}
               >
                 <span className="bg-image-empty">无图片</span>
                 {draft.image === null && <Check size={16} />}
@@ -87,12 +108,31 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
                   type="button"
                   key={id}
                   className={`bg-image-card ${draft.image === id ? "active" : ""}`}
-                  onClick={() => setDraft((prev) => ({ ...prev, image: id }))}
+                  onClick={() => updateDraft({ ...draft, image: id, customImage: null })}
                 >
                   <img src={src} alt="" draggable={false} />
                   {draft.image === id && <Check size={16} />}
                 </button>
               ))}
+              <button
+                type="button"
+                className={`bg-image-card ${draft.image === "custom" ? "active" : ""}`}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {draft.customImage ? (
+                  <img src={draft.customImage} alt="" draggable={false} />
+                ) : (
+                  <span className="bg-image-empty">上传图片</span>
+                )}
+                {draft.image === "custom" && <Check size={16} />}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(event) => acceptFile(event.target.files?.[0])}
+              />
             </div>
           </section>
 
@@ -105,16 +145,16 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
                   key={color}
                   className={`color-swatch ${draft.baseColor === color ? "active" : ""}`}
                   style={{ backgroundColor: color }}
-                  onClick={() => setDraft((prev) => ({ ...prev, baseColor: color }))}
+                  onClick={() => updateDraft({ ...draft, baseColor: color })}
                 />
               ))}
               <input
                 type="color"
                 value={draft.baseColor || "#fff3d6"}
-                onChange={(event) => setDraft((prev) => ({ ...prev, baseColor: event.target.value }))}
+                onChange={(event) => updateDraft({ ...draft, baseColor: event.target.value })}
                 title="自定义底色"
               />
-              <button type="button" className="btn ghost small" onClick={() => setDraft((prev) => ({ ...prev, baseColor: "" }))}>
+              <button type="button" className="btn ghost small" onClick={() => updateDraft({ ...draft, baseColor: "" })}>
                 跟随主题
               </button>
             </div>
@@ -132,7 +172,7 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
                   type="button"
                   key={option.id}
                   className={draft.motion === option.id ? "active" : ""}
-                  onClick={() => setDraft((prev) => ({ ...prev, motion: option.id as BackgroundConfig["motion"] }))}
+                  onClick={() => updateDraft({ ...draft, motion: option.id as BackgroundConfig["motion"] })}
                 >
                   {option.label}
                 </button>
@@ -147,7 +187,7 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
                     min={0}
                     max={100}
                     value={draft.offsetX}
-                    onChange={(event) => setDraft((prev) => ({ ...prev, offsetX: Number(event.target.value) }))}
+                    onChange={(event) => updateDraft({ ...draft, offsetX: Number(event.target.value) })}
                   />
                   {draft.offsetX}%
                 </label>
@@ -158,7 +198,7 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
                     min={0}
                     max={100}
                     value={draft.offsetY}
-                    onChange={(event) => setDraft((prev) => ({ ...prev, offsetY: Number(event.target.value) }))}
+                    onChange={(event) => updateDraft({ ...draft, offsetY: Number(event.target.value) })}
                   />
                   {draft.offsetY}%
                 </label>
@@ -168,7 +208,7 @@ export function BackgroundDesigner({ config, onSave, onClose }: BackgroundDesign
         </div>
 
         <footer className="bg-designer-footer">
-          <button type="button" className="btn ghost" onClick={() => setDraft(defaultBackgroundConfig())}>
+          <button type="button" className="btn ghost" onClick={() => updateDraft(defaultBackgroundConfig())}>
             <RotateCcw size={15} />
             恢复默认
           </button>

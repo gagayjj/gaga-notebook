@@ -1,6 +1,7 @@
 const { contextBridge, ipcRenderer, webUtils } = require("electron");
 
 contextBridge.exposeInMainWorld("studyNotes", {
+  platform: "desktop",
   openVideoDialog: () => ipcRenderer.invoke("video:open"),
   captureVideoFrame: () => ipcRenderer.invoke("video:capture-frame"),
   getPathForFile: (file) => webUtils.getPathForFile(file),
@@ -15,6 +16,8 @@ contextBridge.exposeInMainWorld("studyNotes", {
   setAlwaysOnTop: (flag) => ipcRenderer.invoke("window:always-on-top", flag),
   setNarrowMode: (flag) => ipcRenderer.invoke("window:narrow", flag),
   openExternal: (url) => ipcRenderer.invoke("shell:open-external", url),
+  speakText: (text, options) => ipcRenderer.invoke("speech:speak", text, options),
+  stopSpeaking: () => ipcRenderer.send("speech:stop"),
   onVideoStatus: (callback) => {
     const listener = (_event, status) => callback(status);
     ipcRenderer.on("video:status", listener);
@@ -24,6 +27,11 @@ contextBridge.exposeInMainWorld("studyNotes", {
   readNote: (id) => ipcRenderer.invoke("notes:read", id),
   saveNote: (payload) => ipcRenderer.invoke("notes:save", payload),
   createNote: (input) => ipcRenderer.invoke("notes:create", input),
+  removeNote: (id) => ipcRenderer.invoke("notes:remove", id),
+  moveNote: (noteId, courseId) => ipcRenderer.invoke("notes:move", noteId, courseId),
+  removeCourse: (courseId) => ipcRenderer.invoke("courses:remove", courseId),
+  renameCourse: (courseId, name) => ipcRenderer.invoke("courses:rename", courseId, name),
+  createCourse: (name) => ipcRenderer.invoke("courses:create", name),
   listResources: () => ipcRenderer.invoke("resources:list"),
   pickResources: (category) => ipcRenderer.invoke("resources:pick", category),
   addResourceLink: (input) => ipcRenderer.invoke("resources:add-link", input),
@@ -31,14 +39,23 @@ contextBridge.exposeInMainWorld("studyNotes", {
   readResourceNote: (id) => ipcRenderer.invoke("resources:read-note", id),
   saveResourceNote: (id, input) => ipcRenderer.invoke("resources:save-note", id, input),
   removeResource: (id) => ipcRenderer.invoke("resources:remove", id),
-  openResourceFile: (filePath) => ipcRenderer.invoke("resources:open-file", filePath),
+  openResourceFile: (id) => ipcRenderer.invoke("resources:open-file", id),
   listPlans: () => ipcRenderer.invoke("plans:list"),
   savePlan: (payload) => ipcRenderer.invoke("plans:save", payload),
   removePlan: (id) => ipcRenderer.invoke("plans:remove", id),
   listWords: () => ipcRenderer.invoke("words:list"),
   addWord: (input) => ipcRenderer.invoke("words:add", input),
   removeWord: (id) => ipcRenderer.invoke("words:remove", id),
+  enrichWord: (word) => ipcRenderer.invoke("words:enrich", word),
   listSentences: () => ipcRenderer.invoke("sentences:list"),
   addSentence: (input) => ipcRenderer.invoke("sentences:add", input),
   removeSentence: (id) => ipcRenderer.invoke("sentences:remove", id),
+  updateSentence: (id, input) => ipcRenderer.invoke("sentences:update", id, input),
+  syncGetConfig: () => ipcRenderer.invoke("sync:get-config"),
+  syncSaveConfig: (config) => ipcRenderer.invoke("sync:save-config", config),
+  syncTest: () => ipcRenderer.invoke("sync:test"),
+  syncPush: () => ipcRenderer.invoke("sync:push"),
+  syncPull: () => ipcRenderer.invoke("sync:pull"),
+  syncPushNotes: () => ipcRenderer.invoke("sync:push-notes"),
+  syncPullNotes: () => ipcRenderer.invoke("sync:pull-notes"),
 });

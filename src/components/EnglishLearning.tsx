@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BookMarked,
   BookOpenText,
@@ -6,6 +6,7 @@ import {
   Circle,
   Gauge,
   ListChecks,
+  Loader2,
   Pause,
   PenLine,
   Plus,
@@ -54,6 +55,8 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   const [slow, setSlow] = useState(false);
   const [customText, setCustomText] = useState("");
   const [sentenceForm, setSentenceForm] = useState({ english: "", chinese: "" });
+  const [editingSentenceId, setEditingSentenceId] = useState<string | null>(null);
+  const [editSentenceForm, setEditSentenceForm] = useState({ english: "", chinese: "" });
   const [todaySentenceIndex, setTodaySentenceIndex] = useState(() => Math.floor(Date.now() / 86400000));
 
   const [wordForm, setWordForm] = useState({
@@ -75,6 +78,9 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   const [wrongIds, setWrongIds] = useState<string[]>([]);
   const [quizDone, setQuizDone] = useState(false);
   const [speaking, setSpeaking] = useState(false);
+  const [markForms, setMarkForms] = useState<Record<string, { word: string; meaning: string; phonetic: string; meaningTouched: boolean }>>({});
+  const [markEnriching, setMarkEnriching] = useState<Record<string, boolean>>({});
+  const markEnrichTimerRef = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
 
   useEffect(() => {
     Promise.all([
@@ -191,6 +197,146 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   const removeCustomSentence = async (id: string) => {
     const next = await window.studyNotes?.removeSentence(id);
     if (next) setCustomSentences(next);
+  };
+
+  const startEditSentence = (sentence: StudySentence) => {
+    setEditingSentenceId(sentence.id);
+    setEditSentenceForm({ english: sentence.english, chinese: sentence.chinese || "" });
+  };
+
+  const saveEditSentence = async (id: string) => {
+    if (!editSentenceForm.english.trim()) return;
+    const next = await window.studyNotes?.updateSentence(id, {
+      english: editSentenceForm.english.trim(),
+      chinese: editSentenceForm.chinese.trim(),
+    });
+    if (next) setCustomSentences(next);
+    setEditingSentenceId(null);
+  };
+
+  const cancelEditSentence = () => {
+    setEditingSentenceId(null);
+  };
+
+  const enrichWord = async (word: string): Promise<{ phonetic: string; meaning: string }> => {
+    const cleaned = word.trim();
+    if (!cleaned) return { phonetic: "", meaning: "" };
+    if (window.studyNotes?.enrichWord) {
+      try {
+        const data = await window.studyNotes.enrichWord(cleaned);
+        if (data) {
+          return { phonetic: data.phonetic || "", meaning: data.meaning || "" };
+        }
+      } catch (error) {
+        console.warn("enrichWord failed", error);
+      }
+    }
+    const fallback = recommendedWords.find((item) => item.word.toLowerCase() === cleaned.toLowerCase());
+    if (fallback) {
+      return { phonetic: fallback.phonetic || "", meaning: fallback.meaning || "" };
+    }
+    return { phonetic: "", meaning: "" };
+  };
+
+  const triggerMarkEnrich = (sentenceId: string, rawWord: string) => {
+    const existing = markEnrichTimerRef.current[sentenceId];
+    if (existing) clearTimeout(existing);
+    const trimmed = rawWord.trim();
+    if (!trimmed) {
+      setMarkForms((prev) => ({
+        ...prev,
+        [sentenceId]: { word: trimmed, meaning: prev[sentenceId]?.meaning || "", phonetic: prev[sentenceId]?.phonetic || "", meaningTouched: prev[sentenceId]?.meaningTouched || false },
+      }));
+      setMarkEnriching((prev) => ({ ...prev, [sentenceId]: false }));
+      return;
+    }
+    setMarkEnriching((prev) => ({ ...prev, [sentenceId]: true }));
+    markEnrichTimerRef.current[sentenceId] = setTimeout(async () => {
+      const enriched = await enrichWord(trimmed);
+      setMarkForms((prev) => {
+        const current = prev[sentenceId];
+        if (!current || current.word.trim() !== trimmed) return prev;
+        const nextMeaning = current.meaningTouched ? current.meaning : enriched.meaning || current.meaning;
+        return {
+          ...prev,
+          [sentenceId]: { ...current, phonetic: enriched.phonetic, meaning: nextMeaning },
+        };
+      });
+      setMarkEnriching((prev) => ({ ...prev, [sentenceId]: false }));
+    }, 500);
+  };
+
+  useEffect(() => {
+    return () => {
+      Object.values(markEnrichTimerRef.current).forEach((timer) => clearTimeout(timer));
+    };
+  }, []);
+
+  const addMarkedWord = async (sentenceId: string) => {
+    const form = markForms[sentenceId];
+    if (!form?.word.trim()) return;
+    const sentence = customSentences.find((item) => item.id === sentenceId);
+    if (!sentence) return;
+    setMarkEnriching((prev) => ({ ...prev, [sentenceId]: true }));
+    const enriched = await enrichWord(form.word.trim());
+    const meaning = form.meaning.trim() || enriched.meaning;
+    const phonetic = enriched.phonetic || form.phonetic;
+    const words = [
+      ...(sentence.words || []),
+      { id: `word-${Date.now()}`, word: form.word.trim(), phonetic, meaning },
+    ];
+    const next = await window.studyNotes?.updateSentence(sentenceId, { words });
+    if (next) setCustomSentences(next);
+    setMarkForms((prev) => ({ ...prev, [sentenceId]: { word: "", phonetic: "", meaning: "", meaningTouched: false } }));
+    setMarkEnriching((prev) => ({ ...prev, [sentenceId]: false }));
+  };
+
+  const removeMarkedWord = async (sentenceId: string, wordId: string) => {
+    const sentence = customSentences.find((item) => item.id === sentenceId);
+    if (!sentence) return;
+    const words = (sentence.words || []).filter((item) => item.id !== wordId);
+    const next = await window.studyNotes?.updateSentence(sentenceId, { words });
+    if (next) setCustomSentences(next);
+  };
+
+  const renderHighlightedSentence = (text: string, sentenceId: string) => {
+    const sentence = customSentences.find((item) => item.id === sentenceId);
+    const words = sentence?.words || [];
+    if (!words.length) return text;
+    const pattern = words
+      .map((item) => item.word.trim())
+      .filter(Boolean)
+      .sort((a, b) => b.length - a.length)
+      .map((item) => item.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+      .join("|");
+    if (!pattern) return text;
+    const regex = new RegExp(`\\b(${pattern})\\b`, "gi");
+    const parts = text.split(regex);
+    return parts.map((part, index) => {
+      const matched = words.find((item) => item.word.toLowerCase() === part.toLowerCase());
+      if (matched && index % 2 === 1) {
+        const hint = [matched.phonetic, matched.meaning].filter(Boolean).join(" · ");
+        return (
+          <span
+            key={`${matched.id}-${index}`}
+            className="marked-word-highlight"
+            title={hint || matched.word}
+            role="button"
+            tabIndex={0}
+            onClick={() => speak(matched.word)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                speak(matched.word);
+              }
+            }}
+          >
+            {part}
+          </span>
+        );
+      }
+      return <span key={`text-${index}`}>{part}</span>;
+    });
   };
 
   const startQuiz = (entries: QuizEntry[], mode: "words" | "sentences") => {
@@ -541,13 +687,121 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                 {customSentences.length === 0 && <p className="muted">语句本是空的，先添加一段英语</p>}
                 {customSentences.map((item) => (
                   <div className="wordbook-row sentence-row" key={item.id}>
-                    <div>
-                      <strong>{item.english}</strong>
-                      <span>{item.chinese}</span>
+                    <div className="sentence-row-main">
+                      {editingSentenceId === item.id ? (
+                        <div className="sentence-edit-form">
+                          <textarea
+                            className="sentence-form-english"
+                            value={editSentenceForm.english}
+                            onChange={(event) => setEditSentenceForm((prev) => ({ ...prev, english: event.target.value }))}
+                            placeholder="英语语句或段落"
+                          />
+                          <textarea
+                            className="sentence-form-english"
+                            value={editSentenceForm.chinese}
+                            onChange={(event) => setEditSentenceForm((prev) => ({ ...prev, chinese: event.target.value }))}
+                            placeholder="中文翻译"
+                          />
+                          <div className="sentence-edit-actions">
+                            <button
+                              type="button"
+                              className="btn primary small"
+                              onClick={() => void saveEditSentence(item.id)}
+                            >
+                              <CheckCircle2 size={14} />
+                              保存
+                            </button>
+                            <button
+                              type="button"
+                              className="btn ghost small"
+                              onClick={cancelEditSentence}
+                            >
+                              <X size={14} />
+                              取消
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <strong className="sentence-row-english">{renderHighlightedSentence(item.english, item.id)}</strong>
+                          <span>{item.chinese}</span>
+                        </>
+                      )}
+                      {(item.words?.length ?? 0) > 0 && (
+                        <div className="sentence-marked-words">
+                          {(item.words || []).map((word) => (
+                            <span className="marked-word-chip" key={word.id}>
+                              <button type="button" title="朗读生词" onClick={() => speak(word.word)}>
+                                {word.word}
+                              </button>
+                              {word.phonetic && <em className="marked-word-phonetic">{word.phonetic}</em>}
+                              <em>{word.meaning}</em>
+                              <button
+                                type="button"
+                                title="删除这个生词标记"
+                                onClick={() => void removeMarkedWord(item.id, word.id)}
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <div className="mark-word-form">
+                        <input
+                          value={markForms[item.id]?.word || ""}
+                          onChange={(event) => {
+                            const value = event.target.value;
+                            setMarkForms((prev) => ({
+                              ...prev,
+                              [item.id]: {
+                                word: value,
+                                phonetic: prev[item.id]?.phonetic || "",
+                                meaning: prev[item.id]?.meaning || "",
+                                meaningTouched: prev[item.id]?.meaningTouched || false,
+                              },
+                            }));
+                            triggerMarkEnrich(item.id, value);
+                          }}
+                          placeholder="句中生词"
+                        />
+                        <input
+                          value={markForms[item.id]?.meaning || ""}
+                          onChange={(event) =>
+                            setMarkForms((prev) => ({
+                              ...prev,
+                              [item.id]: {
+                                ...prev[item.id],
+                                meaning: event.target.value,
+                                meaningTouched: true,
+                              },
+                            }))
+                          }
+                          placeholder="中文释义（自动补全）"
+                        />
+                        <button
+                          type="button"
+                          className="btn primary small"
+                          disabled={markEnriching[item.id] || !markForms[item.id]?.word.trim()}
+                          onClick={() => void addMarkedWord(item.id)}
+                        >
+                          {markEnriching[item.id] ? <Loader2 className="spin" size={14} /> : <Plus size={14} />}
+                          {markEnriching[item.id] ? "补全中" : "标记"}
+                        </button>
+                      </div>
                     </div>
-                    <div>
+                    <div className="sentence-row-actions">
                       <button type="button" className="icon-btn" title="朗读" onClick={() => speak(item.english)}>
                         <Volume2 size={15} />
+                      </button>
+                      <button
+                        type="button"
+                        className="icon-btn"
+                        title="编辑"
+                        disabled={editingSentenceId === item.id}
+                        onClick={() => startEditSentence(item)}
+                      >
+                        <PenLine size={15} />
                       </button>
                       <button type="button" className="icon-btn" title="删除" onClick={() => removeCustomSentence(item.id)}>
                         <Trash2 size={15} />

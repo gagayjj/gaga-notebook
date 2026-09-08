@@ -6,32 +6,39 @@
   "main": "electron/main.cjs",
   "scripts": {
     "dev": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "mobile:serve": "node scripts/serve-mobile.cjs",
+    "deploy:mobile": "npm run build && bash scripts/deploy-mobile-github.sh",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "start": "electron ."
   },
   "dependencies": {
-    "@tiptap/extension-color": "^2.10.4",
-    "@tiptap/extension-highlight": "^2.10.4",
-    "@tiptap/extension-image": "^2.10.4",
-    "@tiptap/extension-placeholder": "^2.10.4",
-    "@tiptap/extension-text-style": "^2.10.4",
-    "@tiptap/react": "^2.10.4",
-    "@tiptap/starter-kit": "^2.10.4",
+    "@tiptap/extension-color": "^2.27.3",
+    "@tiptap/extension-highlight": "^2.27.3",
+    "@tiptap/extension-image": "^2.27.3",
+    "@tiptap/extension-placeholder": "^2.27.3",
+    "@tiptap/extension-text-style": "^2.27.3",
+    "@tiptap/extension-underline": "^2.27.3",
+    "@tiptap/react": "^2.27.3",
+    "@tiptap/starter-kit": "^2.27.3",
     "fuse.js": "^7.0.0",
-    "lucide-react": "^0.468.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "jsqr": "^1.4.0",
+    "lucide-react": "^1.42.0",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "ws": "^8.21.3"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "concurrently": "^9.1.0",
+    "@types/node": "^26.5.0",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "concurrently": "^10.0.5",
     "electron": "^33.2.1",
     "typescript": "^5.7.2",
-    "vite": "^6.0.3",
-    "wait-on": "^8.0.1"
+    "vite": "^8.2.2",
+    "wait-on": "^9.1.0"
   }
 }

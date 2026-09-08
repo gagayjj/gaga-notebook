@@ -1,4 +1,4 @@
-const CACHE = "gaga-notes-v2";
+const CACHE = "gaga-notes-v4";
 const ASSETS = [
   "./",
   "./index.html",

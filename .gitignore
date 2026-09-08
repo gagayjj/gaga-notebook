@@ -1,5 +1,9 @@
 node_modules/
 dist/
+dist-mobile/
+build/
+release/
 *.log
 *.tsbuildinfo
 study-notes-preview.png
+.DS_Store

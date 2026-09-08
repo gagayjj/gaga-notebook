@@ -11,6 +11,24 @@ npm run dev
 
 `npm run dev` 会启动 Vite 开发服务器并打开 Electron 窗口。
 
+## 手机版网页
+
+手机版使用同一套 React 应用构建为 PWA，支持 iPhone/Android 添加到主屏幕，并通过 GitHub 私有仓库 `gaga-study-sync` 与电脑全量同步。
+
+```bash
+npm run mobile:serve
+```
+
+启动后会在本机和局域网地址运行最新构建产物，手机与电脑连同一 Wi-Fi 时可快速预览。
+
+正式公网地址通过 GitHub Pages 部署：
+
+```bash
+npm run deploy:mobile   # 会先构建，再部署；需要先 gh auth login
+```
+
+部署完成后，手机在任意网络打开 GitHub Pages 网址即可使用，不需要和电脑在同一 Wi-Fi。
+
 ## 当前骨架已包含
 
 - 默认只显示居中的笔记本页面，笔记为主

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight, Eraser, MousePointer2, PenLine, Redo2, Shapes, Square, Trash2, Type, Undo2, X } from "lucide-react";
-import type { AnnotationImage } from "../types";
+import type { AnnotationImage, AnnotationInsert } from "../types";
 
 type ShapeTool =
   | "line"
@@ -35,7 +35,7 @@ type Stroke =
 interface AnnotationModalProps {
   image: AnnotationImage | null;
   onClose: () => void;
-  onInsert: (dataUrl: string) => void;
+  onInsert: (result: AnnotationInsert) => void;
 }
 
 const colors = ["#e5484d", "#f5a524", "#30a46c", "#3b82f6", "#8e4ec6", "#111827"];
@@ -53,6 +53,35 @@ const shapeTools: Array<{ tool: Tool; label: string }> = [
   { tool: "check", label: "对勾" },
   { tool: "exclaim", label: "感叹" },
 ];
+
+function paintAnnotationStroke(ctx: CanvasRenderingContext2D, stroke: Stroke) {
+  ctx.strokeStyle = stroke.color;
+  ctx.fillStyle = stroke.color;
+  ctx.lineWidth = stroke.size;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  if (stroke.tool === "pen") {
+    if (stroke.points.length < 2) return;
+    ctx.beginPath();
+    ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+    stroke.points.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
+    ctx.stroke();
+  } else if (stroke.tool === "rect") {
+    ctx.strokeRect(
+      stroke.start.x,
+      stroke.start.y,
+      stroke.end.x - stroke.start.x,
+      stroke.end.y - stroke.start.y,
+    );
+  } else if (stroke.tool === "arrow") {
+    drawArrow(ctx, stroke.start, stroke.end, stroke.size);
+  } else if (stroke.tool === "text") {
+    ctx.font = `${stroke.size * 5}px sans-serif`;
+    ctx.fillText(stroke.text, stroke.x, stroke.y);
+  } else {
+    drawShape(ctx, stroke);
+  }
+}
 
 function distanceToSegment(point: Point, a: Point, b: Point) {
   const dx = b.x - a.x;
@@ -215,10 +244,11 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
   const [color, setColor] = useState(colors[0]);
   const [size, setSize] = useState(4);
   const [strokes, setStrokes] = useState<Stroke[]>([]);
-  const [draft, setDraft] = useState<Stroke | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [dragMode, setDragMode] = useState<DragMode>(null);
   const dragStartRef = useRef<Point | null>(null);
+  const draftRef = useRef<Stroke | null>(null);
+  const drawFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (image?.dataUrl) setDataUrl(image.dataUrl);
@@ -243,37 +273,8 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
       ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
     }
 
-    const drawStroke = (stroke: Stroke) => {
-      ctx.strokeStyle = stroke.color;
-      ctx.fillStyle = stroke.color;
-      ctx.lineWidth = stroke.size;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      if (stroke.tool === "pen") {
-        if (stroke.points.length < 2) return;
-        ctx.beginPath();
-        ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
-        stroke.points.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
-        ctx.stroke();
-      } else if (stroke.tool === "rect") {
-        ctx.strokeRect(
-          stroke.start.x,
-          stroke.start.y,
-          stroke.end.x - stroke.start.x,
-          stroke.end.y - stroke.start.y,
-        );
-      } else if (stroke.tool === "arrow") {
-        drawArrow(ctx, stroke.start, stroke.end, stroke.size);
-      } else if (stroke.tool === "text") {
-        ctx.font = `${stroke.size * 5}px sans-serif`;
-        ctx.fillText(stroke.text, stroke.x, stroke.y);
-      } else {
-        drawShape(ctx, stroke);
-      }
-    };
-
-    strokes.forEach(drawStroke);
-    if (draft) drawStroke(draft);
+    strokes.forEach((stroke) => paintAnnotationStroke(ctx, stroke));
+    if (draftRef.current) paintAnnotationStroke(ctx, draftRef.current);
 
     if (selectedIndex !== null) {
       const selected = strokes[selectedIndex];
@@ -295,10 +296,18 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
         });
       }
     }
-  }, [bgImage, strokes, draft, selectedIndex]);
+  }, [bgImage, strokes, selectedIndex]);
 
   useEffect(() => {
     draw();
+  }, [draw]);
+
+  const scheduleDraw = useCallback(() => {
+    if (drawFrameRef.current !== null) return;
+    drawFrameRef.current = requestAnimationFrame(() => {
+      drawFrameRef.current = null;
+      draw();
+    });
   }, [draw]);
 
   const fitCanvas = (img: HTMLImageElement) => {
@@ -317,7 +326,10 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
 
   const toCanvasPoint = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    return {
+      x: ((event.clientX - rect.left) / rect.width) * event.currentTarget.width,
+      y: ((event.clientY - rect.top) / rect.height) * event.currentTarget.height,
+    };
   };
 
   const handlePointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
@@ -347,26 +359,18 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
       setSelectedIndex(null);
       return;
     }
-    const isShapeTool = !["pointer", "pen", "arrow", "rect", "text"].includes(tool);
-    if ((tool === "arrow" || isShapeTool) && selectedIndex !== null) {
-      const selected = strokes[selectedIndex];
-      const hit = selected && hitAny(selected);
-      if (hit) {
-        setDragMode(hit === "body" || hit === "move" ? "move" : hit);
-        dragStartRef.current = point;
-        return;
-      }
-    }
     if (tool === "text") {
       const text = window.prompt("输入标注文字", "重点");
       if (text) setStrokes((prev) => [...prev, { tool, color, size, x: point.x, y: point.y, text }]);
       return;
     }
     if (tool === "pen") {
-      setDraft({ tool, color, size, points: [point] });
+      draftRef.current = { tool, color, size, points: [point] };
+      scheduleDraw();
     } else {
       const text = tool === "textBox" || tool === "callout" ? window.prompt("输入文字", "文本") || "" : undefined;
-      setDraft({ tool, color, size, start: point, end: point, text });
+      draftRef.current = { tool, color, size, start: point, end: point, text };
+      scheduleDraw();
     }
   };
 
@@ -403,22 +407,22 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
       }
       return;
     }
-    if (!draft) return;
-    if (draft.tool === "pen") {
-      setDraft({ ...draft, points: [...draft.points, point] } as Stroke);
+    if (!draftRef.current) return;
+    if (draftRef.current.tool === "pen") {
+      draftRef.current = { ...draftRef.current, points: [...draftRef.current.points, point] } as Stroke;
     } else {
-      setDraft({ ...draft, end: point } as Stroke);
+      draftRef.current = { ...draftRef.current, end: point } as Stroke;
     }
+    scheduleDraw();
   };
 
   const handlePointerUp = () => {
     setDragMode(null);
     dragStartRef.current = null;
-    if (draft) {
-      const next = [...strokes, draft];
+    if (draftRef.current) {
+      const next = [...strokes, draftRef.current];
       setStrokes(next);
-      if (draft.tool !== "pen") setSelectedIndex(next.length - 1);
-      setDraft(null);
+      draftRef.current = null;
     }
   };
 
@@ -453,7 +457,12 @@ export function AnnotationModal({ image, onClose, onInsert }: AnnotationModalPro
   const exportImage = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    onInsert(canvas.toDataURL("image/png"));
+    const marksCanvas = document.createElement("canvas");
+    marksCanvas.width = canvas.width;
+    marksCanvas.height = canvas.height;
+    const marksCtx = marksCanvas.getContext("2d");
+    if (marksCtx) strokes.forEach((stroke) => paintAnnotationStroke(marksCtx, stroke));
+    onInsert({ image: dataUrl, marks: marksCanvas.toDataURL("image/png") });
   };
 
   const acceptFile = (file: File | undefined | null) => {

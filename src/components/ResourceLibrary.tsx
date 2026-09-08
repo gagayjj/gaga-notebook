@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Bell,
   CalendarClock,
@@ -15,14 +15,15 @@ import type { PlanItem, ResourceItem } from "../types";
 
 interface ResourceLibraryProps {
   onClose: () => void;
+  initialTab?: "resources" | "plans";
 }
 
 function todayString() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
-  const [tab, setTab] = useState<"resources" | "plans">("resources");
+export function ResourceLibrary({ onClose, initialTab = "resources" }: ResourceLibraryProps) {
+  const [tab, setTab] = useState<"resources" | "plans">(initialTab);
   const [resources, setResources] = useState<ResourceItem[]>([]);
   const [plans, setPlans] = useState<PlanItem[]>([]);
   const [linkUrl, setLinkUrl] = useState("");
@@ -34,6 +35,7 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
   const [planRemind, setPlanRemind] = useState(true);
   const [message, setMessage] = useState("");
   const [noteEditor, setNoteEditor] = useState<{ id?: string; title: string; content: string } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const refresh = useCallback(async () => {
     const [nextResources, nextPlans] = await Promise.all([
@@ -48,9 +50,26 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
     refresh();
   }, [refresh]);
 
+  useEffect(() => {
+    setTab(initialTab);
+  }, [initialTab]);
+
   const handlePickFiles = async () => {
+    if (window.studyNotes?.addResourceFile) {
+      fileInputRef.current?.click();
+      return;
+    }
     const next = await window.studyNotes?.pickResources(resourceCategory);
     if (next) setResources(next);
+  };
+
+  const handleFilesPicked = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    event.target.value = "";
+    for (const file of files) {
+      const next = await window.studyNotes?.addResourceFile({ file, category: resourceCategory });
+      if (next) setResources(next);
+    }
   };
 
   const handleAddLink = async () => {
@@ -75,7 +94,9 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
         setNoteEditor({ id: resource.id, title: resource.title, content });
       });
     } else if (resource.kind === "file" && resource.path) {
-      window.studyNotes?.openResourceFile(resource.path);
+      window.studyNotes?.openResourceFile(resource.id);
+    } else if (resource.kind === "file") {
+      window.studyNotes?.openResourceFile(resource.id);
     } else if (resource.kind === "link" && resource.url) {
       window.studyNotes?.openExternal(resource.url);
     }
@@ -172,6 +193,7 @@ export function ResourceLibrary({ onClose }: ResourceLibraryProps) {
                 <FolderOpen size={15} />
                 添加文件
               </button>
+              <input ref={fileInputRef} type="file" multiple hidden onChange={handleFilesPicked} />
               <button type="button" className="btn" onClick={() => setNoteEditor({ title: "", content: "" })}>
                 <NotebookPen size={15} />
                 直接添加
