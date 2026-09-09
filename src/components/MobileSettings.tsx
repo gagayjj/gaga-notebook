@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Brush, CheckCircle2, Palette, QrCode, RefreshCw, Trash2, Upload, X } from "lucide-react";
+import { Brush, CheckCircle2, Copy, Palette, QrCode, RefreshCw, Trash2, Upload, X } from "lucide-react";
 import jsQR from "jsqr";
 import type { SyncConfig } from "../types";
+
+// 手机端网页版部署地址（与桌面端共用 Gitee 数据）
+const PHONE_WEB_URL = "https://gagayjj.github.io/gaga-notebook/";
 
 interface MobileSettingsProps {
   onClose: () => void;
@@ -20,6 +23,7 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
     proxy: "",
   });
   const [status, setStatus] = useState("");
+  const [copied, setCopied] = useState(false);
   const [scanning, setScanning] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -130,6 +134,17 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
     location.reload();
   };
 
+  const copyPhoneUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(PHONE_WEB_URL);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+      window.prompt("复制下面的手机访问地址：", PHONE_WEB_URL);
+    }
+  };
+
   return (
     <div className="mobile-settings">
       <header className="mobile-settings-head">
@@ -167,6 +182,23 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
           </button>
         </div>
         {status && <p className="mobile-status">{status}</p>}
+      </div>
+
+      <div className="mobile-card phone-sync-card">
+        <div className="mobile-card-head">
+          <strong>手机同步地址</strong>
+          <button type="button" className="mini-text-btn" onClick={() => void copyPhoneUrl()}>
+            <Copy size={16} />
+            {copied ? "已复制" : "复制"}
+          </button>
+        </div>
+        <p className="phone-sync-tip">
+          用手机浏览器打开下面的地址，即可使用与电脑完全相同的完整软件；在手机端「我的」里配置 Gitee 同步后，数据自动与电脑互通。
+        </p>
+        <img className="phone-sync-qr" src="./phone-sync-qr.png" alt="手机访问地址二维码" />
+        <a className="phone-sync-url" href={PHONE_WEB_URL} target="_blank" rel="noreferrer">
+          {PHONE_WEB_URL}
+        </a>
       </div>
 
       {scanning && (

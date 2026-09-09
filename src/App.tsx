@@ -40,6 +40,7 @@ export default function App() {
   const [themePickerOpen, setThemePickerOpen] = useState(false);
   const [bgConfig, setBgConfig] = useState<BackgroundConfig>(loadBackgroundConfig);
   const [designerOpen, setDesignerOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [videoState, setVideoState] = useState<VideoState>({ kind: "none" });
   const [insertRequest, setInsertRequest] = useState<InsertRequest | null>(null);
   const [annotation, setAnnotation] = useState<AnnotationImage | null>(null);
@@ -611,6 +612,7 @@ export default function App() {
           onToggleEnglish={handleToggleEnglish}
           onToggleTheme={handleToggleTheme}
           onToggleDesigner={handleToggleDesigner}
+          onOpenSettings={() => setSettingsOpen(true)}
         />
       )}
 
@@ -741,13 +743,13 @@ export default function App() {
           onClose={() => setDesignerOpen(false)}
         />
       )}
-      {isMobile && mobileTab === "mine" && (
+      {(isMobile && mobileTab === "mine") || (!isMobile && settingsOpen) ? (
         <MobileSettings
-          onClose={() => setMobileTab("notes")}
+          onClose={() => (isMobile ? setMobileTab("notes") : setSettingsOpen(false))}
           onOpenTheme={handleToggleTheme}
           onOpenDesigner={handleToggleDesigner}
         />
-      )}
+      ) : null}
       {isMobile && <MobileNav activeTab={mobileTab} onChange={handleMobileTabChange} />}
     </div>
   );

@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   Circle,
   Gauge,
+  Languages,
   ListChecks,
   Loader2,
   Pause,
@@ -12,6 +13,7 @@ import {
   Plus,
   Quote,
   RotateCcw,
+  Save,
   Trash2,
   Volume2,
   X,
@@ -43,7 +45,7 @@ function normalizeAnswer(value: string) {
 }
 
 export function EnglishLearning({ onClose }: EnglishLearningProps) {
-  const [tab, setTab] = useState<"learn" | "wordbook" | "sentencebook" | "dictation">("learn");
+  const [tab, setTab] = useState<"learn" | "wordbook" | "sentencebook" | "dictation" | "bilingual">("learn");
   const [planType, setPlanType] = useState<"words" | "sentences">(
     () => (localStorage.getItem("english-plan-type") as "words" | "sentences") || "words",
   );
@@ -58,6 +60,15 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
   const [editingSentenceId, setEditingSentenceId] = useState<string | null>(null);
   const [editSentenceForm, setEditSentenceForm] = useState({ english: "", chinese: "" });
   const [todaySentenceIndex, setTodaySentenceIndex] = useState(() => Math.floor(Date.now() / 86400000));
+
+  // 逐句对照：粘贴英文段落，按句号切句后逐句翻译为中文
+  const [bilingualText, setBilingualText] = useState("");
+  const [bilingualPairs, setBilingualPairs] = useState<
+    { id: string; english: string; chinese: string; status: "pending" | "translated" | "error"; saved?: boolean }[]
+  >([]);
+  const [bilingualLoading, setBilingualLoading] = useState(false);
+  const [bilingualError, setBilingualError] = useState<string | null>(null);
+  const bilingualCacheRef = useRef<Record<string, string>>({});
 
   const [wordForm, setWordForm] = useState({
     word: "",
@@ -199,6 +210,74 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     if (next) setCustomSentences(next);
   };
 
+  // === 逐句对照 ===
+  // 按 . ! ? 后跟空白/引号 切句，保留原文标点
+  const splitSentences = (text: string): string[] => {
+    const cleaned = text.replace(/\s+/g, " ").trim();
+    if (!cleaned) return [];
+    // 使用正则切分：句末标点 + 可能的引号/空白
+    const parts = cleaned.split(/(?<=[.!?。！？])\s+(?=["”'\)）]?)/g);
+    return parts.map((s) => s.trim()).filter(Boolean);
+  };
+
+  // 调 MyMemory 免费接口，en -> zh-CN
+  const translateOne = async (en: string): Promise<string> => {
+    const cached = bilingualCacheRef.current[en];
+    if (cached) return cached;
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(en)}&langpair=en|zh-CN`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const out = data?.responseData?.translatedText;
+    if (typeof out !== "string" || !out.trim()) throw new Error("empty response");
+    const cleaned = out.replace(/&#39;/g, "'").replace(/&quot;/g, '"').trim();
+    bilingualCacheRef.current[en] = cleaned;
+    return cleaned;
+  };
+
+  const runBilingualTranslate = async () => {
+    const sentences = splitSentences(bilingualText);
+    if (!sentences.length) {
+      setBilingualError("请先粘贴一段英文内容");
+      setBilingualPairs([]);
+      return;
+    }
+    setBilingualError(null);
+    setBilingualLoading(true);
+    // 初始化：所有句子置 pending，立即显示原文
+    const initial = sentences.map((s) => ({
+      id: `b-${Math.random().toString(36).slice(2, 9)}-${Date.now()}`,
+      english: s,
+      chinese: "",
+      status: "pending" as const,
+    }));
+    setBilingualPairs(initial);
+    // 逐句翻译：并发数 2，避免过快触发 MyMemory 限流
+    for (let i = 0; i < initial.length; i += 2) {
+      const slice = initial.slice(i, i + 2);
+      await Promise.all(
+        slice.map(async (p) => {
+          try {
+            const zh = await translateOne(p.english);
+            setBilingualPairs((prev) => prev.map((x) => (x.id === p.id ? { ...x, chinese: zh, status: "translated" } : x)));
+          } catch (err) {
+            setBilingualPairs((prev) => prev.map((x) => (x.id === p.id ? { ...x, status: "error" } : x)));
+          }
+        }),
+      );
+    }
+    setBilingualLoading(false);
+  };
+
+  // 把对照区某一条保存到语句本
+  const saveBilingualToSentenceBook = async (pairId: string) => {
+    const pair = bilingualPairs.find((p) => p.id === pairId);
+    if (!pair || !pair.english || !pair.chinese) return;
+    const result = await window.studyNotes?.addSentence({ english: pair.english, chinese: pair.chinese });
+    if (result) setCustomSentences(result);
+    setBilingualPairs((prev) => prev.map((p) => (p.id === pairId ? { ...p, saved: true } : p)));
+  };
+
   const startEditSentence = (sentence: StudySentence) => {
     setEditingSentenceId(sentence.id);
     setEditSentenceForm({ english: sentence.english, chinese: sentence.chinese || "" });
@@ -297,6 +376,72 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
     const words = (sentence.words || []).filter((item) => item.id !== wordId);
     const next = await window.studyNotes?.updateSentence(sentenceId, { words });
     if (next) setCustomSentences(next);
+  };
+
+  // === 选中即标记：直接从句子/对照区拖选英文单词，自动生成生词并标记 ===
+  // 从当前选区中提取单词；只接受"单个英文单词/词组"，避免误触发
+  const extractSelectedWord = (container: HTMLElement | null): string => {
+    const selection = window.getSelection();
+    if (!selection || selection.isCollapsed || selection.rangeCount === 0) return "";
+    // 选区必须落在目标容器内
+    if (container) {
+      const range = selection.getRangeAt(0);
+      if (!container.contains(range.commonAncestorContainer)) return "";
+    }
+    const raw = selection.toString().trim();
+    if (!raw) return "";
+    // 只接受英文单词（允许 连字符 / 撇号 / 空格组成的短语）
+    if (!/^[A-Za-z][A-Za-z'’\- ]*$/.test(raw)) return "";
+    const cleaned = raw.replace(/\s+/g, " ").trim();
+    // 太长就不是单词了，避免整段误触发
+    if (cleaned.length > 40 || cleaned.split(" ").length > 4) return "";
+    return cleaned;
+  };
+
+  // 直接把某个单词标记到指定句子（自动补全音标+释义，无需手动填表）
+  const markWordDirectly = async (sentenceId: string, word: string) => {
+    const sentence = customSentences.find((item) => item.id === sentenceId);
+    if (!sentence || !word) return;
+    // 已标记过就不重复添加
+    if ((sentence.words || []).some((w) => w.word.toLowerCase() === word.toLowerCase())) return;
+    setMarkEnriching((prev) => ({ ...prev, [sentenceId]: true }));
+    const enriched = await enrichWord(word);
+    const words = [
+      ...(sentence.words || []),
+      { id: `word-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, word, phonetic: enriched.phonetic, meaning: enriched.meaning },
+    ];
+    const next = await window.studyNotes?.updateSentence(sentenceId, { words });
+    if (next) setCustomSentences(next);
+    setMarkEnriching((prev) => ({ ...prev, [sentenceId]: false }));
+  };
+
+  // 语句本里选词：句子已存在，直接标记
+  const handleSelectInSentence = (sentenceId: string, event: React.MouseEvent<HTMLElement>) => {
+    const word = extractSelectedWord(event.currentTarget);
+    if (!word) return;
+    void markWordDirectly(sentenceId, word);
+    window.getSelection()?.removeAllRanges();
+  };
+
+  // 逐句对照里选词：若该句还没存入语句本，先保存再标记
+  const handleSelectInBilingual = async (pairId: string, event: React.MouseEvent<HTMLElement>) => {
+    const word = extractSelectedWord(event.currentTarget);
+    if (!word) return;
+    const pair = bilingualPairs.find((p) => p.id === pairId);
+    if (!pair) return;
+    let sentenceId = customSentences.find((s) => s.english === pair.english)?.id;
+    if (!sentenceId) {
+      const created = await window.studyNotes?.addSentence({ english: pair.english, chinese: pair.chinese });
+      if (created) {
+        setCustomSentences(created);
+        const saved = created.find((s) => s.english === pair.english);
+        sentenceId = saved?.id;
+        setBilingualPairs((prev) => prev.map((p) => (p.id === pairId ? { ...p, saved: true } : p)));
+      }
+    }
+    if (!sentenceId) return;
+    await markWordDirectly(sentenceId, word);
+    window.getSelection()?.removeAllRanges();
   };
 
   const renderHighlightedSentence = (text: string, sentenceId: string) => {
@@ -450,6 +595,14 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
           >
             <PenLine size={15} />
             默写
+          </button>
+          <button
+            type="button"
+            className={tab === "bilingual" ? "active" : ""}
+            onClick={() => setTab("bilingual")}
+          >
+            <Languages size={15} />
+            逐句对照
           </button>
           <div className="plan-switch">
             <button type="button" className={planType === "words" ? "active" : ""} onClick={() => changePlanType("words")}>
@@ -723,7 +876,13 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                         </div>
                       ) : (
                         <>
-                          <strong className="sentence-row-english">{renderHighlightedSentence(item.english, item.id)}</strong>
+                          <strong
+  className="sentence-row-english select-to-mark"
+  title="双击或拖选单词即可自动标记生词"
+  onMouseUp={(event) => handleSelectInSentence(item.id, event)}
+>
+  {renderHighlightedSentence(item.english, item.id)}
+</strong>
                           <span>{item.chinese}</span>
                         </>
                       )}
@@ -951,6 +1110,121 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
               </button>
             </div>
           </section>
+
+          {tab === "bilingual" && (
+            <section className="bilingual-panel">
+              <div className="bilingual-input-card">
+                <div className="bilingual-input-head">
+                  <strong>逐句对照翻译</strong>
+                  <span>粘贴英文段落，自动切句后逐句翻译为中文</span>
+                </div>
+                <textarea
+                  className="bilingual-input"
+                  value={bilingualText}
+                  onChange={(event) => setBilingualText(event.target.value)}
+                  placeholder={"Paste English paragraph here, e.g.\nYou live in a world where you expose yourself to so many evil eyes. Some people in the world, even people closer to you than you think, might be wishing poorly on you."}
+                />
+                <div className="bilingual-input-actions">
+                  <button
+                    type="button"
+                    className="btn primary"
+                    onClick={() => void runBilingualTranslate()}
+                    disabled={bilingualLoading || !bilingualText.trim()}
+                  >
+                    {bilingualLoading ? <Loader2 className="spin" size={14} /> : <Languages size={14} />}
+                    {bilingualLoading ? "翻译中…" : "逐句翻译"}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => {
+                      setBilingualText("");
+                      setBilingualPairs([]);
+                      setBilingualError(null);
+                    }}
+                    disabled={!bilingualText && !bilingualPairs.length}
+                  >
+                    <RotateCcw size={14} />
+                    清空
+                  </button>
+                  <span className="bilingual-hint">
+                    使用 MyMemory 免费接口（无需 Key，单 IP 每日约 5000 字限额）
+                  </span>
+                </div>
+                {bilingualError && <div className="bilingual-error">{bilingualError}</div>}
+              </div>
+
+              {bilingualPairs.length > 0 && (
+                <div className="bilingual-list">
+                  {bilingualPairs.map((pair) => (
+                    <div className="bilingual-row" key={pair.id}>
+                      <div className="bilingual-cell bilingual-en">
+                        <div className="bilingual-cell-label">EN</div>
+                        <div
+                          className="bilingual-cell-text select-to-mark"
+                          title="双击或拖选单词即可自动标记生词"
+                          onMouseUp={(event) => void handleSelectInBilingual(pair.id, event)}
+                        >
+                          {pair.english}
+                        </div>
+                      </div>
+                      <div className="bilingual-cell bilingual-zh">
+                        <div className="bilingual-cell-label">中文</div>
+                        <div className="bilingual-cell-text">
+                          {pair.status === "pending" ? (
+                            <span className="bilingual-pending">
+                              <Loader2 className="spin" size={12} /> 翻译中…
+                            </span>
+                          ) : pair.status === "error" ? (
+                            <span className="bilingual-err">翻译失败（点击单词可查词）</span>
+                          ) : (
+                            pair.chinese
+                          )}
+                        </div>
+                      </div>
+                      <div className="bilingual-actions">
+                        <button
+                          type="button"
+                          className="icon-btn"
+                          title="朗读英文"
+                          onClick={() => speak(pair.english)}
+                        >
+                          <Volume2 size={15} />
+                        </button>
+                        <button
+                          type="button"
+                          className="icon-btn"
+                          title="朗读中文"
+                          onClick={() => {
+                            try {
+                              const u = new SpeechSynthesisUtterance(pair.chinese);
+                              u.lang = "zh-CN";
+                              window.speechSynthesis?.cancel();
+                              window.speechSynthesis?.speak(u);
+                            } catch {
+                              /* noop */
+                            }
+                          }}
+                          disabled={pair.status !== "translated"}
+                        >
+                          <span style={{ fontSize: 12, fontWeight: 600 }}>中</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="icon-btn"
+                          title="保存到语句本"
+                          onClick={() => void saveBilingualToSentenceBook(pair.id)}
+                          disabled={pair.status !== "translated" || pair.saved}
+                        >
+                          {pair.saved ? <CheckCircle2 size={15} /> : <Save size={15} />}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
         </div>
       </div>
     </div>

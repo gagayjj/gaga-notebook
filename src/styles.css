@@ -1497,19 +1497,182 @@ input {
 
 .custom-read textarea {
   width: 100%;
-  height: 110px;
-  resize: none;
+  height: auto;
+  min-height: 110px;
+  max-height: 400px;
+  resize: vertical;
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px 12px;
   font: inherit;
   line-height: 1.6;
   outline: 0;
+  box-sizing: border-box;
+  field-sizing: content;
 }
 
 .custom-read > div:last-child {
   display: flex;
   gap: 8px;
+}
+
+/* ===== 逐句对照 ===== */
+.bilingual-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.bilingual-input-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bilingual-input-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.bilingual-input-head strong {
+  font-size: 14px;
+  color: var(--text);
+}
+.bilingual-input-head span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.bilingual-input {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.6;
+  outline: 0;
+  box-sizing: border-box;
+  field-sizing: content;
+  max-height: 360px;
+}
+.bilingual-input:focus {
+  border-color: var(--accent);
+}
+
+.bilingual-input-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.bilingual-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.bilingual-error {
+  color: #b00020;
+  background: rgba(176, 0, 32, 0.06);
+  border: 1px solid rgba(176, 0, 32, 0.18);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.bilingual-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bilingual-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: stretch;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: border-color 0.15s ease;
+}
+.bilingual-row:hover {
+  border-color: var(--accent);
+}
+
+.bilingual-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.bilingual-cell-label {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.bilingual-cell-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.bilingual-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.bilingual-err {
+  color: #b00020;
+  font-size: 13px;
+}
+
+/* 可选词标记：双击/拖选英文即自动标记生词 */
+.select-to-mark {
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: text;
+}
+.select-to-mark::selection,
+.select-to-mark *::selection {
+  background: rgba(255, 193, 7, 0.45);
+}
+.select-to-mark .marked-word-highlight {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.bilingual-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: center;
+}
+.bilingual-actions .icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin {
+  animation: spin 1s linear infinite;
 }
 
 .english-tabs {
@@ -1663,8 +1826,10 @@ input {
 
 .word-form-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* 自适应列数：容器宽就多列，每个输入框下限 200px 并随内容伸展 */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 8px;
+  align-items: stretch;
 }
 
 .word-form-grid input {
@@ -1674,17 +1839,29 @@ input {
   padding: 0 10px;
   outline: 0;
   font: inherit;
+  min-width: 80px;
+  width: 100%;
+}
+
+.word-form-grid input {
+  /* 长度自适应：内容多就变长，单列上限由父容器约束 */
+  field-sizing: content;
+  max-width: 100%;
 }
 
 .word-form-grid .sentence-form-english {
-  height: 88px;
-  resize: none;
+  height: auto;
+  min-height: 88px;
+  resize: vertical;
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: 7px;
   outline: 0;
   font: inherit;
   line-height: 1.6;
+  width: 100%;
+  field-sizing: content;
+  max-height: 320px;
 }
 
 .wordbook-row {
@@ -2653,4 +2830,101 @@ body[data-bg-fill="1"] .video-pane {
 .plan-row.done strong {
   color: var(--muted);
   text-decoration: line-through;
+}
+
+/* ---- 我的 / 设置面板卡片（移动与桌面共用） ---- */
+.mobile-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 6px 18px rgba(120, 90, 40, 0.08);
+}
+
+.mobile-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.mobile-card-head strong {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.mobile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mini-text-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 8px;
+}
+
+.mini-text-btn:hover {
+  background: var(--accent-soft);
+}
+
+.mobile-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---- 手机同步地址卡片 ---- */
+.phone-sync-card {
+  text-align: center;
+}
+
+.phone-sync-tip {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.phone-sync-qr {
+  display: block;
+  width: 200px;
+  max-width: 70%;
+  height: auto;
+  margin: 0 auto 12px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(120, 90, 40, 0.1);
+}
+
+.phone-sync-url {
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-all;
+  color: var(--accent);
+  font-size: 13px;
+  text-decoration: none;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.phone-sync-url:hover {
+  text-decoration: underline;
 }

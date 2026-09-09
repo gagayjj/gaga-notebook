@@ -17,6 +17,7 @@ import {
   Pin,
   PinOff,
   Plus,
+  Settings,
   Square,
   Timer,
 } from "lucide-react";
@@ -46,6 +47,7 @@ interface ToolbarProps {
   onToggleEnglish: () => void;
   onToggleTheme: () => void;
   onToggleDesigner: () => void;
+  onOpenSettings: () => void;
 }
 
 export function Toolbar({
@@ -73,6 +75,7 @@ export function Toolbar({
   onToggleEnglish,
   onToggleTheme,
   onToggleDesigner,
+  onOpenSettings,
 }: ToolbarProps) {
   const [hint, setHint] = useState("");
 
@@ -227,6 +230,16 @@ export function Toolbar({
           onClick={onToggleNarrow}
         >
           {narrow ? <PanelRightOpen size={17} /> : <PanelRightClose size={17} />}
+        </button>
+        <span className="toolbar-sep" />
+        <button
+          type="button"
+          className="icon-btn"
+          title="设置与手机同步"
+          data-hint="打开设置：配置 Gitee 同步、查看手机访问地址与二维码"
+          onClick={onOpenSettings}
+        >
+          <Settings size={17} />
         </button>
       </div>
     </header>
