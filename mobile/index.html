@@ -108,13 +108,30 @@
         </section>
 
         <section id="tab-mine" class="page">
+          <div class="card">
+            <div class="card-head">
+              <strong>云同步（电脑 ↔ 手机）</strong>
+              <span id="sync-status" class="sync-status"></span>
+            </div>
+            <div class="inline-form">
+              <input id="sync-owner" placeholder="Gitee 账号" title="Gitee 用户名" />
+              <input id="sync-repo" placeholder="仓库名" title="同步用的私有仓库名" />
+            </div>
+            <input id="sync-token" type="password" placeholder="Gitee 私人令牌" title="在 Gitee 设置里生成的私人令牌，只保存在本机" />
+            <div class="row">
+              <button id="sync-now" class="btn primary" title="立刻与云端双向同步笔记和生词">立即同步</button>
+              <button id="sync-save-cfg" class="btn" title="把上面的配置保存到本机，下次不用重填">保存配置</button>
+            </div>
+            <small class="hint">走 Gitee 私有仓库中转，手机在任何网络（不同 WiFi、蜂窝数据）都能和电脑同步。令牌只存本机浏览器，不会上传。</small>
+          </div>
+
           <div class="card mine-card">
             <img src="./icons/icon-192.png" alt="GAGA" />
             <h2>GAGA的笔记本</h2>
             <p class="muted">手机网页版 · 数据存在本机浏览器</p>
             <div id="mine-stats" class="stats"></div>
             <button id="clear-data" class="btn danger" title="删除手机版保存的笔记、单词、计划和标记">清空本机数据</button>
-            <small class="hint">数据只存在本机浏览器，不上传云端</small>
+            <small class="hint">清空只影响本机，云端的笔记和生词不受影响</small>
           </div>
         </section>
 
@@ -186,5 +203,6 @@
       </div>
     </div>
     <script src="./app.js"></script>
+    <script src="./sync.js"></script>
   </body>
 </html>
