@@ -2832,7 +2832,36 @@ body[data-bg-fill="1"] .video-pane {
   text-decoration: line-through;
 }
 
-/* ---- 我的 / 设置面板卡片（移动与桌面共用） ---- */
+/* ---- 我的 / 设置面板（移动与桌面共用，需可滚动） ---- */
+.mobile-settings {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--bg);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px 32px;
+}
+
+.mobile-settings-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 4px;
+  margin: 0 -4px 14px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.mobile-settings-head strong {
+  font-size: 16px;
+  color: var(--text);
+}
+
 .mobile-card {
   background: var(--panel);
   border: 1px solid var(--border);
