@@ -1,0 +1,134 @@
+[
+ {
+  "slug": "matt_cutts_try_something_new_for_30_days",
+  "title": "Try something new for 30 days",
+  "titleZh": "用30天尝试新事物",
+  "speaker": "Matt Cutts",
+  "level": 1,
+  "minutes": 3,
+  "wpm": 154,
+  "totalWords": 478,
+  "desc": "只有3分钟，句子短、语速慢，词汇都是常用词，适合入门第一篇"
+ },
+ {
+  "slug": "derek_sivers_how_to_start_a_movement",
+  "title": "How to start a movement",
+  "titleZh": "如何发起一场运动",
+  "speaker": "Derek Sivers",
+  "level": 1,
+  "minutes": 3,
+  "wpm": 169,
+  "totalWords": 477,
+  "desc": "3分钟小故事，讲得极慢极清楚，配的画面就是字幕本身，好懂"
+ },
+ {
+  "slug": "rita_pierson_every_kid_needs_a_champion",
+  "title": "Every kid needs a champion",
+  "titleZh": "每个孩子都需要一个鼓励者",
+  "speaker": "Rita Pierson",
+  "level": 2,
+  "minutes": 8,
+  "wpm": 147,
+  "totalWords": 1103,
+  "desc": "老师讲课，吐字清楚、句子完整，教育话题词汇不难"
+ },
+ {
+  "slug": "shawn_achor_the_happy_secret_to_better_work",
+  "title": "The happy secret to better work",
+  "titleZh": "好心态带来的高效能",
+  "speaker": "Shawn Achor",
+  "level": 2,
+  "minutes": 12,
+  "wpm": 212,
+  "totalWords": 2543,
+  "desc": "轻松幽默，从 anecdotes 讲起，听懂故事就能跟上"
+ },
+ {
+  "slug": "julian_treasure_how_to_speak_so_that_people_want_to_listen",
+  "title": "How to speak so that people want to listen",
+  "titleZh": "怎样说话别人才爱听",
+  "speaker": "Julian Treasure",
+  "level": 3,
+  "minutes": 10,
+  "wpm": 172,
+  "totalWords": 1667,
+  "desc": "语音专家示范发声与表达，语速中等，话题贴近生活"
+ },
+ {
+  "slug": "celeste_headlee_10_ways_to_have_a_better_conversation",
+  "title": "10 ways to have a better conversation",
+  "titleZh": "好 conversation 的十条建议",
+  "speaker": "Celeste Headlee",
+  "level": 3,
+  "minutes": 11,
+  "wpm": 174,
+  "totalWords": 1959,
+  "desc": "十条清单式结构，每条独立，条理清晰，适合精听跟句"
+ },
+ {
+  "slug": "tim_urban_inside_the_mind_of_a_master_procrastinator",
+  "title": "Inside the mind of a master procrastinator",
+  "titleZh": "拖延症大师的内心世界",
+  "speaker": "Tim Urban",
+  "level": 3,
+  "minutes": 14,
+  "wpm": 165,
+  "totalWords": 2277,
+  "desc": "搞笑但信息量大，有图解配合，练听力不容易走神"
+ },
+ {
+  "slug": "simon_sinek_how_great_leaders_inspire_action",
+  "title": "How great leaders inspire action",
+  "titleZh": "伟大领导者如何激励行动",
+  "speaker": "Simon Sinek",
+  "level": 4,
+  "minutes": 18,
+  "wpm": 170,
+  "totalWords": 3015,
+  "desc": "商业演讲，长句和逻辑链多，需要跟住 because/so 的推理"
+ },
+ {
+  "slug": "brene_brown_the_power_of_vulnerability",
+  "title": "The power of vulnerability",
+  "titleZh": "脆弱的力量",
+  "speaker": "Brené Brown",
+  "level": 4,
+  "minutes": 20,
+  "wpm": 156,
+  "totalWords": 3111,
+  "desc": "语速快、口语化、多个人故事，词汇偏抽象情感类"
+ },
+ {
+  "slug": "amy_cuddy_your_body_language_shapes_who_you_are",
+  "title": "Your body language may shape who you are",
+  "titleZh": "肢体语言塑造你自己",
+  "speaker": "Amy Cuddy",
+  "level": 4,
+  "minutes": 21,
+  "wpm": 176,
+  "totalWords": 3641,
+  "desc": "心理学研究叙述，含实验细节词汇，语速平稳但句子长"
+ },
+ {
+  "slug": "chimamanda_adichie_the_danger_of_a_single_story",
+  "title": "The danger of a single story",
+  "titleZh": "单一故事的危险",
+  "speaker": "Chimamanda Ngozi Adichie",
+  "level": 5,
+  "minutes": 18,
+  "wpm": 155,
+  "totalWords": 2860,
+  "desc": "文学化表达，长难句密集，词汇量大，适合高阶精听"
+ },
+ {
+  "slug": "ken_robinson_says_schools_kill_creativity",
+  "title": "Do schools kill creativity?",
+  "titleZh": "学校扼杀创造力吗",
+  "speaker": "Sir Ken Robinson",
+  "level": 5,
+  "minutes": 19,
+  "wpm": 166,
+  "totalWords": 3170,
+  "desc": "英式幽默 + 即兴发挥，笑点需听懂才反应过来，难度最高"
+ }
+]
