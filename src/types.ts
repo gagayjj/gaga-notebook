@@ -5,6 +5,20 @@ export interface NoteMeta {
   tags: string[];
   createdAt: string;
   updatedAt: string;
+  /** 绑定的视频：打开笔记时自动左侧恢复视频面板 */
+  video?: VideoState;
+}
+
+/** 回收站条目：笔记/单词/语句删除后先进回收站，可恢复 */
+export interface TrashItem {
+  id: string;
+  type: "note" | "word" | "sentence";
+  title: string;
+  deletedAt: string;
+  courseId?: string;
+  courseName?: string;
+  /** 单词/语句的完整数据（恢复时直接放回列表） */
+  data?: unknown;
 }
 
 export interface Course {
@@ -19,6 +33,7 @@ export interface Library {
   version: number;
   courses: Course[];
   notes: Record<string, NoteMeta>;
+  trash?: TrashItem[];
   resources: ResourceItem[];
   plans: PlanItem[];
   customWords?: StudyWord[];
@@ -63,6 +78,41 @@ export interface StudyWord {
   sentenceMeaning: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+// 有道查词返回的额外字段（英/美音标、全部释义、词形变化）
+export interface EnrichedWord extends Omit<StudyWord, "id"> {
+  usphone?: string;
+  ukphone?: string;
+  meanings?: string[];
+  wfs?: { name: string; value: string }[];
+}
+
+// TED 精听：精选清单项与单篇数据（由 scripts/fetch-ted.mjs 生成）
+export interface TedIndexItem {
+  slug: string;
+  title: string;
+  titleZh: string;
+  speaker: string;
+  level: number; // 1 入门 ~ 5 高阶
+  minutes: number;
+  wpm: number;
+  totalWords: number;
+  desc: string;
+}
+
+export interface TedSentence {
+  t0: number; // 开始毫秒
+  t1: number; // 结束毫秒
+  text: string;
+}
+
+export interface TedTalkData extends TedIndexItem {
+  duration: number;
+  thumb: string;
+  mp4: string;
+  hls: string;
+  sentences: TedSentence[];
 }
 
 export interface StudySentence {
@@ -175,6 +225,13 @@ declare global {
       createNote: (input: { title?: string; courseId?: string; tags?: string[] }) => Promise<NoteDoc>;
       removeNote: (id: string) => Promise<Library>;
       moveNote: (noteId: string, courseId: string) => Promise<Library>;
+      /** 以下为桌面端专属；web 版未实现 */
+      setNoteVideo?: (id: string, video: VideoState) => Promise<boolean>;
+      listTrash?: () => Promise<TrashItem[]>;
+      restoreFromTrash?: (id: string) => Promise<Library | null>;
+      purgeTrash?: (id: string) => Promise<TrashItem[]>;
+      listNoteHistory?: (id: string) => Promise<string[]>;
+      restoreNoteHistory?: (id: string, steps?: number) => Promise<{ content: unknown; restoredAt: string; remaining: number } | null>;
       removeCourse: (courseId: string) => Promise<Library>;
       renameCourse: (courseId: string, name: string) => Promise<Library>;
       createCourse: (name: string) => Promise<Library>;
@@ -193,7 +250,9 @@ declare global {
       listWords: () => Promise<StudyWord[]>;
       addWord: (input: Omit<StudyWord, "id">) => Promise<StudyWord[]>;
       removeWord: (id: string) => Promise<StudyWord[]>;
-      enrichWord: (word: string) => Promise<Omit<StudyWord, "id">>;
+      enrichWord: (word: string) => Promise<EnrichedWord>;
+      tedList?: () => Promise<TedIndexItem[]>;
+      tedGet?: (slug: string) => Promise<TedTalkData | null>;
       listSentences: () => Promise<StudySentence[]>;
       addSentence: (input: Omit<StudySentence, "id">) => Promise<StudySentence[]>;
       removeSentence: (id: string) => Promise<StudySentence[]>;

@@ -29,6 +29,12 @@ contextBridge.exposeInMainWorld("studyNotes", {
   createNote: (input) => ipcRenderer.invoke("notes:create", input),
   removeNote: (id) => ipcRenderer.invoke("notes:remove", id),
   moveNote: (noteId, courseId) => ipcRenderer.invoke("notes:move", noteId, courseId),
+  setNoteVideo: (id, video) => ipcRenderer.invoke("notes:set-video", id, video),
+  listTrash: () => ipcRenderer.invoke("trash:list"),
+  restoreFromTrash: (id) => ipcRenderer.invoke("trash:restore", id),
+  purgeTrash: (id) => ipcRenderer.invoke("trash:purge", id),
+  listNoteHistory: (id) => ipcRenderer.invoke("notes:history-list", id),
+  restoreNoteHistory: (id, steps) => ipcRenderer.invoke("notes:history-restore", id, steps),
   removeCourse: (courseId) => ipcRenderer.invoke("courses:remove", courseId),
   renameCourse: (courseId, name) => ipcRenderer.invoke("courses:rename", courseId, name),
   createCourse: (name) => ipcRenderer.invoke("courses:create", name),
@@ -47,6 +53,8 @@ contextBridge.exposeInMainWorld("studyNotes", {
   addWord: (input) => ipcRenderer.invoke("words:add", input),
   removeWord: (id) => ipcRenderer.invoke("words:remove", id),
   enrichWord: (word) => ipcRenderer.invoke("words:enrich", word),
+  tedList: () => ipcRenderer.invoke("ted:list"),
+  tedGet: (slug) => ipcRenderer.invoke("ted:get", slug),
   listSentences: () => ipcRenderer.invoke("sentences:list"),
   addSentence: (input) => ipcRenderer.invoke("sentences:add", input),
   removeSentence: (id) => ipcRenderer.invoke("sentences:remove", id),
@@ -58,4 +66,6 @@ contextBridge.exposeInMainWorld("studyNotes", {
   syncPull: () => ipcRenderer.invoke("sync:pull"),
   syncPushNotes: () => ipcRenderer.invoke("sync:push-notes"),
   syncPullNotes: () => ipcRenderer.invoke("sync:pull-notes"),
+  // AI 精讲 + 自测：主进程转发 LLM 请求，避开渲染进程 CORS
+  aiTutor: (input) => ipcRenderer.invoke("ai:tutor", input),
 });

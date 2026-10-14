@@ -1,0 +1,882 @@
+{
+ "slug": "jason_fried_why_work_doesn_t_happen_at_work",
+ "title": "Why work doesn't happen at work",
+ "titleZh": "为什么工作做不完",
+ "speaker": "Jason Fried",
+ "level": 3,
+ "desc": "短演讲，吐槽办公室，语气口语，句子简单实用",
+ "duration": 900000,
+ "minutes": 15,
+ "wpm": 200,
+ "totalWords": 2995,
+ "thumb": "https://pe.tedcdn.com/images/ted/be91c8b5f3a0798ddca31c761674bfac9e06c970_800x600.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/15/70/004/products/2010x-jason-fried-004-fallback-cb815aae6fec9def1b5527cf4776ef02-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/1572/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 936,
+   "t1": 8883,
+   "text": "So I'm going to talk about work; specifically, why people can't seem to get work done at work, which is a problem we all kind of have."
+  },
+  {
+   "t0": 8913,
+   "t1": 11070,
+   "text": "But let's sort of start at the beginning."
+  },
+  {
+   "t0": 11100,
+   "t1": 17230,
+   "text": "So, we have companies and non-profits and charities and all these groups that have employees or volunteers of some sort."
+  },
+  {
+   "t0": 20198,
+   "t1": 26970,
+   "text": "And they expect these people who work for them to do great work -- I would hope, at least."
+  },
+  {
+   "t0": 27000,
+   "t1": 30970,
+   "text": "At least good work, hopefully, at least it's good work -- hopefully great work."
+  },
+  {
+   "t0": 31000,
+   "t1": 35572,
+   "text": "And so what they typically do is they decide that all these people need to come together in one place to do that work."
+  },
+  {
+   "t0": 37000,
+   "t1": 46414,
+   "text": "So a company, or a charity, or an organization of any kind, unless you're working in Africa, if you're really lucky to do that -- most people have to go to an office every day."
+  },
+  {
+   "t0": 46444,
+   "t1": 50123,
+   "text": "And so these companies, they build offices."
+  },
+  {
+   "t0": 50153,
+   "t1": 57500,
+   "text": "They go out and they buy a building, or they rent a building, or they lease some space, and they fill this space with stuff."
+  },
+  {
+   "t0": 58000,
+   "t1": 75374,
+   "text": "They fill it with tables, or desks, chairs, computer equipment, software, Internet access, maybe a fridge, maybe a few other things, and they expect their employees, or their volunteers, to come to that location every day to do great work."
+  },
+  {
+   "t0": 75547,
+   "t1": 78047,
+   "text": "It seems like it's perfectly reasonable to ask that."
+  },
+  {
+   "t0": 78492,
+   "t1": 86017,
+   "text": "However, if you actually talk to people and even question yourself, and you ask yourself, where do you really want to go when you really need to get something done?"
+  },
+  {
+   "t0": 87055,
+   "t1": 89555,
+   "text": "You'll find out that people don't say what businesses think they would say."
+  },
+  {
+   "t0": 90805,
+   "t1": 94826,
+   "text": "If you ask people the question: Where do you need to go when you need to get something done?"
+  },
+  {
+   "t0": 95166,
+   "t1": 97634,
+   "text": "Typically, you get three different kinds of answers."
+  },
+  {
+   "t0": 97664,
+   "t1": 100164,
+   "text": "One is kind of a place or a location or a room."
+  },
+  {
+   "t0": 100551,
+   "t1": 104180,
+   "text": "Another one is a moving object, and a third is a time."
+  },
+  {
+   "t0": 104210,
+   "t1": 106216,
+   "text": "So here are some examples."
+  },
+  {
+   "t0": 106246,
+   "t1": 112001,
+   "text": "I've been asking people this question for about 10 years: \"Where do you go when you really need to get something done?\""
+  },
+  {
+   "t0": 112681,
+   "t1": 115181,
+   "text": "I'll hear things like, the porch, the deck, the kitchen."
+  },
+  {
+   "t0": 116253,
+   "t1": 123126,
+   "text": "I'll hear things like an extra room in the house, the basement, the coffee shop, the library."
+  },
+  {
+   "t0": 123547,
+   "t1": 128626,
+   "text": "And then you'll hear things like the train, a plane, a car -- so, the commute."
+  },
+  {
+   "t0": 129666,
+   "t1": 135928,
+   "text": "And then you'll hear people say, \"Well, it doesn't really matter where I am, as long as it's early in the morning or late at night or on the weekends.\""
+  },
+  {
+   "t0": 136964,
+   "t1": 139464,
+   "text": "You almost never hear someone say, \"The office.\""
+  },
+  {
+   "t0": 139813,
+   "t1": 147716,
+   "text": "But businesses are spending all this money on this place called the office, and they're making people go to it all the time, yet people don't do work in the office."
+  },
+  {
+   "t0": 147746,
+   "t1": 148903,
+   "text": "What is that about?"
+  },
+  {
+   "t0": 148933,
+   "t1": 152917,
+   "text": "(Laughter) Why is that? Why is that happening?"
+  },
+  {
+   "t0": 154093,
+   "t1": 167060,
+   "text": "And what you find out is, if you dig a little bit deeper, you find out that people -- this is what happens: People go to work, and they're basically trading in their work day for a series of \"work moments\" -- that's what happens at the office."
+  },
+  {
+   "t0": 168076,
+   "t1": 170576,
+   "text": "You don't have a work day anymore. You have work moments."
+  },
+  {
+   "t0": 170783,
+   "t1": 183730,
+   "text": "It's like the front door of the office is like a Cuisinart, and you walk in and your day is shredded to bits, because you have 15 minutes here, 30 minutes there, and something else happens, you're pulled off your work, then you have 20 minutes, then it's lunch, then you have something else to do ..."
+  },
+  {
+   "t0": 185143,
+   "t1": 195293,
+   "text": "Then you've got 15 minutes, and someone pulls you aside and asks you a question, and before you know it, it's 5 p.m., and you look back on the day, and you realize that you didn't get anything done."
+  },
+  {
+   "t0": 195848,
+   "t1": 197199,
+   "text": "We've all been through this."
+  },
+  {
+   "t0": 197229,
+   "t1": 199729,
+   "text": "We probably went through it yesterday or the day before, or the day before that."
+  },
+  {
+   "t0": 201056,
+   "t1": 204504,
+   "text": "You look back on your day, and you're like, \"I got nothing done today."
+  },
+  {
+   "t0": 204534,
+   "t1": 207034,
+   "text": "I was at work. I sat at my desk. I used my expensive computer."
+  },
+  {
+   "t0": 209148,
+   "t1": 211379,
+   "text": "I used the software they told me to use."
+  },
+  {
+   "t0": 211409,
+   "t1": 213856,
+   "text": "I went to these meetings I was asked to go to."
+  },
+  {
+   "t0": 213886,
+   "t1": 216386,
+   "text": "I did these conference calls. I did all this stuff."
+  },
+  {
+   "t0": 216607,
+   "t1": 219107,
+   "text": "But I didn't actually do anything."
+  },
+  {
+   "t0": 219432,
+   "t1": 220578,
+   "text": "I just did tasks."
+  },
+  {
+   "t0": 220608,
+   "t1": 223108,
+   "text": "I didn't actually get meaningful work done.\""
+  },
+  {
+   "t0": 223447,
+   "t1": 237228,
+   "text": "And what you find is that, especially with creative people -- designers, programmers, writers, engineers, thinkers -- that people really need long stretches of uninterrupted time to get something done."
+  },
+  {
+   "t0": 237258,
+   "t1": 242323,
+   "text": "You cannot ask somebody to be creative in 15 minutes and really think about a problem."
+  },
+  {
+   "t0": 242353,
+   "t1": 250226,
+   "text": "You might have a quick idea, but to be in deep thought about a problem and really consider a problem carefully, you need long stretches of uninterrupted time."
+  },
+  {
+   "t0": 250611,
+   "t1": 255837,
+   "text": "And even though the work day is typically eight hours, how many people here have ever had eight hours to themselves at the office?"
+  },
+  {
+   "t0": 256916,
+   "t1": 258077,
+   "text": "How about seven hours?"
+  },
+  {
+   "t0": 258107,
+   "t1": 260607,
+   "text": "Six? Five? Four?"
+  },
+  {
+   "t0": 261339,
+   "t1": 263839,
+   "text": "When's the last time you had three hours to yourself at the office?"
+  },
+  {
+   "t0": 264515,
+   "t1": 266531,
+   "text": "Two hours? One, maybe?"
+  },
+  {
+   "t0": 266561,
+   "t1": 270800,
+   "text": "Very, very few people actually have long stretches of uninterrupted time at an office."
+  },
+  {
+   "t0": 270998,
+   "t1": 289208,
+   "text": "And this is why people choose to do work at home, or they might go to the office, but they might go to the office really early in the day, or late at night when no one's around, or they stick around after everyone's left, or go in on the weekends, or they get work done on the plane, in the car or in the train, because there are no distractions."
+  },
+  {
+   "t0": 289238,
+   "t1": 293957,
+   "text": "Now there are different kinds of distractions, but not the really bad distractions, which I'll talk about in a minute."
+  },
+  {
+   "t0": 294870,
+   "t1": 304741,
+   "text": "And this whole phenomenon of having short bursts of time to get things done reminds me of another thing that doesn't work when you're interrupted, and that is sleep."
+  },
+  {
+   "t0": 304771,
+   "t1": 310484,
+   "text": "I think that sleep and work are very closely related -- not because you can work while you're sleeping and sleep while you're working."
+  },
+  {
+   "t0": 311706,
+   "t1": 313144,
+   "text": "That's not really what I mean."
+  },
+  {
+   "t0": 313174,
+   "t1": 321294,
+   "text": "I'm talking specifically about the fact that sleep and work are phase-based, or stage-based, events."
+  },
+  {
+   "t0": 321324,
+   "t1": 323824,
+   "text": "Sleep is about sleep phases, or stages -- some people call them different things."
+  },
+  {
+   "t0": 327403,
+   "t1": 333761,
+   "text": "There are five of them, and in order to get to the really deep ones, the meaningful ones, you have to go through the early ones."
+  },
+  {
+   "t0": 334054,
+   "t1": 342994,
+   "text": "If you're interrupted while you're going through the early ones -- if someone bumps you in bed, or there's a sound, or whatever happens -- you don't just pick up where you left off."
+  },
+  {
+   "t0": 343024,
+   "t1": 346732,
+   "text": "If you're interrupted and woken up, you have to start again."
+  },
+  {
+   "t0": 346762,
+   "t1": 349262,
+   "text": "So you have to go back a few phases and start again."
+  },
+  {
+   "t0": 350000,
+   "t1": 358473,
+   "text": "And what ends up happening -- you might have days like this where you wake up at eight or seven in the morning, or whenever you get up, and you're like, \"I didn't sleep very well."
+  },
+  {
+   "t0": 358503,
+   "t1": 363467,
+   "text": "I did the sleep thing -- I went to bed, I laid down, but I didn't really sleep.\""
+  },
+  {
+   "t0": 363497,
+   "t1": 368387,
+   "text": "People say you go \"to\" sleep, but you don't go to sleep, you go towards sleep; it takes a while."
+  },
+  {
+   "t0": 369029,
+   "t1": 373411,
+   "text": "You've got to go through phases and stuff, and if you're interrupted, you don't sleep well."
+  },
+  {
+   "t0": 373441,
+   "t1": 377397,
+   "text": "So does anyone here expect someone to sleep well if they're interrupted all night?"
+  },
+  {
+   "t0": 377427,
+   "t1": 379135,
+   "text": "I don't think anyone would say yes."
+  },
+  {
+   "t0": 379165,
+   "t1": 383980,
+   "text": "Why do we expect people to work well if they're being interrupted all day at the office?"
+  },
+  {
+   "t0": 384010,
+   "t1": 388567,
+   "text": "How can we possibly expect people to do their job if they go to the office and are interrupted?"
+  },
+  {
+   "t0": 388597,
+   "t1": 391097,
+   "text": "That doesn't really seem like it makes a lot of sense, to me."
+  },
+  {
+   "t0": 391528,
+   "t1": 394028,
+   "text": "So what are the interruptions that happen at the office but not at other places?"
+  },
+  {
+   "t0": 395420,
+   "t1": 405500,
+   "text": "Because in other places, you can have interruptions like the TV, or you could go for a walk, or there's a fridge downstairs, or you've got your own couch, or whatever you want to do."
+  },
+  {
+   "t0": 406129,
+   "t1": 413448,
+   "text": "If you talk to certain managers, they'll tell you that they don't want their employees to work at home because of these distractions."
+  },
+  {
+   "t0": 413478,
+   "t1": 419033,
+   "text": "They'll sometimes also say, \"If I can't see the person, how do I know they're working?\""
+  },
+  {
+   "t0": 419400,
+   "t1": 421900,
+   "text": "which is ridiculous, but that's one of the excuses that managers give."
+  },
+  {
+   "t0": 422725,
+   "t1": 425225,
+   "text": "And I'm one of these managers. I understand. I know how this goes."
+  },
+  {
+   "t0": 426006,
+   "t1": 428506,
+   "text": "We all have to improve on this sort of thing."
+  },
+  {
+   "t0": 428753,
+   "t1": 432375,
+   "text": "But oftentimes they'll cite distractions: \"I can't let someone work at home."
+  },
+  {
+   "t0": 432405,
+   "t1": 434415,
+   "text": "They'll watch TV, or do this other thing.\""
+  },
+  {
+   "t0": 434445,
+   "t1": 439154,
+   "text": "It turns out those aren't the things that are distracting, Because those are voluntary distractions."
+  },
+  {
+   "t0": 439184,
+   "t1": 445763,
+   "text": "You decide when you want to be distracted by the TV, when you want to turn something on, or when you want to go downstairs or go for a walk."
+  },
+  {
+   "t0": 445793,
+   "t1": 451515,
+   "text": "At the office, most of the interruptions and distractions that really cause people not to get work done are involuntary."
+  },
+  {
+   "t0": 452156,
+   "t1": 454656,
+   "text": "So let's go through a couple of those."
+  },
+  {
+   "t0": 455291,
+   "t1": 469188,
+   "text": "Now, managers and bosses will often have you think that the real distractions at work are things like Facebook and Twitter and YouTube and other websites, and in fact, they'll go so far as to actually ban these sites at work."
+  },
+  {
+   "t0": 470554,
+   "t1": 473054,
+   "text": "Some of you may work at places where you can't get to certain sites."
+  },
+  {
+   "t0": 473919,
+   "t1": 476419,
+   "text": "I mean, is this China? What the hell is going on here?"
+  },
+  {
+   "t0": 476562,
+   "t1": 479062,
+   "text": "You can't go to a website at work, and that's the problem?"
+  },
+  {
+   "t0": 479329,
+   "t1": 483283,
+   "text": "That's why people aren't getting work done, because they're on Facebook and Twitter?"
+  },
+  {
+   "t0": 483313,
+   "t1": 485813,
+   "text": "That's kind of ridiculous. It's a total decoy."
+  },
+  {
+   "t0": 486297,
+   "t1": 491970,
+   "text": "Today's Facebook and Twitter and YouTube, these things are just modern-day smoke breaks."
+  },
+  {
+   "t0": 492000,
+   "t1": 500786,
+   "text": "No one cared about letting people take a smoke break for 15 minutes 10 years ago, so why does anyone care if someone goes to Facebook or Twitter or YouTube here and there?"
+  },
+  {
+   "t0": 500816,
+   "t1": 503316,
+   "text": "Those aren't the real problems in the office."
+  },
+  {
+   "t0": 503417,
+   "t1": 509299,
+   "text": "The real problems are what I like to call the M&amp;Ms, the Managers and the Meetings."
+  },
+  {
+   "t0": 509329,
+   "t1": 511829,
+   "text": "Those are the real problems in the modern office today."
+  },
+  {
+   "t0": 512742,
+   "t1": 528674,
+   "text": "And this is why things don't get done at work, it's because of the M&amp;Ms. Now what's interesting is, if you listen to all the places that people talk about doing work, like at home, in the car, on a plane, late at night, or early in the morning, you don't find managers and meetings."
+  },
+  {
+   "t0": 528704,
+   "t1": 531204,
+   "text": "You find a lot of other distractions, but not managers and meetings."
+  },
+  {
+   "t0": 531965,
+   "t1": 537341,
+   "text": "So these are the things that you don't find elsewhere, but you do find at the office."
+  },
+  {
+   "t0": 537371,
+   "t1": 539871,
+   "text": "And managers are basically people whose job it is to interrupt people."
+  },
+  {
+   "t0": 540746,
+   "t1": 543246,
+   "text": "That's pretty much what managers are for. They're for interrupting people."
+  },
+  {
+   "t0": 544262,
+   "t1": 549843,
+   "text": "They don't really do the work, so they make sure everyone else is doing work, which is an interruption."
+  },
+  {
+   "t0": 549873,
+   "t1": 555586,
+   "text": "We have lots of managers in the world now, and a lot of people in the world, and a lot of interruptions by these managers."
+  },
+  {
+   "t0": 555616,
+   "t1": 557663,
+   "text": "They have to check in: \"Hey, how's it going?"
+  },
+  {
+   "t0": 557693,
+   "t1": 559571,
+   "text": "Show me what's up.\" This sort of thing."
+  },
+  {
+   "t0": 559601,
+   "t1": 566505,
+   "text": "They keep interrupting you at the wrong time, while you're actually trying to do something they're paying you to do, they tend to interrupt you."
+  },
+  {
+   "t0": 566535,
+   "t1": 568092,
+   "text": "That's kind of bad."
+  },
+  {
+   "t0": 568122,
+   "t1": 572698,
+   "text": "But what's even worse is the thing that managers do most of all, which is call meetings."
+  },
+  {
+   "t0": 572728,
+   "t1": 579737,
+   "text": "And meetings are just toxic, terrible, poisonous things during the day at work."
+  },
+  {
+   "t0": 579767,
+   "t1": 585318,
+   "text": "(Laughter) We all know this to be true, and you would never see a spontaneous meeting called by employees."
+  },
+  {
+   "t0": 586063,
+   "t1": 587318,
+   "text": "It doesn't work that way."
+  },
+  {
+   "t0": 587348,
+   "t1": 597500,
+   "text": "The manager calls the meeting so the employees can all come together, and it's an incredibly disruptive thing to do to people -- to say, \"Hey look, we're going to bring 10 people together right now and have a meeting."
+  },
+  {
+   "t0": 598722,
+   "t1": 602738,
+   "text": "I don't care what you're doing, you've got to stop doing it, so you can have this meeting.\""
+  },
+  {
+   "t0": 603269,
+   "t1": 605769,
+   "text": "I mean, what are the chances that all 10 people are ready to stop?"
+  },
+  {
+   "t0": 606667,
+   "t1": 609167,
+   "text": "What if they're thinking about something important, or doing important work?"
+  },
+  {
+   "t0": 610444,
+   "t1": 612944,
+   "text": "All of a sudden you tell them they have to stop doing that to do something else."
+  },
+  {
+   "t0": 614257,
+   "t1": 619500,
+   "text": "So they go into a meeting room, they get together, and they talk about stuff that doesn't really matter, usually."
+  },
+  {
+   "t0": 620296,
+   "t1": 621934,
+   "text": "Because meetings aren't work."
+  },
+  {
+   "t0": 621964,
+   "t1": 625845,
+   "text": "Meetings are places to go to talk about things you're supposed to be doing later."
+  },
+  {
+   "t0": 625875,
+   "t1": 627840,
+   "text": "But meetings also procreate."
+  },
+  {
+   "t0": 627870,
+   "t1": 631638,
+   "text": "So one meeting tends to lead to another meeting, which leads to another meeting."
+  },
+  {
+   "t0": 631668,
+   "t1": 636398,
+   "text": "There's often too many people in the meetings, and they're very, very expensive to the organization."
+  },
+  {
+   "t0": 636647,
+   "t1": 642251,
+   "text": "Companies often think of a one-hour meeting as a one-hour meeting, but that's not true, unless there's only one person."
+  },
+  {
+   "t0": 642281,
+   "t1": 644781,
+   "text": "If there are 10 people, it's a 10-hour meeting, not a one-hour meeting."
+  },
+  {
+   "t0": 645829,
+   "t1": 654993,
+   "text": "It's 10 hours of productivity taken from the rest of the organization to have this one-hour meeting, which probably should have been handled by two or three people talking for a few minutes."
+  },
+  {
+   "t0": 655000,
+   "t1": 662658,
+   "text": "But instead, there's a long scheduled meeting, because meetings are scheduled the way software works, which is in increments of 15 minutes, or 30 minutes, or an hour."
+  },
+  {
+   "t0": 663583,
+   "t1": 666083,
+   "text": "You don't schedule an eight-hour meeting with Outlook; you can't."
+  },
+  {
+   "t0": 667250,
+   "t1": 669750,
+   "text": "You can go 15 minutes or 30 minutes or 45 minutes or an hour."
+  },
+  {
+   "t0": 670248,
+   "t1": 674399,
+   "text": "And so we tend to fill these times up when things should go really quickly."
+  },
+  {
+   "t0": 674429,
+   "t1": 679256,
+   "text": "So meetings and managers are two major problems in businesses today, especially at offices."
+  },
+  {
+   "t0": 679286,
+   "t1": 681786,
+   "text": "These things don't exist outside of the office."
+  },
+  {
+   "t0": 682428,
+   "t1": 684928,
+   "text": "So I have some suggestions to remedy the situation."
+  },
+  {
+   "t0": 687253,
+   "t1": 701231,
+   "text": "What can managers do -- enlightened managers, hopefully -- what can they do to make the office a better place for people to work, so it's not the last resort, but it's the first resort, so that people start to say, \"When I really want to get stuff done, I go to the office.\""
+  },
+  {
+   "t0": 701532,
+   "t1": 705598,
+   "text": "Because the offices are well-equipped; everything is there for them to do the work."
+  },
+  {
+   "t0": 705628,
+   "t1": 708128,
+   "text": "But they don't want to go there right now, so how do we change that?"
+  },
+  {
+   "t0": 708913,
+   "t1": 710941,
+   "text": "I have three suggestions to share with you."
+  },
+  {
+   "t0": 710971,
+   "t1": 713471,
+   "text": "I have about three minutes, so that'll fit perfectly."
+  },
+  {
+   "t0": 713866,
+   "t1": 716366,
+   "text": "We've all heard of the Casual Friday thing."
+  },
+  {
+   "t0": 716727,
+   "t1": 718570,
+   "text": "I don't know if people still do that."
+  },
+  {
+   "t0": 718600,
+   "t1": 720270,
+   "text": "But how about \"No-talk Thursdays?\""
+  },
+  {
+   "t0": 720300,
+   "t1": 727826,
+   "text": "(Laughter) Pick one Thursday once a month, and cut it in half, just the afternoon -- I'll make it easy for you."
+  },
+  {
+   "t0": 728661,
+   "t1": 730385,
+   "text": "So just the afternoon, one Thursday."
+  },
+  {
+   "t0": 730415,
+   "t1": 734751,
+   "text": "First Thursday of the month, just the afternoon, nobody in the office can talk to each other."
+  },
+  {
+   "t0": 734781,
+   "t1": 736313,
+   "text": "Just silence, that's it."
+  },
+  {
+   "t0": 736343,
+   "t1": 742030,
+   "text": "And what you'll find is that a tremendous amount of work gets done when no one talks to each other."
+  },
+  {
+   "t0": 742060,
+   "t1": 746648,
+   "text": "This is when people actually get stuff done, is when no one's bothering them or interrupting them."
+  },
+  {
+   "t0": 746688,
+   "t1": 751841,
+   "text": "Giving someone four hours of uninterrupted time is the best gift you can give anybody at work."
+  },
+  {
+   "t0": 751871,
+   "t1": 758055,
+   "text": "It's better than a computer, better than a new monitor, better than new software, or whatever people typically use."
+  },
+  {
+   "t0": 758085,
+   "t1": 762428,
+   "text": "Giving them four hours of quiet time at the office is going to be incredibly valuable."
+  },
+  {
+   "t0": 762458,
+   "t1": 764958,
+   "text": "If you try that, I think you'll agree, and hopefully you can do it more often."
+  },
+  {
+   "t0": 766450,
+   "t1": 772047,
+   "text": "So maybe it's every other week, or every week, once a week, afternoons no one can talk to each other."
+  },
+  {
+   "t0": 772077,
+   "t1": 774577,
+   "text": "That's something that you'll find will really, really work."
+  },
+  {
+   "t0": 775188,
+   "t1": 793850,
+   "text": "Another thing you can try, is switching from active communication and collaboration, which is like face-to-face stuff -- tapping people on the shoulder, saying hi to them, having meetings, and replace that with more passive models of communication, using things like email and instant messaging, or collaboration products, things like that."
+  },
+  {
+   "t0": 794628,
+   "t1": 803667,
+   "text": "Now some people might say email is really distracting, I.M. is really distracting, and these other things are really distracting, but they're distracting at a time of your own choice and your own choosing."
+  },
+  {
+   "t0": 804763,
+   "t1": 807263,
+   "text": "You can quit the email app; you can't quit your boss."
+  },
+  {
+   "t0": 807595,
+   "t1": 811208,
+   "text": "You can quit I.M.; you can't hide your manager."
+  },
+  {
+   "t0": 811238,
+   "t1": 818905,
+   "text": "You can put these things away, and then you can be interrupted on your own schedule, at your own time, when you're available, when you're ready to go again."
+  },
+  {
+   "t0": 818906,
+   "t1": 820970,
+   "text": "Because work, like sleep, happens in phases."
+  },
+  {
+   "t0": 821000,
+   "t1": 827546,
+   "text": "So you'll be going up, doing some work, and then you'll come down from that work, and then maybe it's time to check that email or I.M."
+  },
+  {
+   "t0": 827576,
+   "t1": 832601,
+   "text": "There are very, very few things that are that urgent, that need to happen, that need to be answered right this second."
+  },
+  {
+   "t0": 833172,
+   "t1": 841614,
+   "text": "So if you're a manager, start encouraging people to use more things like I.M. and email and other things that someone can put away and then get back to you on their own schedule."
+  },
+  {
+   "t0": 841644,
+   "t1": 849500,
+   "text": "And the last suggestion I have is that, if you do have a meeting coming up, if you have the power, just cancel it."
+  },
+  {
+   "t0": 850650,
+   "t1": 852104,
+   "text": "Just cancel that next meeting."
+  },
+  {
+   "t0": 852134,
+   "t1": 855824,
+   "text": "(Laughter) Today's Friday, usually people have meetings on Monday."
+  },
+  {
+   "t0": 855993,
+   "t1": 857149,
+   "text": "Just don't have it."
+  },
+  {
+   "t0": 857179,
+   "t1": 861108,
+   "text": "I don't mean move it; I mean just erase it from memory, it's gone."
+  },
+  {
+   "t0": 861274,
+   "t1": 863774,
+   "text": "And you'll find out that everything will be just fine."
+  },
+  {
+   "t0": 863886,
+   "t1": 871025,
+   "text": "All these discussions and decisions you thought you had to make at this one time at 9 a.m. on Monday, just forget about them, and things will be fine."
+  },
+  {
+   "t0": 871055,
+   "t1": 873555,
+   "text": "People will have a more open morning, they can actually think."
+  },
+  {
+   "t0": 874060,
+   "t1": 878306,
+   "text": "You'll find out all these things you thought you had to do, you don't actually have to do."
+  },
+  {
+   "t0": 878336,
+   "t1": 880836,
+   "text": "So those are just three quick suggestions I wanted to give you guys to think about."
+  },
+  {
+   "t0": 882352,
+   "t1": 894395,
+   "text": "I hope that some of these ideas were at least provocative enough for managers and bosses and business owners and organizers and people who are in charge of other people, to think about laying off a little bit, and giving people more time to get work done."
+  },
+  {
+   "t0": 894425,
+   "t1": 896229,
+   "text": "I think it'll all pay off in the end."
+  },
+  {
+   "t0": 896259,
+   "t1": 898255,
+   "text": "So, thanks for listening."
+  },
+  {
+   "t0": 898285,
+   "t1": 900000,
+   "text": "(Applause)"
+  }
+ ]
+}

@@ -1,0 +1,1082 @@
+{
+ "slug": "jane_mcgonigal_gaming_can_make_a_better_world",
+ "title": "Gaming can make a better world",
+ "titleZh": "游戏能让世界更美好",
+ "speaker": "Jane McGonigal",
+ "level": 3,
+ "desc": "游戏设计师演讲，节奏明快，专有名词有画面辅助",
+ "duration": 1183000,
+ "minutes": 20,
+ "wpm": 188,
+ "totalWords": 3710,
+ "thumb": "https://pe.tedcdn.com/images/ted/73dc8433e98af1f411dc3f304a5ec3532b7319c9_1600x1200.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/11/22/006/products/2010-jane-mcgonigal-006-fallback-d730d9372860cd94fc221bfdbceb27ae-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/1124/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 0,
+   "t1": 2216,
+   "text": "I'm Jane McGonigal. I'm a game designer."
+  },
+  {
+   "t0": 2246,
+   "t1": 15920,
+   "text": "I've been making games online now for 10 years, and my goal for the next decade is to try to make it as easy to save the world in real life as it is to save the world in online games."
+  },
+  {
+   "t0": 16626,
+   "t1": 24078,
+   "text": "Now, I have a plan for this, and it entails convincing more people, including all of you, to spend more time playing bigger and better games."
+  },
+  {
+   "t0": 26459,
+   "t1": 28959,
+   "text": "Right now we spend three billion hours a week playing online games."
+  },
+  {
+   "t0": 31357,
+   "t1": 35137,
+   "text": "Some of you might be thinking, \"That's a lot of time to spend playing games."
+  },
+  {
+   "t0": 35167,
+   "t1": 38993,
+   "text": "Maybe too much time, considering how many urgent problems we have to solve in the real world.\""
+  },
+  {
+   "t0": 40000,
+   "t1": 46500,
+   "text": "But actually, according to my research at the Institute for the Future, actually the opposite is true."
+  },
+  {
+   "t0": 47000,
+   "t1": 52741,
+   "text": "Three billion hours a week is not nearly enough game play to solve the world's most urgent problems."
+  },
+  {
+   "t0": 52771,
+   "t1": 59500,
+   "text": "In fact, I believe that if we want to survive the next century on this planet, we need to increase that total dramatically."
+  },
+  {
+   "t0": 59547,
+   "t1": 64049,
+   "text": "I've calculated the total we need at 21 billion hours of game play every week."
+  },
+  {
+   "t0": 65547,
+   "t1": 82810,
+   "text": "So, that's probably a bit of a counter-intuitive idea, so I'll say it again, let it sink in: If we want to solve problems like hunger, poverty, climate change, global conflict, obesity, I believe that we need to aspire to play games online for at least 21 billion hours a week, by the end of the next decade."
+  },
+  {
+   "t0": 83906,
+   "t1": 87050,
+   "text": "(Laughter) No. I'm serious. I am."
+  },
+  {
+   "t0": 87080,
+   "t1": 88225,
+   "text": "Here's why."
+  },
+  {
+   "t0": 88255,
+   "t1": 93655,
+   "text": "This picture pretty much sums up why I think games are so essential to the future survival of the human species."
+  },
+  {
+   "t0": 93685,
+   "t1": 95858,
+   "text": "(Laughter) Truly."
+  },
+  {
+   "t0": 95888,
+   "t1": 98388,
+   "text": "This is a portrait by photographer Phil Toledano."
+  },
+  {
+   "t0": 98529,
+   "t1": 103293,
+   "text": "He wanted to capture the emotion of gaming, so he set up a camera in front of gamers while they were playing."
+  },
+  {
+   "t0": 103927,
+   "t1": 106427,
+   "text": "And this is a classic gaming emotion."
+  },
+  {
+   "t0": 106876,
+   "t1": 111196,
+   "text": "Now, if you're not a gamer, you might miss some of the nuance in this photo."
+  },
+  {
+   "t0": 111226,
+   "t1": 119908,
+   "text": "You probably see the sense of urgency, a little bit of fear, but intense concentration, deep, deep focus on tackling a really difficult problem."
+  },
+  {
+   "t0": 121000,
+   "t1": 131622,
+   "text": "If you are a gamer, you will notice a few nuances here: the crinkle of the eyes up, and around the mouth is a sign of optimism, and the eyebrows up is surprise."
+  },
+  {
+   "t0": 131652,
+   "t1": 134152,
+   "text": "This is a gamer who's on the verge of something called an \"epic win.\""
+  },
+  {
+   "t0": 135803,
+   "t1": 138400,
+   "text": "(Laughter) Oh, you've heard of that."
+  },
+  {
+   "t0": 138430,
+   "t1": 140930,
+   "text": "OK, good, so we have some gamers among us."
+  },
+  {
+   "t0": 140986,
+   "t1": 147756,
+   "text": "An epic win is an outcome that is so extraordinarily positive, you had no idea it was even possible until you achieved it."
+  },
+  {
+   "t0": 148296,
+   "t1": 155079,
+   "text": "It was almost beyond the threshold of imagination, and when you get there, you're shocked to discover what you're truly capable of."
+  },
+  {
+   "t0": 155262,
+   "t1": 156414,
+   "text": "That's an epic win."
+  },
+  {
+   "t0": 156444,
+   "t1": 158822,
+   "text": "This is a gamer on the verge of an epic win."
+  },
+  {
+   "t0": 158852,
+   "t1": 171891,
+   "text": "And this is the face that we need to see on millions of problem-solvers all over the world as we try to tackle the obstacles of the next century -- the face of someone who, against all odds, is on the verge of an epic win."
+  },
+  {
+   "t0": 171921,
+   "t1": 177761,
+   "text": "Now, unfortunately this is more of the face that we see in everyday life now as we try to tackle urgent problems."
+  },
+  {
+   "t0": 178056,
+   "t1": 180556,
+   "text": "This is what I call the \"I'm Not Good At Life\" face."
+  },
+  {
+   "t0": 180579,
+   "t1": 182073,
+   "text": "This is actually me making it."
+  },
+  {
+   "t0": 182103,
+   "t1": 183350,
+   "text": "Can you see? Yes. Good."
+  },
+  {
+   "t0": 183380,
+   "t1": 185880,
+   "text": "This is me making the \"I'm Not Good At Life\" face."
+  },
+  {
+   "t0": 186000,
+   "t1": 193184,
+   "text": "This is a piece of graffiti in my old neighborhood in Berkeley, California, where I did my PhD on why we're better in games than we are in real life."
+  },
+  {
+   "t0": 193922,
+   "t1": 196195,
+   "text": "And this is a problem that a lot of gamers have."
+  },
+  {
+   "t0": 196225,
+   "t1": 198725,
+   "text": "We feel that we are not as good in reality as we are in games."
+  },
+  {
+   "t0": 200526,
+   "t1": 203026,
+   "text": "I don't mean just good as in successful, although that's part of it."
+  },
+  {
+   "t0": 204000,
+   "t1": 205839,
+   "text": "We do achieve more in game worlds."
+  },
+  {
+   "t0": 205869,
+   "t1": 212359,
+   "text": "But I also mean good as in motivated to do something that matters -- inspired to collaborate and to cooperate."
+  },
+  {
+   "t0": 212667,
+   "t1": 224311,
+   "text": "And when we're in game worlds, I believe that many of us become the best version of ourselves -- the most likely to help at a moment's notice, the most likely to stick with a problem as long at it takes, to get up after failure and try again."
+  },
+  {
+   "t0": 224341,
+   "t1": 230500,
+   "text": "And in real life, when we face failure, when we confront obstacles, we often don't feel that way."
+  },
+  {
+   "t0": 230914,
+   "t1": 236280,
+   "text": "We feel overcome, we feel overwhelmed, we feel anxious, maybe depressed, frustrated or cynical."
+  },
+  {
+   "t0": 237544,
+   "t1": 241657,
+   "text": "We never have those feelings when we're playing games, they just don't exist in games."
+  },
+  {
+   "t0": 241687,
+   "t1": 244187,
+   "text": "So that's what I wanted to study when I was a graduate student."
+  },
+  {
+   "t0": 244768,
+   "t1": 249711,
+   "text": "What about games makes it impossible to feel that we can't achieve everything?"
+  },
+  {
+   "t0": 249741,
+   "t1": 253826,
+   "text": "How can we take those feelings from games and apply them to real-world work?"
+  },
+  {
+   "t0": 253856,
+   "t1": 258778,
+   "text": "So I looked at games like World of Warcraft, which is really the ideal collaborative problem-solving environment."
+  },
+  {
+   "t0": 259587,
+   "t1": 263935,
+   "text": "And I started to notice a few things that make epic wins so possible in online worlds."
+  },
+  {
+   "t0": 264616,
+   "t1": 274346,
+   "text": "The first thing is whenever you show up in one of these online games, especially in World of Warcraft, there are lots and lots of different characters who are willing to trust you with a world-saving mission, right away."
+  },
+  {
+   "t0": 276124,
+   "t1": 280149,
+   "text": "But not just any mission, it's a mission that is perfectly matched with your current level in the game."
+  },
+  {
+   "t0": 281489,
+   "t1": 283189,
+   "text": "Right? So you can do it."
+  },
+  {
+   "t0": 283219,
+   "t1": 285658,
+   "text": "They never give you a challenge you can't achieve."
+  },
+  {
+   "t0": 285688,
+   "t1": 289325,
+   "text": "But it is on the verge of what you're capable of, so you have to try hard."
+  },
+  {
+   "t0": 289355,
+   "t1": 296375,
+   "text": "But there's no unemployment in World of Warcraft; no sitting around, wringing your hands -- there's always something specific and important to be done."
+  },
+  {
+   "t0": 296718,
+   "t1": 298545,
+   "text": "There are also tons of collaborators."
+  },
+  {
+   "t0": 298575,
+   "t1": 303487,
+   "text": "Everywhere you go, hundreds of thousands of people ready to work with you to achieve your epic mission."
+  },
+  {
+   "t0": 303953,
+   "t1": 309103,
+   "text": "That's not something we have in real life that easily, this sense that at our fingertips are tons of collaborators."
+  },
+  {
+   "t0": 309616,
+   "t1": 316188,
+   "text": "And there's this epic story, this inspiring story of why we're there, and what we're doing, and we get all this positive feedback."
+  },
+  {
+   "t0": 316218,
+   "t1": 318718,
+   "text": "You guys have heard of leveling up, +1 strength, +1 intelligence."
+  },
+  {
+   "t0": 320235,
+   "t1": 322735,
+   "text": "We don't get that kind of constant feedback in real life."
+  },
+  {
+   "t0": 322941,
+   "t1": 330770,
+   "text": "When I get off this stage, I'm not going to have +1 speaking, and +1 crazy idea, +20 crazy idea."
+  },
+  {
+   "t0": 330800,
+   "t1": 332812,
+   "text": "I don't get that feedback in real life."
+  },
+  {
+   "t0": 332842,
+   "t1": 344393,
+   "text": "Now, the problem with collaborative online environments like World of Warcraft is that it's so satisfying to be on the verge of an epic win all the time, we decide to spend all our time in these game worlds."
+  },
+  {
+   "t0": 344492,
+   "t1": 345970,
+   "text": "It's just better than reality."
+  },
+  {
+   "t0": 346000,
+   "t1": 354500,
+   "text": "So, so far, collectively all the World of Warcraft gamers have spent 5.93 million years solving the virtual problems of Azeroth."
+  },
+  {
+   "t0": 356000,
+   "t1": 358500,
+   "text": "Now, that's not necessarily a bad thing."
+  },
+  {
+   "t0": 358517,
+   "t1": 360370,
+   "text": "It might sound like it's a bad thing."
+  },
+  {
+   "t0": 360400,
+   "t1": 366355,
+   "text": "But to put that in context: 5.93 million years ago was when our earliest primate human ancestors stood up."
+  },
+  {
+   "t0": 368504,
+   "t1": 371004,
+   "text": "That was the first upright primate."
+  },
+  {
+   "t0": 371258,
+   "t1": 384970,
+   "text": "So when we talk about how much time we're currently investing in playing games, the only way it makes sense to even think about it is to talk about time at the magnitude of human evolution, which is an extraordinary thing."
+  },
+  {
+   "t0": 385000,
+   "t1": 392214,
+   "text": "But it's also apt, because it turns out that by spending all this time playing games, we're actually changing what we are capable of as human beings."
+  },
+  {
+   "t0": 393000,
+   "t1": 395500,
+   "text": "We're evolving to be a more collaborative and hearty species."
+  },
+  {
+   "t0": 396663,
+   "t1": 398419,
+   "text": "This is true. I believe this."
+  },
+  {
+   "t0": 398449,
+   "t1": 414409,
+   "text": "So, consider this really interesting statistic; it was recently published by a researcher at Carnegie Mellon University: The average young person today in a country with a strong gamer culture will have spent 10,000 hours playing online games by the age of 21."
+  },
+  {
+   "t0": 414439,
+   "t1": 416939,
+   "text": "Now 10,000 hours is a really interesting number for two reasons."
+  },
+  {
+   "t0": 418420,
+   "t1": 430541,
+   "text": "First of all, for children in the United States, 10,080 hours is the exact amount of time you will spend in school, from fifth grade to high school graduation, if you have perfect attendance."
+  },
+  {
+   "t0": 430571,
+   "t1": 441437,
+   "text": "(Laughter) So, we have an entire parallel track of education going on, where young people are learning as much about what it takes to be a good gamer as they're learning about everything else in school."
+  },
+  {
+   "t0": 441441,
+   "t1": 449511,
+   "text": "Some of you have probably read Malcolm Gladwell's new book \"Outliers,\" so you would have heard of his theory of success, the \"10,000 hours\" theory of success."
+  },
+  {
+   "t0": 449541,
+   "t1": 460231,
+   "text": "It's based on this great cognitive-science research that says if we can master 10,000 hours of effortful study at anything by the age of 21, we will be virtuosos at it."
+  },
+  {
+   "t0": 460261,
+   "t1": 463835,
+   "text": "We will be as good at whatever we do as the greatest people in the world."
+  },
+  {
+   "t0": 463865,
+   "t1": 469147,
+   "text": "And so, now what we're looking at is an entire generation of young people who are virtuoso gamers."
+  },
+  {
+   "t0": 471758,
+   "t1": 476500,
+   "text": "So, the big question is, \"What exactly are gamers getting so good at?\""
+  },
+  {
+   "t0": 477341,
+   "t1": 481650,
+   "text": "Because if we could figure that out, we would have a virtually unprecedented human resource on our hands."
+  },
+  {
+   "t0": 483579,
+   "t1": 488366,
+   "text": "This is how many people we now have in the world who spend at least an hour a day playing online games."
+  },
+  {
+   "t0": 488777,
+   "t1": 493397,
+   "text": "These are our virtuoso gamers, 500 million people who are extraordinarily good at something."
+  },
+  {
+   "t0": 495658,
+   "t1": 501524,
+   "text": "And in the next decade, we're going to have another billion gamers who are extraordinarily good at whatever that is."
+  },
+  {
+   "t0": 501825,
+   "t1": 503970,
+   "text": "If you don't know it already, this is coming."
+  },
+  {
+   "t0": 504000,
+   "t1": 515500,
+   "text": "The game industry is developing consoles that are low-energy and that work with the wireless phone networks instead of broadband Internet, so that gamers all over the world, particularly in India, China, Brazil, can get online."
+  },
+  {
+   "t0": 516848,
+   "t1": 519348,
+   "text": "They expect one billion more gamers in the next decade."
+  },
+  {
+   "t0": 519498,
+   "t1": 521927,
+   "text": "It will bring us up to 1.5 billion gamers."
+  },
+  {
+   "t0": 521957,
+   "t1": 525659,
+   "text": "So I've started to think about what these games are making us virtuosos at."
+  },
+  {
+   "t0": 525689,
+   "t1": 527634,
+   "text": "Here are the four things I came up with."
+  },
+  {
+   "t0": 527664,
+   "t1": 529618,
+   "text": "The first is urgent optimism."
+  },
+  {
+   "t0": 529648,
+   "t1": 532148,
+   "text": "OK, think of this as extreme self-motivation."
+  },
+  {
+   "t0": 532743,
+   "t1": 539996,
+   "text": "Urgent optimism is the desire to act immediately to tackle an obstacle, combined with the belief that we have a reasonable hope of success."
+  },
+  {
+   "t0": 541743,
+   "t1": 546953,
+   "text": "Gamers always believe that an epic win is possible, and that it's always worth trying, and trying now."
+  },
+  {
+   "t0": 547182,
+   "t1": 548743,
+   "text": "Gamers don't sit around."
+  },
+  {
+   "t0": 548773,
+   "t1": 551273,
+   "text": "Gamers are virtuosos at weaving a tight social fabric."
+  },
+  {
+   "t0": 552853,
+   "t1": 559517,
+   "text": "There's a lot of interesting research that shows we like people better after we play a game with them, even if they've beaten us badly."
+  },
+  {
+   "t0": 559547,
+   "t1": 562047,
+   "text": "And the reason is, it takes a lot of trust to play a game with someone."
+  },
+  {
+   "t0": 562913,
+   "t1": 569595,
+   "text": "We trust that they will spend their time with us, that they will play by the same rules, value the same goal, stay with the game until it's over."
+  },
+  {
+   "t0": 570451,
+   "t1": 574543,
+   "text": "And so, playing a game together actually builds up bonds and trust and cooperation."
+  },
+  {
+   "t0": 575000,
+   "t1": 577500,
+   "text": "And we actually build stronger social relationships as a result."
+  },
+  {
+   "t0": 579238,
+   "t1": 580970,
+   "text": "Blissful productivity. I love it."
+  },
+  {
+   "t0": 581000,
+   "t1": 586818,
+   "text": "You know, there's a reason why the average World of Warcraft gamer plays for 22 hours a week -- kind of a half-time job."
+  },
+  {
+   "t0": 587000,
+   "t1": 594244,
+   "text": "It's because we know, when we're playing a game, that we're actually happier working hard than we are relaxing, or hanging out."
+  },
+  {
+   "t0": 594274,
+   "t1": 598188,
+   "text": "We know that we are optimized as human beings, to do hard and meaningful work."
+  },
+  {
+   "t0": 598218,
+   "t1": 603799,
+   "text": "And gamers are willing to work hard all the time, if they're given the right work."
+  },
+  {
+   "t0": 603829,
+   "t1": 605744,
+   "text": "Finally: epic meaning."
+  },
+  {
+   "t0": 605774,
+   "t1": 612035,
+   "text": "Gamers love to be attached to awe-inspiring missions to human planetary-scale stories."
+  },
+  {
+   "t0": 613571,
+   "t1": 619835,
+   "text": "So, just one bit of trivia that helps put that into perspective: So, you all know Wikipedia, biggest wiki in the world."
+  },
+  {
+   "t0": 621357,
+   "t1": 626970,
+   "text": "Second biggest wiki in the world, with nearly 80,000 articles, is the World of Warcraft wiki."
+  },
+  {
+   "t0": 627000,
+   "t1": 628970,
+   "text": "Five million people use it every month."
+  },
+  {
+   "t0": 629000,
+   "t1": 635183,
+   "text": "They have compiled more information about World of Warcraft on the Internet than any other topic covered on any other wiki in the world."
+  },
+  {
+   "t0": 635814,
+   "t1": 637844,
+   "text": "They are building an epic story."
+  },
+  {
+   "t0": 637874,
+   "t1": 641646,
+   "text": "They are building an epic knowledge resource about the World of Warcraft."
+  },
+  {
+   "t0": 641676,
+   "t1": 648500,
+   "text": "Okay, so these are four superpowers that add up to one thing: Gamers are super-empowered hopeful individuals."
+  },
+  {
+   "t0": 650795,
+   "t1": 655568,
+   "text": "These are people who believe that they are individually capable of changing the world."
+  },
+  {
+   "t0": 655598,
+   "t1": 661970,
+   "text": "And the only problem is, they believe that they are capable of changing virtual worlds and not the real world."
+  },
+  {
+   "t0": 662000,
+   "t1": 664500,
+   "text": "That's the problem that I'm trying to solve."
+  },
+  {
+   "t0": 664613,
+   "t1": 666970,
+   "text": "There's an economist named Edward Castronova."
+  },
+  {
+   "t0": 667000,
+   "t1": 668164,
+   "text": "His work is brilliant."
+  },
+  {
+   "t0": 668194,
+   "t1": 672970,
+   "text": "He looks at why people are investing so much time and energy and money in online worlds."
+  },
+  {
+   "t0": 673000,
+   "t1": 679970,
+   "text": "And he says, \"We're witnessing what amounts to no less than a mass exodus to virtual worlds and online game environments.\""
+  },
+  {
+   "t0": 680000,
+   "t1": 682183,
+   "text": "And he's an economist, so he's rational."
+  },
+  {
+   "t0": 682213,
+   "t1": 687620,
+   "text": "And he says -- (Laughter) Not like me, I'm a game designer; I'm exuberant."
+  },
+  {
+   "t0": 687650,
+   "t1": 695641,
+   "text": "But he says that this makes perfect sense, because gamers can achieve more in online worlds than they can in real life."
+  },
+  {
+   "t0": 695671,
+   "t1": 703970,
+   "text": "They can have stronger social relationships in games than they can have in real life; they get better feedback and feel more rewarded in games than they do in real life."
+  },
+  {
+   "t0": 704000,
+   "t1": 708524,
+   "text": "So he says, for now it makes perfect sense for gamers to spend more time in virtual worlds than the real world."
+  },
+  {
+   "t0": 709623,
+   "t1": 712123,
+   "text": "Now, I also agree that that is rational, for now."
+  },
+  {
+   "t0": 713000,
+   "t1": 715500,
+   "text": "But it is not, by any means, an optimal situation."
+  },
+  {
+   "t0": 716000,
+   "t1": 718500,
+   "text": "We have to start making the real world work more like a game."
+  },
+  {
+   "t0": 719377,
+   "t1": 724362,
+   "text": "I take my inspiration from something that happened 2,500 years ago."
+  },
+  {
+   "t0": 724392,
+   "t1": 726892,
+   "text": "These are ancient dice, made out of sheep's knuckles."
+  },
+  {
+   "t0": 728000,
+   "t1": 731807,
+   "text": "Before we had awesome game controllers, we had sheep's knuckles."
+  },
+  {
+   "t0": 731837,
+   "t1": 744620,
+   "text": "And these represent the first game equipment designed by human beings, and if you're familiar with the work of the ancient Greek historian Herodotus, you might know this history, which is the history of who invented games and why."
+  },
+  {
+   "t0": 745716,
+   "t1": 752803,
+   "text": "Herodotus says that games, particularly dice games, were invented in the kingdom of Lydia, during a time of famine."
+  },
+  {
+   "t0": 752833,
+   "t1": 757696,
+   "text": "Apparently, there was such a severe famine that the king of Lydia decided they had to do something crazy."
+  },
+  {
+   "t0": 759000,
+   "t1": 761090,
+   "text": "People were suffering. People were fighting."
+  },
+  {
+   "t0": 761120,
+   "t1": 763620,
+   "text": "It was an extreme situation, they needed an extreme solution."
+  },
+  {
+   "t0": 765000,
+   "t1": 775970,
+   "text": "So, according to Herodotus, they invented dice games, and they set up a kingdom-wide policy: On one day, everybody would eat, and on the next day, everybody would play games."
+  },
+  {
+   "t0": 776000,
+   "t1": 785862,
+   "text": "And they would be so immersed in playing the dice games, because games are so engaging, and immerse us in such satisfying, blissful productivity, they would ignore the fact that they had no food to eat."
+  },
+  {
+   "t0": 786100,
+   "t1": 790280,
+   "text": "And then on the next day, they would play games; and on the next day, they would eat."
+  },
+  {
+   "t0": 790310,
+   "t1": 798263,
+   "text": "And according to Herodotus, they passed 18 years this way, surviving through a famine, by eating on one day, and playing games on the next."
+  },
+  {
+   "t0": 798453,
+   "t1": 800953,
+   "text": "Now, this is exactly, I think, how we're using games today."
+  },
+  {
+   "t0": 802726,
+   "t1": 814347,
+   "text": "We're using games to escape real-world suffering -- we're using games to get away from everything that's broken in the real environment, everything that's not satisfying about real life, and we're getting what we need from games."
+  },
+  {
+   "t0": 814377,
+   "t1": 815970,
+   "text": "But it doesn't have to end there."
+  },
+  {
+   "t0": 816000,
+   "t1": 817970,
+   "text": "This is really exciting."
+  },
+  {
+   "t0": 818000,
+   "t1": 825500,
+   "text": "According to Herodotus, after 18 years the famine wasn't getting better, so the king decided they would play one final dice game."
+  },
+  {
+   "t0": 827408,
+   "t1": 829908,
+   "text": "They divided the entire kingdom in half."
+  },
+  {
+   "t0": 830169,
+   "t1": 834401,
+   "text": "They played one dice game, and the winners of that game got to go on an epic adventure."
+  },
+  {
+   "t0": 835344,
+   "t1": 847040,
+   "text": "They would leave Lydia, and they would go out in search of a new place to live, leaving behind just enough people to survive on the resources that were available, and hopefully to take their civilization somewhere else where they could thrive."
+  },
+  {
+   "t0": 848389,
+   "t1": 850282,
+   "text": "Now, this sounds crazy, right?"
+  },
+  {
+   "t0": 850312,
+   "t1": 859040,
+   "text": "But recently, DNA evidence has shown that the Etruscans, who then led to the Roman Empire, actually share the same DNA as the ancient Lydians."
+  },
+  {
+   "t0": 859469,
+   "t1": 864391,
+   "text": "And so, recently, scientists have suggested that Herodotus' crazy story is actually true."
+  },
+  {
+   "t0": 864421,
+   "t1": 869914,
+   "text": "And geologists have found evidence of a global cooling that lasted for nearly 20 years, that could have explained the famine."
+  },
+  {
+   "t0": 871174,
+   "t1": 873398,
+   "text": "So this crazy story might be true."
+  },
+  {
+   "t0": 873428,
+   "t1": 885976,
+   "text": "They might have actually saved their culture by playing games, escaping to games for 18 years, and then been so inspired, and knew so much about how to come together with games, that they actually saved the entire civilization that way."
+  },
+  {
+   "t0": 886237,
+   "t1": 887396,
+   "text": "Okay, we can do that."
+  },
+  {
+   "t0": 887426,
+   "t1": 890804,
+   "text": "(Laughter) We've been playing Warcraft since 1994."
+  },
+  {
+   "t0": 890834,
+   "t1": 893334,
+   "text": "That was the first real-time strategy game from the World of Warcraft series."
+  },
+  {
+   "t0": 894529,
+   "t1": 896310,
+   "text": "That was 16 years ago."
+  },
+  {
+   "t0": 896340,
+   "t1": 900397,
+   "text": "They played dice games for 18 years, we've been playing Warcraft for 16 years."
+  },
+  {
+   "t0": 900427,
+   "t1": 902927,
+   "text": "I say we are ready for our own epic game."
+  },
+  {
+   "t0": 903609,
+   "t1": 910743,
+   "text": "Now, they had half the civilization go off in search of a new world, so that's where I get my 21 billion hours a week of game-play from."
+  },
+  {
+   "t0": 912116,
+   "t1": 917836,
+   "text": "Let's get half of us to agree to spend an hour a day playing games, until we solve real-world problems."
+  },
+  {
+   "t0": 917866,
+   "t1": 921962,
+   "text": "Now, I know you're asking, \"How are we going to solve real-world problems in games?\""
+  },
+  {
+   "t0": 922165,
+   "t1": 926970,
+   "text": "Well, that's what I've devoted my work to over the past few years, at the Institute for the Future."
+  },
+  {
+   "t0": 927000,
+   "t1": 931810,
+   "text": "We have this banner in our offices in Palo Alto, and it expresses our view of how we should try to relate to the future."
+  },
+  {
+   "t0": 933445,
+   "t1": 935700,
+   "text": "We do not want to try to predict the future."
+  },
+  {
+   "t0": 935730,
+   "t1": 937756,
+   "text": "What we want to do is make the future."
+  },
+  {
+   "t0": 937786,
+   "t1": 942802,
+   "text": "We want to imagine the best-case scenario outcome, and then we want to empower people to make that outcome a reality."
+  },
+  {
+   "t0": 944000,
+   "t1": 948500,
+   "text": "We want to imagine epic wins, and then give people the means to achieve the epic win."
+  },
+  {
+   "t0": 949000,
+   "t1": 956529,
+   "text": "I'm just going to very briefly show you three games that I've made that are an attempt to give people the means to create epic wins in their own futures."
+  },
+  {
+   "t0": 956559,
+   "t1": 957970,
+   "text": "This is World Without Oil."
+  },
+  {
+   "t0": 958000,
+   "t1": 959685,
+   "text": "We made this game in 2007."
+  },
+  {
+   "t0": 959715,
+   "t1": 963597,
+   "text": "This is an online game in which you try to survive an oil shortage."
+  },
+  {
+   "t0": 964507,
+   "t1": 973204,
+   "text": "The oil shortage is fictional, but we put enough online content out there for you to believe that it's real, and to live your real life as if we've run out of oil."
+  },
+  {
+   "t0": 973614,
+   "t1": 993347,
+   "text": "So when you come to the game, you sign up, tell us where you live, and then we give you real-time news videos, data feeds that show you exactly how much oil costs, what's not available, how food supply is being affected, how transportation is being affected, if schools are closed, if there's rioting, and you have to figure out how you would live your real life as if this were true."
+  },
+  {
+   "t0": 993377,
+   "t1": 996970,
+   "text": "And then we ask you to blog about it, to post videos, to post photos."
+  },
+  {
+   "t0": 997000,
+   "t1": 1002751,
+   "text": "We piloted this game with 1,700 players in 2007, and we've tracked them for the three years since."
+  },
+  {
+   "t0": 1002781,
+   "t1": 1005281,
+   "text": "And I can tell you that this is a transformative experience."
+  },
+  {
+   "t0": 1005882,
+   "t1": 1010289,
+   "text": "Nobody wants to change how they live, just because it's good for the world, or because we're supposed to."
+  },
+  {
+   "t0": 1011518,
+   "t1": 1015970,
+   "text": "But if you immerse them in an epic adventure and tell them, \"We've run out of oil."
+  },
+  {
+   "t0": 1016000,
+   "t1": 1018500,
+   "text": "This is an amazing story and adventure for you to go on."
+  },
+  {
+   "t0": 1019289,
+   "t1": 1025862,
+   "text": "Challenge yourself to see how you would survive,\" most of our players have kept up the habits that they learned in this game."
+  },
+  {
+   "t0": 1025892,
+   "t1": 1030500,
+   "text": "So for the next world-saving game, we decided to aim higher -- bigger problem than just peak oil."
+  },
+  {
+   "t0": 1031495,
+   "t1": 1033995,
+   "text": "We did a game called Superstruct at the Institute for the Future."
+  },
+  {
+   "t0": 1034901,
+   "t1": 1040500,
+   "text": "And the premise was, a supercomputer has calculated that humans have only 23 years left on the planet."
+  },
+  {
+   "t0": 1041000,
+   "t1": 1045073,
+   "text": "This supercomputer was called the Global Extinction Awareness System, of course."
+  },
+  {
+   "t0": 1045334,
+   "t1": 1049093,
+   "text": "We asked people to come online -- almost like a Jerry Bruckheimer movie."
+  },
+  {
+   "t0": 1049123,
+   "t1": 1057206,
+   "text": "You know Jerry Bruckheimer movies, you form a dream team -- you've got the astronaut, the scientist, the ex-convict, and they all have something to do to save the world."
+  },
+  {
+   "t0": 1057236,
+   "t1": 1070500,
+   "text": "(Laughter) But in our game, instead of just having five people on the dream team, we said, \"Everybody's on the dream team, and it's your job to invent the future of energy, the future of food, the future of health, the future of security and the future of the social safety net.\""
+  },
+  {
+   "t0": 1071072,
+   "t1": 1073572,
+   "text": "We had 8,000 people play that game for eight weeks."
+  },
+  {
+   "t0": 1073685,
+   "t1": 1079257,
+   "text": "They came up with 500 insanely creative solutions that you can go online, Google \"Superstruct,\" and see."
+  },
+  {
+   "t0": 1079611,
+   "t1": 1082450,
+   "text": "So, finally, the last game, we're launching it March 3rd."
+  },
+  {
+   "t0": 1082480,
+   "t1": 1084908,
+   "text": "This is a game done with the World Bank Institute."
+  },
+  {
+   "t0": 1084938,
+   "t1": 1091500,
+   "text": "If you complete the game, you will be certified by the World Bank Institute as a Social Innovator, class of 2010."
+  },
+  {
+   "t0": 1091722,
+   "t1": 1097500,
+   "text": "Working with universities all over sub-Saharan Africa, and we are inviting them to learn social innovation skills."
+  },
+  {
+   "t0": 1098000,
+   "t1": 1106455,
+   "text": "We've got a graphic novel, we've got leveling up in skills like local insight, knowledge networking, sustainability, vision and resourcefulness."
+  },
+  {
+   "t0": 1106485,
+   "t1": 1117722,
+   "text": "I would like to invite all of you to please share this game with young people, anywhere in the world, particularly in developing areas, who might benefit from coming together to try to start to imagine their own social enterprises to save the world."
+  },
+  {
+   "t0": 1119750,
+   "t1": 1121736,
+   "text": "So, I'm going to wrap up now."
+  },
+  {
+   "t0": 1121766,
+   "t1": 1123506,
+   "text": "I want to ask a question."
+  },
+  {
+   "t0": 1123536,
+   "t1": 1125331,
+   "text": "What do you think happens next?"
+  },
+  {
+   "t0": 1125361,
+   "t1": 1132389,
+   "text": "We've got all these amazing gamers, we've got these games that are kind of pilots of what we might do, but none of them have saved the real world yet."
+  },
+  {
+   "t0": 1132419,
+   "t1": 1141500,
+   "text": "Well I hope you will agree with me that gamers are a human resource that we can use to do real-world work, that games are a powerful platform for change."
+  },
+  {
+   "t0": 1141577,
+   "t1": 1149500,
+   "text": "We have all these amazing superpowers: blissful productivity, the ability to weave a tight social fabric, this feeling of urgent optimism and the desire for epic meaning."
+  },
+  {
+   "t0": 1151000,
+   "t1": 1156753,
+   "text": "I really hope that we can come together to play games that matter, to survive on this planet for another century."
+  },
+  {
+   "t0": 1156783,
+   "t1": 1159283,
+   "text": "That's my hope, that you will join me in making and playing games like this."
+  },
+  {
+   "t0": 1160459,
+   "t1": 1171844,
+   "text": "When I look forward to the next decade, I know two things for sure: that we can make any future we can imagine, and we can play any games we want, so I say: Let the world-changing games begin."
+  },
+  {
+   "t0": 1171874,
+   "t1": 1173026,
+   "text": "Thank you."
+  },
+  {
+   "t0": 1173056,
+   "t1": 1183000,
+   "text": "(Applause)"
+  }
+ ]
+}

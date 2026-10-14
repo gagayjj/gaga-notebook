@@ -312,18 +312,40 @@ function giteeRequest(path: string, method: string, body?: unknown): Promise<Res
   });
 }
 
-async function giteeEnsureRepo() {
-  const { owner, repo } = giteeApiConfig();
-  const existing = await giteeRequest(`repos/${owner}/${repo}`, "GET");
-  if (existing.status !== 404) return existing.ok;
-  const { token } = giteeApiConfig();
-  const created = await giteeRequest("user/repos", "POST", {
-    access_token: token,
-    name: repo,
-    private: true,
-    auto_init: true,
-  });
-  return created.ok;
+async function giteeEnsureRepo(): Promise<{ ok: boolean; status?: number; message?: string }> {
+  const { owner, repo, token } = giteeApiConfig();
+  try {
+    const existing = await giteeRequest(`repos/${owner}/${repo}`, "GET");
+    if (existing.ok) return { ok: true };
+    if (existing.status === 404) {
+      // 仓库不存在，尝试创建（私有 + 自动初始化）
+      const created = await giteeRequest("user/repos", "POST", {
+        access_token: token,
+        name: repo,
+        private: true,
+        auto_init: true,
+      });
+      if (created.ok) return { ok: true };
+      let detail = "";
+      try {
+        const errBody = (await created.json()) as { message?: string };
+        if (errBody?.message) detail = `（${errBody.message}）`;
+      } catch {
+        // ignore
+      }
+      return { ok: false, status: created.status, message: `创建仓库失败 HTTP ${created.status}${detail}` };
+    }
+    let detail = "";
+    try {
+      const errBody = (await existing.json()) as { message?: string };
+      if (errBody?.message) detail = `（${errBody.message}）`;
+    } catch {
+      // ignore
+    }
+    return { ok: false, status: existing.status, message: `访问仓库失败 HTTP ${existing.status}${detail}` };
+  } catch (error) {
+    return { ok: false, message: error instanceof Error ? error.message : String(error) };
+  }
 }
 
 async function giteeGetSha(path: string) {
@@ -414,7 +436,7 @@ async function pullGithubSync() {
   if (!githubConfigured()) return { ok: false, message: "请先保存 GitHub 同步配置" };
   try {
     const data = await githubGetData("gaga-study-data.json");
-    if (!data) return { ok: false, message: "云端还没有数据，请先在电脑上配置并上传一次" };
+    if (!data) return { ok: false, message: "云端还没有数据，请先在任一设备上传一次（点「上传」）" };
     const remote = JSON.parse(data) as syncCore.SyncBundle;
     const library = ensureLibrary();
     const notes: Record<string, NoteDoc> = {};
@@ -452,7 +474,14 @@ async function pullGithubSync() {
 async function pushGiteeSync() {
   if (!giteeConfigured()) return { ok: false, message: "请先保存 Gitee 同步配置" };
   try {
-    if (!(await giteeEnsureRepo())) return { ok: false, message: "无法创建或访问 Gitee 仓库" };
+    const ensured = await giteeEnsureRepo();
+    if (!ensured.ok) {
+      const { owner, repo } = giteeApiConfig();
+      return {
+        ok: false,
+        message: `无法访问仓库 ${owner}/${repo}（${ensured.status ? "HTTP " + ensured.status : ensured.message || "未知错误"}）。请检查用户名/仓库名/令牌是否正确，或令牌是否有 repo 写入权限。`,
+      };
+    }
     const library = ensureLibrary();
     const notes: Record<string, NoteDoc> = {};
     for (const meta of Object.values(library.notes)) {
@@ -495,7 +524,7 @@ async function pullGiteeSync() {
   if (!giteeConfigured()) return { ok: false, message: "请先保存 Gitee 同步配置" };
   try {
     const data = await giteeGetFile("gaga-study-data.json");
-    if (!data) return { ok: false, message: "云端还没有数据，请先在电脑上配置并上传一次" };
+    if (!data) return { ok: false, message: "云端还没有数据，请先在任一设备上传一次（点「上传」）" };
     const remote = JSON.parse(base64ToUtf8(data)) as syncCore.SyncBundle;
     const library = ensureLibrary();
     const notes: Record<string, NoteDoc> = {};
@@ -998,15 +1027,26 @@ export function installBrowserAdapter() {
     },
     enrichWord: async (word: string) => {
       const text = String(word || "").trim();
-      const empty = { word: text, phonetic: "", meaning: "", sentence: "", sentenceMeaning: "" };
+      const empty = {
+        word: text, phonetic: "", meaning: "", sentence: "", sentenceMeaning: "",
+        usphone: "", ukphone: "", meanings: [], wfs: [],
+      };
       if (!text) return empty;
       try {
         const response = await fetch(`https://dict.youdao.com/jsonapi?q=${encodeURIComponent(text)}`);
         if (!response.ok) return empty;
         const data = await response.json();
         const entry = data?.ec?.word?.[0];
-        const phonetic = entry?.usphone || entry?.ukphone || "";
+        const usphone = String(entry?.usphone || "").trim();
+        const ukphone = String(entry?.ukphone || "").trim();
+        const phonetic = usphone || ukphone;
         const meaning = entry?.trs?.[0]?.tr?.[0]?.l?.i?.[0] || "";
+        const meanings = (entry?.trs || [])
+          .map((t: any) => String(t?.tr?.[0]?.l?.i?.[0] || "").trim())
+          .filter(Boolean);
+        const wfs = (entry?.wfs || [])
+          .map((x: any) => ({ name: String(x?.wf?.name || "").trim(), value: String(x?.wf?.value || "").trim() }))
+          .filter((x: any) => x.value);
         const pair = data?.blng_sents_part?.["sentence-pair"]?.[0];
         return {
           word: text,
@@ -1014,9 +1054,33 @@ export function installBrowserAdapter() {
           meaning,
           sentence: String(pair?.sentence || pair?.["sentence-eng"] || "").replace(/<[^>]+>/g, ""),
           sentenceMeaning: pair?.["sentence-translation"] || "",
+          usphone: usphone ? `/${usphone}/` : "",
+          ukphone: ukphone ? `/${ukphone}/` : "",
+          meanings,
+          wfs,
         };
       } catch {
         return empty;
+      }
+    },
+    tedList: async () => {
+      try {
+        const res = await fetch("ted/index.json");
+        if (!res.ok) return [];
+        return await res.json();
+      } catch {
+        return [];
+      }
+    },
+    tedGet: async (slug: string) => {
+      const clean = String(slug || "").replace(/[^a-z0-9_-]/gi, "");
+      if (!clean) return null;
+      try {
+        const res = await fetch(`ted/${clean}.json`);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch {
+        return null;
       }
     },
     listSentences: async () => ensureLibrary().customSentences || [],
@@ -1086,7 +1150,7 @@ export function installBrowserAdapter() {
             "GET",
           );
           if (response.status === 200 || response.status === 404) return { ok: true, message: "连接成功，可以开始同步" };
-          return { ok: false, message: `连接失败，HTTP ${response.status}` };
+          return { ok: false, message: `连接失败，HTTP ${response.status}。请检查用户名/仓库名/令牌是否正确。` };
         } catch (error) {
           return { ok: false, message: error instanceof Error ? error.message : String(error) };
         }
@@ -1099,7 +1163,7 @@ export function installBrowserAdapter() {
             "GET",
           );
           if (response.status === 200 || response.status === 404) return { ok: true, message: "连接成功，可以开始同步" };
-          return { ok: false, message: `连接失败，HTTP ${response.status}` };
+          return { ok: false, message: `连接失败，HTTP ${response.status}。请检查用户名/仓库名/令牌是否正确。` };
         } catch (error) {
           return { ok: false, message: error instanceof Error ? error.message : String(error) };
         }
@@ -1110,7 +1174,7 @@ export function installBrowserAdapter() {
       try {
         const response = await syncRequest("gaga-study-data.json", "GET");
         if (response.status === 200 || response.status === 404) return { ok: true, message: "连接成功，可以开始同步" };
-        return { ok: false, message: `连接失败，HTTP ${response.status}` };
+        return { ok: false, message: `连接失败，HTTP ${response.status}。请检查用户名/仓库名/令牌是否正确。` };
       } catch (error) {
         return { ok: false, message: error instanceof Error ? error.message : String(error) };
       }

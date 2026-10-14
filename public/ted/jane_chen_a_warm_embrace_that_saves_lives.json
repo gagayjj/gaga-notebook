@@ -1,0 +1,242 @@
+{
+ "slug": "jane_chen_a_warm_embrace_that_saves_lives",
+ "title": "A warm embrace that saves lives",
+ "titleZh": "一个温暖的拥抱能救命",
+ "speaker": "Jane Chen",
+ "level": 2,
+ "desc": "讲保温婴儿睡袋，内容直观、语速不快，5分钟左右",
+ "duration": 265000,
+ "minutes": 4,
+ "wpm": 175,
+ "totalWords": 775,
+ "thumb": "https://pe.tedcdn.com/images/ted/144882_800x600.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/03/12/008/products/2009-jane-chen-008-fallback-01ba3027212207bfa92478d1b09b7510-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/301/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 0,
+   "t1": 5500,
+   "text": "Please close your eyes, and open your hands."
+  },
+  {
+   "t0": 6000,
+   "t1": 11500,
+   "text": "Now imagine what you could place in your hands: an apple, maybe your wallet."
+  },
+  {
+   "t0": 12000,
+   "t1": 13970,
+   "text": "Now open your eyes."
+  },
+  {
+   "t0": 14000,
+   "t1": 15970,
+   "text": "What about a life?"
+  },
+  {
+   "t0": 16000,
+   "t1": 17970,
+   "text": "What you see here is a premature baby."
+  },
+  {
+   "t0": 18000,
+   "t1": 23500,
+   "text": "He looks like he's resting peacefully, but in fact he's struggling to stay alive because he can't regulate his own body temperature."
+  },
+  {
+   "t0": 24000,
+   "t1": 27970,
+   "text": "This baby is so tiny he doesn't have enough fat on his body to stay warm."
+  },
+  {
+   "t0": 28000,
+   "t1": 33500,
+   "text": "Sadly, 20 million babies like this are born every year around the world."
+  },
+  {
+   "t0": 34000,
+   "t1": 35970,
+   "text": "Four million of these babies die annually."
+  },
+  {
+   "t0": 36000,
+   "t1": 41500,
+   "text": "But the bigger problem is that the ones who do survive grow up with severe, long-term health problems."
+  },
+  {
+   "t0": 42000,
+   "t1": 46970,
+   "text": "The reason is because in the first month of a baby's life, its only job is to grow."
+  },
+  {
+   "t0": 47000,
+   "t1": 55970,
+   "text": "If it's battling hypothermia, its organs can't develop normally, resulting in a range of health problems from diabetes, to heart disease, to low I.Q."
+  },
+  {
+   "t0": 56000,
+   "t1": 61500,
+   "text": "Imagine: Many of these problems could be prevented if these babies were just kept warm."
+  },
+  {
+   "t0": 62000,
+   "t1": 63970,
+   "text": "That is the primary function of an incubator."
+  },
+  {
+   "t0": 64000,
+   "t1": 68500,
+   "text": "But traditional incubators require electricity and cost up to 20 thousand dollars."
+  },
+  {
+   "t0": 69000,
+   "t1": 71500,
+   "text": "So, you're not going to find them in rural areas of developing countries."
+  },
+  {
+   "t0": 72000,
+   "t1": 83500,
+   "text": "As a result, parents resort to local solutions like tying hot water bottles around their babies' bodies, or placing them under light bulbs like the ones you see here -- methods that are both ineffective and unsafe."
+  },
+  {
+   "t0": 84000,
+   "t1": 86500,
+   "text": "I've seen this firsthand over and over again."
+  },
+  {
+   "t0": 87000,
+   "t1": 92500,
+   "text": "On one of my first trips to India, I met this young woman, Sevitha, who had just given birth to a tiny premature baby, Rani."
+  },
+  {
+   "t0": 94000,
+   "t1": 101500,
+   "text": "She took her baby to the nearest village clinic, and the doctor advised her to take Rani to a city hospital so she could be placed in an incubator."
+  },
+  {
+   "t0": 103000,
+   "t1": 110970,
+   "text": "But that hospital was over four hours away, and Sevitha didn't have the means to get there, so her baby died."
+  },
+  {
+   "t0": 111000,
+   "t1": 124500,
+   "text": "Inspired by this story, and dozens of other similar stories like this, my team and I realized what was needed was a local solution, something that could work without electricity, that was simple enough for a mother or a midwife to use, given that the majority of births still take place in the home."
+  },
+  {
+   "t0": 125000,
+   "t1": 136500,
+   "text": "We needed something that was portable, something that could be sterilized and reused across multiple babies and something ultra-low-cost, compared to the 20,000 dollars that an incubator in the U.S. costs."
+  },
+  {
+   "t0": 137000,
+   "t1": 138970,
+   "text": "So, this is what we came up with."
+  },
+  {
+   "t0": 139000,
+   "t1": 140970,
+   "text": "What you see here looks nothing like an incubator."
+  },
+  {
+   "t0": 141000,
+   "t1": 143500,
+   "text": "It looks like a small sleeping bag for a baby."
+  },
+  {
+   "t0": 144000,
+   "t1": 146500,
+   "text": "You can open it up completely. It's waterproof."
+  },
+  {
+   "t0": 147000,
+   "t1": 149500,
+   "text": "There's no seams inside so you can sterilize it very easily."
+  },
+  {
+   "t0": 150000,
+   "t1": 152500,
+   "text": "But the magic is in this pouch of wax."
+  },
+  {
+   "t0": 154000,
+   "t1": 155970,
+   "text": "This is a phase-change material."
+  },
+  {
+   "t0": 156000,
+   "t1": 160500,
+   "text": "It's a wax-like substance with a melting point of human body temperature, 37 degrees Celsius."
+  },
+  {
+   "t0": 161000,
+   "t1": 172500,
+   "text": "You can melt this simply using hot water and then when it melts it's able to maintain one constant temperature for four to six hours at a time, after which you simply reheat the pouch."
+  },
+  {
+   "t0": 173000,
+   "t1": 184500,
+   "text": "So, you then place it into this little pocket back here, and it creates a warm micro-environment for the baby."
+  },
+  {
+   "t0": 185000,
+   "t1": 194500,
+   "text": "Looks simple, but we've reiterated this dozens of times by going into the field to talk to doctors, moms and clinicians to ensure that this really meets the needs of the local communities."
+  },
+  {
+   "t0": 195000,
+   "t1": 206500,
+   "text": "We plan to launch this product in India in 2010, and the target price point will be 25 dollars, less than 0.1 percent of the cost of a traditional incubator."
+  },
+  {
+   "t0": 207000,
+   "t1": 210970,
+   "text": "Over the next five years we hope to save the lives of almost a million babies."
+  },
+  {
+   "t0": 211000,
+   "t1": 213500,
+   "text": "But the longer-term social impact is a reduction in population growth."
+  },
+  {
+   "t0": 214000,
+   "t1": 224970,
+   "text": "This seems counterintuitive, but turns out that as infant mortality is reduced, population sizes also decrease, because parents don't need to anticipate that their babies are going to die."
+  },
+  {
+   "t0": 225000,
+   "t1": 239500,
+   "text": "We hope that the Embrace infant warmer and other simple innovations like this represent a new trend for the future of technology: simple, localized, affordable solutions that have the potential to make huge social impact."
+  },
+  {
+   "t0": 240000,
+   "t1": 242500,
+   "text": "In designing this we followed a few basic principles."
+  },
+  {
+   "t0": 243000,
+   "t1": 247500,
+   "text": "We really tried to understand the end user, in this case, people like Sevitha."
+  },
+  {
+   "t0": 248000,
+   "t1": 252500,
+   "text": "We tried to understand the root of the problem rather than being biased by what already exists."
+  },
+  {
+   "t0": 253000,
+   "t1": 257970,
+   "text": "And then we thought of the most simple solution we could to address this problem."
+  },
+  {
+   "t0": 258000,
+   "t1": 260500,
+   "text": "In doing this, I believe we can truly bring technology to the masses."
+  },
+  {
+   "t0": 262000,
+   "t1": 264500,
+   "text": "And we can save millions of lives through the simple warmth of an Embrace."
+  }
+ ]
+}

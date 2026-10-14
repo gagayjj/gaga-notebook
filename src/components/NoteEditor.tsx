@@ -22,7 +22,6 @@ import {
   Palette,
   Quote,
   Redo2,
-  Ruler,
   PenTool,
   Square,
   Timer,
@@ -59,6 +58,8 @@ interface NoteEditorProps {
   onMarkersChange: (markers: NoteMarker[]) => void;
   floatingImages: FloatingImage[];
   onFloatingImagesChange: (images: FloatingImage[]) => void;
+  /** 变化时用 note.content 强制刷新编辑器（历史回退后用） */
+  reloadToken?: number;
 }
 
 function normalizeMarkerItems(value: Array<string | NoteMarker> | undefined): NoteMarker[] {
@@ -102,6 +103,7 @@ export function NoteEditor({
   onMarkersChange,
   floatingImages,
   onFloatingImagesChange,
+  reloadToken,
 }: NoteEditorProps) {
   const [showHighlightMenu, setShowHighlightMenu] = useState(false);
   const [paperMarkerOpen, setPaperMarkerOpen] = useState(false);
@@ -219,6 +221,14 @@ export function NoteEditor({
     setMarkersState(normalizeMarkerItems(note.markers ?? (note.marker ? [note.marker] : [])));
     updateOutline(editor);
   }, [editor, note, onOutlineChange]);
+
+  // 历史回退后：同一篇笔记的内容被外部替换，强制刷新编辑器
+  useEffect(() => {
+    if (!editor || !note || !reloadToken) return;
+    editor.commands.setContent(note.content || { type: "doc", content: [{ type: "paragraph" }] });
+    updateOutline(editor);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadToken]);
 
   useEffect(() => {
     if (!editor || !insertRequest) return;
@@ -437,7 +447,15 @@ export function NoteEditor({
             setMarkersState([]);
             onMarkersChange([]);
           }, false, false, "清除笔记页上的全部标记")}
-        {toolbarButton("横线页面", <Ruler size={16} />, () => onLinedChange(!lined), lined, false, lined ? "关闭横线页面" : "开启横线页面")}
+        <button
+          type="button"
+          className={`icon-btn lined-toggle-btn ${lined ? "active" : ""}`}
+          title={lined ? "点击取消整页横线" : "点击开启整页横线（文字自动对齐横线）"}
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => onLinedChange(!lined)}
+        >
+          {lined ? "横线·开" : "横线·关"}
+        </button>
         {toolbarButton(
           isRecording ? "停止录音" : "开始录音",
           isRecording ? <Square size={15} /> : <Mic size={16} />,

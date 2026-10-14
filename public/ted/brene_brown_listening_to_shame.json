@@ -1,0 +1,1082 @@
+{
+ "slug": "brene_brown_listening_to_shame",
+ "title": "Listening to shame",
+ "titleZh": "倾听羞耻",
+ "speaker": "Brené Brown",
+ "level": 4,
+ "desc": "情感类演讲，口语化但有停顿和情绪，语速不稳，偏难",
+ "duration": 1217000,
+ "minutes": 20,
+ "wpm": 141,
+ "totalWords": 2856,
+ "thumb": "https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/8cc1ecfe-7845-4a73-8433-4f12f48aa41c/BreneBrown_2012-1350x675.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/07/91/007/products/2012-brene-brown-007-fallback-2fa6f9f4c26076188d01d0665e37e80d-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/793/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 2048,
+   "t1": 4548,
+   "text": "I'm going to tell you a little bit about my TEDxHouston Talk."
+  },
+  {
+   "t0": 5841,
+   "t1": 11904,
+   "text": "I woke up the morning after I gave that talk with the worst vulnerability hangover of my life."
+  },
+  {
+   "t0": 14346,
+   "t1": 16846,
+   "text": "And I actually didn't leave my house for about three days."
+  },
+  {
+   "t0": 20092,
+   "t1": 22592,
+   "text": "The first time I left was to meet a friend for lunch."
+  },
+  {
+   "t0": 23787,
+   "t1": 26203,
+   "text": "And when I walked in, she was already at the table."
+  },
+  {
+   "t0": 26233,
+   "t1": 28733,
+   "text": "I sat down, and she said, \"God, you look like hell.\""
+  },
+  {
+   "t0": 29541,
+   "t1": 34122,
+   "text": "I said, \"Thanks. I feel really -- I'm not functioning.\""
+  },
+  {
+   "t0": 34152,
+   "t1": 36320,
+   "text": "And she said, \"What's going on?\""
+  },
+  {
+   "t0": 36350,
+   "t1": 44467,
+   "text": "And I said, \"I just told 500 people that I became a researcher to avoid vulnerability."
+  },
+  {
+   "t0": 45586,
+   "t1": 57169,
+   "text": "And that when being vulnerable emerged from my data, as absolutely essential to whole-hearted living, I told these 500 people that I had a breakdown."
+  },
+  {
+   "t0": 58716,
+   "t1": 60472,
+   "text": "I had a slide that said 'Breakdown.'"
+  },
+  {
+   "t0": 60502,
+   "t1": 62970,
+   "text": "At what point did I think that was a good idea?\""
+  },
+  {
+   "t0": 63000,
+   "t1": 68297,
+   "text": "(Laughter) And she said, \"I saw your talk live-streamed."
+  },
+  {
+   "t0": 68327,
+   "t1": 70613,
+   "text": "It was not really you."
+  },
+  {
+   "t0": 70643,
+   "t1": 73019,
+   "text": "It was a little different than what you usually do."
+  },
+  {
+   "t0": 73049,
+   "t1": 74855,
+   "text": "But it was great.\""
+  },
+  {
+   "t0": 74885,
+   "t1": 77970,
+   "text": "And I said, \"This can't happen."
+  },
+  {
+   "t0": 78000,
+   "t1": 80500,
+   "text": "YouTube, they're putting this thing on YouTube."
+  },
+  {
+   "t0": 80765,
+   "t1": 83265,
+   "text": "And we're going to be talking about 600, 700 people.\""
+  },
+  {
+   "t0": 84936,
+   "t1": 91246,
+   "text": "(Laughter) And she said, \"Well, I think it's too late.\""
+  },
+  {
+   "t0": 91897,
+   "t1": 94171,
+   "text": "And I said, \"Let me ask you something.\""
+  },
+  {
+   "t0": 94201,
+   "t1": 95647,
+   "text": "And she said, \"Yeah.\""
+  },
+  {
+   "t0": 95677,
+   "t1": 100029,
+   "text": "I said, \"Do you remember when we were in college, really wild and kind of dumb?\""
+  },
+  {
+   "t0": 100059,
+   "t1": 101059,
+   "text": "She said, \"Yeah.\""
+  },
+  {
+   "t0": 101089,
+   "t1": 106107,
+   "text": "I said, \"Remember when we'd leave a really bad message on our ex-boyfriend's answering machine?"
+  },
+  {
+   "t0": 106137,
+   "t1": 108637,
+   "text": "Then we'd have to break into his dorm room and then erase the tape?\""
+  },
+  {
+   "t0": 109769,
+   "t1": 114690,
+   "text": "(Laughter) And she goes, \"Uh... no.\""
+  },
+  {
+   "t0": 114920,
+   "t1": 122103,
+   "text": "(Laughter) Of course, the only thing I could say at that point was, \"Yeah, me neither."
+  },
+  {
+   "t0": 122133,
+   "t1": 124633,
+   "text": "Yeah -- me neither.\""
+  },
+  {
+   "t0": 124849,
+   "t1": 129970,
+   "text": "And I'm thinking to myself, \"Brené, what are you doing?"
+  },
+  {
+   "t0": 130000,
+   "t1": 132219,
+   "text": "Why did you bring this up?"
+  },
+  {
+   "t0": 132249,
+   "t1": 133844,
+   "text": "Have you lost your mind?"
+  },
+  {
+   "t0": 133874,
+   "t1": 136153,
+   "text": "Your sisters would be perfect for this.\""
+  },
+  {
+   "t0": 136183,
+   "t1": 147114,
+   "text": "(Laughter) So I looked back up and she said, \"Are you really going to try to break in and steal the video before they put it on YouTube?\""
+  },
+  {
+   "t0": 147144,
+   "t1": 151156,
+   "text": "(Laughter) And I said, \"I'm just thinking about it a little bit.\""
+  },
+  {
+   "t0": 151640,
+   "t1": 155926,
+   "text": "(Laughter) She said, \"You're like the worst vulnerability role model ever.\""
+  },
+  {
+   "t0": 158003,
+   "t1": 167381,
+   "text": "(Laughter) Then I looked at her and I said something that at the time felt a little dramatic, but ended up being more prophetic than dramatic."
+  },
+  {
+   "t0": 168793,
+   "t1": 176564,
+   "text": "\"If 500 turns into 1,000 or 2,000, my life is over.\""
+  },
+  {
+   "t0": 176594,
+   "t1": 181311,
+   "text": "(Laughter) I had no contingency plan for four million."
+  },
+  {
+   "t0": 181341,
+   "t1": 188383,
+   "text": "(Laughter) And my life did end when that happened."
+  },
+  {
+   "t0": 188875,
+   "t1": 212060,
+   "text": "And maybe the hardest part about my life ending is that I learned something hard about myself, and that was that, as much as I would be frustrated about not being able to get my work out to the world, there was a part of me that was working very hard to engineer staying small, staying right under the radar."
+  },
+  {
+   "t0": 213761,
+   "t1": 215888,
+   "text": "But I want to talk about what I've learned."
+  },
+  {
+   "t0": 215918,
+   "t1": 218418,
+   "text": "There's two things that I've learned in the last year."
+  },
+  {
+   "t0": 219287,
+   "t1": 224968,
+   "text": "The first is: vulnerability is not weakness."
+  },
+  {
+   "t0": 227295,
+   "t1": 229795,
+   "text": "And that myth is profoundly dangerous."
+  },
+  {
+   "t0": 232283,
+   "t1": 251281,
+   "text": "Let me ask you honestly -- and I'll give you this warning, I'm trained as a therapist, so I can out-wait you uncomfortably -- so if you could just raise your hand that would be awesome -- how many of you honestly, when you're thinking about doing or saying something vulnerable think, \"God, vulnerability is weakness.\""
+  },
+  {
+   "t0": 251311,
+   "t1": 253811,
+   "text": "How many of you think of vulnerability and weakness synonymously?"
+  },
+  {
+   "t0": 255319,
+   "t1": 257106,
+   "text": "The majority of people."
+  },
+  {
+   "t0": 257136,
+   "t1": 266500,
+   "text": "Now let me ask you this question: This past week at TED, how many of you, when you saw vulnerability up here, thought it was pure courage?"
+  },
+  {
+   "t0": 268708,
+   "t1": 271208,
+   "text": "Vulnerability is not weakness."
+  },
+  {
+   "t0": 271430,
+   "t1": 278734,
+   "text": "I define vulnerability as emotional risk, exposure, uncertainty."
+  },
+  {
+   "t0": 279425,
+   "t1": 281581,
+   "text": "It fuels our daily lives."
+  },
+  {
+   "t0": 281611,
+   "t1": 298633,
+   "text": "And I've come to the belief -- this is my 12th year doing this research -- that vulnerability is our most accurate measurement of courage -- to be vulnerable, to let ourselves be seen, to be honest."
+  },
+  {
+   "t0": 298663,
+   "t1": 310885,
+   "text": "One of the weird things that's happened is, after the TED explosion, I got a lot of offers to speak all over the country -- everyone from schools and parent meetings to Fortune 500 companies."
+  },
+  {
+   "t0": 311000,
+   "t1": 315185,
+   "text": "And so many of the calls went like this, \"Dr. Brown, we loved your TED talk."
+  },
+  {
+   "t0": 315215,
+   "t1": 317527,
+   "text": "We'd like you to come in and speak."
+  },
+  {
+   "t0": 317557,
+   "t1": 321326,
+   "text": "We'd appreciate it if you wouldn't mention vulnerability or shame.\""
+  },
+  {
+   "t0": 321356,
+   "t1": 329239,
+   "text": "(Laughter) What would you like for me to talk about?"
+  },
+  {
+   "t0": 330089,
+   "t1": 331487,
+   "text": "There's three big answers."
+  },
+  {
+   "t0": 331517,
+   "t1": 337167,
+   "text": "This is mostly, to be honest with you, from the business sector: innovation, creativity and change."
+  },
+  {
+   "t0": 338482,
+   "t1": 346958,
+   "text": "(Laughter) So let me go on the record and say, vulnerability is the birthplace of innovation, creativity and change."
+  },
+  {
+   "t0": 349652,
+   "t1": 360355,
+   "text": "(Applause) To create is to make something that has never existed before."
+  },
+  {
+   "t0": 363704,
+   "t1": 366204,
+   "text": "There's nothing more vulnerable than that."
+  },
+  {
+   "t0": 366681,
+   "t1": 369181,
+   "text": "Adaptability to change is all about vulnerability."
+  },
+  {
+   "t0": 371466,
+   "t1": 384472,
+   "text": "The second thing, in addition to really finally understanding the relationship between vulnerability and courage, the second thing I learned, is this: We have to talk about shame."
+  },
+  {
+   "t0": 386285,
+   "t1": 388785,
+   "text": "And I'm going to be really honest with you."
+  },
+  {
+   "t0": 388817,
+   "t1": 396890,
+   "text": "When I became a \"vulnerability researcher\" and that became the focus because of the TED talk -- and I'm not kidding."
+  },
+  {
+   "t0": 396920,
+   "t1": 399102,
+   "text": "I'll give you an example."
+  },
+  {
+   "t0": 399132,
+   "t1": 406022,
+   "text": "About three months ago, I was in a sporting goods store buying goggles and shin guards and all the things that parents buy at the sporting goods store."
+  },
+  {
+   "t0": 407121,
+   "t1": 412494,
+   "text": "About from a hundred feet away, this is what I hear: \"Vulnerability TED! Vulnerability TED!\""
+  },
+  {
+   "t0": 412649,
+   "t1": 422070,
+   "text": "(Laughter) (Laughter ends) I'm a fifth-generation Texan."
+  },
+  {
+   "t0": 422669,
+   "t1": 425169,
+   "text": "Our family motto is \"Lock and load.\""
+  },
+  {
+   "t0": 425248,
+   "t1": 427748,
+   "text": "I am not a natural vulnerability researcher."
+  },
+  {
+   "t0": 430430,
+   "t1": 434500,
+   "text": "So I'm like, just keep walking, she's on my six."
+  },
+  {
+   "t0": 434978,
+   "t1": 438922,
+   "text": "(Laughter) And then I hear, \"Vulnerability TED!\""
+  },
+  {
+   "t0": 440684,
+   "t1": 443184,
+   "text": "I turn around, I go, \"Hi.\""
+  },
+  {
+   "t0": 443255,
+   "t1": 448409,
+   "text": "She's right here and she said, \"You're the shame researcher who had the breakdown.\""
+  },
+  {
+   "t0": 448719,
+   "t1": 455057,
+   "text": "(Laughter) At this point, parents are, like, pulling their children close."
+  },
+  {
+   "t0": 457303,
+   "t1": 460928,
+   "text": "(Laughter) \"Look away.\""
+  },
+  {
+   "t0": 462612,
+   "t1": 469227,
+   "text": "And I'm so worn out at this point in my life, I look at her and I actually say, \"It was a fricking spiritual awakening.\""
+  },
+  {
+   "t0": 469385,
+   "t1": 477244,
+   "text": "(Laughter) (Applause) And she looks back and does this, \"I know.\""
+  },
+  {
+   "t0": 477274,
+   "t1": 482614,
+   "text": "(Laughter) And she said, \"We watched your TED talk in my book club."
+  },
+  {
+   "t0": 483116,
+   "t1": 501353,
+   "text": "Then we read your book and we renamed ourselves 'The Breakdown Babes.'\" (Laughter) And she said, \"Our tagline is: 'We're falling apart and it feels fantastic.'\" (Laughter) You can only imagine what it's like for me in a faculty meeting."
+  },
+  {
+   "t0": 502925,
+   "t1": 523109,
+   "text": "(Sighs) So when I became Vulnerability TED, like an action figure -- Like Ninja Barbie, but I'm Vulnerability TED -- I thought, I'm going to leave that shame stuff behind, because I spent six years studying shame before I started writing and talking about vulnerability."
+  },
+  {
+   "t0": 523474,
+   "t1": 528126,
+   "text": "And I thought, thank God, because shame is this horrible topic, no one wants to talk about it."
+  },
+  {
+   "t0": 528156,
+   "t1": 530656,
+   "text": "It's the best way to shut people down on an airplane."
+  },
+  {
+   "t0": 530658,
+   "t1": 532591,
+   "text": "\"What do you do?\" \"I study shame.\" \"Oh.\""
+  },
+  {
+   "t0": 532621,
+   "t1": 535970,
+   "text": "(Laughter) And I see you."
+  },
+  {
+   "t0": 536000,
+   "t1": 557749,
+   "text": "(Laughter) But in surviving this last year, I was reminded of a cardinal rule -- not a research rule, but a moral imperative from my upbringing -- \"you've got to dance with the one who brung ya\"."
+  },
+  {
+   "t0": 559329,
+   "t1": 567418,
+   "text": "And I did not learn about vulnerability and courage and creativity and innovation from studying vulnerability."
+  },
+  {
+   "t0": 567744,
+   "t1": 570244,
+   "text": "I learned about these things from studying shame."
+  },
+  {
+   "t0": 571532,
+   "t1": 574032,
+   "text": "And so I want to walk you in to shame."
+  },
+  {
+   "t0": 575770,
+   "t1": 578270,
+   "text": "Jungian analysts call shame the swampland of the soul."
+  },
+  {
+   "t0": 581386,
+   "t1": 583070,
+   "text": "And we're going to walk in."
+  },
+  {
+   "t0": 583100,
+   "t1": 587500,
+   "text": "And the purpose is not to walk in and construct a home and live there."
+  },
+  {
+   "t0": 588124,
+   "t1": 594348,
+   "text": "It is to put on some galoshes -- and walk through and find our way around."
+  },
+  {
+   "t0": 597023,
+   "t1": 599523,
+   "text": "Here's why."
+  },
+  {
+   "t0": 600387,
+   "t1": 608117,
+   "text": "We heard the most compelling call ever to have a conversation in this country, and I think globally, around race, right?"
+  },
+  {
+   "t0": 610184,
+   "t1": 611666,
+   "text": "Yes? We heard that."
+  },
+  {
+   "t0": 611696,
+   "t1": 613317,
+   "text": "Yes?"
+  },
+  {
+   "t0": 613347,
+   "t1": 615847,
+   "text": "Cannot have that conversation without shame."
+  },
+  {
+   "t0": 616791,
+   "t1": 619291,
+   "text": "Because you cannot talk about race without talking about privilege."
+  },
+  {
+   "t0": 620281,
+   "t1": 624782,
+   "text": "And when people start talking about privilege, they get paralyzed by shame."
+  },
+  {
+   "t0": 624812,
+   "t1": 631210,
+   "text": "We heard a brilliant simple solution to not killing people in surgery, which is, have a checklist."
+  },
+  {
+   "t0": 631240,
+   "t1": 642477,
+   "text": "You can't fix that problem without addressing shame, because when they teach those folks how to suture, they also teach them how to stitch their self-worth to being all-powerful."
+  },
+  {
+   "t0": 642507,
+   "t1": 645007,
+   "text": "And all-powerful folks don't need checklists."
+  },
+  {
+   "t0": 647577,
+   "t1": 652182,
+   "text": "And I had to write down the name of this TED Fellow so I didn't mess it up here."
+  },
+  {
+   "t0": 652212,
+   "t1": 655777,
+   "text": "Myshkin Ingawale, I hope I did right by you."
+  },
+  {
+   "t0": 655807,
+   "t1": 660845,
+   "text": "(Applause) I saw the TED Fellows my first day here."
+  },
+  {
+   "t0": 660875,
+   "t1": 668963,
+   "text": "And he got up and he explained how he was driven to create some technology to help test for anemia, because people were dying unnecessarily."
+  },
+  {
+   "t0": 669408,
+   "t1": 670899,
+   "text": "And he said, \"I saw this need."
+  },
+  {
+   "t0": 670929,
+   "t1": 672890,
+   "text": "So you know what I did? I made it.\""
+  },
+  {
+   "t0": 672920,
+   "t1": 675420,
+   "text": "And everybody just burst into applause, and they were like \"Yes!\""
+  },
+  {
+   "t0": 676199,
+   "t1": 677888,
+   "text": "And he said, \"And it didn't work."
+  },
+  {
+   "t0": 677918,
+   "t1": 684685,
+   "text": "(Laughter) And then I made it 32 more times, and then it worked.\""
+  },
+  {
+   "t0": 684715,
+   "t1": 687003,
+   "text": "You know what the big secret about TED is?"
+  },
+  {
+   "t0": 687033,
+   "t1": 688600,
+   "text": "I can't wait to tell people this."
+  },
+  {
+   "t0": 688630,
+   "t1": 690318,
+   "text": "I guess I'm doing it right now."
+  },
+  {
+   "t0": 690348,
+   "t1": 694493,
+   "text": "(Laughter) This is like the failure conference."
+  },
+  {
+   "t0": 694523,
+   "t1": 696940,
+   "text": "(Laughter) No, it is."
+  },
+  {
+   "t0": 696970,
+   "t1": 702253,
+   "text": "(Applause) You know why this place is amazing?"
+  },
+  {
+   "t0": 702978,
+   "t1": 705478,
+   "text": "Because very few people here are afraid to fail."
+  },
+  {
+   "t0": 707185,
+   "t1": 709685,
+   "text": "And no one who gets on the stage, so far that I've seen, has not failed."
+  },
+  {
+   "t0": 710927,
+   "t1": 713427,
+   "text": "I've failed miserably, many times."
+  },
+  {
+   "t0": 713768,
+   "t1": 718688,
+   "text": "I don't think the world understands that, because of shame."
+  },
+  {
+   "t0": 718718,
+   "t1": 722488,
+   "text": "There's a great quote that saved me this past year by Theodore Roosevelt."
+  },
+  {
+   "t0": 722518,
+   "t1": 725018,
+   "text": "A lot of people refer to it as the \"Man in the Arena\" quote."
+  },
+  {
+   "t0": 726604,
+   "t1": 730500,
+   "text": "And it goes like this: \"It is not the critic who counts."
+  },
+  {
+   "t0": 730835,
+   "t1": 737918,
+   "text": "It is not the man who sits and points out how the doer of deeds could have done things better and how he falls and stumbles."
+  },
+  {
+   "t0": 737948,
+   "t1": 743539,
+   "text": "The credit goes to the man in the arena whose face is marred with dust and blood and sweat."
+  },
+  {
+   "t0": 745888,
+   "t1": 758143,
+   "text": "But when he's in the arena, at best, he wins, and at worst, he loses, but when he fails, when he loses, he does so daring greatly.\""
+  },
+  {
+   "t0": 759228,
+   "t1": 761728,
+   "text": "And that's what this conference, to me, is about."
+  },
+  {
+   "t0": 761873,
+   "t1": 764373,
+   "text": "Life is about daring greatly, about being in the arena."
+  },
+  {
+   "t0": 765460,
+   "t1": 774823,
+   "text": "When you walk up to that arena and you put your hand on the door, and you think, \"I'm going in and I'm going to try this,\" shame is the gremlin who says, \"Uh, uh."
+  },
+  {
+   "t0": 774853,
+   "t1": 776553,
+   "text": "You're not good enough."
+  },
+  {
+   "t0": 776583,
+   "t1": 779083,
+   "text": "You never finished that MBA. Your wife left you."
+  },
+  {
+   "t0": 779948,
+   "t1": 784520,
+   "text": "I know your dad really wasn't in Luxembourg, he was in Sing Sing."
+  },
+  {
+   "t0": 785461,
+   "t1": 787961,
+   "text": "I know those things that happened to you growing up."
+  },
+  {
+   "t0": 788986,
+   "t1": 792971,
+   "text": "I know you don't think that you're pretty, smart, talented or powerful enough."
+  },
+  {
+   "t0": 793352,
+   "t1": 795852,
+   "text": "I know your dad never paid attention, even when you made CFO.\""
+  },
+  {
+   "t0": 797884,
+   "t1": 800384,
+   "text": "Shame is that thing."
+  },
+  {
+   "t0": 800417,
+   "t1": 813500,
+   "text": "And if we can quiet it down and walk in and say, \"I'm going to do this,\" we look up and the critic that we see pointing and laughing, 99 percent of the time is who?"
+  },
+  {
+   "t0": 814635,
+   "t1": 817135,
+   "text": "Us."
+  },
+  {
+   "t0": 817302,
+   "t1": 826473,
+   "text": "Shame drives two big tapes -- \"never good enough\" -- and, if you can talk it out of that one, \"who do you think you are?\""
+  },
+  {
+   "t0": 827339,
+   "t1": 829839,
+   "text": "The thing to understand about shame is, it's not guilt."
+  },
+  {
+   "t0": 830147,
+   "t1": 832647,
+   "text": "Shame is a focus on self, guilt is a focus on behavior."
+  },
+  {
+   "t0": 832982,
+   "t1": 834657,
+   "text": "Shame is \"I am bad.\""
+  },
+  {
+   "t0": 834687,
+   "t1": 837187,
+   "text": "Guilt is \"I did something bad.\""
+  },
+  {
+   "t0": 837767,
+   "t1": 843759,
+   "text": "How many of you, if you did something that was hurtful to me, would be willing to say, \"I'm sorry. I made a mistake?\""
+  },
+  {
+   "t0": 844124,
+   "t1": 846624,
+   "text": "How many of you would be willing to say that?"
+  },
+  {
+   "t0": 846641,
+   "t1": 849141,
+   "text": "Guilt: I'm sorry. I made a mistake."
+  },
+  {
+   "t0": 849387,
+   "t1": 851887,
+   "text": "Shame: I'm sorry. I am a mistake."
+  },
+  {
+   "t0": 853387,
+   "t1": 855887,
+   "text": "There's a huge difference between shame and guilt."
+  },
+  {
+   "t0": 855974,
+   "t1": 857936,
+   "text": "And here's what you need to know."
+  },
+  {
+   "t0": 857966,
+   "t1": 866185,
+   "text": "Shame is highly, highly correlated with addiction, depression, violence, aggression, bullying, suicide, eating disorders."
+  },
+  {
+   "t0": 867375,
+   "t1": 869574,
+   "text": "And here's what you even need to know more."
+  },
+  {
+   "t0": 869604,
+   "t1": 872104,
+   "text": "Guilt, inversely correlated with those things."
+  },
+  {
+   "t0": 874623,
+   "t1": 880583,
+   "text": "The ability to hold something we've done or failed to do up against who we want to be is incredibly adaptive."
+  },
+  {
+   "t0": 881495,
+   "t1": 883995,
+   "text": "It's uncomfortable, but it's adaptive."
+  },
+  {
+   "t0": 887499,
+   "t1": 892071,
+   "text": "The other thing you need to know about shame is it's absolutely organized by gender."
+  },
+  {
+   "t0": 893214,
+   "t1": 898308,
+   "text": "If shame washes over me and washes over Chris, it's going to feel the same."
+  },
+  {
+   "t0": 898338,
+   "t1": 900838,
+   "text": "Everyone sitting in here knows the warm wash of shame."
+  },
+  {
+   "t0": 901553,
+   "t1": 907125,
+   "text": "We're pretty sure that the only people who don't experience shame are people who have no capacity for connection or empathy."
+  },
+  {
+   "t0": 908125,
+   "t1": 911540,
+   "text": "Which means, yes, I have a little shame; no, I'm a sociopath."
+  },
+  {
+   "t0": 911570,
+   "t1": 914070,
+   "text": "So I would opt for, yes, you have a little shame."
+  },
+  {
+   "t0": 917574,
+   "t1": 922075,
+   "text": "Shame feels the same for men and women, but it's organized by gender."
+  },
+  {
+   "t0": 922105,
+   "t1": 926700,
+   "text": "For women, the best example I can give you is Enjoli, the commercial."
+  },
+  {
+   "t0": 929910,
+   "t1": 935720,
+   "text": "\"I can put the wash on the line, pack the lunches, hand out the kisses and be at work at five to nine."
+  },
+  {
+   "t0": 936037,
+   "t1": 940873,
+   "text": "I can bring home the bacon, fry it up in the pan and never let you forget you're a man.\""
+  },
+  {
+   "t0": 941483,
+   "t1": 947611,
+   "text": "For women, shame is, do it all, do it perfectly and never let them see you sweat."
+  },
+  {
+   "t0": 948504,
+   "t1": 955180,
+   "text": "I don't know how much perfume that commercial sold, but I guarantee you, it moved a lot of antidepressants and anti-anxiety meds."
+  },
+  {
+   "t0": 955691,
+   "t1": 968768,
+   "text": "(Laughter) Shame, for women, is this web of unobtainable, conflicting, competing expectations about who we're supposed to be."
+  },
+  {
+   "t0": 969506,
+   "t1": 971754,
+   "text": "And it's a straight-jacket."
+  },
+  {
+   "t0": 971784,
+   "t1": 975500,
+   "text": "For men, shame is not a bunch of competing, conflicting expectations."
+  },
+  {
+   "t0": 976449,
+   "t1": 980658,
+   "text": "Shame is one, do not be perceived as what?"
+  },
+  {
+   "t0": 981213,
+   "t1": 983138,
+   "text": "Weak."
+  },
+  {
+   "t0": 983168,
+   "t1": 985668,
+   "text": "I did not interview men for the first four years of my study."
+  },
+  {
+   "t0": 986442,
+   "t1": 993223,
+   "text": "It wasn't until a man looked at me after a book signing, and said, \"I love what say about shame, I'm curious why you didn't mention men.\""
+  },
+  {
+   "t0": 993253,
+   "t1": 995228,
+   "text": "And I said, \"I don't study men.\""
+  },
+  {
+   "t0": 995258,
+   "t1": 997758,
+   "text": "And he said, \"That's convenient.\""
+  },
+  {
+   "t0": 998313,
+   "t1": 1002441,
+   "text": "(Laughter) And I said, \"Why?\""
+  },
+  {
+   "t0": 1002471,
+   "t1": 1010217,
+   "text": "And he said, \"Because you say to reach out, tell our story, be vulnerable."
+  },
+  {
+   "t0": 1010278,
+   "t1": 1012778,
+   "text": "But you see those books you just signed for my wife and my three daughters?\""
+  },
+  {
+   "t0": 1015139,
+   "t1": 1017054,
+   "text": "I said, \"Yeah.\""
+  },
+  {
+   "t0": 1017084,
+   "t1": 1021805,
+   "text": "\"They'd rather me die on top of my white horse than watch me fall down."
+  },
+  {
+   "t0": 1023235,
+   "t1": 1027500,
+   "text": "When we reach out and be vulnerable, we get the shit beat out of us."
+  },
+  {
+   "t0": 1028290,
+   "t1": 1032132,
+   "text": "And don't tell me it's from the guys and the coaches and the dads."
+  },
+  {
+   "t0": 1034033,
+   "t1": 1036533,
+   "text": "Because the women in my life are harder on me than anyone else.\""
+  },
+  {
+   "t0": 1038360,
+   "t1": 1040860,
+   "text": "So I started interviewing men and asking questions."
+  },
+  {
+   "t0": 1041864,
+   "t1": 1051531,
+   "text": "And what I learned is this: You show me a woman who can actually sit with a man in real vulnerability and fear, I'll show you a woman who's done incredible work."
+  },
+  {
+   "t0": 1052388,
+   "t1": 1064467,
+   "text": "You show me a man who can sit with a woman who's just had it, she can't do it all anymore, and his first response is not, \"I unloaded the dishwasher!\""
+  },
+  {
+   "t0": 1064497,
+   "t1": 1071500,
+   "text": "(Laughter) But he really listens -- because that's all we need -- I'll show you a guy who's done a lot of work."
+  },
+  {
+   "t0": 1072006,
+   "t1": 1074506,
+   "text": "Shame is an epidemic in our culture."
+  },
+  {
+   "t0": 1076696,
+   "t1": 1090929,
+   "text": "And to get out from underneath it -- to find our way back to each other, we have to understand how it affects us and how it affects the way we're parenting, the way we're working, the way we're looking at each other."
+  },
+  {
+   "t0": 1092851,
+   "t1": 1095351,
+   "text": "Very quickly, some research by Mahalik at Boston College."
+  },
+  {
+   "t0": 1096279,
+   "t1": 1098779,
+   "text": "He asked, what do women need to do to conform to female norms?"
+  },
+  {
+   "t0": 1099624,
+   "t1": 1107236,
+   "text": "The top answers in this country: nice, thin, modest and use all available resources for appearance."
+  },
+  {
+   "t0": 1107266,
+   "t1": 1122571,
+   "text": "(Laughter) When he asked about men, what do men in this country need to do to conform with male norms, the answers were: always show emotional control, work is first, pursue status and violence."
+  },
+  {
+   "t0": 1123420,
+   "t1": 1130500,
+   "text": "If we're going to find our way back to each other, we have to understand and know empathy, because empathy's the antidote to shame."
+  },
+  {
+   "t0": 1130619,
+   "t1": 1137631,
+   "text": "If you put shame in a Petri dish, it needs three things to grow exponentially: secrecy, silence and judgment."
+  },
+  {
+   "t0": 1137661,
+   "t1": 1142313,
+   "text": "If you put the same amount in a Petri dish and douse it with empathy, it can't survive."
+  },
+  {
+   "t0": 1142343,
+   "t1": 1147677,
+   "text": "The two most powerful words when we're in struggle: me too."
+  },
+  {
+   "t0": 1147707,
+   "t1": 1150207,
+   "text": "And so I'll leave you with this thought."
+  },
+  {
+   "t0": 1151008,
+   "t1": 1157914,
+   "text": "If we're going to find our way back to each other, vulnerability is going to be that path."
+  },
+  {
+   "t0": 1159401,
+   "t1": 1170087,
+   "text": "And I know it's seductive to stand outside the arena, because I think I did it my whole life, and think to myself, I'm going to go in there and kick some ass when I'm bulletproof and when I'm perfect."
+  },
+  {
+   "t0": 1172102,
+   "t1": 1173406,
+   "text": "And that is seductive."
+  },
+  {
+   "t0": 1173436,
+   "t1": 1175936,
+   "text": "But the truth is, that never happens."
+  },
+  {
+   "t0": 1176859,
+   "t1": 1185272,
+   "text": "And even if you got as perfect as you could and as bulletproof as you could possibly muster when you got in there, that's not what we want to see."
+  },
+  {
+   "t0": 1186743,
+   "t1": 1189243,
+   "text": "We want you to go in."
+  },
+  {
+   "t0": 1189743,
+   "t1": 1192243,
+   "text": "We want to be with you and across from you."
+  },
+  {
+   "t0": 1193116,
+   "t1": 1200433,
+   "text": "And we just want, for ourselves and the people we care about and the people we work with, to dare greatly."
+  },
+  {
+   "t0": 1200463,
+   "t1": 1202963,
+   "text": "So thank you all very much. I really appreciate it."
+  },
+  {
+   "t0": 1203000,
+   "t1": 1217000,
+   "text": "(Applause)"
+  }
+ ]
+}

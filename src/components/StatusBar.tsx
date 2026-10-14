@@ -1,4 +1,4 @@
-import { CheckCircle2, Loader2, Mic, RefreshCw, TriangleAlert } from "lucide-react";
+import { CheckCircle2, History, Loader2, Mic, RefreshCw, TriangleAlert } from "lucide-react";
 
 export type SaveState = "idle" | "saving" | "saved" | "error";
 
@@ -8,9 +8,22 @@ interface StatusBarProps {
   videoLabel: string;
   noteTitle: string;
   onRetrySave: () => void;
+  /** 历史记录：可回退的条数与回调（桌面端） */
+  canUndoHistory?: boolean;
+  historyLabel?: string;
+  onUndoHistory?: () => void;
 }
 
-export function StatusBar({ saveState, isRecording, videoLabel, noteTitle, onRetrySave }: StatusBarProps) {
+export function StatusBar({
+  saveState,
+  isRecording,
+  videoLabel,
+  noteTitle,
+  onRetrySave,
+  canUndoHistory,
+  historyLabel,
+  onUndoHistory,
+}: StatusBarProps) {
   return (
     <footer className="status-bar">
       <div className="status-left">
@@ -26,6 +39,12 @@ export function StatusBar({ saveState, isRecording, videoLabel, noteTitle, onRet
         <span className="status-note">{noteTitle || "未选择笔记"}</span>
       </div>
       <div className="status-right">
+        {canUndoHistory && onUndoHistory && (
+          <button type="button" className="status-history-btn" title="回到这条笔记的上一个保存记录" onClick={onUndoHistory}>
+            <History size={13} />
+            {historyLabel || "返回上一记录"}
+          </button>
+        )}
         {saveState === "saving" && (
           <span>
             <Loader2 size={13} className="spin" />

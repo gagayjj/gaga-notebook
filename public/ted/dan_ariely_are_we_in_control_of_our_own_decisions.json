@@ -1,0 +1,1142 @@
+{
+ "slug": "dan_ariely_are_we_in_control_of_our_own_decisions",
+ "title": "Are we in control of our own decisions?",
+ "titleZh": "我们真能掌控自己的决定吗",
+ "speaker": "Dan Ariely",
+ "level": 3,
+ "desc": "行为经济学，做实验讲道理，逻辑清楚，例子好玩",
+ "duration": 1021000,
+ "minutes": 17,
+ "wpm": 186,
+ "totalWords": 3170,
+ "thumb": "https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/9b116d53-844e-43cf-9002-8c72215961af/DanAriely_2008P-stageshot.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/20/79/020/products/2008p-dan-ariely-020-fallback-074583b19ab472db9ce807b796ebedb9-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/2081/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 330,
+   "t1": 2830,
+   "text": "I'll tell you a little bit about irrational behavior."
+  },
+  {
+   "t0": 2997,
+   "t1": 4867,
+   "text": "Not yours, of course -- other people's."
+  },
+  {
+   "t0": 4897,
+   "t1": 12497,
+   "text": "(Laughter) So after being at MIT for a few years, I realized that writing academic papers is not that exciting."
+  },
+  {
+   "t0": 14663,
+   "t1": 20967,
+   "text": "You know, I don't know how many of those you read, but it's not fun to read and often not fun to write -- even worse to write."
+  },
+  {
+   "t0": 20997,
+   "t1": 23497,
+   "text": "So I decided to try and write something more fun."
+  },
+  {
+   "t0": 23997,
+   "t1": 26497,
+   "text": "And I came up with an idea that I would write a cookbook."
+  },
+  {
+   "t0": 28797,
+   "t1": 33497,
+   "text": "And the title for my cookbook was going to be, \"Dining Without Crumbs: The Art of Eating Over the Sink.\""
+  },
+  {
+   "t0": 33863,
+   "t1": 38130,
+   "text": "(Laughter) And it was going to be a look at life through the kitchen."
+  },
+  {
+   "t0": 38530,
+   "t1": 40100,
+   "text": "I was quite excited about this."
+  },
+  {
+   "t0": 40130,
+   "t1": 43900,
+   "text": "I was going to talk a little bit about research, a little bit about the kitchen."
+  },
+  {
+   "t0": 43930,
+   "t1": 46430,
+   "text": "We do so much in the kitchen, I thought this would be interesting."
+  },
+  {
+   "t0": 47063,
+   "t1": 53497,
+   "text": "I wrote a couple of chapters, and took it to MIT Press and they said, \"Cute, but not for us. Go and find somebody else.\""
+  },
+  {
+   "t0": 54097,
+   "t1": 59067,
+   "text": "I tried other people, and everybody said the same thing, \"Cute. Not for us.\""
+  },
+  {
+   "t0": 59097,
+   "t1": 69897,
+   "text": "Until somebody said, \"Look, if you're serious about this, you have to write about your research first; you have to publish something, then you'll get the opportunity to write something else."
+  },
+  {
+   "t0": 70130,
+   "t1": 72400,
+   "text": "If you really want to do it, you have to do it.\""
+  },
+  {
+   "t0": 72430,
+   "t1": 74767,
+   "text": "I said, \"I don't want to write about my research."
+  },
+  {
+   "t0": 74797,
+   "t1": 78530,
+   "text": "I do it all day long, I want to write something a bit more free, less constrained.\""
+  },
+  {
+   "t0": 79530,
+   "t1": 84497,
+   "text": "And this person was very forceful and said, \"Look, that's the only way you'll ever do it.\""
+  },
+  {
+   "t0": 84597,
+   "t1": 88100,
+   "text": "So I said, \"Okay, if I have to do it --\" I had a sabbatical."
+  },
+  {
+   "t0": 88130,
+   "t1": 90630,
+   "text": "I said, \"I'll write about my research, if there's no other way."
+  },
+  {
+   "t0": 91097,
+   "t1": 92900,
+   "text": "And then I'll get to do my cookbook.\""
+  },
+  {
+   "t0": 92930,
+   "t1": 95430,
+   "text": "So, I wrote a book on my research."
+  },
+  {
+   "t0": 96197,
+   "t1": 98697,
+   "text": "And it turned out to be quite fun in two ways."
+  },
+  {
+   "t0": 98763,
+   "t1": 101263,
+   "text": "First of all, I enjoyed writing."
+  },
+  {
+   "t0": 101330,
+   "t1": 103830,
+   "text": "But the more interesting thing was that I started learning from people."
+  },
+  {
+   "t0": 105097,
+   "t1": 109197,
+   "text": "It's a fantastic time to write, because there's so much feedback you can get from people."
+  },
+  {
+   "t0": 109430,
+   "t1": 115967,
+   "text": "People write to me about their personal experience, and about their examples, and where they disagree, and their nuances."
+  },
+  {
+   "t0": 115997,
+   "t1": 122967,
+   "text": "And even being here -- I mean, the last few days, I've known heights of obsessive behavior I never thought about."
+  },
+  {
+   "t0": 122997,
+   "t1": 126533,
+   "text": "(Laughter) Which I think is just fascinating."
+  },
+  {
+   "t0": 126563,
+   "t1": 134333,
+   "text": "I will tell you a little bit about irrational behavior, and I want to start by giving you some examples of visual illusion as a metaphor for rationality."
+  },
+  {
+   "t0": 134363,
+   "t1": 136167,
+   "text": "So think about these two tables."
+  },
+  {
+   "t0": 136197,
+   "t1": 137967,
+   "text": "And you must have seen this illusion."
+  },
+  {
+   "t0": 137997,
+   "t1": 146967,
+   "text": "If I asked you what's longer, the vertical line on the table on the left, or the horizontal line on the table on the right, which one seems longer?"
+  },
+  {
+   "t0": 146997,
+   "t1": 149497,
+   "text": "Can anybody see anything but the left one being longer?"
+  },
+  {
+   "t0": 149997,
+   "t1": 151833,
+   "text": "No, right? It's impossible."
+  },
+  {
+   "t0": 151863,
+   "t1": 154363,
+   "text": "But the nice thing about visual illusion is we can easily demonstrate mistakes."
+  },
+  {
+   "t0": 155797,
+   "t1": 158233,
+   "text": "So I can put some lines on; it doesn't help."
+  },
+  {
+   "t0": 158263,
+   "t1": 159967,
+   "text": "I can animate the lines."
+  },
+  {
+   "t0": 159997,
+   "t1": 165197,
+   "text": "And to the extent you believe I didn't shrink the lines, which I didn't, I've proven to you that your eyes were deceiving you."
+  },
+  {
+   "t0": 167497,
+   "t1": 173497,
+   "text": "Now, the interesting thing about this is when I take the lines away, it's as if you haven't learned anything in the last minute."
+  },
+  {
+   "t0": 173830,
+   "t1": 178563,
+   "text": "(Laughter) You can't look at this and say, \"Now I see reality as it is.\""
+  },
+  {
+   "t0": 179797,
+   "t1": 182297,
+   "text": "Right? It's impossible to overcome this sense that this is indeed longer."
+  },
+  {
+   "t0": 183863,
+   "t1": 187633,
+   "text": "Our intuition is really fooling us in a repeatable, predictable, consistent way."
+  },
+  {
+   "t0": 187663,
+   "t1": 192497,
+   "text": "and there is almost nothing we can do about it, aside from taking a ruler and starting to measure it."
+  },
+  {
+   "t0": 193597,
+   "t1": 196097,
+   "text": "Here's another one. It's one of my favorite illusions."
+  },
+  {
+   "t0": 196197,
+   "t1": 198697,
+   "text": "What color is the top arrow pointing to?"
+  },
+  {
+   "t0": 199963,
+   "t1": 202133,
+   "text": "Audience: Brown. Dan Ariely: Brown. Thank you."
+  },
+  {
+   "t0": 202163,
+   "t1": 204100,
+   "text": "The bottom one? Yellow."
+  },
+  {
+   "t0": 204130,
+   "t1": 205467,
+   "text": "Turns out they're identical."
+  },
+  {
+   "t0": 205497,
+   "t1": 207400,
+   "text": "Can anybody see them as identical?"
+  },
+  {
+   "t0": 207430,
+   "t1": 208800,
+   "text": "Very, very hard."
+  },
+  {
+   "t0": 208830,
+   "t1": 210967,
+   "text": "I can cover the rest of the cube up."
+  },
+  {
+   "t0": 210997,
+   "t1": 213497,
+   "text": "If I cover the rest of the cube, you can see that they are identical."
+  },
+  {
+   "t0": 214430,
+   "t1": 219397,
+   "text": "If you don't believe me, you can get the slide later and do some arts and crafts and see that they're identical."
+  },
+  {
+   "t0": 219730,
+   "t1": 225300,
+   "text": "But again, it's the same story, that if we take the background away, the illusion comes back."
+  },
+  {
+   "t0": 225330,
+   "t1": 227830,
+   "text": "There is no way for us not to see this illusion."
+  },
+  {
+   "t0": 228330,
+   "t1": 230830,
+   "text": "I guess maybe if you're colorblind, I don't think you can see that."
+  },
+  {
+   "t0": 231663,
+   "t1": 233967,
+   "text": "I want you to think about illusion as a metaphor."
+  },
+  {
+   "t0": 233997,
+   "t1": 236133,
+   "text": "Vision is one of the best things we do."
+  },
+  {
+   "t0": 236163,
+   "t1": 240667,
+   "text": "We have a huge part of our brain dedicated to vision -- bigger than dedicated to anything else."
+  },
+  {
+   "t0": 240697,
+   "t1": 243197,
+   "text": "We use our vision more hours of the day than anything else."
+  },
+  {
+   "t0": 244563,
+   "t1": 246633,
+   "text": "We're evolutionarily designed to use vision."
+  },
+  {
+   "t0": 246663,
+   "t1": 256263,
+   "text": "And if we have these predictable repeatable mistakes in vision, which we're so good at, what are the chances we won't make even more mistakes in something we're not as good at, for example, financial decision-making."
+  },
+  {
+   "t0": 257363,
+   "t1": 266067,
+   "text": "(Laughter) Something we don't have an evolutionary reason to do, we don't have a specialized part of the brain for, and we don't do that many hours of the day."
+  },
+  {
+   "t0": 266097,
+   "t1": 270563,
+   "text": "The argument is in those cases, it might be that we actually make many more mistakes."
+  },
+  {
+   "t0": 271997,
+   "t1": 281967,
+   "text": "And worse -- not having an easy way to see them, because in visual illusions, we can easily demonstrate the mistakes; in cognitive illusion it's much, much harder to demonstrate the mistakes to people."
+  },
+  {
+   "t0": 281997,
+   "t1": 287497,
+   "text": "So I want to show you some cognitive illusions, or decision-making illusions, in the same way."
+  },
+  {
+   "t0": 288097,
+   "t1": 290597,
+   "text": "And this is one of my favorite plots in social sciences."
+  },
+  {
+   "t0": 291597,
+   "t1": 294097,
+   "text": "It's from a paper by Johnson and Goldstein."
+  },
+  {
+   "t0": 295463,
+   "t1": 301697,
+   "text": "It basically shows the percentage of people who indicated they would be interested in donating their organs."
+  },
+  {
+   "t0": 302930,
+   "t1": 304867,
+   "text": "These are different countries in Europe."
+  },
+  {
+   "t0": 304897,
+   "t1": 314067,
+   "text": "You basically see two types of countries: countries on the right, that seem to be giving a lot; and countries on the left that seem to giving very little, or much less."
+  },
+  {
+   "t0": 314097,
+   "t1": 315267,
+   "text": "The question is, why?"
+  },
+  {
+   "t0": 315297,
+   "t1": 317797,
+   "text": "Why do some countries give a lot and some countries give a little?"
+  },
+  {
+   "t0": 318630,
+   "t1": 322797,
+   "text": "When you ask people this question, they usually think that it has to be about culture."
+  },
+  {
+   "t0": 322830,
+   "t1": 324467,
+   "text": "How much do you care about people?"
+  },
+  {
+   "t0": 324497,
+   "t1": 328497,
+   "text": "Giving organs to somebody else is probably about how much you care about society, how linked you are."
+  },
+  {
+   "t0": 329363,
+   "t1": 330967,
+   "text": "Or maybe it's about religion."
+  },
+  {
+   "t0": 330997,
+   "t1": 338930,
+   "text": "But if you look at this plot, you can see that countries that we think about as very similar, actually exhibit very different behavior."
+  },
+  {
+   "t0": 339197,
+   "t1": 345967,
+   "text": "For example, Sweden is all the way on the right, and Denmark, which we think is culturally very similar, is all the way on the left."
+  },
+  {
+   "t0": 345997,
+   "t1": 348497,
+   "text": "Germany is on the left, and Austria is on the right."
+  },
+  {
+   "t0": 349997,
+   "t1": 352497,
+   "text": "The Netherlands is on the left, and Belgium is on the right."
+  },
+  {
+   "t0": 353330,
+   "t1": 365697,
+   "text": "And finally, depending on your particular version of European similarity, you can think about the U.K. and France as either similar culturally or not, but it turns out that with organ donation, they are very different."
+  },
+  {
+   "t0": 367030,
+   "t1": 369467,
+   "text": "By the way, the Netherlands is an interesting story."
+  },
+  {
+   "t0": 369497,
+   "t1": 371997,
+   "text": "You see, the Netherlands is kind of the biggest of the small group."
+  },
+  {
+   "t0": 374330,
+   "t1": 382797,
+   "text": "It turns out that they got to 28 percent after mailing every household in the country a letter, begging people to join this organ donation program."
+  },
+  {
+   "t0": 383497,
+   "t1": 385997,
+   "text": "You know the expression, \"Begging only gets you so far.\""
+  },
+  {
+   "t0": 386497,
+   "t1": 388997,
+   "text": "It's 28 percent in organ donation."
+  },
+  {
+   "t0": 388997,
+   "t1": 395733,
+   "text": "(Laughter) But whatever the countries on the right are doing, they're doing a much better job than begging."
+  },
+  {
+   "t0": 395763,
+   "t1": 397067,
+   "text": "So what are they doing?"
+  },
+  {
+   "t0": 397097,
+   "t1": 399597,
+   "text": "Turns out the secret has to do with a form at the DMV."
+  },
+  {
+   "t0": 400597,
+   "t1": 401967,
+   "text": "And here is the story."
+  },
+  {
+   "t0": 401997,
+   "t1": 406200,
+   "text": "The countries on the left have a form at the DMV that looks something like this."
+  },
+  {
+   "t0": 406230,
+   "t1": 408730,
+   "text": "\"Check the box below if you want to participate in the organ donor program.\""
+  },
+  {
+   "t0": 410563,
+   "t1": 411967,
+   "text": "And what happens?"
+  },
+  {
+   "t0": 411997,
+   "t1": 414497,
+   "text": "People don't check, and they don't join."
+  },
+  {
+   "t0": 414997,
+   "t1": 419133,
+   "text": "The countries on the right, the ones that give a lot, have a slightly different form."
+  },
+  {
+   "t0": 419163,
+   "t1": 421663,
+   "text": "It says, \"Check the box below if you don't want to participate ...\""
+  },
+  {
+   "t0": 422663,
+   "t1": 426967,
+   "text": "Interestingly enough, when people get this, they again don't check, but now they join."
+  },
+  {
+   "t0": 426997,
+   "t1": 432497,
+   "text": "(Laughter) Now, think about what this means."
+  },
+  {
+   "t0": 433397,
+   "t1": 435897,
+   "text": "You know, we wake up in the morning and we feel we make decisions."
+  },
+  {
+   "t0": 436997,
+   "t1": 441100,
+   "text": "We wake up in the morning and we open the closet; we feel that we decide what to wear."
+  },
+  {
+   "t0": 441130,
+   "t1": 443630,
+   "text": "we open the refrigerator and we feel that we decide what to eat."
+  },
+  {
+   "t0": 444230,
+   "t1": 448263,
+   "text": "What this is actually saying, is that many of these decisions are not residing within us."
+  },
+  {
+   "t0": 448597,
+   "t1": 451097,
+   "text": "They are residing in the person who is designing that form."
+  },
+  {
+   "t0": 451730,
+   "t1": 458500,
+   "text": "When you walk into the DMV, the person who designed the form will have a huge influence on what you'll end up doing."
+  },
+  {
+   "t0": 458530,
+   "t1": 461030,
+   "text": "Now, it's also very hard to intuit these results."
+  },
+  {
+   "t0": 461363,
+   "t1": 462667,
+   "text": "Think about it for yourself."
+  },
+  {
+   "t0": 462697,
+   "t1": 472733,
+   "text": "How many of you believe that if you went to renew your license tomorrow, and you went to the DMV, and you encountered one of these forms, that it would actually change your own behavior?"
+  },
+  {
+   "t0": 472763,
+   "t1": 475067,
+   "text": "Very hard to think that it would influence us."
+  },
+  {
+   "t0": 475097,
+   "t1": 477597,
+   "text": "We can say, \"Oh, these funny Europeans, of course it would influence them.\""
+  },
+  {
+   "t0": 478663,
+   "t1": 493800,
+   "text": "But when it comes to us, we have such a feeling that we're in the driver's seat, such a feeling that we're in control and we are making the decision, that it's very hard to even accept the idea that we actually have an illusion of making a decision, rather than an actual decision."
+  },
+  {
+   "t0": 493830,
+   "t1": 498733,
+   "text": "Now, you might say, \"These are decisions we don't care about.\""
+  },
+  {
+   "t0": 498763,
+   "t1": 503563,
+   "text": "In fact, by definition, these are decisions about something that will happen to us after we die."
+  },
+  {
+   "t0": 503663,
+   "t1": 508100,
+   "text": "How could we care about something less than about something that happens after we die?"
+  },
+  {
+   "t0": 508130,
+   "t1": 512333,
+   "text": "So a standard economist, somebody who believes in rationality, would say, \"You know what?"
+  },
+  {
+   "t0": 512363,
+   "t1": 519800,
+   "text": "The cost of lifting the pencil and marking a \"V\" is higher than the possible benefit of the decision, so that's why we get this effect.\""
+  },
+  {
+   "t0": 519830,
+   "t1": 523363,
+   "text": "(Laughter) But, in fact, it's not because it's easy."
+  },
+  {
+   "t0": 523363,
+   "t1": 525863,
+   "text": "It's not because it's trivial. It's not because we don't care."
+  },
+  {
+   "t0": 526430,
+   "t1": 528833,
+   "text": "It's the opposite. It's because we care."
+  },
+  {
+   "t0": 528863,
+   "t1": 530800,
+   "text": "It's difficult and it's complex."
+  },
+  {
+   "t0": 530830,
+   "t1": 533330,
+   "text": "And it's so complex that we don't know what to do."
+  },
+  {
+   "t0": 533397,
+   "t1": 537897,
+   "text": "And because we have no idea what to do, we just pick whatever it was that was chosen for us."
+  },
+  {
+   "t0": 539597,
+   "t1": 541133,
+   "text": "I'll give you one more example."
+  },
+  {
+   "t0": 541163,
+   "t1": 543663,
+   "text": "This is from a paper by Redelmeier and Shafir."
+  },
+  {
+   "t0": 543797,
+   "t1": 546297,
+   "text": "And they said, \"Would this effect also happens to experts?"
+  },
+  {
+   "t0": 547297,
+   "t1": 551800,
+   "text": "People who are well-paid, experts in their decisions, and who make a lot of them?\""
+  },
+  {
+   "t0": 551830,
+   "t1": 554033,
+   "text": "And they took a group of physicians."
+  },
+  {
+   "t0": 554063,
+   "t1": 556500,
+   "text": "They presented to them a case study of a patient."
+  },
+  {
+   "t0": 556530,
+   "t1": 559030,
+   "text": "They said, \"Here is a patient. He is a 67-year-old farmer."
+  },
+  {
+   "t0": 559997,
+   "t1": 562497,
+   "text": "He's been suffering from right hip pain for a while.\""
+  },
+  {
+   "t0": 562763,
+   "t1": 567967,
+   "text": "And then, they said to the physicians, \"You decided a few weeks ago that nothing is working for this patient."
+  },
+  {
+   "t0": 567997,
+   "t1": 570433,
+   "text": "All these medications, nothing seems to be working."
+  },
+  {
+   "t0": 570463,
+   "t1": 572963,
+   "text": "So you refer the patient for hip replacement therapy."
+  },
+  {
+   "t0": 573230,
+   "t1": 574967,
+   "text": "Hip replacement. Okay?\""
+  },
+  {
+   "t0": 574997,
+   "t1": 577497,
+   "text": "So the patient is on a path to have his hip replaced."
+  },
+  {
+   "t0": 578463,
+   "t1": 585297,
+   "text": "Then they said to half of the physicians, \"Yesterday, you reviewed the patient's case, and you realized that you forgot to try one medication."
+  },
+  {
+   "t0": 585430,
+   "t1": 587930,
+   "text": "You did not try ibuprofen."
+  },
+  {
+   "t0": 587997,
+   "t1": 590497,
+   "text": "What do you do? Do you pull the patient back and try ibuprofen?"
+  },
+  {
+   "t0": 591330,
+   "t1": 593830,
+   "text": "Or do you let him go and have hip replacement?\""
+  },
+  {
+   "t0": 594130,
+   "t1": 599330,
+   "text": "Well, the good news is that most physicians in this case decided to pull the patient and try ibuprofen."
+  },
+  {
+   "t0": 599663,
+   "t1": 601367,
+   "text": "Very good for the physicians."
+  },
+  {
+   "t0": 601397,
+   "t1": 609863,
+   "text": "To the other group of physicians, they said, \"Yesterday when you reviewed the case, you discovered there were two medications you didn't try out yet -- ibuprofen and piroxicam.\""
+  },
+  {
+   "t0": 609930,
+   "t1": 612167,
+   "text": "You have two medications you didn't try out yet."
+  },
+  {
+   "t0": 612197,
+   "t1": 614697,
+   "text": "What do you do? You let him go, or you pull him back?"
+  },
+  {
+   "t0": 614863,
+   "t1": 617363,
+   "text": "And if you pull him back, do you try ibuprofen or piroxicam? Which one?\""
+  },
+  {
+   "t0": 618330,
+   "t1": 625897,
+   "text": "Now, think of it: This decision makes it as easy to let the patient continue with hip replacement, but pulling him back, all of the sudden it becomes more complex."
+  },
+  {
+   "t0": 626563,
+   "t1": 628367,
+   "text": "There is one more decision."
+  },
+  {
+   "t0": 628397,
+   "t1": 629700,
+   "text": "What happens now?"
+  },
+  {
+   "t0": 629730,
+   "t1": 634900,
+   "text": "The majority of the physicians now choose to let the patient go for a hip replacement."
+  },
+  {
+   "t0": 634930,
+   "t1": 640600,
+   "text": "I hope this worries you, by the way -- (Laughter) when you go to see your physician."
+  },
+  {
+   "t0": 640630,
+   "t1": 645863,
+   "text": "The thing is that no physician would ever say, \"Piroxicam, ibuprofen, hip replacement. Let's go for hip replacement.\""
+  },
+  {
+   "t0": 647197,
+   "t1": 652497,
+   "text": "But the moment you set this as the default, it has a huge power over whatever people end up doing."
+  },
+  {
+   "t0": 653997,
+   "t1": 656497,
+   "text": "I'll give you a couple of more examples on irrational decision-making."
+  },
+  {
+   "t0": 657363,
+   "t1": 668967,
+   "text": "Imagine I give you a choice: Do you want to go for a weekend to Rome, all expenses paid -- hotel, transportation, food, a continental breakfast, everything -- or a weekend in Paris?"
+  },
+  {
+   "t0": 668997,
+   "t1": 671497,
+   "text": "Now, weekend in Paris, weekend in Rome -- these are different things."
+  },
+  {
+   "t0": 672263,
+   "t1": 674763,
+   "text": "They have different food, different culture, different art."
+  },
+  {
+   "t0": 675063,
+   "t1": 677563,
+   "text": "Imagine I added a choice to the set that nobody wanted."
+  },
+  {
+   "t0": 678463,
+   "t1": 683200,
+   "text": "Imagine I said, \"A weekend in Rome, a weekend in Paris, or having your car stolen?\""
+  },
+  {
+   "t0": 683230,
+   "t1": 691167,
+   "text": "(Laughter) It's a funny idea, because why would having your car stolen, in this set, influence anything?"
+  },
+  {
+   "t0": 691197,
+   "t1": 695830,
+   "text": "(Laughter) But what if the option to have your car stolen was not exactly like this?"
+  },
+  {
+   "t0": 697797,
+   "t1": 704967,
+   "text": "What if it was a trip to Rome, all expenses paid, transportation, breakfast, but it doesn't include coffee in the morning?"
+  },
+  {
+   "t0": 704997,
+   "t1": 707497,
+   "text": "If you want coffee, you have to pay for it yourself, it's two euros 50."
+  },
+  {
+   "t0": 708397,
+   "t1": 715700,
+   "text": "(Laughter) Now in some ways, given that you can have Rome with coffee, why would you possibly want Rome without coffee?"
+  },
+  {
+   "t0": 715730,
+   "t1": 718230,
+   "text": "It's like having your car stolen. It's an inferior option."
+  },
+  {
+   "t0": 719297,
+   "t1": 720467,
+   "text": "But guess what happened?"
+  },
+  {
+   "t0": 720497,
+   "t1": 725330,
+   "text": "The moment you add Rome without coffee, Rome with coffee becomes more popular, and people choose it."
+  },
+  {
+   "t0": 726463,
+   "t1": 733497,
+   "text": "The fact that you have Rome without coffee makes Rome with coffee look superior, and not just to Rome without coffee -- even superior to Paris."
+  },
+  {
+   "t0": 733997,
+   "t1": 740533,
+   "text": "(Laughter) Here are two examples of this principle."
+  },
+  {
+   "t0": 740563,
+   "t1": 753967,
+   "text": "This was an ad in The Economist a few years ago that gave us three choices: an online subscription for 59 dollars, a print subscription for 125 dollars, or you could get both for 125."
+  },
+  {
+   "t0": 753997,
+   "t1": 761097,
+   "text": "(Laughter) Now I looked at this, and I called up The Economist, and I tried to figure out what they were thinking."
+  },
+  {
+   "t0": 761197,
+   "t1": 770597,
+   "text": "And they passed me from one person to another to another, until eventually I got to the person who was in charge of the website, and I called them up, and they went to check what was going on."
+  },
+  {
+   "t0": 771730,
+   "t1": 774230,
+   "text": "The next thing I know, the ad is gone, no explanation."
+  },
+  {
+   "t0": 775597,
+   "t1": 779997,
+   "text": "So I decided to do the experiment that I would have loved The Economist to do with me."
+  },
+  {
+   "t0": 780163,
+   "t1": 782567,
+   "text": "I took this and I gave it to 100 MIT students."
+  },
+  {
+   "t0": 782597,
+   "t1": 784167,
+   "text": "I said, \"What would you choose?\""
+  },
+  {
+   "t0": 784197,
+   "t1": 786697,
+   "text": "These are the market shares -- most people wanted the combo deal."
+  },
+  {
+   "t0": 788197,
+   "t1": 790400,
+   "text": "Thankfully, nobody wanted the dominant option."
+  },
+  {
+   "t0": 790430,
+   "t1": 792067,
+   "text": "That means our students can read."
+  },
+  {
+   "t0": 792097,
+   "t1": 798100,
+   "text": "(Laughter) But now, if you have an option that nobody wants, you can take it off, right?"
+  },
+  {
+   "t0": 798130,
+   "t1": 801800,
+   "text": "So I printed another version of this, where I eliminated the middle option."
+  },
+  {
+   "t0": 801830,
+   "t1": 810597,
+   "text": "I gave it to another 100 students. Here is what happened: Now the most popular option became the least popular, and the least popular became the most popular."
+  },
+  {
+   "t0": 811630,
+   "t1": 817497,
+   "text": "What was happening was the option that was useless, in the middle, was useless in the sense that nobody wanted it."
+  },
+  {
+   "t0": 818863,
+   "t1": 823200,
+   "text": "But it wasn't useless in the sense that it helped people figure out what they wanted."
+  },
+  {
+   "t0": 823230,
+   "t1": 833030,
+   "text": "In fact, relative to the option in the middle, which was get only the print for 125, the print and web for 125 looked like a fantastic deal."
+  },
+  {
+   "t0": 834297,
+   "t1": 836400,
+   "text": "And as a consequence, people chose it."
+  },
+  {
+   "t0": 836430,
+   "t1": 840563,
+   "text": "The general idea here, by the way, is that we actually don't know our preferences that well."
+  },
+  {
+   "t0": 840797,
+   "t1": 849097,
+   "text": "And because we don't know our preferences that well, we're susceptible to all of these influences from the external forces: the defaults, the particular options that are presented to us, and so on."
+  },
+  {
+   "t0": 850630,
+   "t1": 851967,
+   "text": "One more example of this."
+  },
+  {
+   "t0": 851997,
+   "t1": 859967,
+   "text": "People believe that when we deal with physical attraction, we see somebody, and we know immediately whether we like them or not, if we're attracted or not."
+  },
+  {
+   "t0": 859997,
+   "t1": 862433,
+   "text": "This is why we have these four-minute dates."
+  },
+  {
+   "t0": 862463,
+   "t1": 864963,
+   "text": "So I decided to do this experiment with people."
+  },
+  {
+   "t0": 864997,
+   "t1": 867497,
+   "text": "I'll show you images here, no real people, but the experiment was with people."
+  },
+  {
+   "t0": 868997,
+   "t1": 871497,
+   "text": "I showed some people a picture of Tom, and a picture of Jerry."
+  },
+  {
+   "t0": 871997,
+   "t1": 874067,
+   "text": "and I said, \"Who do you want to date?"
+  },
+  {
+   "t0": 874097,
+   "t1": 875567,
+   "text": "Tom or Jerry?\""
+  },
+  {
+   "t0": 875597,
+   "t1": 878097,
+   "text": "But for half the people, I added an ugly version of Jerry."
+  },
+  {
+   "t0": 878897,
+   "t1": 881397,
+   "text": "I took Photoshop and I made Jerry slightly less attractive."
+  },
+  {
+   "t0": 883997,
+   "t1": 887930,
+   "text": "(Laughter) For the other people, I added an ugly version of Tom."
+  },
+  {
+   "t0": 888997,
+   "t1": 894497,
+   "text": "And the question was, will ugly Jerry and ugly Tom help their respective, more attractive brothers?"
+  },
+  {
+   "t0": 895797,
+   "t1": 898000,
+   "text": "The answer was absolutely yes."
+  },
+  {
+   "t0": 898030,
+   "t1": 900167,
+   "text": "When ugly Jerry was around, Jerry was popular."
+  },
+  {
+   "t0": 900197,
+   "t1": 902333,
+   "text": "When ugly Tom was around, Tom was popular."
+  },
+  {
+   "t0": 902363,
+   "t1": 909030,
+   "text": "(Laughter) This of course has two very clear implications for life in general."
+  },
+  {
+   "t0": 909797,
+   "t1": 912297,
+   "text": "If you ever go bar-hopping, who do you want to take with you?"
+  },
+  {
+   "t0": 912997,
+   "t1": 921263,
+   "text": "(Laughter) You want a slightly uglier version of yourself."
+  },
+  {
+   "t0": 922563,
+   "t1": 926233,
+   "text": "(Laughter) Similar, but slightly uglier."
+  },
+  {
+   "t0": 926263,
+   "t1": 933267,
+   "text": "(Laughter) The second point, or course, is that if somebody invites you to bar hop, you know what they think about you."
+  },
+  {
+   "t0": 933297,
+   "t1": 938267,
+   "text": "(Laughter) Now you get it."
+  },
+  {
+   "t0": 938297,
+   "t1": 939967,
+   "text": "What is the general point?"
+  },
+  {
+   "t0": 939997,
+   "t1": 943763,
+   "text": "The general point is that, when we think about economics, we have this beautiful view of human nature."
+  },
+  {
+   "t0": 944997,
+   "t1": 947497,
+   "text": "\"What a piece of work is a man! How noble in reason!\""
+  },
+  {
+   "t0": 947563,
+   "t1": 950063,
+   "text": "We have this view of ourselves, of others."
+  },
+  {
+   "t0": 950163,
+   "t1": 958700,
+   "text": "The behavioral economics perspective is slightly less \"generous\" to people; in fact, in medical terms, that's our view."
+  },
+  {
+   "t0": 958730,
+   "t1": 965967,
+   "text": "(Laughter) But there is a silver lining."
+  },
+  {
+   "t0": 965997,
+   "t1": 970397,
+   "text": "The silver lining is, I think, kind of the reason that behavioral economics is interesting and exciting."
+  },
+  {
+   "t0": 971997,
+   "t1": 974497,
+   "text": "Are we Superman, or are we Homer Simpson?"
+  },
+  {
+   "t0": 975297,
+   "t1": 980333,
+   "text": "When it comes to building the physical world, we kind of understand our limitations."
+  },
+  {
+   "t0": 980363,
+   "t1": 981533,
+   "text": "We build steps."
+  },
+  {
+   "t0": 981563,
+   "t1": 984063,
+   "text": "And we build these things that not everybody can use, obviously."
+  },
+  {
+   "t0": 984730,
+   "t1": 989867,
+   "text": "(Laughter) We understand our limitations, and we build around them."
+  },
+  {
+   "t0": 989897,
+   "t1": 998200,
+   "text": "But for some reason, when it comes to the mental world, when we design things like healthcare and retirement and stock markets, we somehow forget the idea that we are limited."
+  },
+  {
+   "t0": 998230,
+   "t1": 1010533,
+   "text": "I think that if we understood our cognitive limitations in the same way we understand our physical limitations, even though they don't stare us in the face the same way, we could design a better world, and that, I think, is the hope of this thing."
+  },
+  {
+   "t0": 1010563,
+   "t1": 1011967,
+   "text": "Thank you very much."
+  },
+  {
+   "t0": 1011997,
+   "t1": 1021000,
+   "text": "(Applause)"
+  }
+ ]
+}

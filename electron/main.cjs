@@ -280,6 +280,12 @@ function createWindow() {
     },
   });
 
+  // 窗口关闭时把残留的网页视频视图一并清掉，
+  // 避免重新打开窗口后旧视频浮在笔记上。
+  mainWindow.on("closed", () => {
+    removeVideoView();
+  });
+
   const devUrl = process.env.VITE_DEV_SERVER_URL;
   if (devUrl) {
     mainWindow.loadURL(devUrl);
@@ -323,6 +329,7 @@ function createWindow() {
     mainWindow.webContents.once("did-finish-load", () => {
       setTimeout(async () => {
         try {
+          console.log("qa step: dom");
           const dom = await mainWindow.webContents.executeJavaScript(`(async () => {
             const rect = (sel) => {
               const el = document.querySelector(sel);
@@ -351,7 +358,8 @@ function createWindow() {
               bodyColor: getComputedStyle(document.body).backgroundColor,
               narrow: document.querySelector(".app")?.classList.contains("narrow")
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: narrowDom");
           const narrowDom = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="切换窄条模式"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 700));
@@ -388,7 +396,8 @@ function createWindow() {
             await new Promise((resolve) => setTimeout(resolve, 150));
             document.querySelector('button[title="退出窄条模式"]')?.click();
             return { ...result, narrowSidebarVisible: Boolean(narrowSidebar && narrowSidebar.w > 0), narrowScroll };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: panelDom");
           const panelDom = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="打开视频模块"]')?.click();
             document.querySelector('button[title="打开笔记库"]')?.click();
@@ -408,7 +417,8 @@ function createWindow() {
             document.querySelector('button[title="关闭视频模块"]')?.click();
             document.querySelector('button[title="收起笔记库"]')?.click();
             return result;
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: urlTest");
           const urlTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="打开视频模块"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
@@ -423,7 +433,7 @@ function createWindow() {
               statusText: document.querySelector(".video-status")?.textContent || "",
               framePrefix: (await window.studyNotes.captureVideoFrame())?.slice(0, 30) || "",
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
           const urlInfo = {
             bounds: videoView?.getBounds(),
             url: videoView?.webContents.getURL(),
@@ -439,6 +449,26 @@ function createWindow() {
               console.error("capture BrowserView failed", error);
             }
           }
+          // 弹窗遮挡测试：打开「每日英语」时 URL 视频（BrowserView）应被自动移走，关弹窗自动回来
+          console.log("qa step: videoOccludeTest");
+          let videoOccludeTest = { stepError: "videoView 不存在（urlTest 未成功建立视频）" };
+          if (videoView) {
+            try {
+              const inViews = () => mainWindow.getBrowserViews().includes(videoView);
+              const before = inViews();
+              await mainWindow.webContents.executeJavaScript(`document.querySelector('button[title="打开每日英语"]')?.click(); true`);
+              await new Promise((resolve) => setTimeout(resolve, 800));
+              const hiddenWhileModal = !inViews();
+              await mainWindow.webContents.executeJavaScript(
+                `Array.from(document.querySelectorAll('.english-header-actions button')).find((b) => b.getAttribute('title') === '关闭')?.click(); true`,
+              );
+              await new Promise((resolve) => setTimeout(resolve, 800));
+              videoOccludeTest = { before, hiddenWhileModal, backAfterClose: inViews() };
+            } catch (error) {
+              videoOccludeTest = { stepError: String(error) };
+            }
+          }
+          console.log("qa step: saveTest");
           const saveTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const note = await window.studyNotes.createNote({ title: "QA 测试笔记" });
             note.content.content.push({ type: "paragraph", content: [{ type: "text", text: "保存成功" }] });
@@ -449,7 +479,8 @@ function createWindow() {
               saved: Boolean(saved?.ok),
               persisted: JSON.stringify(read?.content || "").includes("保存成功"),
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: libraryTest");
           const libraryTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const linkResources = await window.studyNotes.addResourceLink({ url: "https://example.com/resource", title: "QA资料" });
             const noteResources = await window.studyNotes.addResourceNote({ title: "QA直接资料", content: "hello" });
@@ -474,7 +505,8 @@ function createWindow() {
               modalExists: !!document.querySelector(".resource-modal"),
               modalText: document.querySelector(".resource-modal")?.innerText.slice(0, 120) || "",
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: englishTest");
           const englishTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const addedWords = await window.studyNotes.addWord({
               word: "QAword",
@@ -536,7 +568,8 @@ function createWindow() {
               tabCount: document.querySelectorAll(".english-tabs button").length,
               modalText: document.querySelector(".english-modal")?.innerText.slice(0, 160) || "",
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: dictationRetryTest");
           const dictationRetryTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             if (!document.querySelector(".english-modal")) {
               document.querySelector('button[title="打开每日英语"]')?.click();
@@ -557,7 +590,8 @@ function createWindow() {
             while (document.querySelector(".dictation-card") && steps < 20) {
               const input = document.querySelector(".dictation-input");
               if (input) {
-                const setter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value").set;
+                const proto = input.tagName === "TEXTAREA" ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype;
+                const setter = Object.getOwnPropertyDescriptor(proto, "value").set;
                 setter.call(input, "wronganswer");
                 input.dispatchEvent(new Event("input", { bubbles: true }));
               }
@@ -584,7 +618,8 @@ function createWindow() {
               retryDisabled,
               retryStarted: retryProgress.includes("1 /") && retryProgress.includes("/"),
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: themeTest");
           const themeTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="切换卡通主题"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
@@ -607,7 +642,8 @@ function createWindow() {
               previewImages,
               bannerImages,
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: designerTest");
           const designerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="设计自己的背景"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 300));
@@ -630,7 +666,8 @@ function createWindow() {
               bgImageApplied: getComputedStyle(document.body).backgroundImage.includes("shin"),
               designerClosed: !document.querySelector(".bg-designer"),
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: markerTest");
           const markerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="插入图片或截图标注"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 500));
@@ -642,7 +679,8 @@ function createWindow() {
             const shapeLabels = Array.from(document.querySelectorAll(".shape-menu button")).map((item) => item.textContent).join(",");
             document.querySelector(".annotation-footer .btn.ghost")?.click();
             return { modalExists, shapeButtonExists, shapeCount, shapeLabels };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: floatingImageTest");
           const floatingImageTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="插入图片或截图标注"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 500));
@@ -735,7 +773,8 @@ function createWindow() {
               scrollLockedDuringMove: window.__scrollLockCheck?.scrollLockedDuringMove,
               scrollUnlockedAfterUp: window.__scrollLockCheck?.scrollUnlockedAfterUp,
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: tiptapImageTest");
           const tiptapImageTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const editorEl = document.querySelector(".ProseMirror");
             const rect = editorEl?.getBoundingClientRect();
@@ -795,7 +834,8 @@ function createWindow() {
               scrollLocked,
               removedAfterDelete: !document.querySelector(".resizable-image"),
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: inlineMarkerTest");
           const inlineMarkerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="在整页笔记上随意画箭头和曲线标记"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 400));
@@ -865,7 +905,8 @@ function createWindow() {
               closedAfterComplete: !document.querySelector(".paper-marker"),
               toolCount: document.querySelectorAll(".paper-marker-bar button").length,
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: multiMarkerTest");
           const multiMarkerTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const lib = await window.studyNotes.listNotes();
             const id = lib.courses[0]?.noteIds[0];
@@ -895,7 +936,8 @@ function createWindow() {
               savedMarkerWidth: saved?.markers?.[0]?.width || 0,
               savedMarkerHeight: saved?.markers?.[0]?.height || 0,
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: markerStableTest");
           const markerStableTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const results = document.querySelectorAll(".paper-marker-result");
             const before = results[0] ? results[0].getBoundingClientRect() : null;
@@ -911,7 +953,8 @@ function createWindow() {
               heightStable: Boolean(before && after && Math.abs(after.height - before.height) < 2),
               widthStable: Boolean(before && after && Math.abs(after.width - before.width) < 2),
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: featureTest");
           const featureTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelectorAll('.modal-backdrop .icon-btn[title="关闭"]').forEach((button) => button.click());
             document.querySelector('button[title="关闭每日英语"]')?.click();
@@ -1004,7 +1047,8 @@ function createWindow() {
                 editorHtml.includes("color: #e5484d"),
               editorHtml: editorHtml.slice(-400),
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: resizeImageTest");
           const resizeImageTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const editorEl = document.querySelector(".ProseMirror");
             editorEl?.focus();
@@ -1036,7 +1080,8 @@ function createWindow() {
               resized = after > before + 20;
             }
             return { imageInserted: Boolean(wrap), handleExists: Boolean(handle), resized };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: narrowVideoTest");
           const narrowVideoTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             document.querySelector('button[title="关闭视频模块"]')?.click();
             await new Promise((resolve) => setTimeout(resolve, 200));
@@ -1057,7 +1102,7 @@ function createWindow() {
                 videoVisible: Boolean(afterRect && afterRect.width > 0 && afterRect.height > 0),
               },
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
           const mockBody = { words: [], sentences: [], updatedAt: "2026-08-21T00:00:00.000Z" };
           const mockFiles = {
             "/dav/gaga-study-words.json": JSON.stringify(mockBody),
@@ -1127,6 +1172,7 @@ function createWindow() {
               proxy: "",
             }),
           );
+          console.log("qa step: syncTest");
           const syncTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const added = await window.studyNotes.addWord({
               word: "QAsync",
@@ -1158,7 +1204,7 @@ function createWindow() {
               notePull,
               noteSynced,
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
           const mobileSyncTest = await (async () => {
             const mobileWin = new BrowserWindow({
               show: false,
@@ -1186,7 +1232,7 @@ function createWindow() {
                 mobileWordAdded: localWords.some((item) => item.word === "MobileSync"),
                 status: "ok",
               };
-            })()`);
+            })()`).catch((error) => ({ stepError: String(error) }));
             mobileWin.destroy();
             return { ...result, remoteHasMobileWord: mockFiles["/dav/gaga-study-data.json"].includes("MobileSync") };
           })();
@@ -1216,10 +1262,11 @@ function createWindow() {
                 noteCreated: Boolean(read && JSON.stringify(read.content).includes("网页版正文")),
                 courseCount: lib.courses.length,
               };
-            })()`);
+            })()`).catch((error) => ({ stepError: String(error) }));
             win.destroy();
             return result;
           })();
+          console.log("qa step: noteDeleteTest");
           const noteDeleteTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const lib = await window.studyNotes.listNotes();
             const target = lib.courses[0];
@@ -1235,7 +1282,8 @@ function createWindow() {
               courseUpdated: savedCourse ? !savedCourse.noteIds.includes(targetId) : true,
               fileGone: targetId ? !noteFile : true,
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: courseDeleteTest");
           const courseDeleteTest = await mainWindow.webContents.executeJavaScript(`(async () => {
             const lib = await window.studyNotes.listNotes();
             const target = lib.courses[0];
@@ -1250,9 +1298,489 @@ function createWindow() {
               remainingCourses: saved.courses.length,
               defaultNoteCreated: Object.keys(saved.notes).length > 0,
             };
-          })()`);
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: trashTest");
+          const trashTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            const note = await window.studyNotes.createNote({ title: "QA回收站笔记" });
+            const id = note.meta.id;
+            await window.studyNotes.removeNote(id);
+            const trash1 = await window.studyNotes.listTrash();
+            const entry = trash1.find((item) => item.id === id);
+            const restored = await window.studyNotes.restoreFromTrash(id);
+            const lib2 = await window.studyNotes.listNotes();
+            const back = Boolean(lib2.notes[id]);
+            await window.studyNotes.removeNote(id);
+            const trash2 = await window.studyNotes.listTrash();
+            const purged = await window.studyNotes.purgeTrash(id);
+            const trash3 = await window.studyNotes.listTrash();
+            return {
+              entryInTrash: Boolean(entry && entry.title === "QA回收站笔记" && entry.type === "note"),
+              restoredBack: back && Boolean(restored),
+              reTrashed: trash2.some((item) => item.id === id),
+              purged: !purged.some((item) => item.id === id) && !trash3.some((item) => item.id === id),
+            };
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: wordTrashTest");
+          const wordTrashTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            const added = await window.studyNotes.addWord({ word: "QAtrash", phonetic: "", meaning: "回收站测试", sentence: "", sentenceMeaning: "" });
+            const wid = added[added.length - 1].id;
+            await window.studyNotes.removeWord(wid);
+            const trash = await window.studyNotes.listTrash();
+            const entry = trash.find((item) => item.id === wid);
+            await window.studyNotes.restoreFromTrash(wid);
+            const words = await window.studyNotes.listWords();
+            const restoredBack = words.some((w) => w.id === wid && w.word === "QAtrash");
+            await window.studyNotes.removeWord(wid);
+            await window.studyNotes.purgeTrash(wid);
+            const words2 = await window.studyNotes.listWords();
+            return {
+              entryType: entry?.type,
+              entryKeepsData: Boolean(entry?.data?.meaning),
+              restoredBack,
+              purged: !words2.some((w) => w.id === wid),
+            };
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: sentenceTrashTest");
+          const sentenceTrashTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            const added = await window.studyNotes.addSentence({ english: "QA trash sentence.", chinese: "回收站测试句。" });
+            const sid = added[added.length - 1].id;
+            await window.studyNotes.removeSentence(sid);
+            const trash = await window.studyNotes.listTrash();
+            const entry = trash.find((item) => item.id === sid);
+            await window.studyNotes.restoreFromTrash(sid);
+            const list = await window.studyNotes.listSentences();
+            const restoredBack = list.some((s) => s.id === sid);
+            await window.studyNotes.removeSentence(sid);
+            await window.studyNotes.purgeTrash(sid);
+            const list2 = await window.studyNotes.listSentences();
+            return {
+              entryType: entry?.type,
+              restoredBack,
+              purged: !list2.some((s) => s.id === sid),
+            };
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: historyTest");
+          const historyTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            const note = await window.studyNotes.createNote({ title: "QA历史笔记" });
+            const id = note.meta.id;
+            const docA = { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: "版本一" }] }] };
+            const docB = { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: "版本二" }] }] };
+            await window.studyNotes.saveNote({ id, content: docA });
+            await window.studyNotes.saveNote({ id, content: docB });
+            const times = await window.studyNotes.listNoteHistory(id);
+            const r1 = await window.studyNotes.restoreNoteHistory(id, 1);
+            const read1 = await window.studyNotes.readNote(id);
+            const restoredA = JSON.stringify(read1?.content || "").includes("版本一");
+            const times2 = await window.studyNotes.listNoteHistory(id);
+            const r2 = await window.studyNotes.restoreNoteHistory(id, 1);
+            const read2 = await window.studyNotes.readNote(id);
+            const restoredB = JSON.stringify(read2?.content || "").includes("版本二");
+            return {
+              versionCount: times.length,
+              firstRestoreOk: Boolean(r1 && restoredA),
+              historyGrewAfterRestore: times2.length > times.length,
+              secondRestoreOk: Boolean(r2 && restoredB),
+              remainingAfterSecond: r2?.remaining,
+            };
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: videoBindTest");
+          const videoBindTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            const note = await window.studyNotes.createNote({ title: "QA视频绑定" });
+            const id = note.meta.id;
+            await window.studyNotes.setNoteVideo(id, { kind: "url", url: "https://example.com/video" });
+            const read = await window.studyNotes.readNote(id);
+            await window.studyNotes.setNoteVideo(id, { kind: "none" });
+            const read2 = await window.studyNotes.readNote(id);
+            return {
+              bound: read?.meta?.video?.kind === "url" && read?.meta?.video?.url === "https://example.com/video",
+              unbound: !read2?.meta?.video,
+            };
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: floatingCssTest");
+          const floatingCssTest = await mainWindow.webContents.executeJavaScript(`(() => {
+            const el = document.createElement("div");
+            el.className = "floating-image-layer";
+            document.body.appendChild(el);
+            const style = getComputedStyle(el);
+            const ok = style.position === "absolute" && Number(style.zIndex) >= 10;
+            el.remove();
+            const del = document.createElement("button");
+            del.className = "floating-image-delete";
+            document.body.appendChild(del);
+            const delStyle = getComputedStyle(del);
+            const delOk = delStyle.position === "absolute";
+            del.remove();
+            return { layerPositioned: ok, deletePositioned: delOk };
+          })()`).catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: dictLookupTest");
+          const dictLookupTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('button[title="打开每日英语"]')?.click();
+            await new Promise((r) => setTimeout(r, 350));
+            Array.from(document.querySelectorAll(".english-tabs button"))
+              .find((b) => b.textContent.includes("我的单词本"))?.click();
+            await new Promise((r) => setTimeout(r, 350));
+            const input = document.querySelector(".dict-lookup-row input");
+            if (!input) return { inputExists: false };
+            const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+            setter.call(input, "progress");
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            await new Promise((r) => setTimeout(r, 250));
+            Array.from(document.querySelectorAll(".dict-lookup-row button"))
+              .find((b) => b.textContent.includes("查词"))?.click();
+            await new Promise((r) => setTimeout(r, 6000));
+            const card = document.querySelector(".dict-card");
+            const actions = Array.from(document.querySelectorAll(".dict-card-actions button")).map((b) => b.textContent.trim());
+            const pronItems = Array.from(document.querySelectorAll(".dict-card .dict-pron-item")).map((el) => el.textContent.trim());
+            const speakerCount = document.querySelectorAll(".dict-card .dict-speaker").length;
+            const meaningCount = document.querySelectorAll(".dict-card .dict-meaning").length;
+            // 再测点已存单词弹出有道释义（重新开一次弹窗，让单词本重新加载列表）
+            const added = await window.studyNotes.addWord({ word: "bright", phonetic: "", meaning: "", sentence: "", sentenceMeaning: "" });
+            await new Promise((r) => setTimeout(r, 300));
+            document.querySelector('.english-header-actions button[title="关闭"]')?.click();
+            await new Promise((r) => setTimeout(r, 400));
+            document.querySelector('button[title="打开每日英语"]')?.click();
+            await new Promise((r) => setTimeout(r, 600));
+            Array.from(document.querySelectorAll(".english-tabs button"))
+              .find((b) => b.textContent.includes("我的单词本"))?.click();
+            await new Promise((r) => setTimeout(r, 400));
+            const wordBtn = Array.from(document.querySelectorAll(".wordbook-word-btn")).find((b) => b.textContent.trim() === "bright");
+            wordBtn?.click();
+            await new Promise((r) => setTimeout(r, 6000));
+            const detail = document.querySelector(".word-detail");
+            await window.studyNotes.removeWord(added[added.length - 1].id);
+            return {
+              inputExists: true,
+              cardShown: Boolean(card),
+              meaning: card?.querySelector(".dict-meaning")?.textContent || "",
+              hasAddButton: actions.some((t) => t.includes("加入单词本")),
+              hasWebButton: actions.some((t) => t.includes("有道完整词条")),
+              pronCount: pronItems.length,
+              pronTags: pronItems.map((t) => t.slice(0, 1)),
+              speakerCount,
+              meaningCount,
+              wordDetailShown: Boolean(detail),
+              wordDetailText: detail?.textContent?.slice(0, 120) || "",
+            };
+          })()`)
+            .catch((error) => ({ stepError: String(error) }));
+          console.log("qa step: youdaoVoiceTest");
+          const youdaoVoiceTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            await window.studyNotes.addSentence({ english: "I ran for Congress.", chinese: "我竞选国会议员。" });
+            await new Promise((r) => setTimeout(r, 300));
+            document.querySelector('.english-header-actions button[title="关闭"]')?.click();
+            await new Promise((r) => setTimeout(r, 400));
+            document.querySelector('button[title="打开每日英语"]')?.click();
+            await new Promise((r) => setTimeout(r, 500));
+            Array.from(document.querySelectorAll(".english-tabs button"))
+              .find((b) => b.textContent.includes("语句本"))?.click();
+            await new Promise((r) => setTimeout(r, 400));
+            const cols = document.querySelector(".sentence-cols");
+            const labels = Array.from(document.querySelectorAll(".sentence-col-label span")).map((s) => s.textContent.trim());
+            // 点英语栏喇叭 → 顶部应出现暂停按钮，再点一次应能继续
+            document.querySelector(".sentence-col-en .dict-speaker")?.click();
+            await new Promise((r) => setTimeout(r, 900));
+            const pauseBtn = document.querySelector(".tts-pause-btn");
+            pauseBtn?.click();
+            await new Promise((r) => setTimeout(r, 300));
+            const pauseBtnAfter = Boolean(document.querySelector(".tts-pause-btn"));
+            const enriched = await window.studyNotes.enrichWord("congresswoman");
+            const list = await window.studyNotes.listSentences();
+            const last = list[list.length - 1];
+            if (last) await window.studyNotes.removeSentence(last.id);
+            return {
+              colsExists: Boolean(cols),
+              enColExists: Boolean(document.querySelector(".sentence-col-en")),
+              zhColExists: Boolean(document.querySelector(".sentence-col-zh")),
+              labels,
+              pauseBtnShown: Boolean(pauseBtn),
+              pauseBtnAfterToggle: pauseBtnAfter,
+              usphone: enriched?.usphone || "",
+              ukphone: enriched?.ukphone || "",
+              meaningCount: (enriched?.meanings || []).length,
+              wfsCount: (enriched?.wfs || []).length,
+            };
+          })()`)
+            .catch((error) => ({ stepError: String(error) }));
+          // 主进程侧直接验证有道发音接口可访问（渲染进程受 CSP / CORS 影响，单独查）
+          let youdaoAudioCheck = null;
+          try {
+            const res = await fetch("https://dict.youdao.com/dictvoice?audio=congresswoman&type=1");
+            const buf = await res.arrayBuffer();
+            youdaoAudioCheck = {
+              status: res.status,
+              contentType: res.headers.get("content-type"),
+              bytes: buf.byteLength,
+            };
+          } catch (error) {
+            youdaoAudioCheck = { error: String(error) };
+          }
+          console.log("qa step: tedTest");
+          const tedTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            document.querySelector('.english-header-actions button[title="关闭"]')?.click();
+            await new Promise((r) => setTimeout(r, 400));
+            document.querySelector('button[title="打开每日英语"]')?.click();
+            await new Promise((r) => setTimeout(r, 500));
+            Array.from(document.querySelectorAll(".english-tabs button"))
+              .find((b) => b.textContent.includes("TED"))?.click();
+            await new Promise((r) => setTimeout(r, 1200));
+            const cards = document.querySelectorAll(".ted-talk-card");
+            const cardCount = cards.length;
+            const levelText = document.querySelector(".ted-level-row")?.textContent || "";
+            cards[0]?.click();
+            await new Promise((r) => setTimeout(r, 1500));
+            const video = document.querySelector(".ted-video-box video");
+            const videoSrc = video?.getAttribute("src") || "";
+            const sentCount = document.querySelectorAll(".ted-sent").length;
+            const sentText = document.querySelector(".ted-sent.current .ted-sent-en")?.textContent || "";
+            const speedButtons = document.querySelectorAll(".ted-speed-row button").length;
+            const modeButtons = Array.from(document.querySelectorAll(".ted-mode-row button")).map((b) => b.textContent);
+            // 点第二句，检查当前句切换
+            document.querySelectorAll(".ted-sent")[1]?.click();
+            await new Promise((r) => setTimeout(r, 500));
+            const nowEn = document.querySelector(".ted-now-en")?.textContent || "";
+            // 点字幕里的单词 → 弹有道释义 + 加入单词本
+            const firstWord = document.querySelector(".ted-sent-en .ted-word");
+            const wordCount = document.querySelectorAll(".ted-sent-en .ted-word").length;
+            let wordPopWorks = false;
+            let aiPopBtnWorks = false;
+            if (firstWord) {
+              try {
+                firstWord.click();
+                await new Promise((r) => setTimeout(r, 800));
+                const pop = document.querySelector(".ted-word-pop");
+                const addBtn = Array.from(document.querySelectorAll(".ted-word-pop-actions button")).find((b) => b.textContent.includes("加入单词本"));
+                wordPopWorks = Boolean(pop && addBtn);
+                // 弹层里应有「AI 精讲」按钮（调大模型讲解，不依赖 key）
+                const aiBtn = Array.from(document.querySelectorAll(".ted-word-pop-actions button")).find((b) => b.textContent.includes("AI 精讲"));
+                aiPopBtnWorks = Boolean(aiBtn);
+                document.querySelector(".ted-word-pop-close")?.click();
+                await new Promise((r) => setTimeout(r, 200));
+              } catch (e) {
+                wordPopWorks = false;
+              }
+            }
+            // AI 精讲设置入口（齿轮按钮）已渲染
+            const aiGear = Array.from(document.querySelectorAll(".english-header-actions button"))
+              .find((b) => (b.getAttribute("title") || "").includes("AI 精讲设置"));
+            const aiGearExists = Boolean(aiGear);
+            // 主进程 ai:tutor 通道已暴露给渲染进程（无 key 时面板会提示去设置，不报错）
+            const aiTutorApi = typeof (window.studyNotes && window.studyNotes.aiTutor) === "function";
+            // 进度条：渲染出来且 max>0（说明视频时长已加载，可自由拖动定位）
+            const seekEl = document.querySelector(".ted-seek");
+            const seekExists = Boolean(seekEl);
+            const seekMax = seekEl ? Number(seekEl.getAttribute("max")) : 0;
+            const seekMin = seekEl ? Number(seekEl.getAttribute("min")) : 0;
+            // 模拟把进度条拖到一半，验证视频真正跳到对应时间
+            let seekWorks = false;
+            if (seekEl && seekMax > 0) {
+              try {
+                const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+                setter.call(seekEl, String(seekMax * 0.5));
+                seekEl.dispatchEvent(new Event("input", { bubbles: true }));
+                await new Promise((r) => setTimeout(r, 500));
+                const v = document.querySelector(".ted-video-box video");
+                seekWorks = v ? Math.abs(v.currentTime - seekMax * 0.5) < seekMax * 0.25 : false;
+              } catch (e) {
+                seekWorks = false;
+              }
+            }
+            // 返回清单应该能回到列表页
+            Array.from(document.querySelectorAll(".ted-player-head button"))
+              .find((b) => b.textContent.includes("返回清单"))?.click();
+            await new Promise((r) => setTimeout(r, 600));
+            const backToList = document.querySelectorAll(".ted-talk-card").length > 0;
+            // 再打开一篇长清单（高阶），量一下列表几何信息，留截图给人工看
+            const cards2 = Array.from(document.querySelectorAll(".ted-talk-card"));
+            const adichie = cards2.find((c) => c.textContent.includes("单一故事")) || cards2[cards2.length - 1];
+            adichie?.click();
+            await new Promise((r) => setTimeout(r, 1500));
+            const list = document.querySelector(".ted-sent-list");
+            const listRect = list?.getBoundingClientRect();
+            const listStyle = list ? getComputedStyle(list) : null;
+            const content = document.querySelector(".english-content");
+            const contentRect = content?.getBoundingClientRect();
+            window.__tedProbe = {
+              listRows: list ? list.children.length : 0,
+              listScrollHeight: list?.scrollHeight || 0,
+              listClientHeight: list?.clientHeight || 0,
+              listOverflowY: listStyle?.overflowY || "",
+              listMaxHeight: listStyle?.maxHeight || "",
+              listTop: listRect?.top || 0,
+              listBottom: listRect?.bottom || 0,
+              contentBottom: contentRect?.bottom || 0,
+              contentScrollTop: content?.scrollTop || 0,
+              contentScrollHeight: content?.scrollHeight || 0,
+              contentClientHeight: content?.clientHeight || 0,
+              rowsInFirst100: Array.from(list?.children || []).slice(0, 3).map((r) => (r.textContent || "").slice(0, 30)),
+            };
+            return {
+              cardCount,
+              levelText: levelText.slice(0, 40),
+              hasVideo: Boolean(video),
+              videoSrcOk: videoSrc.includes("py.tedcdn.com") || videoSrc.includes("hls.ted.com"),
+              sentCount,
+              sentText: sentText.slice(0, 60),
+              speedButtons,
+              modeButtons,
+              secondSentenceNow: nowEn.slice(0, 60),
+              wordCount,
+              wordPopWorks,
+              aiPopBtnWorks,
+              aiGearExists,
+              aiTutorApi,
+              seekExists,
+              seekMin,
+              seekMax,
+              seekWorks,
+              backToList,
+            };
+          })()`)
+            .catch((error) => ({ stepError: String(error) }));
           await new Promise((resolve) => mockServer.close(resolve));
+          console.log("qa step: juyouciTest");
+          const juyouciTest = await mainWindow.webContents.executeJavaScript(`(async () => {
+            // 剧有词（AI 背单词）：tab 存在、生成入口齐全；默认免费通道（无需 Key）做真实端到端生成
+            Array.from(document.querySelectorAll(".english-tabs button"))
+              .find((b) => b.textContent.includes("剧有词"))?.click();
+            await new Promise((r) => setTimeout(r, 500));
+            const panel = document.querySelector(".jy-panel");
+            const textarea = document.querySelector(".jy-input");
+            const levelSelect = document.querySelector(".jy-setup-row select");
+            const genBtn = Array.from(document.querySelectorAll(".jy-setup-row button")).find((b) => b.textContent.includes("生成词库"));
+            let e2eGenerated = false;
+            let e2eWordCount = 0;
+            let e2eHint = "";
+            if (textarea && genBtn) {
+              const setter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value").set;
+              setter.call(textarea, "Well, that's reassuring. You'd tell 'em. They'd say something judgmental. Come on, put yourself first for once.");
+              textarea.dispatchEvent(new Event("input", { bubbles: true }));
+              await new Promise((r) => setTimeout(r, 200));
+              genBtn.click();
+              // 免费通道一般 10~40 秒出结果；轮询等词库出现或报错
+              for (let i = 0; i < 45; i++) {
+                await new Promise((r) => setTimeout(r, 2000));
+                if (document.querySelector(".jy-lib-row") || document.querySelector(".jy-study-head")) {
+                  e2eGenerated = true;
+                  break;
+                }
+                const err = document.querySelector(".jy-error")?.textContent || "";
+                if (err) {
+                  e2eHint = err.slice(0, 60);
+                  break;
+                }
+              }
+              try {
+                e2eWordCount = (JSON.parse(localStorage.getItem("juyouci-libs") || "[]")[0]?.words || []).length;
+              } catch (e) { e2eWordCount = 0; }
+            }
+            // 推荐剧集端到端：回到 setup，点「让 AI 推荐」，等剧集条目出现（真实免费通道，best-effort）
+            // 匿名通道限流窗口约 20~30 秒，先歇一会再点，避免上一个请求刚烧完配额就 402
+            let showsE2E = false;
+            let showsCount = 0;
+            if (textarea) {
+              await new Promise((r) => setTimeout(r, 15000));
+              document.querySelector('button[title="返回词库列表"]')?.click();
+              await new Promise((r) => setTimeout(r, 400));
+              const showsBtn = Array.from(document.querySelectorAll(".jy-shows button")).find((b) => b.textContent.includes("让 AI 推荐") || b.textContent.includes("换一批"));
+              if (showsBtn) {
+                showsBtn.click();
+                for (let i = 0; i < 45; i++) {
+                  await new Promise((r) => setTimeout(r, 2000));
+                  if (document.querySelectorAll(".jy-show-item").length > 0) {
+                    showsE2E = true;
+                    showsCount = document.querySelectorAll(".jy-show-item").length;
+                    break;
+                  }
+                  if (document.querySelector(".jy-shows .jy-error")) break;
+                }
+              }
+            }
+            // 在哪能找到：验证每部剧的「找资源」按钮已渲染（不触发真实 AI，避免限流）
+            const findResourceBtnCount = document.querySelectorAll(".jy-show-item button[data-show-name]").length;
+            const findResourceBtn = findResourceBtnCount > 0;
+            // 追剧精听：点「就用这部」→ 精听区展开；注入台词文本 → 字幕解析出句子、可点读
+            let bingeOpens = false;
+            let bingeCueCount = 0;
+            let bingeClickOk = false;
+            try {
+              const pickBtns = Array.from(document.querySelectorAll(".jy-show-item button"));
+              const target = pickBtns.find((b) => b.textContent.includes("就用这部"));
+              if (target) {
+                target.click();
+                await new Promise((r) => setTimeout(r, 600));
+                bingeOpens = Boolean(document.querySelector(".jy-binge"));
+                // 注入无时间轴的台词文本 → 切走再切回来让组件重新初始化
+                localStorage.setItem("juyouci-show-srt", "Well, that's reassuring.\\nCome on, put yourself first for once.\\nThey'd say something judgmental.");
+                Array.from(document.querySelectorAll(".english-tabs button")).find((b) => b.textContent.includes("问 AI"))?.click();
+                await new Promise((r) => setTimeout(r, 400));
+                Array.from(document.querySelectorAll(".english-tabs button")).find((b) => b.textContent.includes("剧有词"))?.click();
+                await new Promise((r) => setTimeout(r, 600));
+                const cueNodes = document.querySelectorAll(".jy-binge-cue");
+                bingeCueCount = cueNodes.length;
+                if (cueNodes.length > 1) {
+                  cueNodes[1].click();
+                  await new Promise((r) => setTimeout(r, 400));
+                  bingeClickOk = document.querySelector(".jy-binge-cue.current") === cueNodes[1];
+                }
+                localStorage.removeItem("juyouci-show-srt");
+              }
+            } catch (e) {
+              bingeOpens = false;
+            }
+            // 问 AI：真实发一条消息，等 AI 回复，验证回复渲染 + 记录写进 localStorage
+            Array.from(document.querySelectorAll(".english-tabs button"))
+              .find((b) => b.textContent.includes("问 AI"))?.click();
+            await new Promise((r) => setTimeout(r, 400));
+            const askaiPanelExists = Boolean(document.querySelector(".askai-panel"));
+            const askaiTextarea = document.querySelector(".askai-input-row textarea");
+            const askaiTextareaExists = Boolean(askaiTextarea);
+            let askaiReplyOk = false;
+            if (askaiTextarea) {
+              const taSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value").set;
+              taSetter.call(askaiTextarea, "用一句话解释 keep it up 是什么意思");
+              askaiTextarea.dispatchEvent(new Event("input", { bubbles: true }));
+              await new Promise((r) => setTimeout(r, 200));
+              const sendBtn = Array.from(document.querySelectorAll(".askai-input-row button")).find((b) => !b.disabled);
+              if (sendBtn) {
+                sendBtn.click();
+                for (let i = 0; i < 45; i++) {
+                  await new Promise((r) => setTimeout(r, 2000));
+                  if (document.querySelectorAll(".askai-msg.assistant").length > 0) {
+                    askaiReplyOk = true;
+                    break;
+                  }
+                  if (document.querySelector(".askai-panel .jy-error")) break;
+                }
+              }
+            }
+            const askaiHistoryPersisted = askaiReplyOk && Boolean(localStorage.getItem("askai-history"));
+            const tabCount = document.querySelectorAll(".english-tabs button").length;
+            return {
+              tabCount,
+              panelExists: Boolean(panel),
+              textareaExists: Boolean(textarea),
+              levelSelectExists: Boolean(levelSelect),
+              genBtnExists: Boolean(genBtn),
+              e2eGenerated,
+              e2eWordCount,
+              e2eHint,
+              showsE2E,
+              showsCount,
+              findResourceBtn,
+              findResourceBtnCount,
+              bingeOpens,
+              bingeCueCount,
+              bingeClickOk,
+              askaiPanelExists,
+              askaiTextareaExists,
+              askaiReplyOk,
+              askaiHistoryPersisted,
+            };
+          })()`)
+            .catch((error) => ({ stepError: String(error) }));
           const image = await mainWindow.capturePage();
+          fs.writeFileSync("/tmp/qa-shot.png", image.toPNG());
+          const tedProbe = await mainWindow.webContents.executeJavaScript("window.__tedProbe || null").catch(() => null);
           const bitmap = image.toBitmap();
           let min = 255;
           let max = 0;
@@ -1272,6 +1800,7 @@ function createWindow() {
             panelDom,
             urlTest,
             urlInfo,
+            videoOccludeTest,
             saveTest,
             libraryTest,
             englishTest,
@@ -1292,6 +1821,18 @@ function createWindow() {
             webBuildTest,
             noteDeleteTest,
             courseDeleteTest,
+            trashTest,
+            wordTrashTest,
+            sentenceTrashTest,
+            historyTest,
+            videoBindTest,
+            floatingCssTest,
+            dictLookupTest,
+            youdaoVoiceTest,
+            youdaoAudioCheck,
+            tedTest,
+            tedProbe,
+            juyouciTest,
             errors,
             pixels: {
               width: image.getSize().width,
@@ -1397,6 +1938,7 @@ ipcMain.handle("video:open-url", (_event, url) => {
       webPreferences: {
         contextIsolation: true,
         nodeIntegration: false,
+        autoplayPolicy: "no-user-gesture-required",
       },
     });
     videoView.setBackgroundColor("#0d0f14");
@@ -1408,6 +1950,9 @@ ipcMain.handle("video:open-url", (_event, url) => {
   return true;
 });
 
+// 记住视频区域最后一次的位置，重新挂载视图时立刻套用，避免时序空窗导致视频变小/错位
+let lastVideoBounds = null;
+
 ipcMain.handle("video:set-visible", (_event, visible, url) => {
   if (!mainWindow) return false;
   if (visible) {
@@ -1416,6 +1961,7 @@ ipcMain.handle("video:set-visible", (_event, visible, url) => {
         webPreferences: {
           contextIsolation: true,
           nodeIntegration: false,
+          autoplayPolicy: "no-user-gesture-required",
         },
       });
       videoView.setBackgroundColor("#0d0f14");
@@ -1426,13 +1972,26 @@ ipcMain.handle("video:set-visible", (_event, visible, url) => {
       attachVideoViewStatus(videoView);
     }
     mainWindow.addBrowserView(videoView);
+    if (lastVideoBounds) {
+      videoView.setBounds({
+        x: Math.max(0, Math.round(lastVideoBounds.x || 0)),
+        y: Math.max(0, Math.round(lastVideoBounds.y || 0)),
+        width: Math.max(120, Math.round(lastVideoBounds.width || 0)),
+        height: Math.max(120, Math.round(lastVideoBounds.height || 0)),
+      });
+    }
   } else if (videoView) {
     mainWindow.removeBrowserView(videoView);
+    // 隐藏（被弹窗遮盖/窄屏/关闭）时顺手暂停里面的视频，避免人看不到、声音还在放
+    videoView.webContents
+      .executeJavaScript("document.querySelectorAll('video').forEach((v) => v.pause()); true")
+      .catch(() => {});
   }
   return true;
 });
 
 ipcMain.on("video:bounds", (_event, bounds) => {
+  lastVideoBounds = bounds;
   if (!videoView || !mainWindow) return;
   videoView.setBounds({
     x: Math.max(0, Math.round(bounds.x || 0)),
@@ -1543,8 +2102,80 @@ ipcMain.handle("notes:save", async (_event, payload) => {
   };
   await writeAtomic(path.join(dir, "library.json"), JSON.stringify(library, null, 2));
   await writeAtomic(path.join(dir, "notes", `${payload.id}.json`), JSON.stringify(note, null, 2));
+  // 记录历史版本：距上一条记录超过 60 秒才存一条，避免打字时存出一堆碎版本（最多保留 20 条）
+  try {
+    const histPath = path.join(dir, "notes", `${payload.id}.history.json`);
+    let hist = { versions: [] };
+    try {
+      hist = JSON.parse(await fsp.readFile(histPath, "utf8"));
+    } catch {
+      // 还没有历史文件
+    }
+    const versions = Array.isArray(hist.versions) ? hist.versions : [];
+    const last = versions[versions.length - 1];
+    if (!last || Date.now() - new Date(last.t).getTime() >= 60_000) {
+      versions.push({ t: now, content: payload.content });
+      await writeAtomic(histPath, JSON.stringify({ versions: versions.slice(-20) }, null, 2));
+    }
+  } catch (error) {
+    console.error("记录历史版本失败", error);
+  }
   void pushFullSync();
   return { ok: true, updatedAt: now };
+});
+
+ipcMain.handle("notes:history-list", async (_event, id) => {
+  const dir = getDataDir();
+  try {
+    const hist = JSON.parse(await fsp.readFile(path.join(dir, "notes", `${id}.history.json`), "utf8"));
+    const versions = Array.isArray(hist.versions) ? hist.versions : [];
+    return versions.map((item) => item.t);
+  } catch {
+    return [];
+  }
+});
+
+// 一步步回退：steps=1 回到上一条记录；回退前会把当前内容也存成一条记录，方便退过头了再退回来
+ipcMain.handle("notes:history-restore", async (_event, id, steps) => {
+  const dir = getDataDir();
+  const library = await ensureLibrary();
+  if (!library.notes[id]) return null;
+  const notePath = path.join(dir, "notes", `${id}.json`);
+  const histPath = path.join(dir, "notes", `${id}.history.json`);
+  let versions = [];
+  try {
+    const hist = JSON.parse(await fsp.readFile(histPath, "utf8"));
+    versions = Array.isArray(hist.versions) ? hist.versions : [];
+  } catch {
+    return null;
+  }
+  if (versions.length === 0) return null;
+  const stepsBack = Math.max(1, Math.min(Number(steps) || 1, versions.length));
+  const targetIndex = versions.length - stepsBack;
+  const target = versions[targetIndex];
+  if (!target) return null;
+  let note;
+  try {
+    note = JSON.parse(await fsp.readFile(notePath, "utf8"));
+  } catch {
+    return null;
+  }
+  // 当前内容存为一条记录（退过头可以再退回来）
+  versions.push({ t: new Date().toISOString(), content: note.content });
+  note.content = target.content;
+  const meta = library.notes[id];
+  meta.updatedAt = new Date().toISOString();
+  await writeAtomic(notePath, JSON.stringify(note, null, 2));
+  await writeAtomic(path.join(dir, "library.json"), JSON.stringify(library, null, 2));
+  const kept = versions.slice(-20);
+  await writeAtomic(histPath, JSON.stringify({ versions: kept }, null, 2));
+  void pushFullSync();
+  const targetKeptIndex = kept.indexOf(target);
+  return {
+    content: note.content,
+    restoredAt: target.t,
+    remaining: Math.max(0, targetKeptIndex),
+  };
 });
 
 ipcMain.handle("notes:move", async (_event, noteId, courseId) => {
@@ -1581,8 +2212,7 @@ ipcMain.handle("courses:remove", async (_event, courseId) => {
   syncCore.markDeleted(library, syncCore.TYPES.course, courseId, now);
   for (const noteId of course.noteIds || []) {
     syncCore.markDeleted(library, syncCore.TYPES.note, noteId, now);
-    delete library.notes[noteId];
-    await fsp.unlink(path.join(dataDir, "notes", `${noteId}.json`)).catch(() => {});
+    await moveNoteToTrash(library, dataDir, noteId);
   }
   library.courses = library.courses.filter((item) => item.id !== courseId);
   if (library.courses.length === 0) {
@@ -1621,16 +2251,47 @@ ipcMain.handle("courses:remove", async (_event, courseId) => {
   return library;
 });
 
+// 把笔记挪进回收站（trash/<id>.json + library.trash 条目），而不是直接删文件
+async function moveNoteToTrash(library, dataDir, noteId) {
+  const meta = library.notes[noteId];
+  if (!meta) return;
+  const notePath = path.join(dataDir, "notes", `${noteId}.json`);
+  let note = null;
+  try {
+    note = JSON.parse(await fsp.readFile(notePath, "utf8"));
+  } catch {
+    // 内容文件读不到也要记一条回收站条目，元数据至少还在
+  }
+  const trashDir = path.join(dataDir, "trash");
+  await fsp.mkdir(trashDir, { recursive: true });
+  const course = library.courses.find((item) => item.id === meta.courseId);
+  const entry = {
+    id: noteId,
+    type: "note",
+    title: meta.title || "未命名笔记",
+    deletedAt: new Date().toISOString(),
+    courseId: meta.courseId,
+    courseName: course?.name || "未分类",
+  };
+  library.trash = Array.isArray(library.trash) ? library.trash : [];
+  library.trash = library.trash.filter((item) => item.id !== noteId);
+  library.trash.unshift(entry);
+  if (note) {
+    await writeAtomic(path.join(trashDir, `${noteId}.json`), JSON.stringify(note, null, 2));
+  }
+  delete library.notes[noteId];
+  library.courses.forEach((item) => {
+    item.noteIds = item.noteIds.filter((x) => x !== noteId);
+  });
+  await fsp.unlink(notePath).catch(() => {});
+}
+
 ipcMain.handle("notes:remove", async (_event, id) => {
   const dataDir = getDataDir();
   const library = await ensureLibrary();
   if (!library.notes[id]) return library;
   syncCore.markDeleted(library, syncCore.TYPES.note, id);
-  delete library.notes[id];
-  for (const course of library.courses) {
-    course.noteIds = course.noteIds.filter((noteId) => noteId !== id);
-  }
-  await fsp.unlink(path.join(dataDir, "notes", `${id}.json`)).catch(() => {});
+  await moveNoteToTrash(library, dataDir, id);
   if (library.courses.length === 0) {
     const now = new Date().toISOString();
     library.courses.push({ id: `course-${Date.now()}`, name: "未分类", createdAt: now, noteIds: [] });
@@ -1666,6 +2327,116 @@ ipcMain.handle("notes:remove", async (_event, id) => {
   await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
   void pushFullSync();
   return library;
+});
+
+// 绑定/解绑笔记的视频（打开笔记时自动恢复左侧视频面板）
+ipcMain.handle("notes:set-video", async (_event, id, video) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const meta = library.notes[id];
+  if (!meta) return false;
+  const cleanVideo = video && video.kind !== "none" ? video : undefined;
+  if (cleanVideo) meta.video = cleanVideo;
+  else delete meta.video;
+  meta.updatedAt = new Date().toISOString();
+  const notePath = path.join(dataDir, "notes", `${id}.json`);
+  try {
+    const note = JSON.parse(await fsp.readFile(notePath, "utf8"));
+    if (cleanVideo) note.meta.video = cleanVideo;
+    else delete note.meta.video;
+    await writeAtomic(notePath, JSON.stringify(note, null, 2));
+  } catch {
+    // 内容文件还没写出来时，先记在 library 元数据里，下次保存会带上
+  }
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  void pushFullSync();
+  return true;
+});
+
+ipcMain.handle("trash:list", async () => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const cutoff = Date.now() - 30 * 24 * 3600 * 1000;
+  const kept = [];
+  let changed = false;
+  for (const item of library.trash || []) {
+    if (new Date(item.deletedAt).getTime() < cutoff) {
+      await fsp.unlink(path.join(dataDir, "trash", `${item.id}.json`)).catch(() => {});
+      changed = true;
+    } else {
+      kept.push(item);
+    }
+  }
+  if (changed || (library.trash || []).length !== kept.length) {
+    library.trash = kept;
+    await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  }
+  return kept;
+});
+
+ipcMain.handle("trash:restore", async (_event, id) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  const entry = (library.trash || []).find((item) => item.id === id);
+  if (!entry) return null;
+
+  // 单词 / 语句：数据就存在条目里，直接放回原列表
+  if (entry.type === "word" || entry.type === "sentence") {
+    const listKey = entry.type === "word" ? "customWords" : "customSentences";
+    const list = (library[listKey] = Array.isArray(library[listKey]) ? library[listKey] : []);
+    if (entry.data && !list.some((item) => item.id === id)) list.push(entry.data);
+    if (library.sync?.tombstones) delete library.sync.tombstones[`${entry.type}:${id}`];
+    library.trash = (library.trash || []).filter((item) => item.id !== id);
+    await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+    void pushFullSync();
+    return library;
+  }
+
+  const trashPath = path.join(dataDir, "trash", `${id}.json`);
+  let note = null;
+  try {
+    note = JSON.parse(await fsp.readFile(trashPath, "utf8"));
+  } catch {
+    // 读不到内容文件就只清条目
+  }
+  if (note) {
+    // 找回原分类；分类没了就按名字重建，再不行归入"未分类"
+    let course = library.courses.find((item) => item.id === entry.courseId);
+    if (!course && entry.courseName) {
+      course = library.courses.find((item) => item.name === entry.courseName);
+    }
+    if (!course) {
+      const now = new Date().toISOString();
+      course = {
+        id: `course-${Date.now()}`,
+        name: entry.courseName || "未分类",
+        createdAt: now,
+        updatedAt: now,
+        noteIds: [],
+      };
+      library.courses.push(course);
+    }
+    const meta = { ...note.meta, courseId: course.id, updatedAt: new Date().toISOString() };
+    library.notes[id] = meta;
+    note.meta = meta;
+    if (!course.noteIds.includes(id)) course.noteIds.push(id);
+    await writeAtomic(path.join(dataDir, "notes", `${id}.json`), JSON.stringify(note, null, 2));
+    if (library.sync?.tombstones) delete library.sync.tombstones[`note:${id}`];
+  }
+  library.trash = (library.trash || []).filter((item) => item.id !== id);
+  await fsp.unlink(trashPath).catch(() => {});
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  void pushFullSync();
+  return library;
+});
+
+ipcMain.handle("trash:purge", async (_event, id) => {
+  const dataDir = getDataDir();
+  const library = await ensureLibrary();
+  library.trash = (library.trash || []).filter((item) => item.id !== id);
+  await fsp.unlink(path.join(dataDir, "trash", `${id}.json`)).catch(() => {});
+  await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
+  return library.trash || [];
 });
 
 ipcMain.handle("courses:rename", async (_event, courseId, name) => {
@@ -1925,6 +2696,31 @@ ipcMain.handle("plans:remove", async (_event, id) => {
 
 ipcMain.handle("words:list", async () => (await ensureLibrary()).customWords || []);
 
+// —— TED 精听：读取随构建打包的字幕数据（dist/ted/*.json，由 scripts/fetch-ted.mjs 生成）——
+function tedDataDir() {
+  return path.join(__dirname, "..", "dist", "ted");
+}
+ipcMain.handle("ted:list", async () => {
+  try {
+    const raw = await fs.promises.readFile(path.join(tedDataDir(), "index.json"), "utf8");
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error("读取 TED 清单失败", error);
+    return [];
+  }
+});
+ipcMain.handle("ted:get", async (_event, slug) => {
+  const clean = String(slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!clean) return null;
+  try {
+    const raw = await fs.promises.readFile(path.join(tedDataDir(), `${clean}.json`), "utf8");
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error("读取 TED 演讲失败", error);
+    return null;
+  }
+});
+
 ipcMain.handle("words:add", async (_event, input) => {
   const dataDir = getDataDir();
   const library = await ensureLibrary();
@@ -1948,15 +2744,28 @@ ipcMain.handle("words:add", async (_event, input) => {
 
 ipcMain.handle("words:enrich", async (_event, word) => {
   const text = String(word || "").trim();
-  const empty = { word: text, phonetic: "", meaning: "", sentence: "", sentenceMeaning: "" };
+  const empty = {
+    word: text, phonetic: "", meaning: "", sentence: "", sentenceMeaning: "",
+    usphone: "", ukphone: "", meanings: [], wfs: [],
+  };
   if (!text) return empty;
   try {
     const response = await fetch(`https://dict.youdao.com/jsonapi?q=${encodeURIComponent(text)}`);
     if (!response.ok) return empty;
     const data = await response.json();
     const entry = data?.ec?.word?.[0];
-    const phonetic = entry?.usphone || entry?.ukphone || "";
+    const usphone = String(entry?.usphone || "").trim();
+    const ukphone = String(entry?.ukphone || "").trim();
+    const phonetic = usphone || ukphone;
     const meaning = entry?.trs?.[0]?.tr?.[0]?.l?.i?.[0] || "";
+    // 全部词性释义（有道会按 n./v./adj. 分条）
+    const meanings = (entry?.trs || [])
+      .map((t) => String(t?.tr?.[0]?.l?.i?.[0] || "").trim())
+      .filter(Boolean);
+    // 词形变化（复数 / 过去式之类）
+    const wfs = (entry?.wfs || [])
+      .map((x) => ({ name: String(x?.wf?.name || "").trim(), value: String(x?.wf?.value || "").trim() }))
+      .filter((x) => x.value);
     const pair = data?.blng_sents_part?.["sentence-pair"]?.[0];
     return {
       word: text,
@@ -1964,6 +2773,10 @@ ipcMain.handle("words:enrich", async (_event, word) => {
       meaning,
       sentence: String(pair?.sentence || pair?.["sentence-eng"] || "").replace(/<[^>]+>/g, ""),
       sentenceMeaning: pair?.["sentence-translation"] || "",
+      usphone: usphone ? `/${usphone}/` : "",
+      ukphone: ukphone ? `/${ukphone}/` : "",
+      meanings,
+      wfs,
     };
   } catch (error) {
     console.error("单词自动补全失败", error);
@@ -1971,10 +2784,103 @@ ipcMain.handle("words:enrich", async (_event, word) => {
   }
 });
 
+// AI 精讲 + 自测：主进程转发到各家 OpenAI 兼容 chat/completions 接口（渲染进程直连会被 CORS 拦截）
+const AI_ENDPOINTS = {
+  free: "https://text.pollinations.ai/openai",
+  deepseek: "https://api.deepseek.com/chat/completions",
+  qwen: "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+  zhipu: "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+  doubao: "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
+};
+const AI_DEFAULT_MODELS = {
+  free: "openai",
+  deepseek: "deepseek-chat",
+  qwen: "qwen-plus",
+  zhipu: "glm-4-flash",
+  doubao: "doubao-seed-1-6-flash-250615",
+};
+ipcMain.handle("ai:tutor", async (_event, input) => {
+  const provider = String(input?.provider || "");
+  const apiKey = String(input?.apiKey || "");
+  const url = AI_ENDPOINTS[provider];
+  // 免费通道（free）不需要 key；其它厂商必须带 key
+  if (!url || (provider !== "free" && !apiKey)) throw new Error("AI 未配置：缺少 provider 或 apiKey");
+  const model = String(input?.model || AI_DEFAULT_MODELS[provider] || "");
+  try {
+    const headers = { "Content-Type": "application/json" };
+    if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+    const body = JSON.stringify({
+      model,
+      messages: input?.messages || [],
+      temperature: typeof input?.temperature === "number" ? input.temperature : 0.7,
+      // response_format / private 等可选参数：有才带，别给免费通道强塞默认值
+      ...(input?.response_format ? { response_format: input.response_format } : {}),
+      ...(input?.private ? { private: true } : {}),
+      // 免费通道只有一个推理模型（gpt-oss-20b），默认思考量会把 1500 token 额度烧光导致返回空串，
+      // 必须压到 low 才能真正吐出内容
+      ...(input?.reasoning_effort ? { reasoning_effort: input.reasoning_effort } : {}),
+    });
+    // 免费通道偶尔返回空内容 / 被匿名限流（HTTP 402），自动重试
+    // 限流恢复窗口比空内容更长（实测连发第二请求必 402，约 20~30 秒后恢复），退避给足时间
+    let content = "";
+    const EMPTY_DELAYS = [2000, 6000, 12000];
+    const RATE_DELAYS = [3000, 10000, 20000, 30000];
+    let emptyTries = 0;
+    let rateTries = 0;
+    for (;;) {
+      const res = await fetch(url, { method: "POST", headers, body });
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        const rateLimited = res.status === 402 || res.status === 429 || res.status >= 500;
+        if (rateLimited && rateTries < RATE_DELAYS.length) {
+          console.warn(`ai:tutor 返回 ${res.status}（限流/服务端抖动），第 ${rateTries + 1} 次退避重试`);
+          await new Promise((resolve) => setTimeout(resolve, RATE_DELAYS[rateTries]));
+          rateTries++;
+          continue;
+        }
+        throw new Error(`AI 接口返回 ${res.status}：${txt.slice(0, 240)}`);
+      }
+      const data = await res.json();
+      content = data?.choices?.[0]?.message?.content || "";
+      if (content) break;
+      if (emptyTries < EMPTY_DELAYS.length) {
+        console.warn(`ai:tutor 返回空内容，第 ${emptyTries + 1} 次退避重试`);
+        await new Promise((resolve) => setTimeout(resolve, EMPTY_DELAYS[emptyTries]));
+        emptyTries++;
+        continue;
+      }
+      break;
+    }
+    if (!content) {
+      throw new Error(provider === "free" ? "免费通道连续几次返回空内容，稍等几秒再点一次试试；总不稳定就在设置里换个厂商（智谱 GLM-4-Flash 免费只要个 Key）" : "AI 返回内容为空");
+    }
+    return content;
+  } catch (error) {
+    console.error("ai:tutor 失败", error);
+    throw error;
+  }
+});
+
+function pushTrashEntry(library, entry) {
+  library.trash = Array.isArray(library.trash) ? library.trash : [];
+  library.trash = library.trash.filter((item) => item.id !== entry.id);
+  library.trash.unshift(entry);
+}
+
 ipcMain.handle("words:remove", async (_event, id) => {
   const dataDir = getDataDir();
   const library = await ensureLibrary();
   syncCore.markDeleted(library, syncCore.TYPES.word, id);
+  const removed = (library.customWords || []).find((word) => word.id === id);
+  if (removed) {
+    pushTrashEntry(library, {
+      id,
+      type: "word",
+      title: removed.word || "生词",
+      deletedAt: new Date().toISOString(),
+      data: removed,
+    });
+  }
   library.customWords = (library.customWords || []).filter((word) => word.id !== id);
   await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
   void pushFullSync();
@@ -2006,6 +2912,16 @@ ipcMain.handle("sentences:remove", async (_event, id) => {
   const dataDir = getDataDir();
   const library = await ensureLibrary();
   syncCore.markDeleted(library, syncCore.TYPES.sentence, id);
+  const removed = (library.customSentences || []).find((sentence) => sentence.id === id);
+  if (removed) {
+    pushTrashEntry(library, {
+      id,
+      type: "sentence",
+      title: (removed.english || "语句").slice(0, 60),
+      deletedAt: new Date().toISOString(),
+      data: removed,
+    });
+  }
   library.customSentences = (library.customSentences || []).filter((sentence) => sentence.id !== id);
   await writeAtomic(path.join(dataDir, "library.json"), JSON.stringify(library, null, 2));
   void pushFullSync();

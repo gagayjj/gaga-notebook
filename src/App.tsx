@@ -13,7 +13,7 @@ import { themeImages } from "./themeImages";
 import { StatusBar, type SaveState } from "./components/StatusBar";
 import { MobileNav, MobileTopBar, type MobileTab } from "./components/MobileShell";
 import { MobileSettings } from "./components/MobileSettings";
-import type { AnnotationImage, AnnotationInsert, FloatingImage, InsertRequest, Library, NoteDoc, NoteMarker, VideoState } from "./types";
+import type { AnnotationImage, AnnotationInsert, FloatingImage, InsertRequest, Library, NoteDoc, NoteMarker, TrashItem, VideoState } from "./types";
 
 function normalizeMarkers(note: NoteDoc | null): NoteMarker[] {
   if (!note) return [];
@@ -34,6 +34,9 @@ export default function App() {
   const [alwaysOnTop, setAlwaysOnTop] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [trashItems, setTrashItems] = useState<TrashItem[]>([]);
+  const [historyRemaining, setHistoryRemaining] = useState(0);
+  const [contentReloadToken, setContentReloadToken] = useState(0);
   const [libraryPanelOpen, setLibraryPanelOpen] = useState(false);
   const [englishOpen, setEnglishOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("app-theme") || "crayon");
@@ -116,12 +119,26 @@ export default function App() {
 
   flushSaveRef.current = flushSave;
 
+  // 打开笔记时按笔记绑定的视频恢复左侧视频面板
+  const applyNoteVideo = useCallback((note: NoteDoc | null) => {
+    const video = note?.meta.video;
+    if (video && video.kind !== "none") {
+      setVideoState(video);
+      setVideoOpen(true);
+    } else {
+      setVideoState({ kind: "none" });
+      setVideoOpen(false);
+    }
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     window.studyNotes?.listNotes().then(async (data) => {
       if (cancelled) return;
       setLibrary(data);
-      const first = data.courses[0]?.noteIds[0];
+      // 优先回到上次正在看的笔记（重启前在写哪篇、绑了视频，重开后还是哪篇）
+      const savedId = localStorage.getItem("last-active-note") || "";
+      const first = data.notes[savedId] ? savedId : data.courses[0]?.noteIds[0];
       if (first) {
         const note = await window.studyNotes?.readNote(first);
         if (!cancelled && note) {
@@ -133,6 +150,7 @@ export default function App() {
           floatingImagesRef.current = note.floatingImages || [];
           setFloatingImages(note.floatingImages || []);
           noteTitleRef.current = note.meta.title;
+          applyNoteVideo(note);
         }
       }
       if (isMobile) {
@@ -141,7 +159,10 @@ export default function App() {
           const nextData = await window.studyNotes?.listNotes();
           if (nextData) {
             setLibrary(nextData);
-            const firstId = nextData.courses.flatMap((course) => course.noteIds).find((id) => nextData.notes[id]);
+            const savedId2 = localStorage.getItem("last-active-note") || "";
+            const firstId = nextData.notes[savedId2]
+              ? savedId2
+              : nextData.courses.flatMap((course) => course.noteIds).find((id) => nextData.notes[id]);
             if (firstId) {
               const note = await window.studyNotes?.readNote(firstId);
               if (!cancelled && note) {
@@ -153,6 +174,7 @@ export default function App() {
                 floatingImagesRef.current = note.floatingImages || [];
                 setFloatingImages(note.floatingImages || []);
                 noteTitleRef.current = note.meta.title;
+                applyNoteVideo(note);
               }
             }
           }
@@ -180,10 +202,18 @@ export default function App() {
   }, [isMobile]);
 
   useEffect(() => {
-    if (videoState.kind !== "url") return;
-    const shouldShow = videoOpen && !narrow;
-    window.studyNotes?.setVideoVisible(shouldShow, videoState.url);
-  }, [narrow, videoOpen, videoState]);
+    if (activeNoteId) localStorage.setItem("last-active-note", activeNoteId);
+  }, [activeNoteId]);
+
+  useEffect(() => {
+    // 无论何时都要把视频窗口状态同步给主进程：
+    // 包括「没有视频」「视频被关闭」「刚打开页面」这几种情况，
+    // 否则主进程里残留的原生视频窗口会一直浮在笔记上面。
+    // 打开「每日英语」等全屏弹窗时也要把视频藏起来——BrowserView 是原生窗口，
+    // 永远盖在网页内容之上，不隐藏会挡住弹窗（关掉弹窗自动恢复，不用重新加载）。
+    const shouldShow = videoState.kind === "url" && videoOpen && !narrow && !englishOpen;
+    window.studyNotes?.setVideoVisible(shouldShow, videoState.kind === "url" ? videoState.url : undefined);
+  }, [narrow, videoOpen, videoState, englishOpen]);
 
   useEffect(() => {
     document.body.dataset.theme = theme;
@@ -219,6 +249,7 @@ export default function App() {
     [performSave],
   );
 
+  // 打开笔记时按笔记绑定的视频恢复左侧视频面板
   const handleSelectNote = useCallback(
     async (id: string) => {
       flushSaveRef.current();
@@ -232,15 +263,16 @@ export default function App() {
       floatingImagesRef.current = note.floatingImages || [];
       setFloatingImages(note.floatingImages || []);
       noteTitleRef.current = note.meta.title;
+      applyNoteVideo(note);
       setSaveState("idle");
     },
-    [],
+    [applyNoteVideo],
   );
 
-  const handleNewNote = useCallback(async () => {
+  const handleNewNote = useCallback(async (title?: string, courseId?: string) => {
     flushSaveRef.current();
-    const courseId = library?.courses[0]?.id;
-    const note = await window.studyNotes?.createNote({ title: "未命名笔记", courseId });
+    const targetCourseId = courseId || library?.courses[0]?.id;
+    const note = await window.studyNotes?.createNote({ title: title?.trim() || "未命名笔记", courseId: targetCourseId });
     if (!note) return;
     setLibrary((prev) => {
       if (!prev) return prev;
@@ -262,6 +294,7 @@ export default function App() {
     floatingImagesRef.current = [];
     setFloatingImages([]);
     noteTitleRef.current = note.meta.title;
+    applyNoteVideo(note);
   }, [library]);
 
   const handleRemoveCourse = useCallback(
@@ -272,6 +305,7 @@ export default function App() {
       const data = await window.studyNotes?.removeCourse(courseId);
       if (!data) return;
       setLibrary(data);
+      if (data.trash) setTrashItems(data.trash);
       if (activeNoteId && !data.notes[activeNoteId]) {
         const firstNoteId = data.courses[0]?.noteIds.find((id) => data.notes[id]);
         if (firstNoteId) {
@@ -285,6 +319,7 @@ export default function App() {
             floatingImagesRef.current = note.floatingImages || [];
             setFloatingImages(note.floatingImages || []);
             noteTitleRef.current = note.meta.title;
+            applyNoteVideo(note);
           }
         } else {
           setActiveNote(null);
@@ -376,6 +411,7 @@ export default function App() {
       const data = await window.studyNotes?.removeNote(id);
       if (!data) return;
       setLibrary(data);
+      if (data.trash) setTrashItems(data.trash);
       if (id === activeNoteId) {
         const firstNoteId = data.courses.flatMap((course) => course.noteIds).find((noteId) => data.notes[noteId]);
         if (firstNoteId) {
@@ -405,6 +441,53 @@ export default function App() {
     },
     [activeNoteId, library],
   );
+
+  // —— 回收站 ——
+  useEffect(() => {
+    window.studyNotes?.listTrash?.().then((items) => {
+      if (Array.isArray(items)) setTrashItems(items);
+    });
+  }, []);
+
+  const handleRestoreTrash = useCallback(async (id: string) => {
+    const data = await window.studyNotes?.restoreFromTrash?.(id);
+    if (!data) return;
+    setLibrary(data);
+    if (data.trash) setTrashItems(data.trash);
+  }, []);
+
+  const handlePurgeTrash = useCallback(async (id: string) => {
+    if (!window.confirm("彻底删除后无法恢复，确定吗？")) return;
+    const list = await window.studyNotes?.purgeTrash?.(id);
+    if (list) setTrashItems(list);
+  }, []);
+
+  // —— 笔记历史：一步步返回上一个保存记录 ——
+  useEffect(() => {
+    if (!activeNoteId) {
+      setHistoryRemaining(0);
+      return;
+    }
+    window.studyNotes
+      ?.listNoteHistory?.(activeNoteId)
+      .then((times) => setHistoryRemaining(Array.isArray(times) ? times.length : 0))
+      .catch(() => setHistoryRemaining(0));
+  }, [activeNoteId]);
+
+  const handleUndoHistory = useCallback(async () => {
+    const id = noteIdRef.current;
+    if (!id) return;
+    await performSave();
+    const result = await window.studyNotes?.restoreNoteHistory?.(id, 1);
+    if (!result) return;
+    const note = await window.studyNotes?.readNote(id);
+    if (note) {
+      setActiveNote(note);
+      draftRef.current = note.content;
+      setContentReloadToken((value) => value + 1);
+    }
+    setHistoryRemaining(result.remaining);
+  }, [performSave]);
 
   const handleToggleNarrow = useCallback(async () => {
     const next = !narrow;
@@ -477,21 +560,45 @@ export default function App() {
     setBgConfig((prev) => ({ ...prev, image: themeId }));
   }, []);
 
+  // 把视频绑定到当前笔记：下次打开这篇笔记，左侧自动恢复视频面板
+  const bindNoteVideo = useCallback(
+    (video: VideoState) => {
+      const id = noteIdRef.current;
+      if (!id) return;
+      void window.studyNotes?.setNoteVideo?.(id, video);
+      setLibrary((prev) => {
+        if (!prev || !prev.notes[id]) return prev;
+        const meta = { ...prev.notes[id] };
+        if (video.kind === "none") delete meta.video;
+        else meta.video = video;
+        return { ...prev, notes: { ...prev.notes, [id]: meta } };
+      });
+    },
+    [],
+  );
+
   const handleOpenVideo = useCallback((path: string) => {
     window.studyNotes?.closeUrl();
     const title = path.split(/[\\/]/).pop() || path;
-    setVideoState({ kind: "local", source: path, title });
-  }, []);
+    const next: VideoState = { kind: "local", source: path, title };
+    setVideoState(next);
+    setVideoOpen(true);
+    bindNoteVideo(next);
+  }, [bindNoteVideo]);
 
   const handleOpenUrl = useCallback((url: string) => {
     window.studyNotes?.openUrl(url);
-    setVideoState({ kind: "url", url });
-  }, []);
+    const next: VideoState = { kind: "url", url };
+    setVideoState(next);
+    setVideoOpen(true);
+    bindNoteVideo(next);
+  }, [bindNoteVideo]);
 
   const handleCloseUrl = useCallback(() => {
     window.studyNotes?.closeUrl();
     setVideoState((prev) => (prev.kind === "url" ? { kind: "none" } : prev));
-  }, []);
+    bindNoteVideo({ kind: "none" });
+  }, [bindNoteVideo]);
 
   const handleOpenExternal = useCallback((url: string) => {
     window.studyNotes?.openExternal(url);
@@ -631,6 +738,9 @@ export default function App() {
             onRenameNote={handleRenameNote}
             onMoveNote={handleMoveNote}
             onRemoveNote={handleRemoveNote}
+            trash={trashItems}
+            onRestoreTrash={handleRestoreTrash}
+            onPurgeTrash={handlePurgeTrash}
             onClose={isMobile ? () => setSidebarOpen(false) : undefined}
           />
         )}
@@ -662,6 +772,16 @@ export default function App() {
             className="notes-column"
             style={{ width: videoOpen && !narrow ? `${100 - videoWidth}%` : "100%" }}
           >
+            {!isMobile && !videoOpen && (
+              <button
+                type="button"
+                className="reopen-video-btn"
+                title="打开左侧视频栏（左边视频、右边笔记）"
+                onClick={() => setVideoOpen(true)}
+              >
+                ▶ 打开视频
+              </button>
+            )}
             <NoteEditor
               note={activeNote}
               title={activeNote?.meta.title || ""}
@@ -692,6 +812,7 @@ export default function App() {
                 setFloatingImages(images);
                 handleContentChange(draftRef.current);
               }}
+              reloadToken={contentReloadToken}
             />
           </div>
         </div>
@@ -704,6 +825,9 @@ export default function App() {
           videoLabel={videoLabel}
           noteTitle={activeNote?.meta.title || ""}
           onRetrySave={flushSave}
+          canUndoHistory={historyRemaining > 0}
+          historyLabel={historyRemaining > 0 ? `返回上一记录（还可退 ${historyRemaining} 步）` : undefined}
+          onUndoHistory={() => void handleUndoHistory()}
         />
       )}
 

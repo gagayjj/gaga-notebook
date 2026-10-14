@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { BookOpen, FileText, FolderPlus, Pencil, Plus, Search, Trash2, X } from "lucide-react";
-import type { Library, NoteMeta } from "../types";
+import { BookOpen, FileText, FolderPlus, Pencil, Plus, Search, Trash2, Undo2, X } from "lucide-react";
+import type { Library, NoteMeta, TrashItem } from "../types";
 
 export interface OutlineItem {
   text: string;
@@ -14,13 +14,16 @@ interface SidebarProps {
   query: string;
   onQueryChange: (value: string) => void;
   onSelectNote: (id: string) => void;
-  onNewNote: () => void;
+  onNewNote: (title?: string, courseId?: string) => void;
   onNewCourse: (name: string) => void;
   onRemoveCourse: (courseId: string) => void;
   onRenameCourse: (courseId: string, name: string) => void;
   onRenameNote: (id: string, title: string) => void;
   onMoveNote: (noteId: string, courseId: string) => void;
   onRemoveNote: (id: string) => void;
+  trash?: TrashItem[];
+  onRestoreTrash?: (id: string) => void;
+  onPurgeTrash?: (id: string) => void;
   onClose?: () => void;
 }
 
@@ -37,9 +40,13 @@ export function Sidebar({
   onRenameNote,
   onMoveNote,
   onRemoveNote,
+  trash,
+  onRestoreTrash,
+  onPurgeTrash,
   onClose,
 }: SidebarProps) {
   const [prompt, setPrompt] = useState<{ title: string; initial: string; value: string; onConfirm: (value: string) => void } | null>(null);
+  const [trashOpen, setTrashOpen] = useState(false);
   const visibleNotes = useMemo(() => {
     if (!library) return [];
     const q = query.trim().toLowerCase();
@@ -98,7 +105,12 @@ export function Sidebar({
             >
               <FolderPlus size={14} />
             </button>
-            <button type="button" className="mini-btn" title="新建笔记" onClick={onNewNote}>
+            <button
+              type="button"
+              className="mini-btn"
+              title="新建笔记"
+              onClick={() => openPrompt("新建笔记", "未命名笔记", (title) => onNewNote(title))}
+            >
               <Plus size={14} />
             </button>
           </div>
@@ -119,6 +131,17 @@ export function Sidebar({
                 <BookOpen size={14} />
                 <span>{course.name}</span>
                 <span className="course-actions">
+                  <button
+                    type="button"
+                    className="course-rename-btn"
+                    title={`在「${course.name}」里新建笔记`}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      openPrompt("新建笔记", "未命名笔记", (title) => onNewNote(title, course.id));
+                    }}
+                  >
+                    <Plus size={13} />
+                  </button>
                   <button
                     type="button"
                     className="course-rename-btn"
@@ -183,6 +206,55 @@ export function Sidebar({
             </div>
           ))}
         </div>
+
+        {onRestoreTrash && (
+          <div className="sidebar-trash">
+            <div className="trash-head" onClick={() => setTrashOpen((value) => !value)}>
+              <Trash2 size={14} />
+              <span>回收站{trash && trash.length > 0 ? `（${trash.length}）` : ""}</span>
+              {trashOpen ? <X size={12} className="trash-caret" /> : <Plus size={12} className="trash-caret" />}
+            </div>
+            {trashOpen && (
+              trash && trash.length > 0 ? (
+                trash.map((item) => (
+                  <div className="note-row trash-row" key={item.id} title={`原分类：${item.courseName || "未分类"}`}>
+                    <FileText size={14} />
+                    <span>
+                      <em className="trash-type">
+                        {item.type === "word" ? "单词" : item.type === "sentence" ? "语句" : "笔记"}
+                      </em>
+                      {item.title}
+                    </span>
+                    <button
+                      type="button"
+                      className="note-rename-btn"
+                      title="恢复这篇笔记"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onRestoreTrash(item.id);
+                      }}
+                    >
+                      <Undo2 size={13} />
+                    </button>
+                    <button
+                      type="button"
+                      className="note-delete-btn"
+                      title="彻底删除（不可恢复）"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onPurgeTrash?.(item.id);
+                      }}
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="trash-empty">回收站是空的，删除的笔记会在这里保留 30 天</div>
+              )
+            )}
+          </div>
+        )}
       </section>
 
       {prompt && (

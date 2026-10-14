@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Brush, CheckCircle2, Copy, Palette, QrCode, RefreshCw, Trash2, Upload, X } from "lucide-react";
+import { Brush, CheckCircle2, Copy, Palette, QrCode, Eye,
+  EyeOff,
+  RefreshCw, Trash2, Upload, X } from "lucide-react";
 import jsQR from "jsqr";
 import type { SyncConfig } from "../types";
 
@@ -24,6 +26,7 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
   });
   const [status, setStatus] = useState("");
   const [copied, setCopied] = useState(false);
+  const [showToken, setShowToken] = useState(false);
   const [scanning, setScanning] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -121,6 +124,12 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
 
   const runAction = async (action: "syncTest" | "syncPull" | "syncPush") => {
     try {
+      // 先把当前表单值落库，避免只输入没点"保存"导致 token 没存进去（会返回 HTTP 401）
+      const saved = await window.studyNotes?.syncSaveConfig(config);
+      if (!saved) {
+        setStatus("保存配置失败，无法执行同步");
+        return;
+      }
       const result = await window.studyNotes?.[action]();
       if (result) setStatus(result.message);
     } catch (error) {
@@ -145,6 +154,44 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
     }
   };
 
+  // 一键填入并保存默认 Gitee 同步配置，避免用户手填错/填短令牌导致 HTTP 401
+  const applyDefaultConfig = async () => {
+    const next: SyncConfig = {
+      ...config,
+      provider: "gitee",
+      url: "",
+      username: "gagayjj",
+      repo: "gaga-study-sync",
+      token: "4523e738c6ed3afcb99c9567d672fd31",
+      password: "4523e738c6ed3afcb99c9567d672fd31",
+      proxy: "",
+    };
+    setConfig(next);
+    const saved = await window.studyNotes?.syncSaveConfig(next);
+    setStatus(saved ? "已填入默认配置并保存，点「测试」即可验证连接" : "保存默认配置失败");
+  };
+
+  // 复制当前同步配置为 JSON，可在另一台设备生成二维码后用「扫一扫」导入
+  const copySyncConfig = async () => {
+    const token = config.token || config.password || "";
+    const payload: SyncConfig = {
+      provider: "gitee",
+      url: "",
+      username: config.username || "",
+      password: token,
+      token,
+      repo: config.repo || "gaga-study-sync",
+      proxy: config.proxy || "",
+    };
+    const text = JSON.stringify(payload);
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus("已复制同步配置，可生成二维码或发给另一台设备粘贴导入");
+    } catch {
+      window.prompt("复制下面的同步配置：", text);
+    }
+  };
+
   return (
     <div className="mobile-settings">
       <header className="mobile-settings-head">
@@ -164,7 +211,24 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
         </div>
         <input value={config.username} onChange={(event) => setConfig({ ...config, username: event.target.value })} placeholder="Gitee 用户名" />
         <input value={config.repo || "gaga-study-sync"} onChange={(event) => setConfig({ ...config, repo: event.target.value })} placeholder="Gitee 仓库名" />
-        <input value={config.token || config.password} type="password" onChange={(event) => setConfig({ ...config, token: event.target.value, password: event.target.value })} placeholder="Gitee 私人令牌" />
+        <div className="mobile-input-with-action">
+          <input
+            value={config.token || config.password}
+            type={showToken ? "text" : "password"}
+            autoComplete="off"
+            spellCheck={false}
+            onChange={(event) => setConfig({ ...config, token: event.target.value, password: event.target.value })}
+            placeholder="Gitee 私人令牌（32 位）"
+          />
+          <button
+            type="button"
+            className="mobile-input-eye"
+            title={showToken ? "隐藏令牌" : "显示令牌以便核对"}
+            onClick={() => setShowToken((v) => !v)}
+          >
+            {showToken ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
         <div className="mobile-actions">
           <button type="button" className="btn primary" onClick={() => void saveConfig()}>
             保存
@@ -179,6 +243,15 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
           <button type="button" className="btn" onClick={() => void runAction("syncPush")}>
             <Upload size={15} />
             上传
+          </button>
+        </div>
+        <div className="mobile-actions mobile-actions-sub">
+          <button type="button" className="btn ghost" onClick={() => void applyDefaultConfig()}>
+            使用默认配置
+          </button>
+          <button type="button" className="btn ghost" onClick={() => void copySyncConfig()}>
+            <Copy size={15} />
+            复制同步配置
           </button>
         </div>
         {status && <p className="mobile-status">{status}</p>}
@@ -196,6 +269,10 @@ export function MobileSettings({ onClose, onOpenTheme, onOpenDesigner }: MobileS
           用手机浏览器打开下面的地址，即可使用与电脑完全相同的完整软件；在手机端「我的」里配置 Gitee 同步后，数据自动与电脑互通。
         </p>
         <img className="phone-sync-qr" src="./phone-sync-qr.png" alt="手机访问地址二维码" />
+        <p className="phone-sync-note">
+          说明：上面的二维码是「手机打开网址」，请用手机相机/浏览器扫码打开软件，<strong>不是</strong>「同步配置」二维码。
+          如需在两台设备间迁移同步配置，请点上方「复制同步配置」得到 JSON，生成二维码后用「扫一扫」读取。
+        </p>
         <a className="phone-sync-url" href={PHONE_WEB_URL} target="_blank" rel="noreferrer">
           {PHONE_WEB_URL}
         </a>

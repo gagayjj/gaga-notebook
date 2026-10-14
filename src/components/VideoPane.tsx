@@ -60,9 +60,16 @@ export function VideoPane({
     const el = paneRef.current;
     if (!el || videoState.kind !== "url" || !active) return;
     sendBounds();
+    // 主进程挂载视频视图是异步的，挂好后补发一次位置，防止首帧尺寸不对
+    const delayed = window.setTimeout(sendBounds, 300);
+    window.addEventListener("resize", sendBounds);
     const observer = new ResizeObserver(sendBounds);
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      window.clearTimeout(delayed);
+      window.removeEventListener("resize", sendBounds);
+      observer.disconnect();
+    };
   }, [active, sendBounds, videoState.kind]);
 
   useEffect(() => {
