@@ -21,6 +21,7 @@ interface JyLib {
   level: string;
   createdAt: number;
   words: JyWord[];
+  aiGenerated?: boolean;
 }
 
 const LIBS_KEY = "juyouci-libs";
@@ -172,6 +173,50 @@ function saveLibs(libs: JyLib[]) {
   localStorage.setItem(LIBS_KEY, JSON.stringify(libs.slice(0, 20)));
 }
 
+// 只说剧名+集数：AI 凭记忆估计这一集/这部剧会出现的高频实用词（没有原文可定位，句子由 AI 编示例句）
+const JY_EP_SYSTEM_FREE = `你是一个英语词汇老师，熟悉英美剧。用户告诉你一部剧的剧名（和集数），请你凭记忆挑出这一部/这一集最可能出现、最值得中国英语学习者背的高频实用词和地道短语（挑 10 个左右、最多 12 个），跳过 the/this/is 这类基础词。
+严格只返回一个 JSON 对象（不要任何额外文字、不要 markdown 代码块、不要解释）：
+{
+  "title": "词库名，如：摩登家庭 S01E01（按剧名+集数起）",
+  "words": [
+    { "word": "单词或短语", "phonetic": "音标，没有就留空字符串", "meaning": "中文释义（简短）" }
+  ]
+}
+注意：只要 word/phonetic/meaning 三个字段，不要 sentence 字段；输出务必精简。没看过原剧也没关系，按这类生活口语剧常见的词挑即可；这是凭记忆估计的词表，可能不全或不准。`;
+
+const JY_EP_SYSTEM = `你是一个英语词汇老师，熟悉英美剧。用户告诉你一部剧的剧名（和集数），请你凭记忆挑出这一部/这一集最可能出现、最值得中国英语学习者背的高频实用词和地道短语（约 15~20 个），跳过 the/this/is 这类基础词。
+严格只返回一个 JSON 对象（不要任何额外文字、不要 markdown 代码块）：
+{
+  "title": "词库名，如：摩登家庭 S01E01",
+  "words": [
+    { "word": "单词或短语", "phonetic": "音标，没有就留空", "meaning": "中文释义（简短）", "sentence": "一个这部剧生活情景里地道的英文例句（你编的示例句，像角色会说的）", "sentenceZh": "这句的中文翻译" }
+  ]
+}
+说明：sentence 是你编的示例句（不是真实字幕），用于帮助理解用法；这是凭记忆估计的词表，可能不全或不准。`;
+
+// 只说剧名+集数（免费通道）：AI 只挑词，示例句用第二次小请求补（编一个这部剧生活情景里的例句）
+async function generateEpisodeSentences(words: string[], showName: string, ep: string): Promise<{ en: string; zh: string }[]> {
+  if (!words.length) return [];
+  try {
+    const raw = await callAiTutor([
+      {
+        role: "system",
+        content: `你是英语老师。给用户的一批单词，分别为每个词造一个「${showName}${ep ? " " + ep : ""}」这类生活情景里地道、口语化的英文例句（像这部剧角色会说的），并给出中文翻译。严格只返回 JSON：{"items":[{"en":"英文例句","zh":"中文翻译"}]}，数组长度必须和输入单词数一致，不要额外文字、不要 markdown 代码块。`,
+      },
+      { role: "user", content: words.map((w, i) => `${i + 1}. ${w}`).join("\n") },
+    ]);
+    if (!raw) return words.map(() => ({ en: "", zh: "" }));
+    let t = raw.trim();
+    const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+    if (fence) t = fence[1].trim();
+    const obj = JSON.parse(t) as { items?: { en?: string; zh?: string }[] };
+    const items = Array.isArray(obj.items) ? obj.items : [];
+    return words.map((_, i) => ({ en: String(items[i]?.en || ""), zh: String(items[i]?.zh || "") }));
+  } catch {
+    return words.map(() => ({ en: "", zh: "" }));
+  }
+}
+
 // 从原文挑词的系统提示词（对齐 juyouci Skill 的口径：真实原句 + B2~C1 + 按级别调整）
 const JY_SYSTEM = `你是一个英语词汇老师。用户给你一段英文原文（可能来自美剧/电影字幕、台词或文章）。
 请从原文里挑出最值得背的生词和地道短语（目标 B2~C1 水平，约 20~30 个；原文不够就至少挑 10 个），跳过 the/this/is 这类基础词。
@@ -311,6 +356,10 @@ export default function JuyouciPanel({ onOpenLibrary }: { onOpenLibrary?: () => 
   const [input, setInput] = useState("");
   const [level, setLevel] = useState(LEVELS[0]);
   const [title, setTitle] = useState("");
+  // 只说剧名+集数（不用原文）模式
+  const [genMode, setGenMode] = useState<"text" | "episode">("text");
+  const [epShow, setEpShow] = useState("");
+  const [epNo, setEpNo] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // 推荐剧集 + 当前固定追的剧
@@ -429,6 +478,67 @@ export default function JuyouciPanel({ onOpenLibrary }: { onOpenLibrary?: () => 
       saveLibs(next);
       setLibs(next);
       setInput("");
+      setTitle("");
+      setActiveLibId(lib.id);
+      setLearnIdx(0);
+      setQuizIdx(0);
+      setRevealed(false);
+      setMode("learn");
+      setView("study");
+    } catch (e) {
+      setError("生成失败：" + (e instanceof Error ? e.message : String(e)));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 只说剧名+集数：AI 凭记忆生成这一集/这部剧的词表（不依赖原文）
+  const generateByEpisode = async () => {
+    const showName = epShow.trim();
+    const ep = epNo.trim();
+    if (!showName) {
+      setError("先填剧名（比如：摩登家庭 / Friends）");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const cfg = loadAiConfig();
+      const isFree = !cfg || cfg.provider === "free";
+      const titleGuess = `${showName}${ep ? " " + ep : ""}`;
+      const user = `【剧名】${showName}\n【集数】${ep || "（没填就挑全剧最有代表性的高频词）"}\n【选词级别】${level}\n请凭你对这部剧的了解，挑出这一部/这一集最可能出现、最值得中国学习者背的高频实用词和地道短语。`;
+      const raw = await callAiTutor([
+        { role: "system", content: isFree ? JY_EP_SYSTEM_FREE : JY_EP_SYSTEM },
+        { role: "user", content: user },
+      ]);
+      if (raw === null) {
+        setError("当前厂商还没填 API Key。点右上角 ✦ 填一下，或把厂商切回「免费 · 无需 Key」（不用填任何东西）。");
+        return;
+      }
+      const parsed = parseJyResult(raw);
+      if (!parsed) {
+        setError("AI 返回的格式没认出来，再点一次「生成词库」试试");
+        return;
+      }
+      let libWords = parsed.words.map((w) => ({ ...w, status: "new" as const }));
+      // 免费通道：AI 只挑词，示例句用第二次小请求补（编一个这部剧情景里的例句）
+      if (isFree) {
+        const sentences = await generateEpisodeSentences(libWords.map((w) => w.word), showName, ep);
+        libWords = libWords.map((w, i) => ({ ...w, sentence: sentences[i]?.en || "", sentenceZh: sentences[i]?.zh || "" }));
+      }
+      const lib: JyLib = {
+        id: `jy-${Date.now()}`,
+        title: title.trim() || parsed.title || titleGuess,
+        level,
+        createdAt: Date.now(),
+        words: libWords,
+        aiGenerated: true,
+      };
+      const next = [lib, ...loadLibs()];
+      saveLibs(next);
+      setLibs(next);
+      setEpShow("");
+      setEpNo("");
       setTitle("");
       setActiveLibId(lib.id);
       setLearnIdx(0);
@@ -751,17 +861,46 @@ export default function JuyouciPanel({ onOpenLibrary }: { onOpenLibrary?: () => 
             <BookOpenText size={17} />
             <strong>剧有词 · AI 背单词</strong>
           </div>
-          <p className="jy-tip">
-            把一段英文粘进来（美剧字幕、台词、文章都行），AI 从里面挑出值得背的词，
-            生成可以翻卡自评的学习页：先学新词 → 「稍后再考我」→ 翻卡测验（空格显示答案，1 答对 / 2 想起来了 / 3 没记住）。
-          </p>
-          <textarea
-            ref={inputRef}
-            className="jy-input"
-            value={input}
-            placeholder="粘贴英文原文，比如一集美剧的字幕文本……"
-            onChange={(event) => setInput(event.target.value)}
-          />
+          <div className="jy-mode-tabs">
+            <button type="button" className={`jy-mode-tab ${genMode === "text" ? "active" : ""}`} onClick={() => setGenMode("text")}>
+              贴原文挑词
+            </button>
+            <button type="button" className={`jy-mode-tab ${genMode === "episode" ? "active" : ""}`} onClick={() => setGenMode("episode")}>
+              只说剧名+集数
+            </button>
+          </div>
+          {genMode === "text" ? (
+            <>
+              <p className="jy-tip">
+                把一段英文粘进来（美剧字幕、台词、文章都行），AI 从里面挑出值得背的词，
+                生成可以翻卡自评的学习页：先学新词 → 「稍后再考我」→ 翻卡测验（空格显示答案，1 答对 / 2 想起来了 / 3 没记住）。
+              </p>
+              <textarea
+                ref={inputRef}
+                className="jy-input"
+                value={input}
+                placeholder="粘贴英文原文，比如一集美剧的字幕文本……"
+                onChange={(event) => setInput(event.target.value)}
+              />
+            </>
+          ) : (
+            <>
+              <p className="jy-tip">
+                不用找视频、不用贴原文——只说剧名（和集数），AI 凭记忆把这一集/这部剧常出现的实用词收集起来，生成翻卡练习页。
+                <strong className="jy-ai-note">AI 凭记忆估计，可能不全或不准，词可改可删，以你改过的为准。</strong>
+              </p>
+              <div className="jy-setup-row">
+                <label>
+                  剧名
+                  <input value={epShow} placeholder="如：摩登家庭 / Friends" onChange={(event) => setEpShow(event.target.value)} />
+                </label>
+                <label>
+                  集数（可留空）
+                  <input value={epNo} placeholder="如：S01E01 或 第一季第3集" onChange={(event) => setEpNo(event.target.value)} />
+                </label>
+              </div>
+            </>
+          )}
           <div className="jy-setup-row">
             <label>
               词库名
@@ -777,7 +916,7 @@ export default function JuyouciPanel({ onOpenLibrary }: { onOpenLibrary?: () => 
                 ))}
               </select>
             </label>
-            <button type="button" className="btn primary" onClick={() => void generate()} disabled={loading}>
+            <button type="button" className="btn primary" onClick={() => void (genMode === "episode" ? generateByEpisode() : generate())} disabled={loading}>
               {loading ? <Loader2 className="spin" size={14} /> : <Plus size={14} />}
               {loading ? "AI 正在挑词…" : "生成词库"}
             </button>
@@ -1179,7 +1318,10 @@ export default function JuyouciPanel({ onOpenLibrary }: { onOpenLibrary?: () => 
                       setView("study");
                     }}
                   >
-                    <strong>{lib.title}</strong>
+                    <strong>
+                      {lib.title}
+                      {lib.aiGenerated && <span className="jy-ai-badge" title="AI 凭记忆生成，可能不全或不准，词可改可删">AI 生成</span>}
+                    </strong>
                     <span>
                       共 {lib.words.length} 词 · 已掌握 {known} · 待复习 {later}
                       {lib.level !== "不限" ? ` · ${lib.level}` : ""}
@@ -1217,10 +1359,14 @@ export default function JuyouciPanel({ onOpenLibrary }: { onOpenLibrary?: () => 
           <ArrowLeft size={16} />
         </button>
         <div className="jy-study-title">
-          <strong>{lib.title}</strong>
+          <strong>
+            {lib.title}
+            {lib.aiGenerated && <span className="jy-ai-badge" title="AI 凭记忆生成，可能不全或不准，词可改可删">AI 生成</span>}
+          </strong>
           <span>
             待记 {newWords.length + laterWords.length} · 稍后考 {laterWords.length} · 已掌握 {knownCount} · 共 {lib.words.length} 词
           </span>
+          {lib.aiGenerated && <em className="jy-ai-disclaimer">AI 凭记忆估计的词表，可能不全或不准，词可改可删，以你改过的为准。</em>}
         </div>
         <div className="jy-mode-switch">
           <button type="button" className={mode === "learn" ? "active" : ""} onClick={() => setMode("learn")}>
