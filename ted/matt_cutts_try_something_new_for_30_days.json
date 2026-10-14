@@ -1,0 +1,197 @@
+{
+ "slug": "matt_cutts_try_something_new_for_30_days",
+ "title": "Try something new for 30 days",
+ "titleZh": "用30天尝试新事物",
+ "speaker": "Matt Cutts",
+ "level": 1,
+ "desc": "只有3分钟，句子短、语速慢，词汇都是常用词，适合入门第一篇",
+ "duration": 186000,
+ "minutes": 3,
+ "wpm": 154,
+ "totalWords": 478,
+ "thumb": "https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/d3b6cfdc-0ecb-4ba2-bcfa-bdb6b41b33e0/MattCutts_2011U-stageshot.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/08/40/003/products/2011u-matt-cutts-003-fallback-89b1e2dc048f55fc59effb548e54d755-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/842/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 0,
+   "t1": 13060,
+   "text": "A few years ago, I felt like I was stuck in a rut, so I decided to follow in the footsteps of the great American philosopher, Morgan Spurlock, and try something new for 30 days."
+  },
+  {
+   "t0": 13523,
+   "t1": 15645,
+   "text": "The idea is actually pretty simple."
+  },
+  {
+   "t0": 15675,
+   "t1": 21200,
+   "text": "Think about something you've always wanted to add to your life and try it for the next 30 days."
+  },
+  {
+   "t0": 21897,
+   "t1": 30970,
+   "text": "It turns out 30 days is just about the right amount of time to add a new habit or subtract a habit -- like watching the news -- from your life."
+  },
+  {
+   "t0": 31000,
+   "t1": 33500,
+   "text": "There's a few things I learned while doing these 30-day challenges."
+  },
+  {
+   "t0": 34622,
+   "t1": 41500,
+   "text": "The first was, instead of the months flying by, forgotten, the time was much more memorable."
+  },
+  {
+   "t0": 42000,
+   "t1": 44500,
+   "text": "This was part of a challenge I did to take a picture every day for a month."
+  },
+  {
+   "t0": 45596,
+   "t1": 48096,
+   "text": "And I remember exactly where I was and what I was doing that day."
+  },
+  {
+   "t0": 51132,
+   "t1": 57549,
+   "text": "I also noticed that as I started to do more and harder 30-day challenges, my self-confidence grew."
+  },
+  {
+   "t0": 57579,
+   "t1": 62000,
+   "text": "I went from desk-dwelling computer nerd to the kind of guy who bikes to work."
+  },
+  {
+   "t0": 62597,
+   "t1": 63839,
+   "text": "For fun!"
+  },
+  {
+   "t0": 63869,
+   "t1": 69970,
+   "text": "(Laughter) Even last year, I ended up hiking up Mt. Kilimanjaro, the highest mountain in Africa."
+  },
+  {
+   "t0": 70000,
+   "t1": 72500,
+   "text": "I would never have been that adventurous before I started my 30-day challenges."
+  },
+  {
+   "t0": 76000,
+   "t1": 83121,
+   "text": "I also figured out that if you really want something badly enough, you can do anything for 30 days."
+  },
+  {
+   "t0": 84105,
+   "t1": 86605,
+   "text": "Have you ever wanted to write a novel?"
+  },
+  {
+   "t0": 86959,
+   "t1": 95633,
+   "text": "Every November, tens of thousands of people try to write their own 50,000-word novel, from scratch, in 30 days."
+  },
+  {
+   "t0": 95663,
+   "t1": 102543,
+   "text": "It turns out, all you have to do is write 1,667 words a day for a month."
+  },
+  {
+   "t0": 102573,
+   "t1": 103970,
+   "text": "So I did."
+  },
+  {
+   "t0": 104000,
+   "t1": 109385,
+   "text": "By the way, the secret is not to go to sleep until you've written your words for the day."
+  },
+  {
+   "t0": 109530,
+   "t1": 113500,
+   "text": "You might be sleep-deprived, but you'll finish your novel."
+  },
+  {
+   "t0": 113769,
+   "t1": 116269,
+   "text": "Now is my book the next great American novel?"
+  },
+  {
+   "t0": 117447,
+   "t1": 118970,
+   "text": "No. I wrote it in a month."
+  },
+  {
+   "t0": 119000,
+   "t1": 120830,
+   "text": "It's awful."
+  },
+  {
+   "t0": 120860,
+   "t1": 130970,
+   "text": "(Laughter) But for the rest of my life, if I meet John Hodgman at a TED party, I don't have to say, \"I'm a computer scientist.\""
+  },
+  {
+   "t0": 131000,
+   "t1": 133500,
+   "text": "No, no, if I want to, I can say, \"I'm a novelist.\""
+  },
+  {
+   "t0": 134363,
+   "t1": 139970,
+   "text": "(Laughter) So here's one last thing I'd like to mention."
+  },
+  {
+   "t0": 140000,
+   "t1": 147217,
+   "text": "I learned that when I made small, sustainable changes, things I could keep doing, they were more likely to stick."
+  },
+  {
+   "t0": 147247,
+   "t1": 149747,
+   "text": "There's nothing wrong with big, crazy challenges."
+  },
+  {
+   "t0": 150000,
+   "t1": 152500,
+   "text": "In fact, they're a ton of fun."
+  },
+  {
+   "t0": 152828,
+   "t1": 155220,
+   "text": "But they're less likely to stick."
+  },
+  {
+   "t0": 155250,
+   "t1": 159651,
+   "text": "When I gave up sugar for 30 days, day 31 looked like this."
+  },
+  {
+   "t0": 159681,
+   "t1": 166203,
+   "text": "(Laughter) So here's my question to you: What are you waiting for?"
+  },
+  {
+   "t0": 166233,
+   "t1": 178681,
+   "text": "I guarantee you the next 30 days are going to pass whether you like it or not, so why not think about something you have always wanted to try and give it a shot!"
+  },
+  {
+   "t0": 178711,
+   "t1": 180626,
+   "text": "For the next 30 days."
+  },
+  {
+   "t0": 180656,
+   "t1": 181970,
+   "text": "Thanks."
+  },
+  {
+   "t0": 182000,
+   "t1": 186000,
+   "text": "(Applause)"
+  }
+ ]
+}

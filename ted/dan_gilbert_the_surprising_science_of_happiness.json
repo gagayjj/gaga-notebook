@@ -1,0 +1,1237 @@
+{
+ "slug": "dan_gilbert_the_surprising_science_of_happiness",
+ "title": "The surprising science of happiness",
+ "titleZh": "幸福的意外科学",
+ "speaker": "Dan Gilbert",
+ "level": 3,
+ "desc": "心理学话题，讲得清楚有条理，例子生活化，句子不长",
+ "duration": 1247000,
+ "minutes": 21,
+ "wpm": 179,
+ "totalWords": 3725,
+ "thumb": "https://pe.tedcdn.com/images/ted/016a827cc0757092a0439ab2a63feca8655b6c29_1600x1200.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/09/23/002/products/2004-dan-gilbert-002-fallback-3534e91f409743d61f435370b4b55a4b-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/925/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 1610,
+   "t1": 6095,
+   "text": "When you have 21 minutes to speak, two million years seems like a really long time."
+  },
+  {
+   "t0": 6548,
+   "t1": 9048,
+   "text": "But evolutionarily, two million years is nothing."
+  },
+  {
+   "t0": 9065,
+   "t1": 21554,
+   "text": "And yet, in two million years, the human brain has nearly tripled in mass, going from the one-and-a-quarter-pound brain of our ancestor here, Habilis, to the almost three-pound meatloaf everybody here has between their ears."
+  },
+  {
+   "t0": 24512,
+   "t1": 30431,
+   "text": "What is it about a big brain that nature was so eager for every one of us to have one?"
+  },
+  {
+   "t0": 31712,
+   "t1": 36471,
+   "text": "Well, it turns out when brains triple in size, they don't just get three times bigger; they gain new structures."
+  },
+  {
+   "t0": 37510,
+   "t1": 46276,
+   "text": "And one of the main reasons our brain got so big is because it got a new part, called the \"frontal lobe,\" particularly, a part called the \"prefrontal cortex.\""
+  },
+  {
+   "t0": 46893,
+   "t1": 55721,
+   "text": "What does a prefrontal cortex do for you that should justify the entire architectural overhaul of the human skull in the blink of evolutionary time?"
+  },
+  {
+   "t0": 55751,
+   "t1": 61291,
+   "text": "Well, it turns out the prefrontal cortex does lots of things, but one of the most important things it does is it's an experience simulator."
+  },
+  {
+   "t0": 64705,
+   "t1": 69557,
+   "text": "Pilots practice in flight simulators so that they don't make real mistakes in planes."
+  },
+  {
+   "t0": 69997,
+   "t1": 78571,
+   "text": "Human beings have this marvelous adaptation that they can actually have experiences in their heads before they try them out in real life."
+  },
+  {
+   "t0": 78601,
+   "t1": 83648,
+   "text": "This is a trick that none of our ancestors could do, and that no other animal can do quite like we can."
+  },
+  {
+   "t0": 84413,
+   "t1": 85937,
+   "text": "It's a marvelous adaptation."
+  },
+  {
+   "t0": 85967,
+   "t1": 95449,
+   "text": "It's up there with opposable thumbs and standing upright and language as one of the things that got our species out of the trees and into the shopping mall."
+  },
+  {
+   "t0": 95479,
+   "t1": 99282,
+   "text": "(Laughter) All of you have done this."
+  },
+  {
+   "t0": 99312,
+   "t1": 105076,
+   "text": "Ben and Jerry's doesn't have \"liver and onion\" ice cream, and it's not because they whipped some up, tried it and went, \"Yuck!\""
+  },
+  {
+   "t0": 106008,
+   "t1": 111554,
+   "text": "It's because, without leaving your armchair, you can simulate that flavor and say \"yuck\" before you make it."
+  },
+  {
+   "t0": 115652,
+   "t1": 118152,
+   "text": "Let's see how your experience simulators are working."
+  },
+  {
+   "t0": 118248,
+   "t1": 122243,
+   "text": "Let's just run a quick diagnostic before I proceed with the rest of the talk."
+  },
+  {
+   "t0": 122273,
+   "t1": 124773,
+   "text": "Here's two different futures that I invite you to contemplate."
+  },
+  {
+   "t0": 126012,
+   "t1": 128512,
+   "text": "You can try to simulate them and tell me which one you think you might prefer."
+  },
+  {
+   "t0": 130062,
+   "t1": 132562,
+   "text": "One of them is winning the lottery. This is about 314 million dollars."
+  },
+  {
+   "t0": 135620,
+   "t1": 138120,
+   "text": "And the other is becoming paraplegic."
+  },
+  {
+   "t0": 138524,
+   "t1": 141188,
+   "text": "(Laughter) Just give it a moment of thought."
+  },
+  {
+   "t0": 141218,
+   "t1": 143718,
+   "text": "You probably don't feel like you need a moment of thought."
+  },
+  {
+   "t0": 144053,
+   "t1": 150167,
+   "text": "Interestingly, there are data on these two groups of people, data on how happy they are."
+  },
+  {
+   "t0": 150197,
+   "t1": 152697,
+   "text": "And this is exactly what you expected, isn't it?"
+  },
+  {
+   "t0": 153240,
+   "t1": 155740,
+   "text": "But these aren't the data. I made these up!"
+  },
+  {
+   "t0": 156038,
+   "t1": 157684,
+   "text": "These are the data."
+  },
+  {
+   "t0": 157714,
+   "t1": 160214,
+   "text": "You failed the pop quiz, and you're hardly five minutes into the lecture."
+  },
+  {
+   "t0": 161234,
+   "t1": 170331,
+   "text": "Because the fact is that a year after losing the use of their legs and a year after winning the lotto, lottery winners and paraplegics are equally happy with their lives."
+  },
+  {
+   "t0": 173356,
+   "t1": 178336,
+   "text": "Don't feel too bad about failing the first pop quiz, because everybody fails all of the pop quizzes all of the time."
+  },
+  {
+   "t0": 179795,
+   "t1": 200476,
+   "text": "The research that my laboratory has been doing, that economists and psychologists around the country have been doing, has revealed something really quite startling to us, something we call the \"impact bias,\" which is the tendency for the simulator to work badly, for the simulator to make you believe that different outcomes are more different than, in fact, they really are."
+  },
+  {
+   "t0": 200506,
+   "t1": 219744,
+   "text": "From field studies to laboratory studies, we see that winning or losing an election, gaining or losing a romantic partner, getting or not getting a promotion, passing or not passing a college test, on and on, have far less impact, less intensity and much less duration than people expect them to have."
+  },
+  {
+   "t0": 220974,
+   "t1": 237728,
+   "text": "A recent study -- this almost floors me -- a recent study showing how major life traumas affect people suggests that if it happened over three months ago, with only a few exceptions, it has no impact whatsoever on your happiness."
+  },
+  {
+   "t0": 239861,
+   "t1": 241559,
+   "text": "Why?"
+  },
+  {
+   "t0": 241589,
+   "t1": 244089,
+   "text": "Because happiness can be synthesized."
+  },
+  {
+   "t0": 245214,
+   "t1": 247714,
+   "text": "Sir Thomas Brown wrote in 1642, \"I am the happiest man alive."
+  },
+  {
+   "t0": 249455,
+   "t1": 251955,
+   "text": "I have that in me that can convert poverty to riches, adversity to prosperity."
+  },
+  {
+   "t0": 254595,
+   "t1": 257095,
+   "text": "I am more invulnerable than Achilles; fortune hath not one place to hit me.\""
+  },
+  {
+   "t0": 259565,
+   "t1": 262065,
+   "text": "What kind of remarkable machinery does this guy have in his head?"
+  },
+  {
+   "t0": 262778,
+   "t1": 265278,
+   "text": "Well, it turns out it's precisely the same remarkable machinery that all of us have."
+  },
+  {
+   "t0": 268819,
+   "t1": 286836,
+   "text": "Human beings have something that we might think of as a \"psychological immune system,\" a system of cognitive processes, largely nonconscious cognitive processes, that help them change their views of the world, so that they can feel better about the worlds in which they find themselves."
+  },
+  {
+   "t0": 286866,
+   "t1": 289169,
+   "text": "Like Sir Thomas, you have this machine."
+  },
+  {
+   "t0": 289199,
+   "t1": 291699,
+   "text": "Unlike Sir Thomas, you seem not to know it."
+  },
+  {
+   "t0": 293486,
+   "t1": 295986,
+   "text": "We synthesize happiness, but we think happiness is a thing to be found."
+  },
+  {
+   "t0": 298595,
+   "t1": 306953,
+   "text": "Now, you don't need me to give you too many examples of people synthesizing happiness, I suspect, though I'm going to show you some experimental evidence."
+  },
+  {
+   "t0": 307134,
+   "t1": 309264,
+   "text": "You don't have to look very far for evidence."
+  },
+  {
+   "t0": 309294,
+   "t1": 313605,
+   "text": "I took a copy of the \"New York Times\" and tried to find some instances of people synthesizing happiness."
+  },
+  {
+   "t0": 314258,
+   "t1": 316270,
+   "text": "Here are three guys synthesizing happiness."
+  },
+  {
+   "t0": 316300,
+   "t1": 318800,
+   "text": "\"I'm better off physically, financially, mentally ...\""
+  },
+  {
+   "t0": 318866,
+   "t1": 321366,
+   "text": "\"I don't have one minute's regret. It was a glorious experience.\""
+  },
+  {
+   "t0": 321962,
+   "t1": 323864,
+   "text": "\"I believe it turned out for the best.\""
+  },
+  {
+   "t0": 323894,
+   "t1": 326103,
+   "text": "Who are these characters who are so damn happy?"
+  },
+  {
+   "t0": 326133,
+   "t1": 327474,
+   "text": "The first one is Jim Wright."
+  },
+  {
+   "t0": 327504,
+   "t1": 337834,
+   "text": "Some of you are old enough to remember: he was the chairman of the House of Representatives, and he resigned in disgrace when this young Republican named Newt Gingrich found out about a shady book deal that he had done."
+  },
+  {
+   "t0": 337864,
+   "t1": 339017,
+   "text": "He lost everything."
+  },
+  {
+   "t0": 339047,
+   "t1": 343574,
+   "text": "The most powerful Democrat in the country lost everything: he lost his money, he lost his power."
+  },
+  {
+   "t0": 343604,
+   "t1": 346104,
+   "text": "What does he have to say all these years later about it?"
+  },
+  {
+   "t0": 346276,
+   "t1": 350517,
+   "text": "\"I am so much better off physically, financially, mentally and in almost every other way.\""
+  },
+  {
+   "t0": 350547,
+   "t1": 352747,
+   "text": "What other way would there be to be better off?"
+  },
+  {
+   "t0": 352777,
+   "t1": 355132,
+   "text": "Vegetably? Minerally? Animally?"
+  },
+  {
+   "t0": 355162,
+   "t1": 356991,
+   "text": "He's pretty much covered them there."
+  },
+  {
+   "t0": 357021,
+   "t1": 359431,
+   "text": "Moreese Bickham is somebody you've never heard of."
+  },
+  {
+   "t0": 359461,
+   "t1": 361961,
+   "text": "Moreese Bickham uttered these words upon being released."
+  },
+  {
+   "t0": 362536,
+   "t1": 363721,
+   "text": "He was 78 years old."
+  },
+  {
+   "t0": 363751,
+   "t1": 368063,
+   "text": "He'd spent 37 years in Louisiana State Penitentiary for a crime he didn't commit."
+  },
+  {
+   "t0": 368093,
+   "t1": 370593,
+   "text": "He was ultimately [released for good behavior halfway through his sentence.]"
+  },
+  {
+   "t0": 372249,
+   "t1": 374347,
+   "text": "What did he have to say about his experience?"
+  },
+  {
+   "t0": 374377,
+   "t1": 376877,
+   "text": "\"I don't have one minute's regret. It was a glorious experience.\""
+  },
+  {
+   "t0": 377488,
+   "t1": 378646,
+   "text": "Glorious!"
+  },
+  {
+   "t0": 378676,
+   "t1": 381176,
+   "text": "This guy's not saying, \"There were some nice guys. They had a gym.\""
+  },
+  {
+   "t0": 381870,
+   "t1": 384370,
+   "text": "\"Glorious\" -- a word we usually reserve for something like a religious experience."
+  },
+  {
+   "t0": 385917,
+   "t1": 388123,
+   "text": "Harry S. Langerman uttered these words."
+  },
+  {
+   "t0": 388153,
+   "t1": 395912,
+   "text": "He's somebody you might have known but didn't, because in 1949, he read a little article in the paper about a hamburger stand owned by these two brothers named McDonald."
+  },
+  {
+   "t0": 396729,
+   "t1": 398828,
+   "text": "And he thought, \"That's a really neat idea!\""
+  },
+  {
+   "t0": 398858,
+   "t1": 400036,
+   "text": "So he went to find them."
+  },
+  {
+   "t0": 400066,
+   "t1": 402566,
+   "text": "They said, \"We can give you a franchise on this for 3,000 bucks.\""
+  },
+  {
+   "t0": 403183,
+   "t1": 411290,
+   "text": "Harry went back to New York, asked his brother, an investment banker, to loan him 3,000 dollars, and his brother's immortal words were, \"You idiot, nobody eats hamburgers.\""
+  },
+  {
+   "t0": 411320,
+   "t1": 412804,
+   "text": "He wouldn't lend him the money."
+  },
+  {
+   "t0": 412834,
+   "t1": 415334,
+   "text": "Of course, six months later, Ray Kroc had exactly the same idea."
+  },
+  {
+   "t0": 415929,
+   "t1": 420492,
+   "text": "It turns out, people do eat hamburgers, and Ray Kroc, for a while, became the richest man in America."
+  },
+  {
+   "t0": 421864,
+   "t1": 434500,
+   "text": "And then, finally, some of you recognize this young photo of Pete Best, who was the original drummer for the Beatles, until they, you know, sent him out on an errand and snuck away and picked up Ringo on a tour."
+  },
+  {
+   "t0": 434530,
+   "t1": 442410,
+   "text": "Well, in 1994, when Pete Best was interviewed -- yes, he's still a drummer; yes, he's a studio musician -- he had this to say: \"I'm happier than I would have been with the Beatles.\""
+  },
+  {
+   "t0": 443441,
+   "t1": 448466,
+   "text": "OK, there's something important to be learned from these people, and it is the secret of happiness."
+  },
+  {
+   "t0": 448496,
+   "t1": 450863,
+   "text": "Here it is, finally to be revealed."
+  },
+  {
+   "t0": 450893,
+   "t1": 454777,
+   "text": "First: accrue wealth, power and prestige, then lose it."
+  },
+  {
+   "t0": 454807,
+   "t1": 459315,
+   "text": "(Laughter) Second: spend as much of your life in prison as you possibly can."
+  },
+  {
+   "t0": 460785,
+   "t1": 464311,
+   "text": "(Laughter) Third: make somebody else really, really rich."
+  },
+  {
+   "t0": 465016,
+   "t1": 467516,
+   "text": "And finally: never, ever join the Beatles."
+  },
+  {
+   "t0": 467623,
+   "t1": 469816,
+   "text": "(Laughter) Yeah, right."
+  },
+  {
+   "t0": 469846,
+   "t1": 480392,
+   "text": "Because when people synthesize happiness, as these gentlemen seem to have done, we all smile at them, but we kind of roll our eyes and say, \"Yeah, right, you never really wanted the job.\""
+  },
+  {
+   "t0": 480422,
+   "t1": 488747,
+   "text": "\"Oh yeah, right -- you really didn't have that much in common with her, and you figured that out just about the time she threw the engagement ring in your face.\""
+  },
+  {
+   "t0": 488777,
+   "t1": 496079,
+   "text": "We smirk, because we believe that synthetic happiness is not of the same quality as what we might call \"natural happiness.\""
+  },
+  {
+   "t0": 496109,
+   "t1": 497483,
+   "text": "What are these terms?"
+  },
+  {
+   "t0": 497513,
+   "t1": 503441,
+   "text": "Natural happiness is what we get when we get what we wanted, and synthetic happiness is what we make when we don't get what we wanted."
+  },
+  {
+   "t0": 505869,
+   "t1": 511438,
+   "text": "And in our society, we have a strong belief that synthetic happiness is of an inferior kind."
+  },
+  {
+   "t0": 512003,
+   "t1": 513870,
+   "text": "Why do we have that belief?"
+  },
+  {
+   "t0": 513900,
+   "t1": 515568,
+   "text": "Well, it's very simple."
+  },
+  {
+   "t0": 515598,
+   "t1": 524875,
+   "text": "What kind of economic engine would keep churning if we believed that not getting what we want could make us just as happy as getting it?"
+  },
+  {
+   "t0": 525844,
+   "t1": 535923,
+   "text": "With all apologies to my friend Matthieu Ricard, a shopping mall full of Zen monks is not going to be particularly profitable, because they don't want stuff enough."
+  },
+  {
+   "t0": 535961,
+   "t1": 547591,
+   "text": "(Laughter) I want to suggest to you that synthetic happiness is every bit as real and enduring as the kind of happiness you stumble upon when you get exactly what you were aiming for."
+  },
+  {
+   "t0": 547857,
+   "t1": 553058,
+   "text": "Now, I'm a scientist, so I'm going to do this not with rhetoric, but by marinating you in a little bit of data."
+  },
+  {
+   "t0": 553088,
+   "t1": 560200,
+   "text": "Let me first show you an experimental paradigm that's used to demonstrate the synthesis of happiness among regular old folks."
+  },
+  {
+   "t0": 560230,
+   "t1": 563920,
+   "text": "This isn't mine, it's a 50-year-old paradigm called the \"free choice paradigm.\""
+  },
+  {
+   "t0": 564381,
+   "t1": 565545,
+   "text": "It's very simple."
+  },
+  {
+   "t0": 565575,
+   "t1": 570646,
+   "text": "You bring in, say, six objects, and you ask a subject to rank them from the most to the least liked."
+  },
+  {
+   "t0": 571431,
+   "t1": 575858,
+   "text": "In this case, because this experiment uses them, these are Monet prints."
+  },
+  {
+   "t0": 575888,
+   "t1": 580557,
+   "text": "Everybody ranks these Monet prints from the one they like the most to the one they like the least."
+  },
+  {
+   "t0": 580587,
+   "t1": 584745,
+   "text": "Now we give you a choice: \"We happen to have some extra prints in the closet."
+  },
+  {
+   "t0": 584775,
+   "t1": 587275,
+   "text": "We're going to give you one as your prize to take home."
+  },
+  {
+   "t0": 587417,
+   "t1": 589917,
+   "text": "We happen to have number three and number four,\" we tell the subject."
+  },
+  {
+   "t0": 591522,
+   "t1": 601042,
+   "text": "This is a bit of a difficult choice, because neither one is preferred strongly to the other, but naturally, people tend to pick number three, because they liked it a little better than number four."
+  },
+  {
+   "t0": 601764,
+   "t1": 609994,
+   "text": "Sometime later -- it could be 15 minutes, it could be 15 days -- the same stimuli are put before the subject, and the subject is asked to re-rank the stimuli."
+  },
+  {
+   "t0": 610057,
+   "t1": 612201,
+   "text": "\"Tell us how much you like them now.\""
+  },
+  {
+   "t0": 612231,
+   "t1": 613431,
+   "text": "What happens?"
+  },
+  {
+   "t0": 613461,
+   "t1": 615340,
+   "text": "Watch as happiness is synthesized."
+  },
+  {
+   "t0": 615370,
+   "t1": 617870,
+   "text": "This is the result that's been replicated over and over again."
+  },
+  {
+   "t0": 618589,
+   "t1": 620574,
+   "text": "You're watching happiness be synthesized."
+  },
+  {
+   "t0": 620604,
+   "t1": 622993,
+   "text": "Would you like to see it again?"
+  },
+  {
+   "t0": 623023,
+   "t1": 624170,
+   "text": "Happiness!"
+  },
+  {
+   "t0": 624200,
+   "t1": 626596,
+   "text": "\"The one I got is really better than I thought!"
+  },
+  {
+   "t0": 626626,
+   "t1": 629126,
+   "text": "That other one I didn't get sucks!\""
+  },
+  {
+   "t0": 629189,
+   "t1": 630944,
+   "text": "That's the synthesis of happiness."
+  },
+  {
+   "t0": 630974,
+   "t1": 634780,
+   "text": "(Laughter) Now, what's the right response to that?"
+  },
+  {
+   "t0": 634810,
+   "t1": 637310,
+   "text": "\"Yeah, right!\""
+  },
+  {
+   "t0": 637334,
+   "t1": 643716,
+   "text": "Now, here's the experiment we did, and I hope this is going to convince you that \"Yeah, right!\" was not the right response."
+  },
+  {
+   "t0": 643746,
+   "t1": 647293,
+   "text": "We did this experiment with a group of patients who had anterograde amnesia."
+  },
+  {
+   "t0": 647323,
+   "t1": 648976,
+   "text": "These are hospitalized patients."
+  },
+  {
+   "t0": 649006,
+   "t1": 653695,
+   "text": "Most of them have Korsakoff syndrome, a polyneuritic psychosis."
+  },
+  {
+   "t0": 653955,
+   "t1": 656455,
+   "text": "They drank way too much, and they can't make new memories."
+  },
+  {
+   "t0": 657880,
+   "t1": 665070,
+   "text": "They remember their childhood, but if you walk in and introduce yourself and then leave the room, when you come back, they don't know who you are."
+  },
+  {
+   "t0": 666019,
+   "t1": 668519,
+   "text": "We took our Monet prints to the hospital."
+  },
+  {
+   "t0": 669391,
+   "t1": 675295,
+   "text": "And we asked these patients to rank them from the one they liked the most to the one they liked the least."
+  },
+  {
+   "t0": 676093,
+   "t1": 678593,
+   "text": "We then gave them the choice between number three and number four."
+  },
+  {
+   "t0": 679969,
+   "t1": 684015,
+   "text": "Like everybody else, they said, \"Gee, thanks Doc! That's great! I could use a new print."
+  },
+  {
+   "t0": 684230,
+   "t1": 685830,
+   "text": "I'll take number three.\""
+  },
+  {
+   "t0": 685860,
+   "t1": 688360,
+   "text": "We explained we would have number three mailed to them."
+  },
+  {
+   "t0": 689416,
+   "t1": 693846,
+   "text": "We gathered up our materials, and we went out of the room and counted to a half hour."
+  },
+  {
+   "t0": 693991,
+   "t1": 697517,
+   "text": "(Laughter) Back into the room, we say, \"Hi, we're back.\""
+  },
+  {
+   "t0": 698336,
+   "t1": 704236,
+   "text": "The patients, bless them, say, \"Ah, Doc, I'm sorry, I've got a memory problem; that's why I'm here."
+  },
+  {
+   "t0": 704266,
+   "t1": 706291,
+   "text": "If I've met you before, I don't remember.\""
+  },
+  {
+   "t0": 706321,
+   "t1": 708821,
+   "text": "\"Really, Jim, you don't remember? I was just here with the Monet prints?\""
+  },
+  {
+   "t0": 709820,
+   "t1": 712006,
+   "text": "\"Sorry, Doc, I just don't have a clue.\""
+  },
+  {
+   "t0": 712036,
+   "t1": 713614,
+   "text": "\"No problem, Jim."
+  },
+  {
+   "t0": 713644,
+   "t1": 718417,
+   "text": "All I want you to do is rank these for me, from the one you like the most to the one you like the least.\""
+  },
+  {
+   "t0": 719966,
+   "t1": 721111,
+   "text": "What do they do?"
+  },
+  {
+   "t0": 721141,
+   "t1": 723641,
+   "text": "Well, let's first check and make sure they're really amnesiac."
+  },
+  {
+   "t0": 724105,
+   "t1": 730417,
+   "text": "We ask these amnesiac patients to tell us which one they own, which one they chose last time, which one is theirs."
+  },
+  {
+   "t0": 731339,
+   "t1": 733839,
+   "text": "And what we find is, amnesiac patients just guess."
+  },
+  {
+   "t0": 734569,
+   "t1": 739372,
+   "text": "These are normal controls, where if I did this with you, all of you would know which print you chose."
+  },
+  {
+   "t0": 739402,
+   "t1": 741902,
+   "text": "But if I do this with amnesiac patients, they don't have a clue."
+  },
+  {
+   "t0": 743031,
+   "t1": 745531,
+   "text": "They can't pick their print out of a lineup."
+  },
+  {
+   "t0": 746825,
+   "t1": 749325,
+   "text": "Here's what normal controls do: they synthesize happiness. Right?"
+  },
+  {
+   "t0": 751304,
+   "t1": 755635,
+   "text": "This is the change in liking score, the change from the first time they ranked to the second time they ranked."
+  },
+  {
+   "t0": 756672,
+   "t1": 763547,
+   "text": "Normal controls show -- that was the magic I showed you; now I'm showing it to you in graphical form -- \"The one I own is better than I thought."
+  },
+  {
+   "t0": 763577,
+   "t1": 768490,
+   "text": "The one I didn't own, the one I left behind, is not as good as I thought.\""
+  },
+  {
+   "t0": 768520,
+   "t1": 771020,
+   "text": "Amnesiacs do exactly the same thing. Think about this result."
+  },
+  {
+   "t0": 773027,
+   "t1": 778472,
+   "text": "These people like better the one they own, but they don't know they own it."
+  },
+  {
+   "t0": 779526,
+   "t1": 782026,
+   "text": "\"Yeah, right\" is not the right response!"
+  },
+  {
+   "t0": 783885,
+   "t1": 792250,
+   "text": "What these people did when they synthesized happiness is they really, truly changed their affective, hedonic, aesthetic reactions to that poster."
+  },
+  {
+   "t0": 795003,
+   "t1": 799916,
+   "text": "They're not just saying it because they own it, because they don't know they own it."
+  },
+  {
+   "t0": 800753,
+   "t1": 805839,
+   "text": "When psychologists show you bars, you know that they are showing you averages of lots of people."
+  },
+  {
+   "t0": 806918,
+   "t1": 815249,
+   "text": "And yet, all of us have this psychological immune system, this capacity to synthesize happiness, but some of us do this trick better than others."
+  },
+  {
+   "t0": 815924,
+   "t1": 822481,
+   "text": "And some situations allow anybody to do it more effectively than other situations do."
+  },
+  {
+   "t0": 823321,
+   "t1": 838196,
+   "text": "It turns out that freedom, the ability to make up your mind and change your mind, is the friend of natural happiness, because it allows you to choose among all those delicious futures and find the one that you would most enjoy."
+  },
+  {
+   "t0": 838226,
+   "t1": 846045,
+   "text": "But freedom to choose, to change and make up your mind, is the enemy of synthetic happiness, and I'm going to show you why."
+  },
+  {
+   "t0": 846075,
+   "t1": 847769,
+   "text": "Dilbert already knows, of course."
+  },
+  {
+   "t0": 847799,
+   "t1": 849975,
+   "text": "\"Dogbert's tech support. How may I abuse you?\""
+  },
+  {
+   "t0": 850005,
+   "t1": 852505,
+   "text": "\"My printer prints a blank page after every document.\""
+  },
+  {
+   "t0": 852643,
+   "t1": 854613,
+   "text": "\"Why complain about getting free paper?\""
+  },
+  {
+   "t0": 854643,
+   "t1": 856913,
+   "text": "\"Free? Aren't you just giving me my own paper?\""
+  },
+  {
+   "t0": 856943,
+   "t1": 859443,
+   "text": "\"Look at the quality of the free paper compared to your lousy regular paper!"
+  },
+  {
+   "t0": 860643,
+   "t1": 863143,
+   "text": "Only a fool or a liar would say that they look the same!\""
+  },
+  {
+   "t0": 863443,
+   "t1": 865943,
+   "text": "\"Now that you mention it, it does seem a little silkier!\""
+  },
+  {
+   "t0": 866229,
+   "t1": 867399,
+   "text": "\"What are you doing?\""
+  },
+  {
+   "t0": 867429,
+   "t1": 869929,
+   "text": "\"I'm helping people accept the things they cannot change.\" Indeed."
+  },
+  {
+   "t0": 871835,
+   "t1": 876803,
+   "text": "The psychological immune system works best when we are totally stuck, when we are trapped."
+  },
+  {
+   "t0": 877344,
+   "t1": 879844,
+   "text": "This is the difference between dating and marriage."
+  },
+  {
+   "t0": 879887,
+   "t1": 883966,
+   "text": "You go out on a date with a guy, and he picks his nose; you don't go out on another date."
+  },
+  {
+   "t0": 884134,
+   "t1": 886292,
+   "text": "You're married to a guy and he picks his nose?"
+  },
+  {
+   "t0": 886322,
+   "t1": 888822,
+   "text": "He has a heart of gold. Don't touch the fruitcake!"
+  },
+  {
+   "t0": 888999,
+   "t1": 891499,
+   "text": "You find a way to be happy with what's happened."
+  },
+  {
+   "t0": 892444,
+   "t1": 900009,
+   "text": "(Laughter) Now, what I want to show you is that people don't know this about themselves, and not knowing this can work to our supreme disadvantage."
+  },
+  {
+   "t0": 901811,
+   "t1": 903782,
+   "text": "Here's an experiment we did at Harvard."
+  },
+  {
+   "t0": 903812,
+   "t1": 909364,
+   "text": "We created a black-and-white photography course, and we allowed students to come in and learn how to use a darkroom."
+  },
+  {
+   "t0": 910465,
+   "t1": 919796,
+   "text": "So we gave them cameras, they went around campus, they took 12 pictures of their favorite professors and their dorm room and their dog, and all the other things they wanted to have Harvard memories of."
+  },
+  {
+   "t0": 920438,
+   "t1": 925277,
+   "text": "They bring us the camera, we make up a contact sheet, they figure out which are the two best pictures."
+  },
+  {
+   "t0": 925307,
+   "t1": 929260,
+   "text": "We now spend six hours teaching them about darkrooms, and they blow two of them up."
+  },
+  {
+   "t0": 929290,
+   "t1": 935590,
+   "text": "They have two gorgeous 8 x 10 glossies of meaningful things to them, and we say, \"Which one would you like to give up?\""
+  },
+  {
+   "t0": 935620,
+   "t1": 936765,
+   "text": "\"I have to give one up?\""
+  },
+  {
+   "t0": 936795,
+   "t1": 939295,
+   "text": "\"Yes, we need one as evidence of the class project."
+  },
+  {
+   "t0": 939931,
+   "t1": 942431,
+   "text": "So you have to give me one. You have to make a choice."
+  },
+  {
+   "t0": 942573,
+   "t1": 945073,
+   "text": "You get to keep one, and I get to keep one.\""
+  },
+  {
+   "t0": 945343,
+   "t1": 947843,
+   "text": "Now, there are two conditions in this experiment."
+  },
+  {
+   "t0": 948343,
+   "t1": 964230,
+   "text": "In one case, the students are told, \"But you know, if you want to change your mind, I'll always have the other one here, and in the next four days, before I actually mail it to headquarters\" -- yeah, \"headquarters\" -- (Laughter) \"I'll be glad to swap it out with you."
+  },
+  {
+   "t0": 964260,
+   "t1": 966760,
+   "text": "In fact, I'll come to your dorm room, just give me an email."
+  },
+  {
+   "t0": 967337,
+   "t1": 969322,
+   "text": "Better yet, I'll check with you."
+  },
+  {
+   "t0": 969352,
+   "t1": 971852,
+   "text": "You ever want to change your mind, it's totally returnable.\""
+  },
+  {
+   "t0": 972264,
+   "t1": 979439,
+   "text": "The other half of the students are told exactly the opposite: \"Make your choice, and by the way, the mail is going out, gosh, in two minutes, to England."
+  },
+  {
+   "t0": 979853,
+   "t1": 982353,
+   "text": "Your picture will be winging its way over the Atlantic."
+  },
+  {
+   "t0": 982522,
+   "t1": 984851,
+   "text": "You will never see it again.\""
+  },
+  {
+   "t0": 984881,
+   "t1": 993819,
+   "text": "Half of the students in each of these conditions are asked to make predictions about how much they're going to come to like the picture that they keep and the picture they leave behind."
+  },
+  {
+   "t0": 993849,
+   "t1": 1001901,
+   "text": "Other students are just sent back to their little dorm rooms and they are measured over the next three to six days on their satisfaction with the pictures."
+  },
+  {
+   "t0": 1001931,
+   "t1": 1003163,
+   "text": "Look at what we find."
+  },
+  {
+   "t0": 1003193,
+   "t1": 1005693,
+   "text": "First of all, here's what students think is going to happen."
+  },
+  {
+   "t0": 1006572,
+   "t1": 1012989,
+   "text": "They think they're going to maybe come to like the picture they chose a little more than the one they left behind."
+  },
+  {
+   "t0": 1013029,
+   "t1": 1015529,
+   "text": "But these are not statistically significant differences."
+  },
+  {
+   "t0": 1016141,
+   "t1": 1022181,
+   "text": "It's a very small increase, and it doesn't much matter whether they were in the reversible or irreversible condition."
+  },
+  {
+   "t0": 1022673,
+   "t1": 1023827,
+   "text": "Wrong-o."
+  },
+  {
+   "t0": 1023857,
+   "t1": 1025020,
+   "text": "Bad simulators."
+  },
+  {
+   "t0": 1025050,
+   "t1": 1026942,
+   "text": "Because here's what's really happening."
+  },
+  {
+   "t0": 1026972,
+   "t1": 1037904,
+   "text": "Both right before the swap and five days later, people who are stuck with that picture, who have no choice, who can never change their mind, like it a lot."
+  },
+  {
+   "t0": 1037934,
+   "t1": 1040434,
+   "text": "And people who are deliberating -- \"Should I return it?"
+  },
+  {
+   "t0": 1040909,
+   "t1": 1042286,
+   "text": "Have I gotten the right one?"
+  },
+  {
+   "t0": 1042316,
+   "t1": 1046433,
+   "text": "Maybe this isn't the good one. Maybe I left the good one?\" -- have killed themselves."
+  },
+  {
+   "t0": 1046463,
+   "t1": 1047915,
+   "text": "They don't like their picture."
+  },
+  {
+   "t0": 1047945,
+   "t1": 1053126,
+   "text": "In fact, even after the opportunity to swap has expired, they still don't like their picture."
+  },
+  {
+   "t0": 1053127,
+   "t1": 1054272,
+   "text": "Why?"
+  },
+  {
+   "t0": 1054302,
+   "t1": 1060134,
+   "text": "Because the [reversible] condition is not conducive to the synthesis of happiness."
+  },
+  {
+   "t0": 1060218,
+   "t1": 1062718,
+   "text": "So here's the final piece of this experiment."
+  },
+  {
+   "t0": 1063145,
+   "t1": 1072577,
+   "text": "We bring in a whole new group of naive Harvard students and we say, \"You know, we're doing a photography course, and we can do it one of two ways."
+  },
+  {
+   "t0": 1072607,
+   "t1": 1082722,
+   "text": "We could do it so that when you take the two pictures, you'd have four days to change your mind, or we're doing another course where you take the two pictures and you make up your mind right away and you can never change it."
+  },
+  {
+   "t0": 1083311,
+   "t1": 1085329,
+   "text": "Which course would you like to be in?\" Duh!"
+  },
+  {
+   "t0": 1085359,
+   "t1": 1090301,
+   "text": "Sixty-six percent of the students, two-thirds, prefer to be in the course where they have the opportunity to change their mind."
+  },
+  {
+   "t0": 1091894,
+   "t1": 1102708,
+   "text": "Hello? Sixty-six percent of the students choose to be in the course in which they will ultimately be deeply dissatisfied with the picture -- (Laughter) because they do not know the conditions under which synthetic happiness grows."
+  },
+  {
+   "t0": 1106747,
+   "t1": 1116275,
+   "text": "The Bard said everything best, of course, and he's making my point here but he's making it hyperbolically: \"'Tis nothing good or bad But thinking makes it so.\""
+  },
+  {
+   "t0": 1117059,
+   "t1": 1119559,
+   "text": "It's nice poetry, but that can't exactly be right."
+  },
+  {
+   "t0": 1120305,
+   "t1": 1122387,
+   "text": "Is there really nothing good or bad?"
+  },
+  {
+   "t0": 1122417,
+   "t1": 1127887,
+   "text": "Is it really the case that gall bladder surgery and a trip to Paris are just the same thing?"
+  },
+  {
+   "t0": 1127917,
+   "t1": 1131528,
+   "text": "(Laughter) That seems like a one-question IQ test."
+  },
+  {
+   "t0": 1132909,
+   "t1": 1134775,
+   "text": "They can't be exactly the same."
+  },
+  {
+   "t0": 1134805,
+   "t1": 1140409,
+   "text": "In more turgid prose, but closer to the truth, was the father of modern capitalism, Adam Smith, and he said this."
+  },
+  {
+   "t0": 1141307,
+   "t1": 1152409,
+   "text": "This is worth contemplating: \"The great source of both the misery and disorders of human life seems to arise from overrating the difference between one permanent situation and another."
+  },
+  {
+   "t0": 1152909,
+   "t1": 1177120,
+   "text": "Some of these situations may, no doubt, deserve to be preferred to others, but none of them can deserve to be pursued with that passionate ardor which drives us to violate the rules either of prudence or of justice, or to corrupt the future tranquility of our minds, either by shame from the remembrance of our own folly, or by remorse for the horror of our own injustice.\""
+  },
+  {
+   "t0": 1178716,
+   "t1": 1181216,
+   "text": "In other words: yes, some things are better than others."
+  },
+  {
+   "t0": 1183472,
+   "t1": 1185972,
+   "text": "We should have preferences that lead us into one future over another."
+  },
+  {
+   "t0": 1188999,
+   "t1": 1199019,
+   "text": "But when those preferences drive us too hard and too fast because we have overrated the difference between these futures, we are at risk."
+  },
+  {
+   "t0": 1199079,
+   "t1": 1201579,
+   "text": "When our ambition is bounded, it leads us to work joyfully."
+  },
+  {
+   "t0": 1202821,
+   "t1": 1211148,
+   "text": "When our ambition is unbounded, it leads us to lie, to cheat, to steal, to hurt others, to sacrifice things of real value."
+  },
+  {
+   "t0": 1211178,
+   "t1": 1216555,
+   "text": "When our fears are bounded, we're prudent, we're cautious, we're thoughtful."
+  },
+  {
+   "t0": 1216585,
+   "t1": 1222372,
+   "text": "When our fears are unbounded and overblown, we're reckless, and we're cowardly."
+  },
+  {
+   "t0": 1222625,
+   "t1": 1238798,
+   "text": "The lesson I want to leave you with, from these data, is that our longings and our worries are both to some degree overblown, because we have within us the capacity to manufacture the very commodity we are constantly chasing when we choose experience."
+  },
+  {
+   "t0": 1240741,
+   "t1": 1241886,
+   "text": "Thank you."
+  },
+  {
+   "t0": 1241916,
+   "t1": 1247000,
+   "text": "(Applause)"
+  }
+ ]
+}

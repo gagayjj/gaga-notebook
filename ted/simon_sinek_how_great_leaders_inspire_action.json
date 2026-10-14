@@ -1,0 +1,1092 @@
+{
+ "slug": "simon_sinek_how_great_leaders_inspire_action",
+ "title": "How great leaders inspire action",
+ "titleZh": "伟大领导者如何激励行动",
+ "speaker": "Simon Sinek",
+ "level": 4,
+ "desc": "商业演讲，长句和逻辑链多，需要跟住 because/so 的推理",
+ "duration": 1064000,
+ "minutes": 18,
+ "wpm": 170,
+ "totalWords": 3015,
+ "thumb": "https://pe.tedcdn.com/images/ted/8d116f6ed73143154a5f8fd240fa4ab6fd52b1cb_2400x1800.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/39/82/008/products/2009x-simon-sinek-008-fallback-8df4e478-5508-4fd8-bda6-91676563fffb-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/9629/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 997,
+   "t1": 3497,
+   "text": "How do you explain when things don't go as we assume?"
+  },
+  {
+   "t0": 4997,
+   "t1": 10497,
+   "text": "Or better, how do you explain when others are able to achieve things that seem to defy all of the assumptions?"
+  },
+  {
+   "t0": 11997,
+   "t1": 15967,
+   "text": "For example: Why is Apple so innovative?"
+  },
+  {
+   "t0": 15997,
+   "t1": 20497,
+   "text": "Year after year, after year, they're more innovative than all their competition."
+  },
+  {
+   "t0": 20997,
+   "t1": 22967,
+   "text": "And yet, they're just a computer company."
+  },
+  {
+   "t0": 22997,
+   "t1": 24967,
+   "text": "They're just like everyone else."
+  },
+  {
+   "t0": 24997,
+   "t1": 30100,
+   "text": "They have the same access to the same talent, the same agencies, the same consultants, the same media."
+  },
+  {
+   "t0": 30130,
+   "t1": 32630,
+   "text": "Then why is it that they seem to have something different?"
+  },
+  {
+   "t0": 34997,
+   "t1": 37497,
+   "text": "Why is it that Martin Luther King led the Civil Rights Movement?"
+  },
+  {
+   "t0": 38997,
+   "t1": 45497,
+   "text": "He wasn't the only man who suffered in pre-civil rights America, and he certainly wasn't the only great orator of the day."
+  },
+  {
+   "t0": 45763,
+   "t1": 46967,
+   "text": "Why him?"
+  },
+  {
+   "t0": 46997,
+   "t1": 62967,
+   "text": "And why is it that the Wright brothers were able to figure out controlled, powered man flight when there were certainly other teams who were better qualified, better funded -- and they didn't achieve powered man flight, and the Wright brothers beat them to it."
+  },
+  {
+   "t0": 62997,
+   "t1": 65497,
+   "text": "There's something else at play here."
+  },
+  {
+   "t0": 66130,
+   "t1": 68630,
+   "text": "About three and a half years ago, I made a discovery."
+  },
+  {
+   "t0": 69997,
+   "t1": 78497,
+   "text": "And this discovery profoundly changed my view on how I thought the world worked, and it even profoundly changed the way in which I operate in it."
+  },
+  {
+   "t0": 81997,
+   "t1": 84497,
+   "text": "As it turns out, there's a pattern."
+  },
+  {
+   "t0": 84997,
+   "t1": 94530,
+   "text": "As it turns out, all the great inspiring leaders and organizations in the world, whether it's Apple or Martin Luther King or the Wright brothers, they all think, act and communicate the exact same way."
+  },
+  {
+   "t0": 95997,
+   "t1": 98497,
+   "text": "And it's the complete opposite to everyone else."
+  },
+  {
+   "t0": 99997,
+   "t1": 104497,
+   "text": "All I did was codify it, and it's probably the world's simplest idea."
+  },
+  {
+   "t0": 105997,
+   "t1": 108497,
+   "text": "I call it the golden circle."
+  },
+  {
+   "t0": 116297,
+   "t1": 118797,
+   "text": "Why? How? What?"
+  },
+  {
+   "t0": 118997,
+   "t1": 123497,
+   "text": "This little idea explains why some organizations and some leaders are able to inspire where others aren't."
+  },
+  {
+   "t0": 124997,
+   "t1": 126967,
+   "text": "Let me define the terms really quickly."
+  },
+  {
+   "t0": 126997,
+   "t1": 132497,
+   "text": "Every single person, every single organization on the planet knows what they do, 100 percent."
+  },
+  {
+   "t0": 133997,
+   "t1": 140967,
+   "text": "Some know how they do it, whether you call it your differentiated value proposition or your proprietary process or your USP."
+  },
+  {
+   "t0": 140997,
+   "t1": 143497,
+   "text": "But very, very few people or organizations know why they do what they do."
+  },
+  {
+   "t0": 145763,
+   "t1": 147967,
+   "text": "And by \"why\" I don't mean \"to make a profit.\""
+  },
+  {
+   "t0": 147997,
+   "t1": 149967,
+   "text": "That's a result. It's always a result."
+  },
+  {
+   "t0": 149997,
+   "t1": 151967,
+   "text": "By \"why,\" I mean: What's your purpose?"
+  },
+  {
+   "t0": 151997,
+   "t1": 154433,
+   "text": "What's your cause? What's your belief?"
+  },
+  {
+   "t0": 154463,
+   "t1": 156963,
+   "text": "Why does your organization exist?"
+  },
+  {
+   "t0": 157997,
+   "t1": 160367,
+   "text": "Why do you get out of bed in the morning?"
+  },
+  {
+   "t0": 160397,
+   "t1": 162897,
+   "text": "And why should anyone care?"
+  },
+  {
+   "t0": 162997,
+   "t1": 167430,
+   "text": "As a result, the way we think, we act, the way we communicate is from the outside in, it's obvious."
+  },
+  {
+   "t0": 167763,
+   "t1": 170263,
+   "text": "We go from the clearest thing to the fuzziest thing."
+  },
+  {
+   "t0": 170497,
+   "t1": 180130,
+   "text": "But the inspired leaders and the inspired organizations -- regardless of their size, regardless of their industry -- all think, act and communicate from the inside out."
+  },
+  {
+   "t0": 182530,
+   "t1": 183967,
+   "text": "Let me give you an example."
+  },
+  {
+   "t0": 183997,
+   "t1": 186497,
+   "text": "I use Apple because they're easy to understand and everybody gets it."
+  },
+  {
+   "t0": 187397,
+   "t1": 195997,
+   "text": "If Apple were like everyone else, a marketing message from them might sound like this: \"We make great computers."
+  },
+  {
+   "t0": 195997,
+   "t1": 198497,
+   "text": "They're beautifully designed, simple to use and user friendly."
+  },
+  {
+   "t0": 199997,
+   "t1": 202167,
+   "text": "Want to buy one?\""
+  },
+  {
+   "t0": 202197,
+   "t1": 203200,
+   "text": "\"Meh.\""
+  },
+  {
+   "t0": 203230,
+   "t1": 204967,
+   "text": "That's how most of us communicate."
+  },
+  {
+   "t0": 204997,
+   "t1": 209600,
+   "text": "That's how most marketing and sales are done, that's how we communicate interpersonally."
+  },
+  {
+   "t0": 209630,
+   "t1": 217067,
+   "text": "We say what we do, we say how we're different or better and we expect some sort of a behavior, a purchase, a vote, something like that."
+  },
+  {
+   "t0": 217097,
+   "t1": 222467,
+   "text": "Here's our new law firm: We have the best lawyers with the biggest clients, we always perform for our clients."
+  },
+  {
+   "t0": 222497,
+   "t1": 226497,
+   "text": "Here's our new car: It gets great gas mileage, it has leather seats."
+  },
+  {
+   "t0": 226663,
+   "t1": 227833,
+   "text": "Buy our car."
+  },
+  {
+   "t0": 227863,
+   "t1": 228967,
+   "text": "But it's uninspiring."
+  },
+  {
+   "t0": 228997,
+   "t1": 231497,
+   "text": "Here's how Apple actually communicates."
+  },
+  {
+   "t0": 232997,
+   "t1": 235497,
+   "text": "\"Everything we do, we believe in challenging the status quo."
+  },
+  {
+   "t0": 237997,
+   "t1": 240497,
+   "text": "We believe in thinking differently."
+  },
+  {
+   "t0": 241663,
+   "t1": 247967,
+   "text": "The way we challenge the status quo is by making our products beautifully designed, simple to use and user friendly."
+  },
+  {
+   "t0": 247997,
+   "t1": 250497,
+   "text": "We just happen to make great computers."
+  },
+  {
+   "t0": 250663,
+   "t1": 252867,
+   "text": "Want to buy one?\""
+  },
+  {
+   "t0": 252897,
+   "t1": 254200,
+   "text": "Totally different, right?"
+  },
+  {
+   "t0": 254230,
+   "t1": 256167,
+   "text": "You're ready to buy a computer from me."
+  },
+  {
+   "t0": 256197,
+   "t1": 258400,
+   "text": "I just reversed the order of the information."
+  },
+  {
+   "t0": 258430,
+   "t1": 264700,
+   "text": "What it proves to us is that people don't buy what you do; people buy why you do it."
+  },
+  {
+   "t0": 264730,
+   "t1": 271497,
+   "text": "This explains why every single person in this room is perfectly comfortable buying a computer from Apple."
+  },
+  {
+   "t0": 271997,
+   "t1": 278967,
+   "text": "But we're also perfectly comfortable buying an MP3 player from Apple, or a phone from Apple, or a DVR from Apple."
+  },
+  {
+   "t0": 278997,
+   "t1": 281497,
+   "text": "As I said before, Apple's just a computer company."
+  },
+  {
+   "t0": 281563,
+   "t1": 284063,
+   "text": "Nothing distinguishes them structurally from any of their competitors."
+  },
+  {
+   "t0": 284997,
+   "t1": 287497,
+   "text": "Their competitors are equally qualified to make all of these products."
+  },
+  {
+   "t0": 288463,
+   "t1": 289967,
+   "text": "In fact, they tried."
+  },
+  {
+   "t0": 289997,
+   "t1": 292497,
+   "text": "A few years ago, Gateway came out with flat-screen TVs."
+  },
+  {
+   "t0": 292997,
+   "t1": 295433,
+   "text": "They're eminently qualified to make flat-screen TVs."
+  },
+  {
+   "t0": 295463,
+   "t1": 297963,
+   "text": "They've been making flat-screen monitors for years."
+  },
+  {
+   "t0": 297997,
+   "t1": 300497,
+   "text": "Nobody bought one."
+  },
+  {
+   "t0": 302663,
+   "t1": 314800,
+   "text": "Dell came out with MP3 players and PDAs, and they make great quality products, and they can make perfectly well-designed products -- and nobody bought one."
+  },
+  {
+   "t0": 314830,
+   "t1": 318833,
+   "text": "In fact, talking about it now, we can't even imagine buying an MP3 player from Dell."
+  },
+  {
+   "t0": 318863,
+   "t1": 321067,
+   "text": "Why would you buy one from a computer company?"
+  },
+  {
+   "t0": 321097,
+   "t1": 322700,
+   "text": "But we do it every day."
+  },
+  {
+   "t0": 322730,
+   "t1": 325230,
+   "text": "People don't buy what you do; they buy why you do it."
+  },
+  {
+   "t0": 325230,
+   "t1": 327730,
+   "text": "The goal is not to do business with everybody who needs what you have."
+  },
+  {
+   "t0": 330797,
+   "t1": 333297,
+   "text": "The goal is to do business with people who believe what you believe."
+  },
+  {
+   "t0": 335997,
+   "t1": 339967,
+   "text": "Here's the best part: None of what I'm telling you is my opinion."
+  },
+  {
+   "t0": 339997,
+   "t1": 342497,
+   "text": "It's all grounded in the tenets of biology."
+  },
+  {
+   "t0": 342997,
+   "t1": 344967,
+   "text": "Not psychology, biology."
+  },
+  {
+   "t0": 344997,
+   "t1": 354497,
+   "text": "If you look at a cross-section of the human brain, from the top down, the human brain is actually broken into three major components that correlate perfectly with the golden circle."
+  },
+  {
+   "t0": 354997,
+   "t1": 361967,
+   "text": "Our newest brain, our Homo sapien brain, our neocortex, corresponds with the \"what\" level."
+  },
+  {
+   "t0": 361997,
+   "t1": 366497,
+   "text": "The neocortex is responsible for all of our rational and analytical thought and language."
+  },
+  {
+   "t0": 367997,
+   "t1": 376497,
+   "text": "The middle two sections make up our limbic brains, and our limbic brains are responsible for all of our feelings, like trust and loyalty."
+  },
+  {
+   "t0": 376997,
+   "t1": 383497,
+   "text": "It's also responsible for all human behavior, all decision-making, and it has no capacity for language."
+  },
+  {
+   "t0": 383997,
+   "t1": 392663,
+   "text": "In other words, when we communicate from the outside in, yes, people can understand vast amounts of complicated information like features and benefits and facts and figures."
+  },
+  {
+   "t0": 392997,
+   "t1": 394967,
+   "text": "It just doesn't drive behavior."
+  },
+  {
+   "t0": 394997,
+   "t1": 403497,
+   "text": "When we can communicate from the inside out, we're talking directly to the part of the brain that controls behavior, and then we allow people to rationalize it with the tangible things we say and do."
+  },
+  {
+   "t0": 404997,
+   "t1": 407497,
+   "text": "This is where gut decisions come from."
+  },
+  {
+   "t0": 407563,
+   "t1": 415267,
+   "text": "Sometimes you can give somebody all the facts and figures, and they say, \"I know what all the facts and details say, but it just doesn't feel right.\""
+  },
+  {
+   "t0": 415297,
+   "t1": 417797,
+   "text": "Why would we use that verb, it doesn't \"feel\" right?"
+  },
+  {
+   "t0": 417863,
+   "t1": 421967,
+   "text": "Because the part of the brain that controls decision-making doesn't control language."
+  },
+  {
+   "t0": 421997,
+   "t1": 425533,
+   "text": "The best we can muster up is, \"I don't know. It just doesn't feel right.\""
+  },
+  {
+   "t0": 425563,
+   "t1": 428063,
+   "text": "Or sometimes you say you're leading with your heart or soul."
+  },
+  {
+   "t0": 428997,
+   "t1": 432967,
+   "text": "I hate to break it to you, those aren't other body parts controlling your behavior."
+  },
+  {
+   "t0": 432997,
+   "t1": 437663,
+   "text": "It's all happening here in your limbic brain, the part of the brain that controls decision-making and not language."
+  },
+  {
+   "t0": 438463,
+   "t1": 453497,
+   "text": "But if you don't know why you do what you do, and people respond to why you do what you do, then how will you ever get people to vote for you, or buy something from you, or, more importantly, be loyal and want to be a part of what it is that you do."
+  },
+  {
+   "t0": 453997,
+   "t1": 459563,
+   "text": "The goal is not just to sell to people who need what you have; the goal is to sell to people who believe what you believe."
+  },
+  {
+   "t0": 459997,
+   "t1": 466497,
+   "text": "The goal is not just to hire people who need a job; it's to hire people who believe what you believe."
+  },
+  {
+   "t0": 466997,
+   "t1": 479233,
+   "text": "I always say that, you know, if you hire people just because they can do a job, they'll work for your money, but if they believe what you believe, they'll work for you with blood and sweat and tears."
+  },
+  {
+   "t0": 479263,
+   "t1": 481763,
+   "text": "Nowhere else is there a better example than with the Wright brothers."
+  },
+  {
+   "t0": 482997,
+   "t1": 485497,
+   "text": "Most people don't know about Samuel Pierpont Langley."
+  },
+  {
+   "t0": 486630,
+   "t1": 491497,
+   "text": "And back in the early 20th century, the pursuit of powered man flight was like the dot com of the day."
+  },
+  {
+   "t0": 492163,
+   "t1": 493967,
+   "text": "Everybody was trying it."
+  },
+  {
+   "t0": 493997,
+   "t1": 499497,
+   "text": "And Samuel Pierpont Langley had, what we assume, to be the recipe for success."
+  },
+  {
+   "t0": 499697,
+   "t1": 503930,
+   "text": "Even now, you ask people, \"Why did your product or why did your company fail?\""
+  },
+  {
+   "t0": 504063,
+   "t1": 510297,
+   "text": "and people always give you the same permutation of the same three things: under-capitalized, the wrong people, bad market conditions."
+  },
+  {
+   "t0": 510797,
+   "t1": 513297,
+   "text": "It's always the same three things, so let's explore that."
+  },
+  {
+   "t0": 514430,
+   "t1": 520967,
+   "text": "Samuel Pierpont Langley was given 50,000 dollars by the War Department to figure out this flying machine."
+  },
+  {
+   "t0": 520997,
+   "t1": 522567,
+   "text": "Money was no problem."
+  },
+  {
+   "t0": 522597,
+   "t1": 529967,
+   "text": "He held a seat at Harvard and worked at the Smithsonian and was extremely well-connected; he knew all the big minds of the day."
+  },
+  {
+   "t0": 529997,
+   "t1": 535967,
+   "text": "He hired the best minds money could find and the market conditions were fantastic."
+  },
+  {
+   "t0": 535997,
+   "t1": 540967,
+   "text": "The New York Times followed him around everywhere, and everyone was rooting for Langley."
+  },
+  {
+   "t0": 540997,
+   "t1": 543497,
+   "text": "Then how come we've never heard of Samuel Pierpont Langley?"
+  },
+  {
+   "t0": 544497,
+   "t1": 551497,
+   "text": "A few hundred miles away in Dayton, Ohio, Orville and Wilbur Wright, they had none of what we consider to be the recipe for success."
+  },
+  {
+   "t0": 552997,
+   "t1": 557497,
+   "text": "They had no money; they paid for their dream with the proceeds from their bicycle shop."
+  },
+  {
+   "t0": 558263,
+   "t1": 563967,
+   "text": "Not a single person on the Wright brothers' team had a college education, not even Orville or Wilbur."
+  },
+  {
+   "t0": 563997,
+   "t1": 566497,
+   "text": "And The New York Times followed them around nowhere."
+  },
+  {
+   "t0": 566997,
+   "t1": 571497,
+   "text": "The difference was, Orville and Wilbur were driven by a cause, by a purpose, by a belief."
+  },
+  {
+   "t0": 572997,
+   "t1": 579497,
+   "text": "They believed that if they could figure out this flying machine, it'll change the course of the world."
+  },
+  {
+   "t0": 580397,
+   "t1": 582333,
+   "text": "Samuel Pierpont Langley was different."
+  },
+  {
+   "t0": 582363,
+   "t1": 584863,
+   "text": "He wanted to be rich, and he wanted to be famous."
+  },
+  {
+   "t0": 584997,
+   "t1": 586967,
+   "text": "He was in pursuit of the result."
+  },
+  {
+   "t0": 586997,
+   "t1": 588967,
+   "text": "He was in pursuit of the riches."
+  },
+  {
+   "t0": 588997,
+   "t1": 590933,
+   "text": "And lo and behold, look what happened."
+  },
+  {
+   "t0": 590963,
+   "t1": 596967,
+   "text": "The people who believed in the Wright brothers' dream worked with them with blood and sweat and tears."
+  },
+  {
+   "t0": 596997,
+   "t1": 598967,
+   "text": "The others just worked for the paycheck."
+  },
+  {
+   "t0": 598997,
+   "t1": 606763,
+   "text": "They tell stories of how every time the Wright brothers went out, they would have to take five sets of parts, because that's how many times they would crash before supper."
+  },
+  {
+   "t0": 608663,
+   "t1": 617033,
+   "text": "And, eventually, on December 17th, 1903, the Wright brothers took flight, and no one was there to even experience it."
+  },
+  {
+   "t0": 617063,
+   "t1": 619563,
+   "text": "We found out about it a few days later."
+  },
+  {
+   "t0": 620763,
+   "t1": 628167,
+   "text": "And further proof that Langley was motivated by the wrong thing: the day the Wright brothers took flight, he quit."
+  },
+  {
+   "t0": 628197,
+   "t1": 634497,
+   "text": "He could have said, \"That's an amazing discovery, guys, and I will improve upon your technology,\" but he didn't."
+  },
+  {
+   "t0": 634997,
+   "t1": 637497,
+   "text": "He wasn't first, he didn't get rich, he didn't get famous, so he quit."
+  },
+  {
+   "t0": 639697,
+   "t1": 642197,
+   "text": "People don't buy what you do; they buy why you do it."
+  },
+  {
+   "t0": 642230,
+   "t1": 646497,
+   "text": "If you talk about what you believe, you will attract those who believe what you believe."
+  },
+  {
+   "t0": 646997,
+   "t1": 649497,
+   "text": "But why is it important to attract those who believe what you believe?"
+  },
+  {
+   "t0": 652397,
+   "t1": 657463,
+   "text": "Something called the law of diffusion of innovation, if you don't know the law, you know the terminology."
+  },
+  {
+   "t0": 657497,
+   "t1": 659997,
+   "text": "The first 2.5% of our population are our innovators."
+  },
+  {
+   "t0": 661997,
+   "t1": 664497,
+   "text": "The next 13.5% of our population are our early adopters."
+  },
+  {
+   "t0": 667263,
+   "t1": 671630,
+   "text": "The next 34% are your early majority, your late majority and your laggards."
+  },
+  {
+   "t0": 672430,
+   "t1": 677233,
+   "text": "The only reason these people buy touch-tone phones is because you can't buy rotary phones anymore."
+  },
+  {
+   "t0": 677263,
+   "t1": 699497,
+   "text": "(Laughter) We all sit at various places at various times on this scale, but what the law of diffusion of innovation tells us is that if you want mass-market success or mass-market acceptance of an idea, you cannot have it until you achieve this tipping point between 15 and 18 percent market penetration, and then the system tips."
+  },
+  {
+   "t0": 699997,
+   "t1": 702497,
+   "text": "I love asking businesses, \"What's your conversion on new business?\""
+  },
+  {
+   "t0": 703263,
+   "t1": 705763,
+   "text": "They love to tell you, \"It's about 10 percent,\" proudly."
+  },
+  {
+   "t0": 705930,
+   "t1": 708067,
+   "text": "Well, you can trip over 10% of the customers."
+  },
+  {
+   "t0": 708097,
+   "t1": 710033,
+   "text": "We all have about 10% who just \"get it.\""
+  },
+  {
+   "t0": 710063,
+   "t1": 711767,
+   "text": "That's how we describe them, right?"
+  },
+  {
+   "t0": 711797,
+   "t1": 714297,
+   "text": "That's like that gut feeling, \"Oh, they just get it.\""
+  },
+  {
+   "t0": 714297,
+   "t1": 719263,
+   "text": "The problem is: How do you find the ones that get it before doing business versus the ones who don't get it?"
+  },
+  {
+   "t0": 719430,
+   "t1": 731497,
+   "text": "So it's this here, this little gap that you have to close, as Jeffrey Moore calls it, \"Crossing the Chasm\" -- because, you see, the early majority will not try something until someone else has tried it first."
+  },
+  {
+   "t0": 732997,
+   "t1": 738167,
+   "text": "And these guys, the innovators and the early adopters, they're comfortable making those gut decisions."
+  },
+  {
+   "t0": 738197,
+   "t1": 746967,
+   "text": "They're more comfortable making those intuitive decisions that are driven by what they believe about the world and not just what product is available."
+  },
+  {
+   "t0": 746997,
+   "t1": 754330,
+   "text": "These are the people who stood in line for six hours to buy an iPhone when they first came out, when you could have bought one off the shelf the next week."
+  },
+  {
+   "t0": 754997,
+   "t1": 762497,
+   "text": "These are the people who spent 40,000 dollars on flat-screen TVs when they first came out, even though the technology was substandard."
+  },
+  {
+   "t0": 762997,
+   "t1": 768967,
+   "text": "And, by the way, they didn't do it because the technology was so great; they did it for themselves."
+  },
+  {
+   "t0": 768997,
+   "t1": 770967,
+   "text": "It's because they wanted to be first."
+  },
+  {
+   "t0": 770997,
+   "t1": 775997,
+   "text": "People don't buy what you do; they buy why you do it and what you do simply proves what you believe."
+  },
+  {
+   "t0": 776997,
+   "t1": 779497,
+   "text": "In fact, people will do the things that prove what they believe."
+  },
+  {
+   "t0": 780997,
+   "t1": 793467,
+   "text": "The reason that person bought the iPhone in the first six hours, stood in line for six hours, was because of what they believed about the world, and how they wanted everybody to see them: they were first."
+  },
+  {
+   "t0": 793497,
+   "t1": 795997,
+   "text": "People don't buy what you do; they buy why you do it."
+  },
+  {
+   "t0": 795997,
+   "t1": 800497,
+   "text": "So let me give you a famous example, a famous failure and a famous success of the law of diffusion of innovation."
+  },
+  {
+   "t0": 802597,
+   "t1": 803967,
+   "text": "First, the famous failure."
+  },
+  {
+   "t0": 803997,
+   "t1": 805967,
+   "text": "It's a commercial example."
+  },
+  {
+   "t0": 805997,
+   "t1": 810763,
+   "text": "As we said before, the recipe for success is money and the right people and the right market conditions."
+  },
+  {
+   "t0": 811663,
+   "t1": 813400,
+   "text": "You should have success then."
+  },
+  {
+   "t0": 813430,
+   "t1": 814967,
+   "text": "Look at TiVo."
+  },
+  {
+   "t0": 814997,
+   "t1": 825163,
+   "text": "From the time TiVo came out about eight or nine years ago to this current day, they are the single highest-quality product on the market, hands down, there is no dispute."
+  },
+  {
+   "t0": 825597,
+   "t1": 827400,
+   "text": "They were extremely well-funded."
+  },
+  {
+   "t0": 827430,
+   "t1": 829100,
+   "text": "Market conditions were fantastic."
+  },
+  {
+   "t0": 829130,
+   "t1": 830967,
+   "text": "I mean, we use TiVo as verb."
+  },
+  {
+   "t0": 830997,
+   "t1": 833497,
+   "text": "I TiVo stuff on my piece-of-junk Time Warner DVR all the time."
+  },
+  {
+   "t0": 834263,
+   "t1": 838967,
+   "text": "(Laughter) But TiVo's a commercial failure."
+  },
+  {
+   "t0": 838997,
+   "t1": 840967,
+   "text": "They've never made money."
+  },
+  {
+   "t0": 840997,
+   "t1": 847433,
+   "text": "And when they went IPO, their stock was at about 30 or 40 dollars and then plummeted, and it's never traded above 10."
+  },
+  {
+   "t0": 847463,
+   "t1": 851967,
+   "text": "In fact, I don't think it's even traded above six, except for a couple of little spikes."
+  },
+  {
+   "t0": 851997,
+   "t1": 856863,
+   "text": "Because you see, when TiVo launched their product, they told us all what they had."
+  },
+  {
+   "t0": 856997,
+   "t1": 867497,
+   "text": "They said, \"We have a product that pauses live TV, skips commercials, rewinds live TV and memorizes your viewing habits without you even asking.\""
+  },
+  {
+   "t0": 868163,
+   "t1": 871967,
+   "text": "And the cynical majority said, \"We don't believe you."
+  },
+  {
+   "t0": 871997,
+   "t1": 874497,
+   "text": "We don't need it. We don't like it."
+  },
+  {
+   "t0": 874563,
+   "t1": 876667,
+   "text": "You're scaring us.\""
+  },
+  {
+   "t0": 876697,
+   "t1": 888497,
+   "text": "What if they had said, \"If you're the kind of person who likes to have total control over every aspect of your life, boy, do we have a product for you."
+  },
+  {
+   "t0": 888997,
+   "t1": 893497,
+   "text": "It pauses live TV, skips commercials, memorizes your viewing habits, etc., etc.\""
+  },
+  {
+   "t0": 893863,
+   "t1": 898897,
+   "text": "People don't buy what you do; they buy why you do it, and what you do simply serves as the proof of what you believe."
+  },
+  {
+   "t0": 900563,
+   "t1": 903063,
+   "text": "Now let me give you a successful example of the law of diffusion of innovation."
+  },
+  {
+   "t0": 905997,
+   "t1": 915497,
+   "text": "In the summer of 1963, 250,000 people showed up on the mall in Washington to hear Dr. King speak."
+  },
+  {
+   "t0": 916163,
+   "t1": 921497,
+   "text": "They sent out no invitations, and there was no website to check the date."
+  },
+  {
+   "t0": 921997,
+   "t1": 923967,
+   "text": "How do you do that?"
+  },
+  {
+   "t0": 923997,
+   "t1": 928567,
+   "text": "Well, Dr. King wasn't the only man in America who was a great orator."
+  },
+  {
+   "t0": 928597,
+   "t1": 932567,
+   "text": "He wasn't the only man in America who suffered in a pre-civil rights America."
+  },
+  {
+   "t0": 932597,
+   "t1": 934967,
+   "text": "In fact, some of his ideas were bad."
+  },
+  {
+   "t0": 934997,
+   "t1": 936933,
+   "text": "But he had a gift."
+  },
+  {
+   "t0": 936963,
+   "t1": 939463,
+   "text": "He didn't go around telling people what needed to change in America."
+  },
+  {
+   "t0": 940263,
+   "t1": 942567,
+   "text": "He went around and told people what he believed."
+  },
+  {
+   "t0": 942597,
+   "t1": 945097,
+   "text": "\"I believe, I believe, I believe,\" he told people."
+  },
+  {
+   "t0": 945997,
+   "t1": 951063,
+   "text": "And people who believed what he believed took his cause, and they made it their own, and they told people."
+  },
+  {
+   "t0": 951997,
+   "t1": 956563,
+   "text": "And some of those people created structures to get the word out to even more people."
+  },
+  {
+   "t0": 956597,
+   "t1": 962497,
+   "text": "And lo and behold, 250,000 people showed up on the right day at the right time to hear him speak."
+  },
+  {
+   "t0": 964997,
+   "t1": 967497,
+   "text": "How many of them showed up for him?"
+  },
+  {
+   "t0": 969330,
+   "t1": 970967,
+   "text": "Zero."
+  },
+  {
+   "t0": 970997,
+   "t1": 972967,
+   "text": "They showed up for themselves."
+  },
+  {
+   "t0": 972997,
+   "t1": 980497,
+   "text": "It's what they believed about America that got them to travel in a bus for eight hours to stand in the sun in Washington in the middle of August."
+  },
+  {
+   "t0": 980997,
+   "t1": 986563,
+   "text": "It's what they believed, and it wasn't about black versus white: 25% of the audience was white."
+  },
+  {
+   "t0": 987397,
+   "t1": 993530,
+   "text": "Dr. King believed that there are two types of laws in this world: those that are made by a higher authority and those that are made by men."
+  },
+  {
+   "t0": 994997,
+   "t1": 1002733,
+   "text": "And not until all the laws that are made by men are consistent with the laws made by the higher authority will we live in a just world."
+  },
+  {
+   "t0": 1002763,
+   "t1": 1007697,
+   "text": "It just so happened that the Civil Rights Movement was the perfect thing to help him bring his cause to life."
+  },
+  {
+   "t0": 1008997,
+   "t1": 1011497,
+   "text": "We followed, not for him, but for ourselves."
+  },
+  {
+   "t0": 1011997,
+   "t1": 1016300,
+   "text": "By the way, he gave the \"I have a dream\" speech, not the \"I have a plan\" speech."
+  },
+  {
+   "t0": 1016330,
+   "t1": 1022497,
+   "text": "(Laughter) Listen to politicians now, with their comprehensive 12-point plans."
+  },
+  {
+   "t0": 1023197,
+   "t1": 1024967,
+   "text": "They're not inspiring anybody."
+  },
+  {
+   "t0": 1024997,
+   "t1": 1027497,
+   "text": "Because there are leaders and there are those who lead."
+  },
+  {
+   "t0": 1027997,
+   "t1": 1034497,
+   "text": "Leaders hold a position of power or authority, but those who lead inspire us."
+  },
+  {
+   "t0": 1036530,
+   "t1": 1044497,
+   "text": "Whether they're individuals or organizations, we follow those who lead, not because we have to, but because we want to."
+  },
+  {
+   "t0": 1044797,
+   "t1": 1047297,
+   "text": "We follow those who lead, not for them, but for ourselves."
+  },
+  {
+   "t0": 1050497,
+   "t1": 1060263,
+   "text": "And it's those who start with \"why\" that have the ability to inspire those around them or find others who inspire them."
+  },
+  {
+   "t0": 1061197,
+   "t1": 1062367,
+   "text": "Thank you very much."
+  },
+  {
+   "t0": 1062397,
+   "t1": 1064000,
+   "text": "(Applause)"
+  }
+ ]
+}

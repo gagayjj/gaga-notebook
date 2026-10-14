@@ -1,0 +1,872 @@
+{
+ "slug": "sherry_turkle_connected_but_alone",
+ "title": "Connected, but alone?",
+ "titleZh": "在一起却各自孤独",
+ "speaker": "Sherry Turkle",
+ "level": 4,
+ "desc": "科技与情感话题，用词偏抽象，语速中等偏慢",
+ "duration": 1167000,
+ "minutes": 19,
+ "wpm": 132,
+ "totalWords": 2576,
+ "thumb": "https://pe.tedcdn.com/images/ted/6b9f1d8df425700e9c847f0c3574b599bb0208d5_800x600.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/13/78/003/products/2012-sherry-turkle-003-fallback-df4b007092aff8c196ccb503e9949c79-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/1380/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 0,
+   "t1": 4500,
+   "text": "Just a moment ago, my daughter Rebecca texted me for good luck."
+  },
+  {
+   "t0": 6000,
+   "t1": 10500,
+   "text": "Her text said, \"Mom, you will rock.\""
+  },
+  {
+   "t0": 11000,
+   "t1": 12970,
+   "text": "I love this."
+  },
+  {
+   "t0": 13000,
+   "t1": 16970,
+   "text": "Getting that text was like getting a hug."
+  },
+  {
+   "t0": 17000,
+   "t1": 19500,
+   "text": "And so there you have it."
+  },
+  {
+   "t0": 20000,
+   "t1": 23970,
+   "text": "I embody the central paradox."
+  },
+  {
+   "t0": 24000,
+   "t1": 32500,
+   "text": "I'm a woman who loves getting texts who's going to tell you that too many of them can be a problem."
+  },
+  {
+   "t0": 33000,
+   "t1": 38500,
+   "text": "Actually that reminder of my daughter brings me to the beginning of my story."
+  },
+  {
+   "t0": 39000,
+   "t1": 48970,
+   "text": "1996, when I gave my first TEDTalk, Rebecca was five years old and she was sitting right there in the front row."
+  },
+  {
+   "t0": 49000,
+   "t1": 57970,
+   "text": "I had just written a book that celebrated our life on the internet and I was about to be on the cover of Wired magazine."
+  },
+  {
+   "t0": 58000,
+   "t1": 64500,
+   "text": "In those heady days, we were experimenting with chat rooms and online virtual communities."
+  },
+  {
+   "t0": 65000,
+   "t1": 67500,
+   "text": "We were exploring different aspects of ourselves."
+  },
+  {
+   "t0": 69000,
+   "t1": 70970,
+   "text": "And then we unplugged."
+  },
+  {
+   "t0": 71000,
+   "t1": 72970,
+   "text": "I was excited."
+  },
+  {
+   "t0": 73000,
+   "t1": 86500,
+   "text": "And, as a psychologist, what excited me most was the idea that we would use what we learned in the virtual world about ourselves, about our identity, to live better lives in the real world."
+  },
+  {
+   "t0": 87000,
+   "t1": 89500,
+   "text": "Now fast-forward to 2012."
+  },
+  {
+   "t0": 90000,
+   "t1": 92500,
+   "text": "I'm back here on the TED stage again."
+  },
+  {
+   "t0": 93000,
+   "t1": 95500,
+   "text": "My daughter's 20. She's a college student."
+  },
+  {
+   "t0": 96000,
+   "t1": 101970,
+   "text": "She sleeps with her cellphone, so do I."
+  },
+  {
+   "t0": 102000,
+   "t1": 111970,
+   "text": "And I've just written a new book, but this time it's not one that will get me on the cover of Wired magazine."
+  },
+  {
+   "t0": 112000,
+   "t1": 114500,
+   "text": "So what happened?"
+  },
+  {
+   "t0": 115000,
+   "t1": 125970,
+   "text": "I'm still excited by technology, but I believe, and I'm here to make the case, that we're letting it take us places that we don't want to go."
+  },
+  {
+   "t0": 126000,
+   "t1": 137970,
+   "text": "Over the past 15 years, I've studied technologies of mobile communication and I've interviewed hundreds and hundreds of people, young and old, about their plugged in lives."
+  },
+  {
+   "t0": 138000,
+   "t1": 153500,
+   "text": "And what I've found is that our little devices, those little devices in our pockets, are so psychologically powerful that they don't only change what we do, they change who we are."
+  },
+  {
+   "t0": 154000,
+   "t1": 167970,
+   "text": "Some of the things we do now with our devices are things that, only a few years ago, we would have found odd or disturbing, but they've quickly come to seem familiar, just how we do things."
+  },
+  {
+   "t0": 168000,
+   "t1": 175500,
+   "text": "So just to take some quick examples: People text or do email during corporate board meetings."
+  },
+  {
+   "t0": 176000,
+   "t1": 183970,
+   "text": "They text and shop and go on Facebook during classes, during presentations, actually during all meetings."
+  },
+  {
+   "t0": 184000,
+   "t1": 190970,
+   "text": "People talk to me about the important new skill of making eye contact while you're texting."
+  },
+  {
+   "t0": 191000,
+   "t1": 197500,
+   "text": "(Laughter) People explain to me that it's hard, but that it can be done."
+  },
+  {
+   "t0": 198000,
+   "t1": 206970,
+   "text": "Parents text and do email at breakfast and at dinner while their children complain about not having their parents' full attention."
+  },
+  {
+   "t0": 207000,
+   "t1": 211500,
+   "text": "But then these same children deny each other their full attention."
+  },
+  {
+   "t0": 212000,
+   "t1": 221500,
+   "text": "This is a recent shot of my daughter and her friends being together while not being together."
+  },
+  {
+   "t0": 222000,
+   "t1": 223970,
+   "text": "And we even text at funerals."
+  },
+  {
+   "t0": 224000,
+   "t1": 225970,
+   "text": "I study this."
+  },
+  {
+   "t0": 226000,
+   "t1": 232500,
+   "text": "We remove ourselves from our grief or from our revery and we go into our phones."
+  },
+  {
+   "t0": 233000,
+   "t1": 234970,
+   "text": "Why does this matter?"
+  },
+  {
+   "t0": 235000,
+   "t1": 251500,
+   "text": "It matters to me because I think we're setting ourselves up for trouble -- trouble certainly in how we relate to each other, but also trouble in how we relate to ourselves and our capacity for self-reflection."
+  },
+  {
+   "t0": 252000,
+   "t1": 256500,
+   "text": "We're getting used to a new way of being alone together."
+  },
+  {
+   "t0": 257000,
+   "t1": 263500,
+   "text": "People want to be with each other, but also elsewhere -- connected to all the different places they want to be."
+  },
+  {
+   "t0": 264000,
+   "t1": 266500,
+   "text": "People want to customize their lives."
+  },
+  {
+   "t0": 267000,
+   "t1": 274500,
+   "text": "They want to go in and out of all the places they are because the thing that matters most to them is control over where they put their attention."
+  },
+  {
+   "t0": 276000,
+   "t1": 282970,
+   "text": "So you want to go to that board meeting, but you only want to pay attention to the bits that interest you."
+  },
+  {
+   "t0": 283000,
+   "t1": 285500,
+   "text": "And some people think that's a good thing."
+  },
+  {
+   "t0": 286000,
+   "t1": 292500,
+   "text": "But you can end up hiding from each other, even as we're all constantly connected to each other."
+  },
+  {
+   "t0": 293000,
+   "t1": 299500,
+   "text": "A 50-year-old business man lamented to me that he feels he doesn't have colleagues anymore at work."
+  },
+  {
+   "t0": 300000,
+   "t1": 304970,
+   "text": "When he goes to work, he doesn't stop by to talk to anybody, he doesn't call."
+  },
+  {
+   "t0": 305000,
+   "t1": 310500,
+   "text": "And he says he doesn't want to interrupt his colleagues because, he says, \"They're too busy on their email.\""
+  },
+  {
+   "t0": 311000,
+   "t1": 314970,
+   "text": "But then he stops himself and he says, \"You know, I'm not telling you the truth."
+  },
+  {
+   "t0": 315000,
+   "t1": 317500,
+   "text": "I'm the one who doesn't want to be interrupted."
+  },
+  {
+   "t0": 318000,
+   "t1": 322500,
+   "text": "I think I should want to, but actually I'd rather just do things on my Blackberry.\""
+  },
+  {
+   "t0": 324000,
+   "t1": 336970,
+   "text": "Across the generations, I see that people can't get enough of each other, if and only if they can have each other at a distance, in amounts they can control."
+  },
+  {
+   "t0": 337000,
+   "t1": 344970,
+   "text": "I call it the Goldilocks effect: not too close, not too far, just right."
+  },
+  {
+   "t0": 345000,
+   "t1": 353500,
+   "text": "But what might feel just right for that middle-aged executive can be a problem for an adolescent who needs to develop face-to-face relationships."
+  },
+  {
+   "t0": 355000,
+   "t1": 369500,
+   "text": "An 18-year-old boy who uses texting for almost everything says to me wistfully, \"Someday, someday, but certainly not now, I'd like to learn how to have a conversation.\""
+  },
+  {
+   "t0": 371000,
+   "t1": 375500,
+   "text": "When I ask people \"What's wrong with having a conversation?\""
+  },
+  {
+   "t0": 376000,
+   "t1": 378500,
+   "text": "People say, \"I'll tell you what's wrong with having a conversation."
+  },
+  {
+   "t0": 380000,
+   "t1": 385500,
+   "text": "It takes place in real time and you can't control what you're going to say.\""
+  },
+  {
+   "t0": 387000,
+   "t1": 388970,
+   "text": "So that's the bottom line."
+  },
+  {
+   "t0": 389000,
+   "t1": 396500,
+   "text": "Texting, email, posting, all of these things let us present the self as we want to be."
+  },
+  {
+   "t0": 397000,
+   "t1": 413970,
+   "text": "We get to edit, and that means we get to delete, and that means we get to retouch, the face, the voice, the flesh, the body -- not too little, not too much, just right."
+  },
+  {
+   "t0": 414000,
+   "t1": 419970,
+   "text": "Human relationships are rich and they're messy and they're demanding."
+  },
+  {
+   "t0": 420000,
+   "t1": 422500,
+   "text": "And we clean them up with technology."
+  },
+  {
+   "t0": 423000,
+   "t1": 430970,
+   "text": "And when we do, one of the things that can happen is that we sacrifice conversation for mere connection."
+  },
+  {
+   "t0": 431000,
+   "t1": 433500,
+   "text": "We short-change ourselves."
+  },
+  {
+   "t0": 434000,
+   "t1": 440500,
+   "text": "And over time, we seem to forget this, or we seem to stop caring."
+  },
+  {
+   "t0": 441000,
+   "t1": 453500,
+   "text": "I was caught off guard when Stephen Colbert asked me a profound question, a profound question."
+  },
+  {
+   "t0": 454000,
+   "t1": 471500,
+   "text": "He said, \"Don't all those little tweets, don't all those little sips of online communication, add up to one big gulp of real conversation?\""
+  },
+  {
+   "t0": 473000,
+   "t1": 476970,
+   "text": "My answer was no, they don't add up."
+  },
+  {
+   "t0": 477000,
+   "t1": 502500,
+   "text": "Connecting in sips may work for gathering discrete bits of information, they may work for saying, \"I'm thinking about you,\" or even for saying, \"I love you,\" -- I mean, look at how I felt when I got that text from my daughter -- but they don't really work for learning about each other, for really coming to know and understand each other."
+  },
+  {
+   "t0": 504000,
+   "t1": 511970,
+   "text": "And we use conversations with each other to learn how to have conversations with ourselves."
+  },
+  {
+   "t0": 512000,
+   "t1": 519970,
+   "text": "So a flight from conversation can really matter because it can compromise our capacity for self-reflection."
+  },
+  {
+   "t0": 520000,
+   "t1": 524500,
+   "text": "For kids growing up, that skill is the bedrock of development."
+  },
+  {
+   "t0": 526000,
+   "t1": 530500,
+   "text": "Over and over I hear, \"I would rather text than talk.\""
+  },
+  {
+   "t0": 531000,
+   "t1": 543970,
+   "text": "And what I'm seeing is that people get so used to being short-changed out of real conversation, so used to getting by with less, that they've become almost willing to dispense with people altogether."
+  },
+  {
+   "t0": 544000,
+   "t1": 559970,
+   "text": "So for example, many people share with me this wish, that some day a more advanced version of Siri, the digital assistant on Apple's iPhone, will be more like a best friend, someone who will listen when others won't."
+  },
+  {
+   "t0": 560000,
+   "t1": 566500,
+   "text": "I believe this wish reflects a painful truth that I've learned in the past 15 years."
+  },
+  {
+   "t0": 567000,
+   "t1": 574970,
+   "text": "That feeling that no one is listening to me is very important in our relationships with technology."
+  },
+  {
+   "t0": 575000,
+   "t1": 583500,
+   "text": "That's why it's so appealing to have a Facebook page or a Twitter feed -- so many automatic listeners."
+  },
+  {
+   "t0": 584000,
+   "t1": 591500,
+   "text": "And the feeling that no one is listening to me make us want to spend time with machines that seem to care about us."
+  },
+  {
+   "t0": 592000,
+   "t1": 604970,
+   "text": "We're developing robots, they call them sociable robots, that are specifically designed to be companions -- to the elderly, to our children, to us."
+  },
+  {
+   "t0": 605000,
+   "t1": 610500,
+   "text": "Have we so lost confidence that we will be there for each other?"
+  },
+  {
+   "t0": 612000,
+   "t1": 623500,
+   "text": "During my research I worked in nursing homes, and I brought in these sociable robots that were designed to give the elderly the feeling that they were understood."
+  },
+  {
+   "t0": 624000,
+   "t1": 632500,
+   "text": "And one day I came in and a woman who had lost a child was talking to a robot in the shape of a baby seal."
+  },
+  {
+   "t0": 633000,
+   "t1": 634970,
+   "text": "It seemed to be looking in her eyes."
+  },
+  {
+   "t0": 635000,
+   "t1": 637500,
+   "text": "It seemed to be following the conversation."
+  },
+  {
+   "t0": 638000,
+   "t1": 640500,
+   "text": "It comforted her."
+  },
+  {
+   "t0": 641000,
+   "t1": 643500,
+   "text": "And many people found this amazing."
+  },
+  {
+   "t0": 645000,
+   "t1": 655500,
+   "text": "But that woman was trying to make sense of her life with a machine that had no experience of the arc of a human life."
+  },
+  {
+   "t0": 656000,
+   "t1": 657970,
+   "text": "That robot put on a great show."
+  },
+  {
+   "t0": 658000,
+   "t1": 659970,
+   "text": "And we're vulnerable."
+  },
+  {
+   "t0": 660000,
+   "t1": 665500,
+   "text": "People experience pretend empathy as though it were the real thing."
+  },
+  {
+   "t0": 666000,
+   "t1": 677500,
+   "text": "So during that moment when that woman was experiencing that pretend empathy, I was thinking, \"That robot can't empathize."
+  },
+  {
+   "t0": 678000,
+   "t1": 679970,
+   "text": "It doesn't face death."
+  },
+  {
+   "t0": 680000,
+   "t1": 681970,
+   "text": "It doesn't know life.\""
+  },
+  {
+   "t0": 682000,
+   "t1": 694500,
+   "text": "And as that woman took comfort in her robot companion, I didn't find it amazing; I found it one of the most wrenching, complicated moments in my 15 years of work."
+  },
+  {
+   "t0": 696000,
+   "t1": 704970,
+   "text": "But when I stepped back, I felt myself at the cold, hard center of a perfect storm."
+  },
+  {
+   "t0": 705000,
+   "t1": 710500,
+   "text": "We expect more from technology and less from each other."
+  },
+  {
+   "t0": 711000,
+   "t1": 715500,
+   "text": "And I ask myself, \"Why have things come to this?\""
+  },
+  {
+   "t0": 716000,
+   "t1": 722970,
+   "text": "And I believe it's because technology appeals to us most where we are most vulnerable."
+  },
+  {
+   "t0": 723000,
+   "t1": 724970,
+   "text": "And we are vulnerable."
+  },
+  {
+   "t0": 725000,
+   "t1": 728970,
+   "text": "We're lonely, but we're afraid of intimacy."
+  },
+  {
+   "t0": 729000,
+   "t1": 738970,
+   "text": "And so from social networks to sociable robots, we're designing technologies that will give us the illusion of companionship without the demands of friendship."
+  },
+  {
+   "t0": 739000,
+   "t1": 744500,
+   "text": "We turn to technology to help us feel connected in ways we can comfortably control."
+  },
+  {
+   "t0": 745000,
+   "t1": 746970,
+   "text": "But we're not so comfortable."
+  },
+  {
+   "t0": 747000,
+   "t1": 749500,
+   "text": "We are not so much in control."
+  },
+  {
+   "t0": 750000,
+   "t1": 758970,
+   "text": "These days, those phones in our pockets are changing our minds and hearts because they offer us three gratifying fantasies."
+  },
+  {
+   "t0": 759000,
+   "t1": 768500,
+   "text": "One, that we can put our attention wherever we want it to be; two, that we will always be heard; and three, that we will never have to be alone."
+  },
+  {
+   "t0": 769000,
+   "t1": 775970,
+   "text": "And that third idea, that we will never have to be alone, is central to changing our psyches."
+  },
+  {
+   "t0": 776000,
+   "t1": 785970,
+   "text": "Because the moment that people are alone, even for a few seconds, they become anxious, they panic, they fidget, they reach for a device."
+  },
+  {
+   "t0": 786000,
+   "t1": 789970,
+   "text": "Just think of people at a checkout line or at a red light."
+  },
+  {
+   "t0": 790000,
+   "t1": 792500,
+   "text": "Being alone feels like a problem that needs to be solved."
+  },
+  {
+   "t0": 794000,
+   "t1": 796500,
+   "text": "And so people try to solve it by connecting."
+  },
+  {
+   "t0": 797000,
+   "t1": 801500,
+   "text": "But here, connection is more like a symptom than a cure."
+  },
+  {
+   "t0": 802000,
+   "t1": 806970,
+   "text": "It expresses, but it doesn't solve, an underlying problem."
+  },
+  {
+   "t0": 807000,
+   "t1": 812970,
+   "text": "But more than a symptom, constant connection is changing the way people think of themselves."
+  },
+  {
+   "t0": 813000,
+   "t1": 815500,
+   "text": "It's shaping a new way of being."
+  },
+  {
+   "t0": 816000,
+   "t1": 820500,
+   "text": "The best way to describe it is, I share therefore I am."
+  },
+  {
+   "t0": 821000,
+   "t1": 827970,
+   "text": "We use technology to define ourselves by sharing our thoughts and feelings even as we're having them."
+  },
+  {
+   "t0": 828000,
+   "t1": 833970,
+   "text": "So before it was: I have a feeling, I want to make a call."
+  },
+  {
+   "t0": 834000,
+   "t1": 838970,
+   "text": "Now it's: I want to have a feeling, I need to send a text."
+  },
+  {
+   "t0": 839000,
+   "t1": 847970,
+   "text": "The problem with this new regime of \"I share therefore I am\" is that, if we don't have connection, we don't feel like ourselves."
+  },
+  {
+   "t0": 848000,
+   "t1": 849970,
+   "text": "We almost don't feel ourselves."
+  },
+  {
+   "t0": 850000,
+   "t1": 852500,
+   "text": "So what do we do? We connect more and more."
+  },
+  {
+   "t0": 853000,
+   "t1": 857500,
+   "text": "But in the process, we set ourselves up to be isolated."
+  },
+  {
+   "t0": 858000,
+   "t1": 860500,
+   "text": "How do you get from connection to isolation?"
+  },
+  {
+   "t0": 862000,
+   "t1": 870970,
+   "text": "You end up isolated if you don't cultivate the capacity for solitude, the ability to be separate, to gather yourself."
+  },
+  {
+   "t0": 871000,
+   "t1": 878500,
+   "text": "Solitude is where you find yourself so that you can reach out to other people and form real attachments."
+  },
+  {
+   "t0": 879000,
+   "t1": 886970,
+   "text": "When we don't have the capacity for solitude, we turn to other people in order to feel less anxious or in order to feel alive."
+  },
+  {
+   "t0": 887000,
+   "t1": 891500,
+   "text": "When this happens, we're not able to appreciate who they are."
+  },
+  {
+   "t0": 892000,
+   "t1": 898500,
+   "text": "It's as though we're using them as spare parts to support our fragile sense of self."
+  },
+  {
+   "t0": 899000,
+   "t1": 904500,
+   "text": "We slip into thinking that always being connected is going to make us feel less alone."
+  },
+  {
+   "t0": 906000,
+   "t1": 910500,
+   "text": "But we're at risk, because actually it's the opposite that's true."
+  },
+  {
+   "t0": 911000,
+   "t1": 914970,
+   "text": "If we're not able to be alone, we're going to be more lonely."
+  },
+  {
+   "t0": 915000,
+   "t1": 921970,
+   "text": "And if we don't teach our children to be alone, they're only going to know how to be lonely."
+  },
+  {
+   "t0": 922000,
+   "t1": 936500,
+   "text": "When I spoke at TED in 1996, reporting on my studies of the early virtual communities, I said, \"Those who make the most of their lives on the screen come to it in a spirit of self-reflection.\""
+  },
+  {
+   "t0": 937000,
+   "t1": 949970,
+   "text": "And that's what I'm calling for here, now: reflection and, more than that, a conversation about where our current use of technology may be taking us, what it might be costing us."
+  },
+  {
+   "t0": 950000,
+   "t1": 952500,
+   "text": "We're smitten with technology."
+  },
+  {
+   "t0": 953000,
+   "t1": 958500,
+   "text": "And we're afraid, like young lovers, that too much talking might spoil the romance."
+  },
+  {
+   "t0": 959000,
+   "t1": 960970,
+   "text": "But it's time to talk."
+  },
+  {
+   "t0": 961000,
+   "t1": 965970,
+   "text": "We grew up with digital technology and so we see it as all grown up."
+  },
+  {
+   "t0": 966000,
+   "t1": 968500,
+   "text": "But it's not, it's early days."
+  },
+  {
+   "t0": 969000,
+   "t1": 974970,
+   "text": "There's plenty of time for us to reconsider how we use it, how we build it."
+  },
+  {
+   "t0": 975000,
+   "t1": 986500,
+   "text": "I'm not suggesting that we turn away from our devices, just that we develop a more self-aware relationship with them, with each other and with ourselves."
+  },
+  {
+   "t0": 987000,
+   "t1": 988970,
+   "text": "I see some first steps."
+  },
+  {
+   "t0": 989000,
+   "t1": 992970,
+   "text": "Start thinking of solitude as a good thing."
+  },
+  {
+   "t0": 993000,
+   "t1": 994970,
+   "text": "Make room for it."
+  },
+  {
+   "t0": 995000,
+   "t1": 999970,
+   "text": "Find ways to demonstrate this as a value to your children."
+  },
+  {
+   "t0": 1000000,
+   "t1": 1006500,
+   "text": "Create sacred spaces at home -- the kitchen, the dining room -- and reclaim them for conversation."
+  },
+  {
+   "t0": 1007000,
+   "t1": 1008970,
+   "text": "Do the same thing at work."
+  },
+  {
+   "t0": 1009000,
+   "t1": 1018970,
+   "text": "At work, we're so busy communicating that we often don't have time to think, we don't have time to talk, about the things that really matter."
+  },
+  {
+   "t0": 1019000,
+   "t1": 1020970,
+   "text": "Change that."
+  },
+  {
+   "t0": 1021000,
+   "t1": 1027500,
+   "text": "Most important, we all really need to listen to each other, including to the boring bits."
+  },
+  {
+   "t0": 1029000,
+   "t1": 1036500,
+   "text": "Because it's when we stumble or hesitate or lose our words that we reveal ourselves to each other."
+  },
+  {
+   "t0": 1038000,
+   "t1": 1052970,
+   "text": "Technology is making a bid to redefine human connection -- how we care for each other, how we care for ourselves -- but it's also giving us the opportunity to affirm our values and our direction."
+  },
+  {
+   "t0": 1053000,
+   "t1": 1054970,
+   "text": "I'm optimistic."
+  },
+  {
+   "t0": 1055000,
+   "t1": 1057500,
+   "text": "We have everything we need to start."
+  },
+  {
+   "t0": 1058000,
+   "t1": 1059970,
+   "text": "We have each other."
+  },
+  {
+   "t0": 1060000,
+   "t1": 1065500,
+   "text": "And we have the greatest chance of success if we recognize our vulnerability."
+  },
+  {
+   "t0": 1066000,
+   "t1": 1075500,
+   "text": "That we listen when technology says it will take something complicated and promises something simpler."
+  },
+  {
+   "t0": 1076000,
+   "t1": 1082970,
+   "text": "So in my work, I hear that life is hard, relationships are filled with risk."
+  },
+  {
+   "t0": 1083000,
+   "t1": 1089500,
+   "text": "And then there's technology -- simpler, hopeful, optimistic, ever-young."
+  },
+  {
+   "t0": 1090000,
+   "t1": 1091970,
+   "text": "It's like calling in the cavalry."
+  },
+  {
+   "t0": 1092000,
+   "t1": 1105500,
+   "text": "An ad campaign promises that online and with avatars, you can \"Finally, love your friends love your body, love your life, online and with avatars.\""
+  },
+  {
+   "t0": 1106000,
+   "t1": 1117500,
+   "text": "We're drawn to virtual romance, to computer games that seem like worlds, to the idea that robots, robots, will someday be our true companions."
+  },
+  {
+   "t0": 1118000,
+   "t1": 1123500,
+   "text": "We spend an evening on the social network instead of going to the pub with friends."
+  },
+  {
+   "t0": 1124000,
+   "t1": 1128500,
+   "text": "But our fantasies of substitution have cost us."
+  },
+  {
+   "t0": 1129000,
+   "t1": 1144970,
+   "text": "Now we all need to focus on the many, many ways technology can lead us back to our real lives, our own bodies, our own communities, our own politics, our own planet."
+  },
+  {
+   "t0": 1145000,
+   "t1": 1146970,
+   "text": "They need us."
+  },
+  {
+   "t0": 1147000,
+   "t1": 1158970,
+   "text": "Let's talk about how we can use digital technology, the technology of our dreams, to make this life the life we can love."
+  },
+  {
+   "t0": 1159000,
+   "t1": 1160970,
+   "text": "Thank you."
+  },
+  {
+   "t0": 1161000,
+   "t1": 1167000,
+   "text": "(Applause)"
+  }
+ ]
+}

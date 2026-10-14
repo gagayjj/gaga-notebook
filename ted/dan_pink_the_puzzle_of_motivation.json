@@ -1,0 +1,1092 @@
+{
+ "slug": "dan_pink_the_puzzle_of_motivation",
+ "title": "The puzzle of motivation",
+ "titleZh": "动机的谜题",
+ "speaker": "Dan Pink",
+ "level": 3,
+ "desc": "结构清楚，先讲结论再讲实验，商务类常用词，适合精听",
+ "duration": 1099000,
+ "minutes": 18,
+ "wpm": 149,
+ "totalWords": 2727,
+ "thumb": "https://pe.tedcdn.com/images/ted/110884_800x600.jpg",
+ "mp4": "https://py.tedcdn.com/consus/projects/00/20/33/005/products/2009g-dan-pink-005-fallback-f1b96462359a7383b5bc217e250a6784-1200k.mp4",
+ "hls": "https://hls.ted.com/project_masters/2035/manifest.m3u8?intro_master_id=9294",
+ "sentences": [
+  {
+   "t0": 1142,
+   "t1": 3642,
+   "text": "I need to make a confession at the outset here."
+  },
+  {
+   "t0": 3682,
+   "t1": 12011,
+   "text": "A little over 20 years ago, I did something that I regret, something that I'm not particularly proud of."
+  },
+  {
+   "t0": 12881,
+   "t1": 18780,
+   "text": "Something that, in many ways, I wish no one would ever know, but here I feel kind of obliged to reveal."
+  },
+  {
+   "t0": 19563,
+   "t1": 28802,
+   "text": "(Laughter) In the late 1980s, in a moment of youthful indiscretion, I went to law school."
+  },
+  {
+   "t0": 28832,
+   "t1": 38467,
+   "text": "(Laughter) In America, law is a professional degree: after your university degree, you go on to law school."
+  },
+  {
+   "t0": 38696,
+   "t1": 43473,
+   "text": "When I got to law school, I didn't do very well."
+  },
+  {
+   "t0": 43583,
+   "t1": 45498,
+   "text": "To put it mildly, I didn't do very well."
+  },
+  {
+   "t0": 45528,
+   "t1": 51059,
+   "text": "I, in fact, graduated in the part of my law school class that made the top 90% possible."
+  },
+  {
+   "t0": 52000,
+   "t1": 58500,
+   "text": "(Laughter) Thank you."
+  },
+  {
+   "t0": 58825,
+   "t1": 64382,
+   "text": "I never practiced law a day in my life; I pretty much wasn't allowed to."
+  },
+  {
+   "t0": 64412,
+   "t1": 79353,
+   "text": "(Laughter) But today, against my better judgment, against the advice of my own wife, I want to try to dust off some of those legal skills -- what's left of those legal skills."
+  },
+  {
+   "t0": 79383,
+   "t1": 81883,
+   "text": "I don't want to tell you a story."
+  },
+  {
+   "t0": 82000,
+   "t1": 84358,
+   "text": "I want to make a case."
+  },
+  {
+   "t0": 84388,
+   "t1": 93698,
+   "text": "I want to make a hard-headed, evidence-based, dare I say lawyerly case, for rethinking how we run our businesses."
+  },
+  {
+   "t0": 95793,
+   "t1": 99239,
+   "text": "So, ladies and gentlemen of the jury, take a look at this."
+  },
+  {
+   "t0": 99269,
+   "t1": 101570,
+   "text": "This is called the candle problem."
+  },
+  {
+   "t0": 101600,
+   "t1": 103268,
+   "text": "Some of you might know it."
+  },
+  {
+   "t0": 103298,
+   "t1": 106970,
+   "text": "It's created in 1945 by a psychologist named Karl Duncker."
+  },
+  {
+   "t0": 107000,
+   "t1": 111500,
+   "text": "He created this experiment that is used in many other experiments in behavioral science."
+  },
+  {
+   "t0": 112155,
+   "t1": 114655,
+   "text": "And here's how it works. Suppose I'm the experimenter."
+  },
+  {
+   "t0": 115000,
+   "t1": 116614,
+   "text": "I bring you into a room."
+  },
+  {
+   "t0": 116644,
+   "t1": 119144,
+   "text": "I give you a candle, some thumbtacks and some matches."
+  },
+  {
+   "t0": 120892,
+   "t1": 127500,
+   "text": "And I say to you, \"Your job is to attach the candle to the wall so the wax doesn't drip onto the table.\""
+  },
+  {
+   "t0": 128150,
+   "t1": 129679,
+   "text": "Now what would you do?"
+  },
+  {
+   "t0": 129709,
+   "t1": 132209,
+   "text": "Many people begin trying to thumbtack the candle to the wall."
+  },
+  {
+   "t0": 133328,
+   "t1": 134660,
+   "text": "Doesn't work."
+  },
+  {
+   "t0": 134690,
+   "t1": 145072,
+   "text": "I saw somebody kind of make the motion over here -- some people have a great idea where they light the match, melt the side of the candle, try to adhere it to the wall."
+  },
+  {
+   "t0": 145525,
+   "t1": 148025,
+   "text": "It's an awesome idea. Doesn't work."
+  },
+  {
+   "t0": 148667,
+   "t1": 154739,
+   "text": "And eventually, after five or ten minutes, most people figure out the solution, which you can see here."
+  },
+  {
+   "t0": 154769,
+   "t1": 157269,
+   "text": "The key is to overcome what's called functional fixedness."
+  },
+  {
+   "t0": 158583,
+   "t1": 161083,
+   "text": "You look at that box and you see it only as a receptacle for the tacks."
+  },
+  {
+   "t0": 162571,
+   "t1": 166857,
+   "text": "But it can also have this other function, as a platform for the candle."
+  },
+  {
+   "t0": 166887,
+   "t1": 167970,
+   "text": "The candle problem."
+  },
+  {
+   "t0": 168000,
+   "t1": 179123,
+   "text": "I want to tell you about an experiment using the candle problem, done by a scientist named Sam Glucksberg, who is now at Princeton University, US, This shows the power of incentives."
+  },
+  {
+   "t0": 180000,
+   "t1": 184500,
+   "text": "He gathered his participants and said: \"I'm going to time you, how quickly you can solve this problem.\""
+  },
+  {
+   "t0": 185849,
+   "t1": 192500,
+   "text": "To one group he said, \"I'm going to time you to establish norms, averages for how long it typically takes someone to solve this sort of problem.\""
+  },
+  {
+   "t0": 194565,
+   "t1": 196970,
+   "text": "To the second group he offered rewards."
+  },
+  {
+   "t0": 197000,
+   "t1": 203684,
+   "text": "He said, \"If you're in the top 25% of the fastest times, you get five dollars."
+  },
+  {
+   "t0": 203714,
+   "t1": 208970,
+   "text": "If you're the fastest of everyone we're testing here today, you get 20 dollars.\""
+  },
+  {
+   "t0": 209000,
+   "t1": 214407,
+   "text": "Now this is several years ago, adjusted for inflation, it's a decent sum of money for a few minutes of work."
+  },
+  {
+   "t0": 214476,
+   "t1": 215970,
+   "text": "It's a nice motivator."
+  },
+  {
+   "t0": 216000,
+   "t1": 219667,
+   "text": "Question: How much faster did this group solve the problem?"
+  },
+  {
+   "t0": 221377,
+   "t1": 225147,
+   "text": "Answer: It took them, on average, three and a half minutes longer."
+  },
+  {
+   "t0": 228313,
+   "t1": 229522,
+   "text": "3.5 min longer."
+  },
+  {
+   "t0": 229552,
+   "t1": 231368,
+   "text": "This makes no sense, right?"
+  },
+  {
+   "t0": 231398,
+   "t1": 233898,
+   "text": "I mean, I'm an American. I believe in free markets."
+  },
+  {
+   "t0": 234525,
+   "t1": 236970,
+   "text": "That's not how it's supposed to work, right?"
+  },
+  {
+   "t0": 237000,
+   "t1": 240708,
+   "text": "(Laughter) If you want people to perform better, you reward them. Right?"
+  },
+  {
+   "t0": 242147,
+   "t1": 244647,
+   "text": "Bonuses, commissions, their own reality show."
+  },
+  {
+   "t0": 245000,
+   "t1": 247500,
+   "text": "Incentivize them."
+  },
+  {
+   "t0": 247862,
+   "t1": 249239,
+   "text": "That's how business works."
+  },
+  {
+   "t0": 249269,
+   "t1": 251276,
+   "text": "But that's not happening here."
+  },
+  {
+   "t0": 251306,
+   "t1": 258970,
+   "text": "You've got an incentive designed to sharpen thinking and accelerate creativity, and it does just the opposite."
+  },
+  {
+   "t0": 259000,
+   "t1": 261500,
+   "text": "It dulls thinking and blocks creativity."
+  },
+  {
+   "t0": 262000,
+   "t1": 265519,
+   "text": "What's interesting about this experiment is that it's not an aberration."
+  },
+  {
+   "t0": 265549,
+   "t1": 271158,
+   "text": "This has been replicated over and over again for nearly 40 years."
+  },
+  {
+   "t0": 271700,
+   "t1": 277970,
+   "text": "These contingent motivators -- if you do this, then you get that -- work in some circumstances."
+  },
+  {
+   "t0": 278000,
+   "t1": 284336,
+   "text": "But for a lot of tasks, they actually either don't work or, often, they do harm."
+  },
+  {
+   "t0": 284688,
+   "t1": 293128,
+   "text": "This is one of the most robust findings in social science, and also one of the most ignored."
+  },
+  {
+   "t0": 293158,
+   "t1": 300970,
+   "text": "I spent the last couple of years looking at the science of human motivation, particularly the dynamics of extrinsic motivators and intrinsic motivators."
+  },
+  {
+   "t0": 301000,
+   "t1": 303406,
+   "text": "And I'm telling you, it's not even close."
+  },
+  {
+   "t0": 303436,
+   "t1": 309080,
+   "text": "If you look at the science, there is a mismatch between what science knows and what business does."
+  },
+  {
+   "t0": 309110,
+   "t1": 325289,
+   "text": "What's alarming here is that our business operating system -- think of the set of assumptions and protocols beneath our businesses, how we motivate people, how we apply our human resources-- it's built entirely around these extrinsic motivators, around carrots and sticks."
+  },
+  {
+   "t0": 325319,
+   "t1": 327819,
+   "text": "That's actually fine for many kinds of 20th century tasks."
+  },
+  {
+   "t0": 329532,
+   "t1": 339585,
+   "text": "But for 21st century tasks, that mechanistic, reward-and-punishment approach doesn't work, often doesn't work, and often does harm."
+  },
+  {
+   "t0": 339615,
+   "t1": 340792,
+   "text": "Let me show you."
+  },
+  {
+   "t0": 340822,
+   "t1": 348472,
+   "text": "Glucksberg did another similar experiment, he presented the problem in a slightly different way, like this up here."
+  },
+  {
+   "t0": 348502,
+   "t1": 351002,
+   "text": "Attach the candle to the wall so the wax doesn't drip onto the table."
+  },
+  {
+   "t0": 351803,
+   "t1": 354303,
+   "text": "Same deal. You: we're timing for norms."
+  },
+  {
+   "t0": 354303,
+   "t1": 356739,
+   "text": "You: we're incentivizing."
+  },
+  {
+   "t0": 356769,
+   "t1": 359170,
+   "text": "What happened this time?"
+  },
+  {
+   "t0": 359200,
+   "t1": 361700,
+   "text": "This time, the incentivized group kicked the other group's butt."
+  },
+  {
+   "t0": 365428,
+   "t1": 367224,
+   "text": "Why?"
+  },
+  {
+   "t0": 367254,
+   "t1": 372285,
+   "text": "Because when the tacks are out of the box, it's pretty easy isn't it?"
+  },
+  {
+   "t0": 373261,
+   "t1": 384977,
+   "text": "(Laughter) If-then rewards work really well for those sorts of tasks, where there is a simple set of rules and a clear destination to go to."
+  },
+  {
+   "t0": 385000,
+   "t1": 391329,
+   "text": "Rewards, by their very nature, narrow our focus, concentrate the mind; that's why they work in so many cases."
+  },
+  {
+   "t0": 391359,
+   "t1": 399866,
+   "text": "So, for tasks like this, a narrow focus, where you just see the goal right there, zoom straight ahead to it, they work really well."
+  },
+  {
+   "t0": 399896,
+   "t1": 404626,
+   "text": "But for the real candle problem, you don't want to be looking like this."
+  },
+  {
+   "t0": 404656,
+   "t1": 407156,
+   "text": "The solution is on the periphery. You want to be looking around."
+  },
+  {
+   "t0": 407810,
+   "t1": 411970,
+   "text": "That reward actually narrows our focus and restricts our possibility."
+  },
+  {
+   "t0": 412000,
+   "t1": 414500,
+   "text": "Let me tell you why this is so important."
+  },
+  {
+   "t0": 415176,
+   "t1": 428301,
+   "text": "In western Europe, in many parts of Asia, in North America, in Australia, white-collar workers are doing less of this kind of work, and more of this kind of work."
+  },
+  {
+   "t0": 429865,
+   "t1": 441563,
+   "text": "That routine, rule-based, left-brain work -- certain kinds of accounting, financial analysis, computer programming -- has become fairly easy to outsource, fairly easy to automate."
+  },
+  {
+   "t0": 441593,
+   "t1": 443763,
+   "text": "Software can do it faster."
+  },
+  {
+   "t0": 443793,
+   "t1": 446112,
+   "text": "Low-cost providers can do it cheaper."
+  },
+  {
+   "t0": 446142,
+   "t1": 451634,
+   "text": "So what really matters are the more right-brained creative, conceptual kinds of abilities."
+  },
+  {
+   "t0": 453786,
+   "t1": 456161,
+   "text": "Think about your own work."
+  },
+  {
+   "t0": 456191,
+   "t1": 458691,
+   "text": "Think about your own work."
+  },
+  {
+   "t0": 458873,
+   "t1": 467493,
+   "text": "Are the problems that you face, or even the problems we've been talking about here, do they have a clear set of rules, and a single solution?"
+  },
+  {
+   "t0": 467523,
+   "t1": 469970,
+   "text": "No. The rules are mystifying."
+  },
+  {
+   "t0": 470000,
+   "t1": 474770,
+   "text": "The solution, if it exists at all, is surprising and not obvious."
+  },
+  {
+   "t0": 475000,
+   "t1": 480278,
+   "text": "Everybody in this room is dealing with their own version of the candle problem."
+  },
+  {
+   "t0": 482000,
+   "t1": 495965,
+   "text": "And for candle problems of any kind, in any field, those if-then rewards, the things around which we've built so many of our businesses, don't work!"
+  },
+  {
+   "t0": 495995,
+   "t1": 498445,
+   "text": "It makes me crazy."
+  },
+  {
+   "t0": 498475,
+   "t1": 500405,
+   "text": "And here's the thing."
+  },
+  {
+   "t0": 500435,
+   "t1": 502935,
+   "text": "This is not a feeling."
+  },
+  {
+   "t0": 503696,
+   "t1": 506196,
+   "text": "Okay? I'm a lawyer; I don't believe in feelings."
+  },
+  {
+   "t0": 506814,
+   "t1": 509314,
+   "text": "This is not a philosophy."
+  },
+  {
+   "t0": 510481,
+   "t1": 512737,
+   "text": "I'm an American; I don't believe in philosophy."
+  },
+  {
+   "t0": 512767,
+   "t1": 522409,
+   "text": "(Laughter) This is a fact -- or, as we say in my hometown of Washington, D.C., a true fact."
+  },
+  {
+   "t0": 522439,
+   "t1": 530361,
+   "text": "(Laughter) (Applause) Let me give you an example."
+  },
+  {
+   "t0": 530391,
+   "t1": 531970,
+   "text": "Let me marshal the evidence here."
+  },
+  {
+   "t0": 532000,
+   "t1": 534107,
+   "text": "I'm not telling a story, I'm making a case."
+  },
+  {
+   "t0": 534137,
+   "t1": 542331,
+   "text": "Ladies and gentlemen of the jury, some evidence: Dan Ariely, one of the great economists of our time, he and three colleagues did a study of some MIT students."
+  },
+  {
+   "t0": 543326,
+   "t1": 550272,
+   "text": "They gave these MIT students a bunch of games, games that involved creativity, and motor skills, and concentration."
+  },
+  {
+   "t0": 550302,
+   "t1": 556945,
+   "text": "And the offered them, for performance, three levels of rewards: small reward, medium reward, large reward."
+  },
+  {
+   "t0": 558715,
+   "t1": 561215,
+   "text": "If you do really well you get the large reward, on down."
+  },
+  {
+   "t0": 562876,
+   "t1": 564204,
+   "text": "What happened?"
+  },
+  {
+   "t0": 564234,
+   "t1": 571500,
+   "text": "As long as the task involved only mechanical skill bonuses worked as they would be expected: the higher the pay, the better the performance."
+  },
+  {
+   "t0": 572721,
+   "t1": 573866,
+   "text": "Okay?"
+  },
+  {
+   "t0": 573896,
+   "t1": 581500,
+   "text": "But once the task called for even rudimentary cognitive skill, a larger reward led to poorer performance."
+  },
+  {
+   "t0": 585096,
+   "t1": 588399,
+   "text": "Then they said, \"Let's see if there's any cultural bias here."
+  },
+  {
+   "t0": 588429,
+   "t1": 590376,
+   "text": "Let's go to Madurai, India and test it.\""
+  },
+  {
+   "t0": 590406,
+   "t1": 591970,
+   "text": "Standard of living is lower."
+  },
+  {
+   "t0": 592000,
+   "t1": 597669,
+   "text": "In Madurai, a reward that is modest in North American standards, is more meaningful there."
+  },
+  {
+   "t0": 597699,
+   "t1": 600199,
+   "text": "Same deal. A bunch of games, three levels of rewards."
+  },
+  {
+   "t0": 601125,
+   "t1": 603111,
+   "text": "What happens?"
+  },
+  {
+   "t0": 603141,
+   "t1": 608665,
+   "text": "People offered the medium level of rewards did no better than people offered the small rewards."
+  },
+  {
+   "t0": 608769,
+   "t1": 615772,
+   "text": "But this time, people offered the highest rewards, they did the worst of all."
+  },
+  {
+   "t0": 616817,
+   "t1": 622714,
+   "text": "In eight of the nine tasks we examined across three experiments, higher incentives led to worse performance."
+  },
+  {
+   "t0": 625474,
+   "t1": 627974,
+   "text": "Is this some kind of touchy-feely socialist conspiracy going on here?"
+  },
+  {
+   "t0": 631474,
+   "t1": 636774,
+   "text": "No, these are economists from MIT, from Carnegie Mellon, from the University of Chicago."
+  },
+  {
+   "t0": 637000,
+   "t1": 639500,
+   "text": "Do you know who sponsored this research?"
+  },
+  {
+   "t0": 639645,
+   "t1": 642145,
+   "text": "The Federal Reserve Bank of the United States."
+  },
+  {
+   "t0": 643789,
+   "t1": 645603,
+   "text": "That's the American experience."
+  },
+  {
+   "t0": 645633,
+   "t1": 653500,
+   "text": "Let's go across the pond to the London School of Economics, LSE, London School of Economics, alma mater of eleven Nobel Laureates in economics."
+  },
+  {
+   "t0": 654468,
+   "t1": 661281,
+   "text": "Training ground for great economic thinkers like George Soros, and Friedrich Hayek, and Mick Jagger."
+  },
+  {
+   "t0": 661311,
+   "t1": 671500,
+   "text": "(Laughter) Last month, just last month, economists at LSE looked at 51 studies of pay-for-performance plans, inside of companies."
+  },
+  {
+   "t0": 672000,
+   "t1": 677795,
+   "text": "Here's what they said: \"We find that financial incentives can result in a negative impact on overall performance.\""
+  },
+  {
+   "t0": 680776,
+   "t1": 685970,
+   "text": "There is a mismatch between what science knows and what business does."
+  },
+  {
+   "t0": 686000,
+   "t1": 705261,
+   "text": "And what worries me, as we stand here in the rubble of the economic collapse, is that too many organizations are making their decisions, their policies about talent and people, based on assumptions that are outdated, unexamined, and rooted more in folklore than in science."
+  },
+  {
+   "t0": 706404,
+   "t1": 724292,
+   "text": "And if we really want to get out of this economic mess, if we really want high performance on those definitional tasks of the 21st century, the solution is not to do more of the wrong things, to entice people with a sweeter carrot, or threaten them with a sharper stick."
+  },
+  {
+   "t0": 724322,
+   "t1": 725970,
+   "text": "We need a whole new approach."
+  },
+  {
+   "t0": 726000,
+   "t1": 730500,
+   "text": "The good news is that the scientists who've been studying motivation have given us this new approach."
+  },
+  {
+   "t0": 731212,
+   "t1": 733712,
+   "text": "It's built much more around intrinsic motivation."
+  },
+  {
+   "t0": 734331,
+   "t1": 739310,
+   "text": "Around the desire to do things because they matter, because we like it, they're interesting, or part of something important."
+  },
+  {
+   "t0": 740397,
+   "t1": 748225,
+   "text": "And to my mind, that new operating system for our businesses revolves around three elements: autonomy, mastery and purpose."
+  },
+  {
+   "t0": 749000,
+   "t1": 751500,
+   "text": "Autonomy: the urge to direct our own lives."
+  },
+  {
+   "t0": 752000,
+   "t1": 754500,
+   "text": "Mastery: the desire to get better and better at something that matters."
+  },
+  {
+   "t0": 756269,
+   "t1": 761500,
+   "text": "Purpose: the yearning to do what we do in the service of something larger than ourselves."
+  },
+  {
+   "t0": 762217,
+   "t1": 766970,
+   "text": "These are the building blocks of an entirely new operating system for our businesses."
+  },
+  {
+   "t0": 767000,
+   "t1": 769500,
+   "text": "I want to talk today only about autonomy."
+  },
+  {
+   "t0": 771000,
+   "t1": 773500,
+   "text": "In the 20th century, we came up with this idea of management."
+  },
+  {
+   "t0": 774000,
+   "t1": 776288,
+   "text": "Management did not emanate from nature."
+  },
+  {
+   "t0": 776318,
+   "t1": 778818,
+   "text": "Management is not a tree, it's a television set."
+  },
+  {
+   "t0": 780000,
+   "t1": 782218,
+   "text": "Somebody invented it."
+  },
+  {
+   "t0": 782248,
+   "t1": 784242,
+   "text": "It doesn't mean it's going to work forever."
+  },
+  {
+   "t0": 784272,
+   "t1": 786273,
+   "text": "Management is great."
+  },
+  {
+   "t0": 786303,
+   "t1": 789970,
+   "text": "Traditional notions of management are great if you want compliance."
+  },
+  {
+   "t0": 790000,
+   "t1": 792500,
+   "text": "But if you want engagement, self-direction works better."
+  },
+  {
+   "t0": 793207,
+   "t1": 795707,
+   "text": "Some examples of some kind of radical notions of self-direction."
+  },
+  {
+   "t0": 797271,
+   "t1": 811676,
+   "text": "You don't see a lot of it, but you see the first stirrings of something really interesting going on, what it means is paying people adequately and fairly, absolutely -- getting the issue of money off the table, and then giving people lots of autonomy."
+  },
+  {
+   "t0": 811706,
+   "t1": 812970,
+   "text": "Some examples."
+  },
+  {
+   "t0": 813000,
+   "t1": 815500,
+   "text": "How many of you have heard of the company Atlassian?"
+  },
+  {
+   "t0": 817468,
+   "t1": 818970,
+   "text": "It looks like less than half."
+  },
+  {
+   "t0": 819000,
+   "t1": 822929,
+   "text": "(Laughter) Atlassian is an Australian software company."
+  },
+  {
+   "t0": 825000,
+   "t1": 826965,
+   "text": "And they do something incredibly cool."
+  },
+  {
+   "t0": 826995,
+   "t1": 835897,
+   "text": "A few times a year they tell their engineers, \"Go for the next 24 hours and work on anything you want, as long as it's not part of your regular job."
+  },
+  {
+   "t0": 835927,
+   "t1": 837311,
+   "text": "Work on anything you want.\""
+  },
+  {
+   "t0": 837341,
+   "t1": 842564,
+   "text": "Engineers use this time to come up with a cool patch for code, come up with an elegant hack."
+  },
+  {
+   "t0": 842594,
+   "t1": 850828,
+   "text": "Then they present all of the stuff that they've developed to their teammates, to the rest of the company, in this wild and woolly all-hands meeting at the end of the day."
+  },
+  {
+   "t0": 852304,
+   "t1": 854493,
+   "text": "Being Australians, everybody has a beer."
+  },
+  {
+   "t0": 854523,
+   "t1": 857023,
+   "text": "They call them FedEx Days."
+  },
+  {
+   "t0": 857452,
+   "t1": 859485,
+   "text": "Why?"
+  },
+  {
+   "t0": 859515,
+   "t1": 862015,
+   "text": "Because you have to deliver something overnight."
+  },
+  {
+   "t0": 862817,
+   "t1": 864378,
+   "text": "It's pretty; not bad."
+  },
+  {
+   "t0": 864408,
+   "t1": 866908,
+   "text": "It's a huge trademark violation, but it's pretty clever."
+  },
+  {
+   "t0": 867100,
+   "t1": 873970,
+   "text": "(Laughter) That one day of intense autonomy has produced a whole array of software fixes that might never have existed."
+  },
+  {
+   "t0": 874000,
+   "t1": 884391,
+   "text": "It's worked so well that Atlassian has taken it to the next level with 20% time -- done, famously, at Google -- where engineers can spend 20% of their time working on anything they want."
+  },
+  {
+   "t0": 884421,
+   "t1": 888319,
+   "text": "They have autonomy over their time, their task, their team, their technique."
+  },
+  {
+   "t0": 888349,
+   "t1": 890297,
+   "text": "Radical amounts of autonomy."
+  },
+  {
+   "t0": 890327,
+   "t1": 901634,
+   "text": "And at Google, as many of you know, about half of the new products in a typical year are birthed during that 20% time: things like Gmail, Orkut, Google News."
+  },
+  {
+   "t0": 902000,
+   "t1": 913431,
+   "text": "Let me give you an even more radical example of it: something called the Results Only Work Environment (the ROWE), created by two American consultants, in place at a dozen companies around North America."
+  },
+  {
+   "t0": 913634,
+   "t1": 916134,
+   "text": "In a ROWE people don't have schedules."
+  },
+  {
+   "t0": 917568,
+   "t1": 919209,
+   "text": "They show up when they want."
+  },
+  {
+   "t0": 919239,
+   "t1": 921739,
+   "text": "They don't have to be in the office at a certain time, or any time."
+  },
+  {
+   "t0": 923317,
+   "t1": 925256,
+   "text": "They just have to get their work done."
+  },
+  {
+   "t0": 925286,
+   "t1": 927786,
+   "text": "How they do it, when they do it, where they do it, is totally up to them."
+  },
+  {
+   "t0": 930484,
+   "t1": 932984,
+   "text": "Meetings in these kinds of environments are optional."
+  },
+  {
+   "t0": 934879,
+   "t1": 936334,
+   "text": "What happens?"
+  },
+  {
+   "t0": 936364,
+   "t1": 943833,
+   "text": "Almost across the board, productivity goes up, worker engagement goes up, worker satisfaction goes up, turnover goes down."
+  },
+  {
+   "t0": 945000,
+   "t1": 949500,
+   "text": "Autonomy, mastery and purpose, the building blocks of a new way of doing things."
+  },
+  {
+   "t0": 949636,
+   "t1": 954500,
+   "text": "Some of you might look at this and say, \"Hmm, that sounds nice, but it's Utopian.\""
+  },
+  {
+   "t0": 955358,
+   "t1": 957858,
+   "text": "And I say, \"Nope."
+  },
+  {
+   "t0": 958365,
+   "t1": 960448,
+   "text": "I have proof.\""
+  },
+  {
+   "t0": 960478,
+   "t1": 962978,
+   "text": "The mid-1990s, Microsoft started an encyclopedia called Encarta."
+  },
+  {
+   "t0": 964000,
+   "t1": 969841,
+   "text": "They had deployed all the right incentives, They paid professionals to write and edit thousands of articles."
+  },
+  {
+   "t0": 971214,
+   "t1": 976327,
+   "text": "Well-compensated managers oversaw the whole thing to make sure it came in on budget and on time."
+  },
+  {
+   "t0": 978000,
+   "t1": 980500,
+   "text": "A few years later, another encyclopedia got started."
+  },
+  {
+   "t0": 980528,
+   "t1": 983028,
+   "text": "Different model, right?"
+  },
+  {
+   "t0": 983346,
+   "t1": 985000,
+   "text": "Do it for fun."
+  },
+  {
+   "t0": 985030,
+   "t1": 987530,
+   "text": "No one gets paid a cent, or a euro or a yen."
+  },
+  {
+   "t0": 989096,
+   "t1": 991014,
+   "text": "Do it because you like to do it."
+  },
+  {
+   "t0": 991044,
+   "t1": 997773,
+   "text": "Just 10 years ago, if you had gone to an economist, anywhere, \"Hey, I've got these two different models for creating an encyclopedia."
+  },
+  {
+   "t0": 998872,
+   "t1": 1001372,
+   "text": "If they went head to head, who would win?\""
+  },
+  {
+   "t0": 1001817,
+   "t1": 1010151,
+   "text": "10 years ago you could not have found a single sober economist anywhere on planet Earth who would have predicted the Wikipedia model."
+  },
+  {
+   "t0": 1010547,
+   "t1": 1013047,
+   "text": "This is the titanic battle between these two approaches."
+  },
+  {
+   "t0": 1013270,
+   "t1": 1015770,
+   "text": "This is the Ali-Frazier of motivation, right?"
+  },
+  {
+   "t0": 1016362,
+   "t1": 1018195,
+   "text": "This is the Thrilla in Manila."
+  },
+  {
+   "t0": 1018225,
+   "t1": 1020725,
+   "text": "Intrinsic motivators versus extrinsic motivators."
+  },
+  {
+   "t0": 1021418,
+   "t1": 1025500,
+   "text": "Autonomy, mastery and purpose, versus carrot and sticks, and who wins?"
+  },
+  {
+   "t0": 1025581,
+   "t1": 1028081,
+   "text": "Intrinsic motivation, autonomy, mastery and purpose, in a knockout."
+  },
+  {
+   "t0": 1029135,
+   "t1": 1031635,
+   "text": "Let me wrap up."
+  },
+  {
+   "t0": 1032523,
+   "t1": 1035023,
+   "text": "There is a mismatch between what science knows and what business does."
+  },
+  {
+   "t0": 1035850,
+   "t1": 1037431,
+   "text": "Here is what science knows."
+  },
+  {
+   "t0": 1037461,
+   "t1": 1044672,
+   "text": "One: Those 20th century rewards, those motivators we think are a natural part of business, do work, but only in a surprisingly narrow band of circumstances."
+  },
+  {
+   "t0": 1045897,
+   "t1": 1048397,
+   "text": "Two: Those if-then rewards often destroy creativity."
+  },
+  {
+   "t0": 1050714,
+   "t1": 1058672,
+   "text": "Three: The secret to high performance isn't rewards and punishments, but that unseen intrinsic drive-- the drive to do things for their own sake."
+  },
+  {
+   "t0": 1059000,
+   "t1": 1060970,
+   "text": "The drive to do things cause they matter."
+  },
+  {
+   "t0": 1061000,
+   "t1": 1062970,
+   "text": "And here's the best part."
+  },
+  {
+   "t0": 1063000,
+   "t1": 1064214,
+   "text": "We already know this."
+  },
+  {
+   "t0": 1064244,
+   "t1": 1066744,
+   "text": "The science confirms what we know in our hearts."
+  },
+  {
+   "t0": 1066818,
+   "t1": 1093747,
+   "text": "So, if we repair this mismatch between science and business, if we bring our motivation, notions of motivation into the 21st century, if we get past this lazy, dangerous, ideology of carrots and sticks, we can strengthen our businesses, we can solve a lot of those candle problems, and maybe, maybe -- we can change the world."
+  },
+  {
+   "t0": 1093777,
+   "t1": 1095076,
+   "text": "I rest my case."
+  },
+  {
+   "t0": 1095106,
+   "t1": 1099000,
+   "text": "(Applause)"
+  }
+ ]
+}
