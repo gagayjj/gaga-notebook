@@ -69,6 +69,8 @@ export interface PlanItem {
   updatedAt: string;
 }
 
+export type SrStatus = "new" | "learning" | "review" | "known";
+
 export interface StudyWord {
   id: string;
   word: string;
@@ -78,6 +80,11 @@ export interface StudyWord {
   sentenceMeaning: string;
   createdAt?: string;
   updatedAt?: string;
+  // 复习调度（间隔重复）：srDue 之前为空或已过的词需要复习
+  srStatus?: SrStatus;
+  srDue?: string; // ISO 时间，下次到期
+  srInterval?: number; // 当前间隔（天）
+  srReps?: number; // 连续"认识"次数
 }
 
 // 有道查词返回的额外字段（英/美音标、全部释义、词形变化）
@@ -250,6 +257,7 @@ declare global {
       listWords: () => Promise<StudyWord[]>;
       addWord: (input: Omit<StudyWord, "id">) => Promise<StudyWord[]>;
       removeWord: (id: string) => Promise<StudyWord[]>;
+      updateWord: (id: string, patch: Partial<Omit<StudyWord, "id">>) => Promise<StudyWord[]>;
       enrichWord: (word: string) => Promise<EnrichedWord>;
       tedList?: () => Promise<TedIndexItem[]>;
       tedGet?: (slug: string) => Promise<TedTalkData | null>;

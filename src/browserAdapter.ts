@@ -1010,11 +1010,28 @@ export function installBrowserAdapter() {
         sentenceMeaning: String(input.sentenceMeaning || "").trim(),
         createdAt: now,
         updatedAt: now,
+        srStatus: "new",
+        srDue: now,
+        srInterval: 0,
+        srReps: 0,
       });
       library.customWords = words;
       persistLibrary(library);
       void api.syncPush();
       return words;
+    },
+    updateWord: async (id: string, patch: Partial<Omit<StudyWord, "id">>) => {
+      const library = ensureLibrary();
+      const words = library.customWords || [];
+      const next = words.map((word) =>
+        word.id === id
+          ? { ...word, ...patch, id: word.id, updatedAt: new Date().toISOString() }
+          : word,
+      );
+      library.customWords = next;
+      persistLibrary(library);
+      void api.syncPush();
+      return next;
     },
     removeWord: async (id: string) => {
       const library = ensureLibrary();

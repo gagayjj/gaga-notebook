@@ -25,7 +25,7 @@ import {
   X,
 } from "lucide-react";
 import { recommendedWords, type EnglishWord } from "../data/englishWords";
-import type { StudySentence, StudyWord, TedIndexItem, TedTalkData } from "../types";
+import type { SrStatus, StudySentence, StudyWord, TedIndexItem, TedTalkData } from "../types";
 import JuyouciPanel from "./JuyouciPanel";
 import AskAiPanel from "./AskAiPanel";
 import {
@@ -60,6 +60,38 @@ interface QuizEntry {
 function dayKey() {
   return new Date().toISOString().slice(0, 10);
 }
+
+// —— 复习调度（间隔重复）——
+type SrGrade = "know" | "fuzzy" | "unknown";
+
+// 根据这次的结果算下一次的排期。老词没字段按"新词/立即到期"处理。
+function srGradePatch(word: StudyWord, grade: SrGrade): Partial<StudyWord> {
+  const now = Date.now();
+  const interval = word.srInterval || 0;
+  const reps = word.srReps || 0;
+  const DAY = 86400000;
+  if (grade === "know") {
+    const nextReps = reps + 1;
+    const nextInterval = interval === 0 ? 1 : Math.round(interval * 2.5);
+    const known = nextReps >= 5 || nextInterval >= 16;
+    const due = known ? now + 30 * DAY : now + nextInterval * DAY;
+    return { srStatus: known ? "known" : "review", srDue: new Date(due).toISOString(), srInterval: nextInterval, srReps: nextReps };
+  }
+  if (grade === "fuzzy") {
+    const nextInterval = Math.max(1, Math.round(interval / 2));
+    return { srStatus: "learning", srDue: new Date(now + nextInterval * DAY).toISOString(), srInterval: nextInterval, srReps: 0 };
+  }
+  // 不会：当天重来
+  return { srStatus: "learning", srDue: new Date(now).toISOString(), srInterval: 0, srReps: 0 };
+}
+
+function srIsDue(word: StudyWord): boolean {
+  if (word.srStatus === "known") return false;
+  const due = word.srDue ? new Date(word.srDue).getTime() : 0;
+  return due <= Date.now();
+}
+
+const SR_LABEL: Record<SrStatus, string> = { new: "新", learning: "学", review: "待复习", known: "已掌握" };
 
 // 朗读语速上下限（倍速）
 const RATE_MIN = 0.5;
@@ -512,6 +544,15 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
 
   const removeCustomWord = async (id: string) => {
     const next = await window.studyNotes?.removeWord(id);
+    if (next) setCustomWords(next);
+  };
+
+  // 复习调度：点"认识/模糊/不会"后更新该词的排期，落库并随同步带走
+  const reviewCustomWord = async (id: string, grade: SrGrade) => {
+    const word = customWords.find((w) => w.id === id);
+    if (!word) return;
+    const patch = srGradePatch(word, grade);
+    const next = await window.studyNotes?.updateWord(id, patch);
     if (next) setCustomWords(next);
   };
 
@@ -1858,6 +1899,30 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                 </div>
               </section>
 
+              {customWords.filter(srIsDue).length > 0 && (
+                <section className="review-panel">
+                  <div className="review-panel-head">
+                    <strong>今日复习（{customWords.filter(srIsDue).length}）</strong>
+                    <span>点"认识"间隔变长，"模糊 / 不会"缩短</span>
+                  </div>
+                  {customWords.filter(srIsDue).map((item) => (
+                    <div className="review-item" key={item.id}>
+                      <div className="review-word">
+                        <button type="button" className="wordbook-word-btn" onClick={() => void toggleWordDetail(item)}>
+                          {item.word}
+                        </button>
+                        <span>{item.phonetic} · {item.meaning}</span>
+                      </div>
+                      <div className="review-btns">
+                        <button type="button" className="btn small" onClick={() => void reviewCustomWord(item.id, "know")}>认识</button>
+                        <button type="button" className="btn small" onClick={() => void reviewCustomWord(item.id, "fuzzy")}>模糊</button>
+                        <button type="button" className="btn small danger" onClick={() => void reviewCustomWord(item.id, "unknown")}>不会</button>
+                      </div>
+                    </div>
+                  ))}
+                </section>
+              )}
+
               <div className="resource-list wordbook-list">
                 {customWords.length === 0 && <p className="muted">单词本是空的，先添加几个生词</p>}
                 {customWords.map((item) => (
@@ -1873,6 +1938,7 @@ export function EnglishLearning({ onClose }: EnglishLearningProps) {
                           {item.word}
                         </button>
                         <span>{item.phonetic} · {item.meaning}</span>
+                        <span className={`sr-chip sr-${(item.srStatus || "new") as SrStatus}`}>{SR_LABEL[item.srStatus || "new"]}</span>
                       </div>
                       <div>
                         <button type="button" className="icon-btn" title="朗读" onClick={() => speak(item.word)}>

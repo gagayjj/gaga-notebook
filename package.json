@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && electron .\"",
     "mobile:serve": "node scripts/serve-mobile.cjs",
-    "deploy:mobile": "npm run build && bash scripts/deploy-mobile-github.sh",
+    "deploy": "bash scripts/deploy-ghpages.sh",
+    "deploy:mobile": "bash scripts/deploy-ghpages.sh",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "start": "electron ."
